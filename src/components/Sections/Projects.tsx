@@ -13,24 +13,180 @@ type ProjectCategory =
 
 interface PortfolioProject {
   title: string;
+  subtitle?: string;
   description: string;
   technologies: string[];
   imageUrl: string;
+  demoLink?: string;
   githubLink?: string;
+  caseStudyLink?: string;
+  highlights?: string[];
   isHighlighted?: boolean;
-  category: ProjectCategory;
-  repository: string;
+  category?: ProjectCategory;
+  repository?: string;
 }
 
 const Projects: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeCategory, setActiveCategory] = useState<"All" | ProjectCategory>("All");
 
-  const projects: PortfolioProject[] = [
+  const featuredProjects: PortfolioProject[] = [
+    {
+      title: "AI Business Operating System",
+      subtitle: "Agentic Business Platform",
+      description:
+        "Full-stack AI business platform combining CRM, tasks, projects, workflows, and agent-driven actions.",
+      technologies: [
+        "FastAPI",
+        "React",
+        "PostgreSQL",
+        "Redis",
+        "LLM Function Calling",
+        "Python",
+      ],
+      imageUrl: "/portfolio-uploads/ai-business-os-dashboard.png",
+      demoLink: "https://ai-business-os-murex.vercel.app/",
+      category: "Fullstack",
+      isHighlighted: true,
+      highlights: [
+        "LLM tool/function calling",
+        "multi-step agent execution",
+        "human-in-the-loop approval",
+        "RBAC before tool execution",
+        "trace IDs",
+        "token usage",
+        "cost monitoring",
+        "latency monitoring",
+        "FastAPI",
+        "React",
+        "PostgreSQL",
+        "Redis",
+      ],
+    },
+    {
+      title: "Production Multi-Tenant RAG Platform",
+      description:
+        "Multi-tenant production RAG platform with knowledge ingestion, reliable vector retrieval, and secure isolation for scalable assistants.",
+      technologies: [
+        "FastAPI",
+        "LangChain",
+        "OpenAI",
+        "Qdrant",
+        "PostgreSQL",
+        "Redis",
+        "SSE",
+        "Docker",
+      ],
+      imageUrl: "/portfolio-uploads/production-multi-tenant-rag-platform.png",
+      category: "Backend",
+      isHighlighted: true,
+      highlights: [
+        "FastAPI",
+        "LangChain",
+        "OpenAI",
+        "Qdrant",
+        "PostgreSQL",
+        "Redis",
+        "knowledge ingestion",
+        "vector retrieval",
+        "multi-tenant isolation",
+        "SSE",
+        "Docker",
+        "reliability/security",
+        "3 production AI assistants",
+        "97/98 quality validation checks",
+        "approximately +17–20 points on internal AI quality scoring",
+        "0 critical errors in final security validation batches",
+      ],
+    },
+    {
+      title: "AI Automation & CRM Workflow System",
+      description:
+        "An anonymized CRM automation system built with modular n8n workflows and reliable validation, normalization, deduplication, and follow-up logic.",
+      technologies: [
+        "n8n",
+        "JavaScript",
+        "Python",
+        "FastAPI",
+        "Airtable",
+        "REST APIs",
+        "Webhooks",
+        "Google Calendar",
+        "Google Drive",
+        "Google Sheets",
+      ],
+      imageUrl: "/portfolio-uploads/n8n-crm-automation-workflow.png",
+      category: "Backend",
+      isHighlighted: true,
+      highlights: [
+        "modular n8n workflow architecture",
+        "parent workflow orchestration",
+        "lead intake and qualification",
+        "validation",
+        "normalization",
+        "deduplication",
+        "Airtable/CRM synchronization",
+        "automated follow-up",
+        "Google Calendar integration",
+        "onboarding workflows",
+        "Google Drive / Google Sheets",
+        "invoicing workflow",
+        "human approval",
+        "electronic signature API integration",
+        "reporting",
+        "global error handler",
+        "retry queue",
+        "idempotency",
+        "webhooks",
+        "secure credentials/environment variables",
+        "Designed a modular architecture of 20 n8n workflows covering CRM, onboarding, scheduling, invoicing, reporting, and reliability.",
+      ],
+    },
+    {
+      title: "SIHIA — Full-Stack AI Healthcare Platform",
+      subtitle: "Healthcare Operations + Advanced RAG",
+      description:
+        "AI healthcare platform combining document ingestion, hybrid retrieval, grounded citations, explicit no-answer handling, and RAG evaluation—built with FastAPI and React.",
+      technologies: [
+        "FastAPI",
+        "React",
+        "PostgreSQL",
+        "Qdrant",
+        "Docker",
+        "automated tests",
+      ],
+      imageUrl: "/portfolio-uploads/sihia-rag-dashboard.png",
+      demoLink: "https://sihia-platform.vercel.app/",
+      category: "Fullstack",
+      isHighlighted: true,
+      highlights: [
+        "document ingestion",
+        "chunking",
+        "embeddings",
+        "Qdrant",
+        "dense retrieval",
+        "BM25",
+        "hybrid retrieval",
+        "RRF",
+        "cross-encoder reranking",
+        "grounded citations",
+        "explicit no-answer handling",
+        "RAG evaluation",
+        "FastAPI",
+        "React",
+        "PostgreSQL",
+        "Docker",
+        "automated tests",
+      ],
+    },
+  ];
+
+  const moreProjects: PortfolioProject[] = useMemo(
+    () => [
     {
       title: "My Portfolio Website",
       description:
-        "Portfolio personnel React + Vite avec animations Framer Motion, sections dynamiques et présentation complète de mes projets data/AI.",
+        "Personal React + Vite portfolio with Framer Motion animations, dynamic sections, and a complete presentation of my data/AI projects.",
       technologies: ["React", "TypeScript", "Vite", "Tailwind CSS"],
       imageUrl: "/portfolio-uploads/my-portfolio.png",
       isHighlighted: true,
@@ -40,7 +196,7 @@ const Projects: React.FC = () => {
     {
       title: "World Bank AI Chatbot (RAG)",
       description:
-        "Chatbot RAG connecté aux données ouvertes World Bank avec recherche vectorielle, réponses sourcées et interface conversationnelle.",
+        "RAG chatbot connected to World Bank open data with vector search, sourced answers, and a conversational UI.",
       technologies: ["Python", "RAG", "FAISS", "FastAPI", "React"],
       imageUrl: "/portfolio-uploads/worldbank-ai-chatbot.png",
       githubLink: "https://github.com/TsinjoNantosoa/worldbank-ai-chatbot",
@@ -49,9 +205,9 @@ const Projects: React.FC = () => {
       repository: "worldbank-ai-chatbot",
     },
     {
-      title: "AAA Data Chatbot (Entreprise)",
+      title: "AAA Data Chatbot (Enterprise)",
       description:
-        "Assistant conversationnel RAG orienté entreprise: extraction du site AAA, index FAISS, orchestration FastAPI/LangChain et frontend chat.",
+        "Enterprise-oriented RAG assistant: AAA website extraction, FAISS indexing, FastAPI/LangChain orchestration, and a chat frontend.",
       technologies: ["Python", "LangChain", "Docker", "Vite", "FAISS"],
       imageUrl: "/portfolio-uploads/aaa-chatbot.png",
       category: "AI/ML",
@@ -60,7 +216,7 @@ const Projects: React.FC = () => {
     {
       title: "IoT Kafka Spark Redshift Pipeline",
       description:
-        "Pipeline temps réel de données IoT avec producteurs simulés, Kafka, Spark Structured Streaming et préparation d'ingestion analytics.",
+        "Real-time IoT data pipeline with simulated producers, Kafka, Spark Structured Streaming, and ingestion analytics preparation.",
       technologies: ["Kafka", "Spark", "AWS", "Docker", "Python"],
       imageUrl: "/portfolio-uploads/iot-pipeline.png",
       githubLink:
@@ -72,7 +228,7 @@ const Projects: React.FC = () => {
     {
       title: "Weather ETL with Airflow",
       description:
-        "DAG Airflow ETL météo: extraction Open-Meteo, transformations automatisées et préparation des données pour consommation analytics.",
+        "Weather ETL Airflow DAG: extract Open-Meteo data, automate transformations, and prepare datasets for analytics consumption.",
       technologies: ["Airflow", "Python", "ETL", "API"],
       imageUrl: "/portfolio-uploads/weather-etl.png",
       githubLink: "https://github.com/TsinjoNantosoa/weather_etl",
@@ -82,7 +238,7 @@ const Projects: React.FC = () => {
     {
       title: "Data Warehouse SQL Project",
       description:
-        "Solution complète de data warehousing: modélisation, tables analytiques, requêtes métier et génération d'insights décisionnels.",
+        "Complete data warehousing solution: modeling, analytical tables, business queries, and decision-ready insights generation.",
       technologies: ["SQL", "Data Warehouse", "Analytics"],
       imageUrl: "/portfolio-uploads/data-warehouse-sql.png",
       githubLink:
@@ -93,7 +249,7 @@ const Projects: React.FC = () => {
     {
       title: "Data Warehouse Analytics (SQL Server)",
       description:
-        "Projet analytics SQL Server réalisé sous Azure Data Studio pour analyser ventes, produits et clients via un modèle entrepôt.",
+        "SQL Server analytics project built in Azure Data Studio to analyze sales, products, and customers using a warehouse model.",
       technologies: ["SQL Server", "Azure Data Studio", "BI"],
       imageUrl: "/portfolio-uploads/data-warehouse-analytics.png",
       githubLink:
@@ -104,7 +260,7 @@ const Projects: React.FC = () => {
     {
       title: "Bank Loan Analytics Dashboard",
       description:
-        "Dashboard analytique pour le suivi des prêts, qualité du portefeuille et indicateurs de risque bancaire.",
+        "Analytics dashboard for loan tracking, portfolio quality, and banking risk indicators.",
       technologies: ["Power BI", "SQL", "Dashboard"],
       imageUrl: "/portfolio-uploads/bank-loan-dashboard.png",
       githubLink:
@@ -115,7 +271,7 @@ const Projects: React.FC = () => {
     {
       title: "Insurance Claims Analysis",
       description:
-        "Analyse de sinistres et profilage du risque assurance via tableaux de bord et storytelling data-driven.",
+        "Insurance claims analysis and risk profiling using dashboards and data-driven storytelling.",
       technologies: ["Power BI", "Data Analysis", "KPI"],
       imageUrl: "/portfolio-uploads/insurance-claims.png",
       githubLink:
@@ -126,7 +282,7 @@ const Projects: React.FC = () => {
     {
       title: "20 Newsgroups Text Classification",
       description:
-        "Benchmark de 12 pipelines NLP sur le dataset 20 Newsgroups pour comparer vectorisations et algorithmes de classification.",
+        "Benchmark of multiple NLP pipelines on the 20 Newsgroups dataset to compare vectorization methods and classification algorithms.",
       technologies: ["NLP", "Scikit-learn", "Python", "Classification"],
       imageUrl: "/portfolio-uploads/20newsgroups.png",
       githubLink:
@@ -137,7 +293,7 @@ const Projects: React.FC = () => {
     {
       title: "Hair Type Classification CNN",
       description:
-        "Projet PyTorch CNN (ML Zoomcamp): classification binaire curly/straight avec entraînement, validation et inférence.",
+        "PyTorch CNN project (ML Zoomcamp): binary classification (curly vs straight) with training, validation, and inference.",
       technologies: ["PyTorch", "CNN", "Computer Vision"],
       imageUrl: "/portfolio-uploads/hair-cnn.png",
       githubLink:
@@ -148,7 +304,7 @@ const Projects: React.FC = () => {
     {
       title: "Book Loan Management API",
       description:
-        "API backend Spring Boot pour gestion de prêts de livres avec CI Maven et architecture REST.",
+        "Spring Boot REST API for book loan management with Maven CI and a clean REST architecture.",
       technologies: ["Java", "Spring Boot", "Maven", "REST API"],
       imageUrl: "/portfolio-uploads/book-loan-api.png",
       githubLink: "https://github.com/TsinjoNantosoa/book-loan-management",
@@ -158,7 +314,7 @@ const Projects: React.FC = () => {
     {
       title: "Online Food Backend",
       description:
-        "API backend Spring Boot pour système de commande de nourriture en ligne, architecture REST et logique métier transactionnelle.",
+        "Spring Boot REST API for an online food ordering system, REST architecture, and transactional business logic.",
       technologies: ["Java", "Spring Boot", "Backend"],
       imageUrl: "/portfolio-uploads/online-food-backend.png",
       githubLink: "https://github.com/TsinjoNantosoa/tsinjo-online-food-",
@@ -168,7 +324,7 @@ const Projects: React.FC = () => {
     {
       title: "Coding Interview Platform",
       description:
-        "Plateforme d'entretien technique en temps réel avec sessions partagées, collaboration live et stack React + Express.",
+        "Real-time technical interview platform with shared sessions, live collaboration, and a React + Express stack.",
       technologies: ["React", "Node.js", "Express", "Realtime"],
       imageUrl: "/portfolio-uploads/coding-interview.png",
       githubLink: "https://github.com/TsinjoNantosoa/coding_interview",
@@ -178,7 +334,7 @@ const Projects: React.FC = () => {
     {
       title: "AI-Assisted Development Learning",
       description:
-        "Application TODO Django réalisée dans le cadre AI Dev Tools Zoomcamp avec CRUD complet et workflow AI-assisted development.",
+        "AI Dev Tools Zoomcamp TODO app with full CRUD and an AI-assisted development workflow.",
       technologies: ["Django", "Python", "AI Assisted Dev"],
       imageUrl: "/portfolio-uploads/ai-assisted-dev.png",
       githubLink:
@@ -186,7 +342,9 @@ const Projects: React.FC = () => {
       category: "Fullstack",
       repository: "learning-ai-assisted-development",
     },
-  ];
+    ],
+    []
+  );
 
   const categories: ("All" | ProjectCategory)[] = [
     "All",
@@ -201,9 +359,9 @@ const Projects: React.FC = () => {
   const filteredProjects = useMemo(
     () =>
       activeCategory === "All"
-        ? projects
-        : projects.filter((project) => project.category === activeCategory),
-    [activeCategory]
+        ? moreProjects
+        : moreProjects.filter((project) => project.category === activeCategory),
+    [activeCategory, moreProjects]
   );
 
   useEffect(() => {
@@ -235,11 +393,46 @@ const Projects: React.FC = () => {
           className="mx-auto mb-16 max-w-xl text-center"
         >
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl">
-            My <span className="text-neon">Projects</span>
+            FEATURED AI ENGINEERING PROJECTS
           </h2>
           <p className="text-white/70">
-            A curated selection of my real GitHub work: Data Engineering, AI/ML,
-            Analytics, and Fullstack products shipped through hands-on projects.
+            Agentic AI systems, production RAG platforms, and n8n-powered automation—built as
+            real end-to-end products.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {featuredProjects.map((project, index) => (
+            <ProjectCard
+              key={project.title}
+              number={(index + 1).toString().padStart(2, "0")}
+              title={project.title}
+              subtitle={project.subtitle}
+              description={project.description}
+              technologies={project.technologies}
+              imageUrl={project.imageUrl}
+              demoLink={project.demoLink}
+              githubLink={project.githubLink}
+              caseStudyLink={project.caseStudyLink}
+              highlights={project.highlights}
+              isHighlighted={project.isHighlighted}
+              index={index}
+              category={project.category}
+              repository={project.repository}
+            />
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mx-auto mt-16 mb-12 max-w-xl text-center"
+        >
+          <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl">MORE PROJECTS</h2>
+          <p className="text-white/70">
+            Additional engineering work across RAG, automation, backend systems, and analytics.
           </p>
         </motion.div>
 
@@ -259,7 +452,7 @@ const Projects: React.FC = () => {
           ))}
         </div>
 
-        {/* Carousel */}
+        {/* Carousel (secondary projects) */}
         <div className="relative overflow-hidden">
           <div
             className="flex transition-transform duration-500 ease-in-out"
@@ -280,10 +473,14 @@ const Projects: React.FC = () => {
                       key={index}
                       number={(start + index + 1).toString().padStart(2, "0")}
                       title={project.title}
+                      subtitle={project.subtitle}
                       description={project.description}
                       technologies={project.technologies}
                       imageUrl={project.imageUrl}
+                      demoLink={project.demoLink}
                       githubLink={project.githubLink}
+                      caseStudyLink={project.caseStudyLink}
+                      highlights={project.highlights}
                       isHighlighted={project.isHighlighted}
                       index={index}
                       category={project.category}

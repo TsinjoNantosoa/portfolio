@@ -1,69 +1,53 @@
-# Welcome to your Lovable project
+# Tsinjo Nantosoa — AI Automation & Data Engineer Portfolio
 
-## Project info
+Personal portfolio of **Sandaniaina Tsinjo Nantosoa**, AI Automation Engineer and Data Engineer based in Antananarivo, Madagascar.
 
-**URL**: https://portfolio.dev/projects/2ae32a45-0028-4db4-975e-337f82375fab
+## Live Site
 
-## How can I edit this code?
+Deployed on Netlify. Available at the configured custom domain.
 
-There are several ways of editing your application.
+## About
 
-**Use Lovable**
+This portfolio showcases expertise in:
 
-Simply visit the [Lovable Project](https://portfolio.dev/projects/2ae32a45-0028-4db4-975e-337f82375fab) and start prompting.
+- **AI Automation & n8n** — end-to-end agentic workflows, webhooks, RAG pipelines, Human-in-the-Loop systems
+- **RAG Systems** — FastAPI + LangChain + FAISS production chatbots (Humans4Help, World Bank AI Chatbot)
+- **Data Engineering** — Kafka, Spark, Airflow, dbt, AWS S3/Redshift pipelines
+- **Machine Learning** — NLP classification, CNN computer vision, scikit-learn, PyTorch
 
-Changes made via Lovable will be committed automatically to this repo.
+## Stack
 
-**Use your preferred IDE**
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Framer Motion
+- **UI**: shadcn/ui (Radix UI)
+- **Routing**: React Router v6
+- **Deployment**: Netlify
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Local Development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Build for production:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```sh
+npm run build
+```
 
-**Use GitHub Codespaces**
+## Key Projects
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+| Project | Category | GitHub |
+|---|---|---|
+| World Bank AI Chatbot (RAG) | AI/ML | [github.com/TsinjoNantosoa/worldbank-ai-chatbot](https://github.com/TsinjoNantosoa/worldbank-ai-chatbot) |
+| AAA Data Chatbot (H4H Madagascar) | AI/ML | Private |
+| IoT Kafka Spark Redshift Pipeline | Data Engineering | [github.com/TsinjoNantosoa/iot-kafka-spark-redshift-pipeline](https://github.com/TsinjoNantosoa/iot-kafka-spark-redshift-pipeline) |
+| Weather ETL with Airflow | Data Engineering | [github.com/TsinjoNantosoa/weather_etl](https://github.com/TsinjoNantosoa/weather_etl) |
+| Bank Loan Analytics Dashboard | Analytics/BI | [github.com/TsinjoNantosoa/bank-loan-analytics-dashboard](https://github.com/TsinjoNantosoa/bank-loan-analytics-dashboard) |
 
-## What technologies are used for this project?
+## Contact
 
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://portfolio.dev/projects/2ae32a45-0028-4db4-975e-337f82375fab) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.portfolio.dev/tips-tricks/custom-domain/)
+- Email: tsinjonantosoa@gmail.com
+- GitHub: [github.com/TsinjoNantosoa](https://github.com/TsinjoNantosoa)
+- LinkedIn: [linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330](https://www.linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330/)
+- DataCamp Portfolio: [datacamp.com/portfolio/sandaniainatsinjonantosoa](https://www.datacamp.com/portfolio/sandaniainatsinjonantosoa)

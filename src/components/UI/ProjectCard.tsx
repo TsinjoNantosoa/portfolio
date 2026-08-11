@@ -6,11 +6,14 @@ import { ArrowUpRight, Github } from "lucide-react";
 interface ProjectCardProps {
   number: string;
   title: string;
+  subtitle?: string;
   description: string;
   technologies: string[];
   imageUrl: string;
   demoLink?: string;
   githubLink?: string;
+  caseStudyLink?: string;
+  highlights?: string[];
   isHighlighted?: boolean;
   index?: number;
   category?: string;
@@ -20,11 +23,14 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({
   number,
   title,
+  subtitle,
   description,
   technologies,
   imageUrl,
   demoLink,
   githubLink,
+  caseStudyLink,
+  highlights,
   isHighlighted = false,
   index = 0,
   category,
@@ -84,7 +90,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           )}
         </div>
         <h3 className="mb-2 text-2xl font-bold">{title}</h3>
+        {subtitle && (
+          <p className="mb-3 text-sm font-semibold text-neon/90">{subtitle}</p>
+        )}
         <p className="mb-4 text-white/70">{description}</p>
+
+        {highlights && highlights.length > 0 && (
+          <ul className="mb-6 list-disc space-y-1 pl-5 text-sm text-white/70">
+            {highlights.map((h, i) => (
+              <li key={i}>{h}</li>
+            ))}
+          </ul>
+        )}
         
         <div className="mb-6 flex flex-wrap gap-2">
           {technologies.map((tech, i) => (
@@ -107,6 +124,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             >
               <ArrowUpRight size={16} />
               <span>Live Demo</span>
+            </a>
+          )}
+          
+          {caseStudyLink && (
+            <a
+              href={caseStudyLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-neon hover:underline"
+            >
+              <ArrowUpRight size={16} />
+              <span>Case Study</span>
             </a>
           )}
           

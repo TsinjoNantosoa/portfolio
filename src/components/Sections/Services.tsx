@@ -6,32 +6,37 @@ const Services: React.FC = () => {
   const services = [
     {
       number: "01",
-      title: "Data Engineering & Cloud",
-      description: "Building data pipelines using Python (pandas, PySpark), ETL/ELT with Airflow & dbt, Big Data processing with Kafka, and Cloud solutions with AWS (EC2, S3, IAM).",
+      title: "AI Agents & Agentic Systems",
+      description:
+        "Building agentic AI applications with tool/function calling, multi-step execution, guardrails, and human-in-the-loop approvals—reliable end-to-end behavior.",
       delay: 0,
     },
     {
       number: "02",
-      title: "AI Automation & n8n",
-      description: "Designing end-to-end AI automations with n8n, webhooks, API orchestration, and agentic workflows (RAG, Human-in-the-Loop, output parsing, and error handling).",
+      title: "Production RAG & Knowledge Systems",
+      description:
+        "Designing production-grade RAG pipelines: knowledge ingestion, vector retrieval, hybrid search, reranking, grounded citations, and multi-tenant isolation.",
       delay: 1,
     },
     {
       number: "03",
-      title: "Data Analysis & BI",
-      description: "Creating interactive reports and dashboards using Power BI (DAX), performing EDA, data cleaning, and visualization with Matplotlib & Seaborn.",
+      title: "AI Automation & n8n",
+      description:
+        "Orchestrating business automations with n8n: modular workflows, validation/normalization/deduplication, webhooks, retries, idempotency, and secure credential handling.",
       delay: 2,
     },
     {
       number: "04",
-      title: "Machine Learning",
-      description: "Developing ML models using Scikit-learn and TensorFlow for classification and regression tasks, including model tuning and evaluation.",
+      title: "AI Backend & Full-Stack Development",
+      description:
+        "Building FastAPI backends and full-stack AI products with React + PostgreSQL (and supporting infrastructure) designed for maintainability and deployment readiness.",
       delay: 3,
     },
     {
       number: "05",
-      title: "DevOps & Infrastructure",
-      description: "Implementing CI/CD pipelines, containerization with Docker & Kubernetes, and building APIs with FastAPI. Strong expertise in Git and Shell scripting.",
+      title: "AI Reliability & Production Engineering",
+      description:
+        "Ensuring production reliability: validation gates, output parsing, error workflows, observability, monitoring (latency/cost), and secure-by-design system integration.",
       delay: 4,
     },
   ];
@@ -50,10 +55,8 @@ const Services: React.FC = () => {
             My <span className="text-neon">Expertise</span>
           </h2>
           <p className="text-white/70">
-            AI Automation Engineer and Data Engineer specialized in intelligent
-            workflows, agentic systems, and production-ready data platforms.
-            Backed by 85+ completed DataCamp courses, 300+ learning hours,
-            9 major certifications, and 11+ career tracks.
+            AI Engineer & AI Automation Engineer building agentic AI systems,
+            production RAG, FastAPI backends, and reliable n8n automations—end-to-end.
           </p>
         </motion.div>
 

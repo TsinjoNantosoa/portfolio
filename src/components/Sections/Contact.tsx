@@ -69,9 +69,9 @@ const Contact: React.FC = () => {
                 <MapPin className="h-5 w-5 text-neon" />
               </div>
               <div>
-                <h3 className="mb-1 text-lg font-semibold">Address</h3>
+                <h3 className="mb-1 text-lg font-semibold">Location</h3>
                 <p className="text-white/70">
-                  Lot 123 D Bis Ambohimangakely Antananarivo, Madagascar
+                  Antananarivo, Madagascar — Open to Remote
                 </p>
               </div>
             </div>
@@ -79,7 +79,8 @@ const Contact: React.FC = () => {
             <div className="mt-10 rounded-lg bg-darkcard/50 p-6 backdrop-blur-sm">
               <h3 className="mb-3 text-lg font-semibold">Availability</h3>
               <p className="text-white/70">
-                Always available for new opportunities and project discussions.
+                Open to remote AI engineering roles, AI automation projects, RAG systems,
+                agentic applications, and selected freelance engagements.
               </p>
             </div>
           </motion.div>

@@ -1,10 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Download, Github, Linkedin, Mail, Facebook } from "lucide-react";
-import Button from "../UI/Button";
 import CounterItem from "../UI/CounterItem";
 import ProfileImage from "../UI/ProfileImage";
-import AnimatedText from "../UI/AnimatedText";
 
 const Hero: React.FC = () => {
   return (
@@ -20,7 +18,7 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="mb-4 font-mono text-lg text-white/70"
             >
-              Data & AI Automation Engineer
+              AI Engineer & AI Automation Engineer
             </motion.div>
 
             <motion.h1
@@ -39,17 +37,7 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mb-8 max-w-xl text-lg text-white/70"
             >
-              Data/AI engineer focused on production-grade automation, intelligent agents, and scalable decision systems with{" "}
-              <AnimatedText
-                textArray={[
-                  "AI Automation Engineering",
-                  "RAG & Multi-Agent Systems",
-                  "n8n Workflow Orchestration",
-                  "Data Engineering",
-                  "Cloud-Native APIs",
-                ]}
-                className="text-neon font-semibold"
-              />
+              Agentic AI · Production RAG · Python/FastAPI · n8n Automation
             </motion.div>
 
             {/* <motion.p
@@ -70,7 +58,7 @@ const Hero: React.FC = () => {
 <div className="flex gap-4">
   {/* Ouvrir dans navigateur */}
   <a
-    href="../../../CV/CV_Tsinjo_Nantosoa.pdf"
+    href="/CV/CV_Tsinjo_Nantosoa.pdf"
     target="_blank"
     rel="noopener noreferrer"
     className="inline-flex items-center gap-2 rounded-lg bg-neon px-6 py-3 font-semibold text-black transition hover:bg-neon/80"
@@ -81,7 +69,7 @@ const Hero: React.FC = () => {
 
   {/* Télécharger directement */}
   <a
-    href="../../../CV/CV_Tsinjo_Nantosoa.pdf"
+    href="/CV/CV_Tsinjo_Nantosoa.pdf"
     download
     className="inline-flex items-center gap-2 rounded-lg border border-neon px-6 py-3 font-semibold text-neon transition hover:bg-neon/20"
   >
@@ -155,12 +143,11 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-20 grid grid-cols-2 gap-8 sm:grid-cols-4"
+          className="mt-20 grid grid-cols-2 gap-8 sm:grid-cols-3"
         >
-          <CounterItem value={85} label="DataCamp Courses" suffix="+" delay={0} />
-          <CounterItem value={300} label="Learning Hours" suffix="+" delay={1} />
-          <CounterItem value={10} label="Major Certifications" delay={2} />
-          <CounterItem value={11} label="Career Tracks" suffix="+" delay={3} />
+          <CounterItem value={3} label="Production AI Assistants" delay={0} />
+          <CounterItem value={97} label="Quality Validation Checks" suffix="/98" delay={1} />
+          <CounterItem value={2} label="Live AI Products" delay={2} />
         </motion.div>
       </div>
     </section>

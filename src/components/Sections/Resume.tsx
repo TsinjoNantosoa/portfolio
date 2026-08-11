@@ -277,19 +277,19 @@ const Resume: React.FC = () => {
   ];
 
   const certifications = [
-    { title: "Data Engineer Associate", img: "../../../certificate/data_engineer_associate.png" },
-    { title: "Data Analyst Associate", img: "../../../certificate/data_analyst_associate.png" },
-    { title: "Python Data Associate", img: "../../../certificate/python_data_associate.png" },
-    { title: "SQL Associate", img: "../../../certificate/sql_associate.png" },
-    { title: "AI Engineer for Developers Associate", img: "../../../certificate/Screenshot from 2025-10-01 11-42-08.png" },
-    { title: "AWS Cloud Practitioner (CLF-C02)", img: "../../../certificate/aws_cloud_practitioner.png" },
-    { title: "Data Engineer Career Track", img: "../../../certificate/data_engineer_track.png" },
-    { title: "Data Analyst in Python", img: "../../../certificate/data_analyst_in_python.png" },
-    { title: "Data Analyst in Power BI", img: "../../../certificate/data_analyst_power_bi.png" },
-    { title: "Professional Data Engineer in Python", img: "../../../certificate/professional_data_engeener.png" },
-    { title: "Data Engineer in Python", img: "../../../certificate/Data_engeener_in_python.png" },
-    { title: "Power BI Fundamentals (Skill Track)", img: "../../../certificate/power_bi_fondamental.png" },
-    { title: "Snowflake Data Engineer Associate", img: "../../../certificate/data_engeener_in_snowflake.png" },
+    { title: "Data Engineer Associate", img: "/certificate/data_engineer_associate.png" },
+    { title: "Data Analyst Associate", img: "/certificate/data_analyst_associate.png" },
+    { title: "Python Data Associate", img: "/certificate/python_data_associate.png" },
+    { title: "SQL Associate", img: "/certificate/sql_associate.png" },
+    { title: "AI Engineer for Developers Associate", img: "/certificate/Screenshot from 2025-10-01 11-42-08.png" },
+    { title: "AWS Cloud Practitioner (CLF-C02)", img: "/certificate/aws_cloud_practitioner.png" },
+    { title: "Data Engineer Career Track", img: "/certificate/data_engineer_track.png" },
+    { title: "Data Analyst in Python", img: "/certificate/data_analyst_in_python.png" },
+    { title: "Data Analyst in Power BI", img: "/certificate/data_analyst_power_bi.png" },
+    { title: "Professional Data Engineer in Python", img: "/certificate/professional_data_engeener.png" },
+    { title: "Data Engineer in Python", img: "/certificate/Data_engeener_in_python.png" },
+    { title: "Power BI Fundamentals (Skill Track)", img: "/certificate/power_bi_fondamental.png" },
+    { title: "Snowflake Data Engineer Associate", img: "/certificate/data_engeener_in_snowflake.png" },
   ];
 
   const languages = [
@@ -313,16 +313,12 @@ const Resume: React.FC = () => {
     if (tab === "profile") {
       return (
         <div className="rounded-lg bg-darkcard p-6 text-white/70">
-          AI Automation Engineer et Data Engineer spécialisé dans la
-          conception de workflows intelligents, agents IA et architectures
-          RAG déployables en production. Je combine automatisation
-          applicative (API/webhooks), orchestration de données et
-          fiabilité opérationnelle (error handling, monitoring, sécurité,
-          Human-in-the-Loop). Parcours validé par 85+ cours DataCamp,
-          300+ heures d'apprentissage, 9 certifications majeures, 11 tracks
-          complétés et 19 projets DataLab. Mon objectif: construire des
-          systèmes IA utiles au métier, mesurables, robustes et
-          maintenables à l'échelle.
+          AI Engineer & AI Automation Engineer specializing in agentic AI
+          systems, production-ready RAG architectures, and reliable n8n-driven
+          automation. I build application automation (APIs/webhooks), retrieval
+          pipelines, and operational reliability (error handling, monitoring,
+          security, and Human-in-the-Loop). My goal: ship AI systems that are
+          measurable, robust, and maintainable at scale.
         </div>
       );
     }

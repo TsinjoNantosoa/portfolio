@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tsinjonantosoa.netlify.app/sitemap.xml
