@@ -51,3 +51,7 @@ npm run build
 - GitHub: [github.com/TsinjoNantosoa](https://github.com/TsinjoNantosoa)
 - LinkedIn: [linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330](https://www.linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330/)
 - DataCamp Portfolio: [datacamp.com/portfolio/sandaniainatsinjonantosoa](https://www.datacamp.com/portfolio/sandaniainatsinjonantosoa)
+
+## CV
+
+Download: [`/CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf`](./public/CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf)
