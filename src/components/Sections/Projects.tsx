@@ -9,7 +9,10 @@ type ProjectCategory =
   | "Analytics/BI"
   | "Backend"
   | "Fullstack"
-  | "Frontend";
+  | "Frontend"
+  | "AI Automation / n8n"
+  | "Agentic AI"
+  | "Production RAG";
 
 interface PortfolioProject {
   title: string;
@@ -46,7 +49,7 @@ const Projects: React.FC = () => {
       ],
       imageUrl: "/portfolio-uploads/ai-business-os-dashboard.png",
       demoLink: "https://ai-business-os-murex.vercel.app/",
-      category: "Fullstack",
+      category: "Agentic AI",
       isHighlighted: true,
       highlights: [
         "LLM tool/function calling",
@@ -78,7 +81,7 @@ const Projects: React.FC = () => {
         "Docker",
       ],
       imageUrl: "/portfolio-uploads/production-multi-tenant-rag-platform.png",
-      category: "Backend",
+      category: "Production RAG",
       isHighlighted: true,
       highlights: [
         "FastAPI",
@@ -116,7 +119,7 @@ const Projects: React.FC = () => {
         "Google Sheets",
       ],
       imageUrl: "/portfolio-uploads/n8n-crm-automation-workflow.png",
-      category: "Backend",
+      category: "AI Automation / n8n",
       isHighlighted: true,
       highlights: [
         "modular n8n workflow architecture",
@@ -157,7 +160,7 @@ const Projects: React.FC = () => {
       ],
       imageUrl: "/portfolio-uploads/sihia-rag-dashboard.png",
       demoLink: "https://sihia-platform.vercel.app/",
-      category: "Fullstack",
+      category: "Production RAG",
       isHighlighted: true,
       highlights: [
         "document ingestion",
