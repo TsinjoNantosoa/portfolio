@@ -44,7 +44,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className={`group overflow-hidden rounded-lg ${
+      className={`group min-w-0 overflow-hidden rounded-lg ${
         isHighlighted ? "bg-blue-800" : "bg-darkcard"
       } transition-all duration-300 hover:shadow-[0_0_20px_rgba(13,255,163,0.2)]`}
     >
@@ -59,7 +59,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </span>
         </div>
         
-        <div className="relative h-80 overflow-hidden bg-darkbg/80">
+        <div className="relative h-52 overflow-hidden bg-darkbg/80 sm:h-64 lg:h-80">
           {!imageError ? (
             <img
               src={imageUrl}
@@ -76,24 +76,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
       </div>
       
-      <div className="p-6">
+      <div className="min-w-0 p-4 sm:p-6">
         <div className="mb-3 flex flex-wrap gap-2">
           {category && (
-            <span className="inline-block rounded-full border border-neon/40 bg-neon/10 px-3 py-1 text-xs font-medium text-neon">
+            <span className="max-w-full break-words rounded-full border border-neon/40 bg-neon/10 px-3 py-1 text-xs font-medium text-neon">
               {category}
             </span>
           )}
           {repository && (
-            <span className="inline-block rounded-full border border-white/20 px-3 py-1 font-mono text-xs text-white/70">
+            <span className="max-w-full break-all rounded-full border border-white/20 px-3 py-1 font-mono text-xs text-white/70">
               {repository}
             </span>
           )}
         </div>
-        <h3 className="mb-2 text-2xl font-bold">{title}</h3>
+        <h3 className="mb-2 break-words text-xl font-bold sm:text-2xl">{title}</h3>
         {subtitle && (
           <p className="mb-3 text-sm font-semibold text-neon/90">{subtitle}</p>
         )}
-        <p className="mb-4 text-white/70">{description}</p>
+        <p className="mb-4 break-words text-white/70">{description}</p>
 
         {highlights && highlights.length > 0 && (
           <ul className="mb-6 list-disc space-y-1 pl-5 text-sm text-white/70">
@@ -107,14 +107,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {technologies.map((tech, i) => (
             <span
               key={i}
-              className="inline-block rounded-full bg-neon/10 px-3 py-1 text-xs font-medium text-neon"
+              className="max-w-full break-words rounded-full bg-neon/10 px-3 py-1 text-xs font-medium text-neon"
             >
               {tech}
             </span>
           ))}
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
           {demoLink && (
             <a
               href={demoLink}

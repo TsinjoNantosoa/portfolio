@@ -39,9 +39,9 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`relative rounded-lg bg-darkcard ${
+      className={`relative min-w-0 break-words rounded-lg bg-darkcard ${
         isActive ? "border border-neon/30" : ""
-      } p-6 transition-all duration-300 hover:border-neon/50 hover:shadow-[0_0_15px_rgba(13,255,163,0.2)]`}
+      } p-4 transition-all duration-300 hover:border-neon/50 hover:shadow-[0_0_15px_rgba(13,255,163,0.2)] sm:p-6`}
     >
       <div className="mb-2 font-mono text-sm text-neon">{period}</div>
       <h3 className="mb-1 text-xl font-bold text-white">{title}</h3>
@@ -104,7 +104,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
             {stack.map((item, itemIndex) => (
               <span
                 key={itemIndex}
-                className="inline-block rounded-full border border-white/20 px-3 py-1 text-xs text-white/70"
+                className="max-w-full break-words rounded-full border border-white/20 px-3 py-1 text-xs text-white/70"
               >
                 {item}
               </span>

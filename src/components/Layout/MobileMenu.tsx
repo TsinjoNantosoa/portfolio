@@ -16,15 +16,26 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, setIsOpen }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, x: -300 }}
+        <>
+          <motion.button
+            type="button"
+            aria-label="Close menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-30 bg-black/40 md:hidden"
+            onClick={() => setIsOpen(false)}
+          />
+          <motion.div
+          id="mobile-navigation"
+          initial={{ opacity: 0, x: "-100%" }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -300 }}
+          exit={{ opacity: 0, x: "-100%" }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-40 h-screen w-[240px] bg-darkcard/95 backdrop-blur-md md:hidden"
+          className="fixed inset-y-0 left-0 z-40 h-dvh w-60 max-w-[85vw] overflow-y-auto bg-darkcard/95 backdrop-blur-md md:hidden"
         >
           <div className="h-16" /> {/* Spacer for header */}
-          <nav className="p-6">
+          <nav className="p-4 sm:p-6">
             <ul className="flex flex-col gap-6">
               <li>
                 <Link
@@ -86,7 +97,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, setIsOpen }) => {
               </Link>
             </div>
           </nav>
-        </motion.div>
+          </motion.div>
+        </>
       )}
     </AnimatePresence>
   );

@@ -9,9 +9,9 @@ const Hero: React.FC = () => {
     <section className="relative min-h-screen overflow-hidden pt-20">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(13,255,163,0.08)_0,rgba(0,0,0,0)_60%)]"></div>
 
-      <div className="container mx-auto px-4 pb-16 pt-12 md:px-6 lg:px-8">
+      <div className="container mx-auto px-4 pb-12 pt-8 sm:pb-16 sm:pt-12 md:px-6 lg:px-8">
         <div className="grid items-center gap-8 lg:grid-cols-2">
-          <div className="order-2 lg:order-1">
+          <div className="order-2 min-w-0 text-center lg:order-1 lg:text-left">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -25,7 +25,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="mb-6 text-5xl font-bold leading-tight sm:text-6xl"
+              className="mb-6 break-words text-[clamp(1.75rem,9vw,3rem)] font-bold leading-[1.15] sm:text-6xl sm:leading-tight"
             >
               Hello I'm<br />
               <span className="text-neon">SANDANIAINA Tsinjo Nantosoa</span>
@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mb-8 max-w-xl text-lg text-white/70"
+              className="mx-auto mb-8 max-w-xl break-words text-base text-white/70 sm:text-lg lg:mx-0"
             >
               Agentic AI · Production RAG · Python/FastAPI · n8n Automation
             </motion.div>
@@ -53,15 +53,15 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="mb-10 flex flex-wrap items-center gap-4"
+              className="mb-10 flex min-w-0 flex-col items-center gap-4 sm:flex-row sm:flex-wrap lg:justify-start"
             >
-<div className="flex gap-4">
+<div className="flex w-full flex-col gap-3 min-[380px]:flex-row sm:w-auto sm:gap-4">
   {/* Ouvrir dans navigateur */}
   <a
     href="/CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf"
     target="_blank"
     rel="noopener noreferrer"
-    className="inline-flex items-center gap-2 rounded-lg bg-neon px-6 py-3 font-semibold text-black transition hover:bg-neon/80"
+    className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-neon px-4 py-3 font-semibold text-black transition hover:bg-neon/80 sm:w-auto sm:px-6"
   >
     <Download size={16} />
     VIEW CV
@@ -71,7 +71,7 @@ const Hero: React.FC = () => {
   <a
     href="/CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf"
     download="CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf"
-    className="inline-flex items-center gap-2 rounded-lg border border-neon px-6 py-3 font-semibold text-neon transition hover:bg-neon/20"
+    className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-neon px-4 py-3 font-semibold text-neon transition hover:bg-neon/20 sm:w-auto sm:px-6"
   >
     <Download size={16} />
     DOWNLOAD
@@ -81,7 +81,7 @@ const Hero: React.FC = () => {
 
 
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
                 <a
                   href="https://github.com/TsinjoNantosoa"
                   target="_blank"
@@ -133,7 +133,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="order-1 mx-auto max-w-md lg:order-2"
+            className="order-1 mx-auto w-full max-w-[18rem] sm:max-w-md lg:order-2"
           >
             <ProfileImage className="aspect-square w-full max-w-md" />
           </motion.div>
@@ -143,7 +143,7 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-20 grid grid-cols-2 gap-8 sm:grid-cols-3"
+          className="mt-12 grid grid-cols-1 gap-6 min-[360px]:grid-cols-2 sm:mt-20 sm:grid-cols-3 sm:gap-8"
         >
           <CounterItem value={3} label="Production AI Assistants" delay={0} />
           <CounterItem value={97} label="Quality Validation Checks" suffix="/98" delay={1} />

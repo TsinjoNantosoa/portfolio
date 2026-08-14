@@ -103,7 +103,7 @@ const ContactForm: React.FC = () => {
   };
   
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="min-w-0 space-y-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <input
           type="text"
@@ -176,7 +176,7 @@ const ContactForm: React.FC = () => {
       
       <Button
         type="submit"
-        className="flex items-center gap-2 rounded-full bg-neon px-6 py-3 text-black transition-all hover:shadow-[0_0_15px_rgba(13,255,163,0.6)]"
+        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-neon px-6 py-3 text-black transition-all hover:shadow-[0_0_15px_rgba(13,255,163,0.6)] sm:w-auto"
         disabled={isSubmitting}
         isLoading={isSubmitting}
       >

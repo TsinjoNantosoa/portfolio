@@ -6,7 +6,7 @@ import Contact from "@/components/Sections/Contact";
 
 const ContactPage = () => {
   return (
-    <div className="relative min-h-screen bg-darkbg">
+    <div className="relative min-h-screen overflow-x-clip bg-darkbg">
       {/* Background gradient overlay */}
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_right,rgba(13,255,163,0.05)_0,rgba(0,0,0,0)_60%)]"></div>
       

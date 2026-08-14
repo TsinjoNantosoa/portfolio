@@ -386,14 +386,14 @@ const Projects: React.FC = () => {
   };
 
   return (
-    <section className="py-20">
+    <section className="py-12 sm:py-16 lg:py-20">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mx-auto mb-16 max-w-xl text-center"
+          className="mx-auto mb-10 max-w-xl text-center sm:mb-16"
         >
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl">
             FEATURED AI ENGINEERING PROJECTS
@@ -431,7 +431,7 @@ const Projects: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mx-auto mt-16 mb-12 max-w-xl text-center"
+          className="mx-auto mb-10 mt-12 max-w-xl text-center sm:mb-12 sm:mt-16"
         >
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl">MORE PROJECTS</h2>
           <p className="text-white/70">
@@ -444,7 +444,7 @@ const Projects: React.FC = () => {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`rounded-full border px-4 py-2 text-sm transition-all ${
+              className={`min-h-11 max-w-full break-words rounded-full border px-4 py-2 text-sm transition-all ${
                 activeCategory === category
                   ? "border-neon bg-neon/10 text-neon"
                   : "border-white/20 text-white/70 hover:border-neon/60 hover:text-white"
@@ -469,7 +469,7 @@ const Projects: React.FC = () => {
               return (
                 <div
                   key={slideIndex}
-                  className="grid w-full flex-shrink-0 grid-cols-1 gap-6 px-4 sm:grid-cols-2 lg:grid-cols-2"
+                  className="grid w-full min-w-0 flex-shrink-0 grid-cols-1 gap-6 px-0 sm:grid-cols-2 sm:px-4"
                 >
                   {slideProjects.map((project, index) => (
                     <ProjectCard
@@ -500,14 +500,14 @@ const Projects: React.FC = () => {
             <div className="mt-6 flex justify-center gap-2">
               <button
                 onClick={prevSlide}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-neon transition-all hover:bg-neon/80"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-neon transition-all hover:bg-neon/80"
                 aria-label="Previous project"
               >
                 <ChevronLeft className="h-5 w-5 text-black" />
               </button>
               <button
                 onClick={nextSlide}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-neon transition-all hover:bg-neon/80"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-neon transition-all hover:bg-neon/80"
                 aria-label="Next project"
               >
                 <ChevronRight className="h-5 w-5 text-black" />

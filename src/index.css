@@ -90,8 +90,25 @@
     @apply border-border;
   }
 
+  html,
+  body,
+  #root {
+    @apply min-h-full max-w-full;
+  }
+
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     @apply bg-darkbg text-white font-sans;
+  }
+
+  img,
+  svg,
+  canvas {
+    @apply max-w-full;
   }
 
   h1, h2, h3, h4, h5, h6 {

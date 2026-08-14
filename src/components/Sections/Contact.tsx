@@ -6,14 +6,14 @@ import ContactForm from "../UI/ContactForm";
 
 const Contact: React.FC = () => {
   return (
-    <section className="py-20">
+    <section className="py-12 sm:py-16 lg:py-20">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mx-auto mb-16 max-w-xl text-center"
+          className="mx-auto mb-10 max-w-xl text-center sm:mb-16"
         >
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl">
             Let's <span className="text-neon">work together</span>
@@ -24,15 +24,15 @@ const Contact: React.FC = () => {
           </p>
         </motion.div>
         
-        <div className="grid gap-10 lg:grid-cols-3">
+        <div className="grid min-w-0 gap-8 lg:grid-cols-3 lg:gap-10">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-2"
+            className="min-w-0 lg:col-span-2"
           >
-            <div className="rounded-lg bg-darkcard/50 p-6 backdrop-blur-sm">
+            <div className="rounded-lg bg-darkcard/50 p-4 backdrop-blur-sm sm:p-6">
               <ContactForm />
             </div>
           </motion.div>
@@ -42,15 +42,15 @@ const Contact: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="space-y-8"
+            className="min-w-0 space-y-8"
           >
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-neon/10">
                 <Phone className="h-5 w-5 text-neon" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="mb-1 text-lg font-semibold">Phone</h3>
-                <p className="text-white/70">0381448741 / 0332658918</p>
+                <p className="break-words text-white/70">0381448741 / 0332658918</p>
               </div>
             </div>
             
@@ -58,9 +58,9 @@ const Contact: React.FC = () => {
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-neon/10">
                 <Mail className="h-5 w-5 text-neon" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="mb-1 text-lg font-semibold">Email</h3>
-                <p className="text-white/70">tsinjonantosoa@gmail.com</p>
+                <p className="break-all text-white/70">tsinjonantosoa@gmail.com</p>
               </div>
             </div>
             
@@ -68,7 +68,7 @@ const Contact: React.FC = () => {
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-neon/10">
                 <MapPin className="h-5 w-5 text-neon" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="mb-1 text-lg font-semibold">Location</h3>
                 <p className="text-white/70">
                   Antananarivo, Madagascar — Open to Remote
@@ -76,7 +76,7 @@ const Contact: React.FC = () => {
               </div>
             </div>
             
-            <div className="mt-10 rounded-lg bg-darkcard/50 p-6 backdrop-blur-sm">
+            <div className="mt-10 min-w-0 rounded-lg bg-darkcard/50 p-4 backdrop-blur-sm sm:p-6">
               <h3 className="mb-3 text-lg font-semibold">Availability</h3>
               <p className="text-white/70">
                 Open to remote AI engineering roles, AI automation projects, RAG systems,

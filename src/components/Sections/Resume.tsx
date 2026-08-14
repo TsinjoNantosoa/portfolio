@@ -312,7 +312,7 @@ const Resume: React.FC = () => {
   const renderTabContent = (tab: TabType) => {
     if (tab === "profile") {
       return (
-        <div className="rounded-lg bg-darkcard p-6 text-white/70">
+        <div className="min-w-0 break-words rounded-lg bg-darkcard p-4 text-white/70 sm:p-6">
           AI Engineer & AI Automation Engineer specializing in agentic AI
           systems, production-ready RAG architectures, and reliable n8n-driven
           automation. I build application automation (APIs/webhooks), retrieval
@@ -325,7 +325,7 @@ const Resume: React.FC = () => {
 
     if (tab === "experience") {
       return (
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           {experience.map((item, index) => (
             <ExperienceCard
               key={index}
@@ -350,7 +350,7 @@ const Resume: React.FC = () => {
 
     if (tab === "education") {
       return (
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           {education.map((item, index) => (
             <ExperienceCard
               key={index}
@@ -367,7 +367,7 @@ const Resume: React.FC = () => {
 
     if (tab === "skills") {
       return (
-        <div className="relative flex flex-wrap gap-4">
+        <div className="relative flex min-w-0 flex-wrap gap-4">
           {skills.map((skill, index) => {
             const Icon = skillIcons[skill];
             return (
@@ -389,7 +389,7 @@ const Resume: React.FC = () => {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="absolute bottom-12 rounded-md bg-darkcard px-3 py-1 text-sm text-white/80"
+                    className="absolute bottom-12 z-10 max-w-[min(12rem,80vw)] break-words rounded-md bg-darkcard px-3 py-1 text-center text-sm text-white/80"
                   >
                     {skill}
                   </motion.span>
@@ -405,9 +405,9 @@ const Resume: React.FC = () => {
       return (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {certifications.map((cert, i) => (
-            <div key={i} className="overflow-hidden rounded-lg bg-darkcard p-4">
-              <img src={cert.img} alt={cert.title} className="w-full rounded-lg" />
-              <p className="mt-2 text-center text-white/80">{cert.title}</p>
+            <div key={i} className="min-w-0 overflow-hidden rounded-lg bg-darkcard p-4">
+              <img src={cert.img} alt={cert.title} className="h-auto w-full max-w-full rounded-lg object-contain" />
+              <p className="mt-2 break-words text-center text-white/80">{cert.title}</p>
             </div>
           ))}
         </div>
@@ -426,7 +426,7 @@ const Resume: React.FC = () => {
   };
 
   return (
-    <section className="py-20">
+    <section className="py-12 sm:py-16 lg:py-20">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="mb-8 lg:hidden">
           <h2 className="mb-6 text-3xl font-bold">
@@ -451,9 +451,9 @@ const Resume: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="mt-4"
+                    className="mt-4 min-w-0 overflow-x-clip"
                   >
-                    <h3 className="mb-6 text-2xl font-bold">{getTabTitle(tab)}</h3>
+                    <h3 className="mb-6 break-words text-xl font-bold sm:text-2xl">{getTabTitle(tab)}</h3>
                     {renderTabContent(tab)}
                   </motion.div>
                 )}
@@ -498,7 +498,7 @@ const Resume: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-3"
+            className="min-w-0 lg:col-span-3"
           >
             <h3 className="mb-6 text-2xl font-bold">{getTabTitle(activeTab)}</h3>
             {renderTabContent(activeTab)}

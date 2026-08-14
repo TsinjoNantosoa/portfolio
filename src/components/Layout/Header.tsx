@@ -27,6 +27,15 @@ const Header = () => {
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileMenuOpen]);
   
   const isActive = (path: string) => location.pathname === path;
   
@@ -84,6 +93,8 @@ const Header = () => {
           className="ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-darkcard md:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navigation"
         >
           {mobileMenuOpen ? (
             <X className="h-5 w-5 text-neon" />
