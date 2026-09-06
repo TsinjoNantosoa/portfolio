@@ -17,50 +17,46 @@ const Projects: React.FC = () => {
           className="mb-8 md:mb-10"
         />
 
-        <div className="layout-grid">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
           <FeaturedProjectCard
             project={flagship}
             index={0}
             density="flagship"
-            className="col-span-12"
+            className="lg:col-span-2"
           />
           <FeaturedProjectCard
             project={arcwell}
             index={1}
             density="editorial"
-            className="col-span-12 md:col-span-5"
           />
           <FeaturedProjectCard
             project={aiBos}
             index={2}
             density="media"
-            className="col-span-12 md:col-span-7"
           />
           <FeaturedProjectCard
             project={sihia}
             index={3}
             density="media"
-            className="col-span-12 md:col-span-7"
           />
           <FeaturedProjectCard
             project={aiSales}
             index={4}
             density="media"
-            className="col-span-12 md:col-span-5"
           />
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-10 md:mt-14 md:pt-12">
+        <div className="mt-10 border-t border-white/10 pt-9 md:mt-12 md:pt-10">
           <div className="mb-6 max-w-xl">
             <h3 className="text-[clamp(1.35rem,2vw,1.75rem)] font-semibold tracking-tight text-[var(--text-primary)]">
               Other Engineering Work
             </h3>
-            <p className="mt-1.5 text-sm text-[var(--text-muted)]">
+            <p className="mt-1.5 text-[15px] text-[var(--text-muted)]">
               Supporting projects across RAG, automation, and data systems.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {secondaryProjects.map((project) => (
               <SecondaryProjectCard key={project.id} project={project} />
             ))}

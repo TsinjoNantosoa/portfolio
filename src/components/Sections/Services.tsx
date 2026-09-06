@@ -23,7 +23,7 @@ const Services: React.FC = () => {
             </p>
           </div>
 
-          <div className="col-span-12 grid gap-6 sm:grid-cols-3 lg:col-span-8 lg:gap-8">
+          <div className="col-span-12 grid auto-rows-fr gap-4 sm:grid-cols-3 lg:col-span-8">
             {expertisePillars.map((pillar, index) => {
               const Icon = icons[index] || Network;
               return (
@@ -33,19 +33,19 @@ const Services: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.35, delay: index * 0.04 }}
-                  className="border-t border-white/10 pt-4"
+                  className="surface-card h-full p-5"
                 >
                   <div className="mb-3 flex items-center justify-between">
                     <p className="font-mono text-sm text-neon">{pillar.number}</p>
                     <Icon className="h-4 w-4 text-neon/70" aria-hidden />
                   </div>
-                  <h3 className="mb-2 text-lg font-semibold leading-snug text-[var(--text-primary)]">
+                  <h3 className="mb-2.5 text-lg font-semibold leading-snug text-[var(--text-primary)]">
                     {pillar.title}
                   </h3>
-                  <p className="mb-2 text-[14.5px] leading-relaxed text-[var(--text-secondary)]">
+                  <p className="mb-3 text-[15px] leading-relaxed text-[var(--text-secondary)]">
                     {pillar.plainDescription}
                   </p>
-                  <p className="font-mono text-[11.5px] leading-relaxed text-[var(--text-muted)]">
+                  <p className="font-mono text-xs leading-relaxed text-[var(--text-muted)]">
                     {pillar.technicalDetail}
                   </p>
                 </motion.article>

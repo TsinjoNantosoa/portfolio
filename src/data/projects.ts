@@ -8,7 +8,7 @@ export const featuredProjects: FeaturedProject[] = [
     title: "Production Multi-Tenant RAG Platform",
     label: "Professional Project · RAG",
     plainSummary:
-      "A shared AI platform that lets multiple organizations run their own assistants while keeping each company's data, knowledge, branding, and configuration isolated.",
+      "A shared AI platform for independent assistants, with each organization's data, knowledge, branding, and configuration kept isolated.",
     technicalSummary:
       "Multi-tenant RAG with FastAPI, PostgreSQL, Redis, Qdrant, and automated website ingestion.",
     description:
@@ -21,7 +21,6 @@ export const featuredProjects: FeaturedProject[] = [
       "Each organization only retrieves knowledge it is authorized to access",
       "Automated website ingestion into searchable knowledge bases",
       "Admin APIs for configuration, branding, and assistant operations",
-      "Security guardrails and audited conversational flows",
     ],
     proof: [
       { value: "3", label: "Assistants", hint: "Deployed for real organizations" },
@@ -29,6 +28,8 @@ export const featuredProjects: FeaturedProject[] = [
       { value: "97/98", label: "Quality checks", hint: "Validated before production" },
     ],
     stack: ["Python", "FastAPI", "LangChain", "Qdrant", "PostgreSQL", "Redis", "React", "Docker"],
+    imageUrl: "/portfolio-uploads/production-multi-tenant-rag-platform.png",
+    imageAlt: "Humans4Help multi-tenant assistant embedded in a client website",
     caseStudyLink: "/work/multi-tenant-rag",
     featuredLayout: "flagship",
     overview:

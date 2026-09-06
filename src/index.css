@@ -18,8 +18,8 @@
 
     --section-xs: 3rem;
     --section-sm: 4rem;
-    --section-md: 5rem;
-    --section-lg: 6.5rem;
+    --section-md: 4.75rem;
+    --section-lg: 5.75rem;
 
     --background: 210 20% 4%;
     --foreground: 210 20% 98%;
@@ -202,6 +202,30 @@
 
   .btn-outline {
     @apply inline-flex min-h-11 items-center justify-center rounded-full border border-white/20 px-5 py-2 text-sm font-medium text-white transition hover:border-neon/50 hover:text-neon;
+  }
+
+  .surface-card {
+    @apply overflow-hidden rounded-2xl border border-white/[0.09] bg-[var(--surface-1)] transition duration-300;
+  }
+
+  .surface-card-hover {
+    @apply hover:-translate-y-0.5 hover:border-neon/25 hover:shadow-[0_18px_50px_rgba(0,0,0,0.2)];
+  }
+
+  .tech-tag {
+    @apply inline-flex min-h-7 items-center rounded-md border border-white/10 bg-white/[0.015] px-2.5 py-1 font-mono text-[11.5px] leading-none text-white/65;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-neon sm:text-xs;
+  }
+
+  .icon-link {
+    @apply flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:border-neon/60 hover:bg-neon/[0.04] hover:text-neon;
+  }
+
+  .text-link {
+    @apply inline-flex min-h-10 items-center gap-1.5 text-sm font-medium text-neon transition hover:text-neon/80;
   }
 }
 

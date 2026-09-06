@@ -24,11 +24,11 @@ const Background: React.FC = () => {
         />
 
         <div className="layout-grid">
-          <div className="col-span-12 lg:col-span-7">
+          <div className="surface-card col-span-12 p-5 sm:p-6 lg:col-span-7">
             <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.18em] text-neon">
               Engineering Stack
             </h3>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {skillGroups.map((group) => (
                 <div key={group.title} className="border-t border-white/10 pt-4">
                   <h4 className="mb-3 text-sm font-medium text-[var(--text-primary)]">
@@ -38,7 +38,7 @@ const Background: React.FC = () => {
                     {group.skills.map((skill) => (
                       <li
                         key={skill}
-                        className="rounded border border-white/10 px-2 py-1 font-mono text-[11px] text-white/60"
+                        className="tech-tag"
                       >
                         {skill}
                       </li>
@@ -49,7 +49,7 @@ const Background: React.FC = () => {
             </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-5">
+          <div className="surface-card col-span-12 p-5 sm:p-6 lg:col-span-5">
             <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.18em] text-neon">
               Education
             </h3>
@@ -64,7 +64,7 @@ const Background: React.FC = () => {
                   ) : null}
                   <p className="text-[15px] font-medium text-[var(--text-primary)]">{edu.title}</p>
                   {edu.detail && (
-                    <p className="mt-1 text-[13.5px] leading-relaxed text-[var(--text-secondary)]">
+                    <p className="mt-1 text-[14.5px] leading-relaxed text-[var(--text-secondary)]">
                       {edu.detail}
                     </p>
                   )}
@@ -81,10 +81,10 @@ const Background: React.FC = () => {
                 {languages.map((lang) => (
                   <li
                     key={lang.name}
-                    className="flex items-baseline justify-between gap-4 text-[14px]"
+                    className="flex items-baseline justify-between gap-4 text-[14.5px]"
                   >
                     <span className="text-[var(--text-primary)]">{lang.name}</span>
-                    <span className="font-mono text-xs text-white/45">{lang.level}</span>
+                    <span className="font-mono text-[12.5px] text-white/50">{lang.level}</span>
                   </li>
                 ))}
               </ul>
@@ -105,7 +105,7 @@ const Background: React.FC = () => {
                     <p className="text-[14.5px] font-medium text-[var(--text-primary)]">
                       {cert.title}
                     </p>
-                    <p className="mt-0.5 text-sm text-white/50">
+                    <p className="mt-0.5 text-[14px] text-white/55">
                       {cert.issuer}
                       {cert.year ? ` · ${cert.year}` : ""}
                     </p>

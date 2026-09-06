@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Github, ExternalLink } from "lucide-react";
 import type { SecondaryProject } from "@/types/portfolio";
+import ProjectMedia from "@/components/ui-kit/ProjectMedia";
 
 interface SecondaryProjectCardProps {
   project: SecondaryProject;
@@ -11,41 +12,36 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
   const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
 
   return (
-    <article className="self-start overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-1)] transition hover:border-[var(--border-medium)]">
+    <article className="surface-card surface-card-hover group flex h-full flex-col !rounded-xl">
       {hasMedia && project.imageUrl && (
-        <div className="h-[132px] overflow-hidden bg-[var(--surface-2)]">
-          <img
-            src={project.imageUrl}
-            alt={`${project.title} screenshot`}
-            loading="lazy"
-            width={640}
-            height={360}
-            onError={() => setMediaFailed(true)}
-            className="h-full w-full object-cover object-top"
-          />
-        </div>
+        <ProjectMedia
+          src={project.imageUrl}
+          alt={`${project.title} screenshot`}
+          aspectClassName="aspect-[16/9]"
+          onError={() => setMediaFailed(true)}
+        />
       )}
-      <div className="p-3.5">
-        <p className="mb-1 font-mono text-[10.5px] uppercase tracking-wider text-neon/80">
+      <div className="flex flex-1 flex-col p-4">
+        <p className="mb-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-neon/80">
           {project.category}
         </p>
-        <h3 className="mb-1.5 text-[14.5px] font-semibold leading-snug text-[var(--text-primary)]">
+        <h3 className="mb-2 text-base font-semibold leading-snug text-[var(--text-primary)]">
           {project.title}
         </h3>
-        <p className="mb-2.5 line-clamp-2 text-[12.5px] leading-relaxed text-[var(--text-muted)]">
+        <p className="mb-3 line-clamp-2 text-[13.5px] leading-relaxed text-[var(--text-secondary)]">
           {project.description}
         </p>
-        <div className="mb-2.5 flex flex-wrap gap-1">
+        <div className="mb-3 flex flex-wrap gap-1.5">
           {project.stack.slice(0, 3).map((tech) => (
             <span
               key={tech}
-              className="rounded border border-white/10 px-1.5 py-0.5 font-mono text-[10px] text-white/55"
+              className="tech-tag !min-h-6 !px-2 !text-[10.5px]"
             >
               {tech}
             </span>
           ))}
         </div>
-        <div className="flex gap-3">
+        <div className="mt-auto flex gap-3 border-t border-white/[0.08] pt-2">
           {project.githubLink && (
             <a
               href={project.githubLink}

@@ -106,7 +106,7 @@ const ContactForm: React.FC = () => {
   };
 
   const fieldClass =
-    "w-full rounded-lg border border-white/15 bg-[var(--surface-1)] px-3 py-2.5 text-[15px] text-[var(--text-primary)] outline-none transition focus:border-neon/50 focus:ring-1 focus:ring-neon/30";
+    "w-full min-h-12 rounded-lg border border-white/15 bg-[var(--surface-2)] px-3.5 py-2.5 text-[15.5px] text-[var(--text-primary)] outline-none transition placeholder:text-white/30 hover:border-white/25 focus:border-neon/60 focus:ring-1 focus:ring-neon/30";
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-4">
@@ -215,7 +215,7 @@ const ContactForm: React.FC = () => {
           onChange={(e) => setMessage(e.target.value)}
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? "message-error" : undefined}
-          className={`${fieldClass} min-h-[100px] resize-y`}
+          className={`${fieldClass} min-h-[120px] resize-y`}
         />
         {errors.message && (
           <p id="message-error" className="mt-1.5 text-sm text-red-400">

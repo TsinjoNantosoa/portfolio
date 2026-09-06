@@ -29,9 +29,9 @@ const metrics = [
 ];
 
 const aboutMeta = [
-  { label: "Based in", value: "Madagascar" },
-  { label: "Open to", value: "Remote Opportunities" },
-  { label: "Focus", value: "RAG · Agents · Automation" },
+  { label: "Build", value: "End-to-end AI products" },
+  { label: "Prioritize", value: "Reliability, safety & clarity" },
+  { label: "Deliver", value: "Tested, deployable systems" },
 ];
 
 const Hero: React.FC = () => {
@@ -49,7 +49,7 @@ const Hero: React.FC = () => {
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_72%_28%,rgba(13,255,163,0.05),transparent_34%)]" />
 
       <div className="site-container">
-        <div className="layout-grid items-center py-8 lg:py-10">
+        <div className="layout-grid items-center py-8 sm:py-10 lg:py-12">
           <div className="col-span-12 lg:col-span-7">
             <motion.p
               initial={{ opacity: 0, y: 10 }}
@@ -64,7 +64,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.04 }}
-              className="mb-3 max-w-[760px] text-balance font-sans text-[clamp(3rem,5.5vw,5.2rem)] font-semibold leading-[1.02] tracking-tight text-[var(--text-primary)]"
+              className="mb-4 max-w-[720px] text-balance font-sans text-[clamp(2.8rem,5vw,4.8rem)] font-semibold leading-[1.03] tracking-tight text-[var(--text-primary)]"
             >
               I build production-ready AI systems.
             </motion.h1>
@@ -82,7 +82,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.12 }}
-              className="mb-2 max-w-[680px] text-[16.5px] leading-relaxed text-[var(--text-secondary)] sm:text-[17.5px]"
+              className="mb-2 max-w-[650px] text-[16.5px] leading-relaxed text-[var(--text-secondary)] sm:text-[17.5px]"
             >
               I design RAG platforms, governed AI agents, and business automation with Python,
               FastAPI, LangGraph, Qdrant, PostgreSQL, and n8n.
@@ -105,14 +105,14 @@ const Hero: React.FC = () => {
             >
               <a
                 href="#work"
-                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-neon px-6 py-2.5 text-sm font-semibold text-black transition hover:bg-neon/90"
+                className="btn-neon gap-2 px-6"
               >
                 View Selected Work
                 <ArrowDown size={16} />
               </a>
               <a
                 href="#contact"
-                className="inline-flex min-h-11 items-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-medium text-white transition hover:border-neon/50 hover:text-neon"
+                className="btn-outline px-6"
               >
                 Let&apos;s Talk
               </a>
@@ -140,7 +140,7 @@ const Hero: React.FC = () => {
                   rel={href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
                   aria-label={label}
                   title={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:border-neon hover:text-neon"
+                  className="icon-link"
                 >
                   <Icon size={17} />
                 </a>
@@ -152,21 +152,21 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="col-span-12 mx-auto w-full max-w-[340px] lg:col-span-5 lg:mx-0 lg:justify-self-end"
+            className="col-span-12 mx-auto w-full max-w-[260px] sm:max-w-[320px] lg:col-span-5 lg:mx-0 lg:max-w-[340px] lg:justify-self-end"
           >
             <ProfileImage className="aspect-square w-full" />
           </motion.div>
         </div>
 
         <div className="border-y border-white/10 py-5 sm:py-6">
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-6">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-0">
             {metrics.map((metric) => (
-              <div key={metric.label} className="sm:border-l sm:border-white/10 sm:pl-6 first:sm:border-l-0 first:sm:pl-0">
+              <div key={metric.label} className="rounded-xl border border-white/[0.08] bg-white/[0.015] p-4 sm:rounded-none sm:border-y-0 sm:border-r-0 sm:bg-transparent sm:px-6 sm:py-1 first:sm:border-l-0 first:sm:pl-0">
                 <p className="font-mono text-[clamp(1.6rem,2vw,2rem)] font-semibold leading-none text-neon">
                   {metric.value}
                 </p>
                 <p className="mt-2 text-sm font-medium text-[var(--text-primary)]">{metric.label}</p>
-                <p className="mt-1 text-[13px] text-[var(--text-muted)]">{metric.hint}</p>
+                <p className="mt-1 text-[13.5px] leading-snug text-[var(--text-muted)]">{metric.hint}</p>
               </div>
             ))}
           </div>
@@ -181,11 +181,11 @@ const Hero: React.FC = () => {
               <h2 className="mb-3 max-w-[620px] text-[clamp(1.45rem,2.2vw,1.85rem)] font-semibold leading-snug text-[var(--text-primary)]">
                 {ABOUT.headline}
               </h2>
-              <div className="max-w-[680px] space-y-3">
+              <div className="max-w-[700px] space-y-3">
                 {ABOUT.paragraphs.map((paragraph) => (
                   <p
                     key={paragraph.slice(0, 40)}
-                    className="text-[15px] leading-relaxed text-[var(--text-secondary)]"
+                    className="text-[15.5px] leading-relaxed text-[var(--text-secondary)]"
                   >
                     {paragraph}
                   </p>
@@ -193,15 +193,15 @@ const Hero: React.FC = () => {
               </div>
             </div>
             <aside
-              className="col-span-12 grid grid-cols-1 gap-4 border-t border-white/10 pt-5 sm:grid-cols-3 lg:col-span-4 lg:grid-cols-1 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-1"
+              className="col-span-12 grid grid-cols-1 gap-4 border-t border-white/10 pt-5 sm:grid-cols-3 lg:col-span-4 lg:grid-cols-1 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-1"
               aria-label="Profile metadata"
             >
               {aboutMeta.map((item) => (
                 <div key={item.label}>
-                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/50">
                     {item.label}
                   </p>
-                  <p className="mt-1 text-[14.5px] text-[var(--text-primary)]">{item.value}</p>
+                  <p className="mt-1 text-[15px] text-[var(--text-primary)]">{item.value}</p>
                 </div>
               ))}
             </aside>

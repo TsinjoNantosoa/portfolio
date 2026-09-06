@@ -72,7 +72,7 @@ const Contact: React.FC = () => {
             </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-7">
+          <div className="surface-card col-span-12 p-5 sm:p-6 lg:col-span-7">
             <ContactForm />
           </div>
         </div>

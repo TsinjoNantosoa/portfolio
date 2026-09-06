@@ -17,7 +17,7 @@ const Experience: React.FC = () => {
             />
           </div>
 
-          <div className="col-span-12 space-y-0 lg:col-span-9">
+          <div className="col-span-12 space-y-0 lg:col-span-9 lg:border-l lg:border-white/10 lg:pl-7">
             {experienceItems.map((item, index) => (
               <motion.article
                 key={item.id}
@@ -25,31 +25,30 @@ const Experience: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: index * 0.04 }}
-                className="layout-grid border-t border-white/10 py-6 first:border-t-0 first:pt-0 last:pb-0"
+                className="layout-grid relative border-t border-white/10 py-7 first:border-t-0 first:pt-0 last:pb-0"
               >
                 <div className="col-span-12 sm:col-span-3 lg:col-span-2">
-                  <p className="font-mono text-xs text-neon">{item.period}</p>
+                  <p className="font-mono text-[12.5px] leading-relaxed text-neon">{item.period}</p>
                 </div>
 
                 <div className="col-span-12 sm:col-span-9 lg:col-span-7">
-                  <h3 className="text-lg font-semibold text-[var(--text-primary)]">
+                  <h3 className="text-[19px] font-semibold leading-snug text-[var(--text-primary)]">
                     {item.title}
                   </h3>
-                  <p className="mt-1 text-sm text-white/55">
+                  <p className="mt-1 text-[14.5px] text-white/60">
                     {item.company}
                     {item.location ? ` · ${item.location}` : ""}
                   </p>
-                  <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[var(--text-secondary)]">
+                  <p className="mt-3 max-w-2xl text-[15.5px] leading-relaxed text-[var(--text-secondary)]">
                     {item.plainSummary}
                   </p>
                   <ul className="mt-3 space-y-1.5">
-                    {item.highlights.slice(0, 3).map((highlight) => (
+                    {item.highlights.slice(0, item.isPrimary ? 3 : 2).map((highlight) => (
                       <li
                         key={highlight}
-                        className="text-[13.5px] leading-relaxed text-white/70"
+                        className="flex gap-2 text-[14px] leading-relaxed text-white/70"
                       >
-                        <span className="mr-2 text-neon">▹</span>
-                        {highlight}
+                        <span className="text-neon">▹</span><span>{highlight}</span>
                       </li>
                     ))}
                   </ul>
@@ -57,11 +56,11 @@ const Experience: React.FC = () => {
 
                 <div className="col-span-12 mt-3 space-y-3 lg:col-span-3 lg:mt-0">
                   {item.proof && item.proof.length > 0 && (
-                    <ul className="flex flex-wrap gap-1.5 lg:flex-col">
+                    <ul className="flex flex-wrap gap-1.5">
                       {item.proof.map((proof) => (
                         <li
                           key={proof.label}
-                          className="font-mono text-[11.5px] text-neon"
+                          className="rounded-md bg-neon/[0.07] px-2 py-1 font-mono text-[11.5px] text-neon"
                         >
                           {proof.value} {proof.label}
                         </li>
@@ -70,11 +69,8 @@ const Experience: React.FC = () => {
                   )}
                   {item.stack && (
                     <div className="flex flex-wrap gap-1.5">
-                      {item.stack.slice(0, 6).map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded border border-white/10 px-2 py-0.5 font-mono text-[10.5px] text-white/55"
-                        >
+                      {item.stack.slice(0, 5).map((tech) => (
+                        <span key={tech} className="tech-tag !min-h-6 !px-2 !text-[10.5px]">
                           {tech}
                         </span>
                       ))}

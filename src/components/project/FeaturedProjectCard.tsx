@@ -21,26 +21,25 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
   const [mediaFailed, setMediaFailed] = useState(false);
   const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
   const isFlagship = density === "flagship";
-  const highlightLimit = isFlagship ? 4 : 3;
+  const highlightLimit = 3;
   const splitFlagship = isFlagship && !hasMedia;
 
   const renderBody = (options?: { hideProof?: boolean }) => (
-    <div className={`flex flex-col ${isFlagship ? "p-6 sm:p-7" : "p-5 sm:p-6"}`}>
-      <div className="mb-3 flex flex-wrap items-end gap-2">
+    <div className={`flex h-full flex-col ${isFlagship ? "p-5 sm:p-7" : "p-5 sm:p-6"}`}>
+      <div className="mb-3 flex flex-wrap items-center gap-2">
         <span
-          className={`font-mono font-semibold leading-none text-white/12 ${
-            hasMedia || splitFlagship ? "text-3xl sm:text-4xl" : "text-4xl sm:text-5xl"
-          }`}
+          className="font-mono text-[13px] font-semibold leading-none text-white/35"
         >
           {project.number}
         </span>
-        <span className="pb-1 font-mono text-[11px] uppercase tracking-[0.16em] text-neon/90">
-          / {project.label}
+        <span className="h-3 w-px bg-white/20" aria-hidden />
+        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-neon/90">
+          {project.label}
         </span>
       </div>
 
       {isFlagship && (
-        <span className="mb-3 inline-flex w-fit rounded-full border border-neon/30 bg-neon/10 px-2.5 py-1 font-mono text-[11px] text-neon">
+        <span className="mb-3 inline-flex min-h-7 w-fit items-center rounded-full border border-neon/25 bg-neon/[0.07] px-3 font-mono text-[11px] text-neon">
           Professional Project
         </span>
       )}
@@ -55,18 +54,18 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
         {project.title}
       </h3>
 
-      <p className="mb-2 text-[15px] leading-[1.55] text-[var(--text-secondary)]">
+      <p className="mb-2 line-clamp-3 text-[15.5px] leading-[1.6] text-[var(--text-secondary)]">
         {project.plainSummary}
       </p>
-      <p className="mb-4 font-mono text-[12.5px] leading-relaxed text-[var(--text-muted)]">
+      <p className="mb-4 line-clamp-2 font-mono text-[12px] leading-relaxed text-[var(--text-muted)]">
         {project.technicalSummary}
       </p>
 
-      <ul className="mb-4 space-y-2">
+      <ul className="mb-5 space-y-2.5">
         {project.highlights.slice(0, highlightLimit).map((item) => (
           <li
             key={item}
-            className="flex gap-2.5 text-[13.5px] leading-snug text-[var(--text-secondary)]"
+            className="flex gap-2.5 text-[14px] leading-[1.45] text-[var(--text-secondary)]"
           >
             <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-neon" aria-hidden />
             <span>{item}</span>
@@ -75,22 +74,19 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
       </ul>
 
       {!options?.hideProof && project.proof && project.proof.length > 0 && (
-        <div className="mb-4 grid grid-cols-3 gap-2 border-y border-white/10 py-3.5">
+        <div className="mb-5 grid grid-cols-3 gap-2 border-y border-white/10 py-3.5">
           {project.proof.map((item) => (
             <div key={item.label}>
               <p className="font-mono text-lg font-semibold text-neon">{item.value}</p>
-              <p className="mt-0.5 text-[11.5px] text-[var(--text-muted)]">{item.label}</p>
+              <p className="mt-0.5 text-xs leading-snug text-[var(--text-muted)]">{item.label}</p>
             </div>
           ))}
         </div>
       )}
 
-      <div className="mb-4 flex flex-wrap gap-1.5">
-        {project.stack.slice(0, 7).map((tech) => (
-          <span
-            key={tech}
-            className="rounded-md border border-white/10 px-2 py-1 font-mono text-[11px] text-white/65"
-          >
+      <div className="mb-5 flex flex-wrap gap-1.5">
+        {project.stack.slice(0, 6).map((tech) => (
+          <span key={tech} className="tech-tag">
             {tech}
           </span>
         ))}
@@ -99,10 +95,10 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
       <div className="mt-auto flex flex-wrap items-center gap-4">
         <Link
           to={project.caseStudyLink}
-          className="inline-flex min-h-10 items-center gap-1.5 text-sm font-medium text-neon transition group-hover:gap-2"
+          className="text-link group/link"
         >
           View Case Study
-          <ArrowUpRight size={15} />
+          <ArrowUpRight size={15} className="transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
         </Link>
         {project.demoLink && (
           <a
@@ -136,7 +132,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-30px" }}
       transition={{ duration: 0.4, delay: index * 0.03 }}
-      className={`group self-start overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-1)] transition duration-300 hover:border-neon/25 ${className}`}
+      className={`surface-card surface-card-hover group h-full ${className}`}
     >
       {splitFlagship ? (
         <div className="layout-grid !gap-0">
@@ -165,19 +161,20 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
           </div>
         </div>
       ) : hasMedia && project.imageUrl ? (
-        <div className={isFlagship ? "layout-grid !gap-0" : "flex flex-col"}>
-          <div className={isFlagship ? "col-span-12 lg:col-span-7" : undefined}>
+        <div className={isFlagship ? "grid h-full lg:grid-cols-[1.25fr_0.75fr]" : "flex h-full flex-col"}>
+          <div className={isFlagship ? "min-h-0" : undefined}>
             <ProjectMedia
               src={project.imageUrl}
               alt={
                 project.imageAlt ||
                 `${project.title} screenshot`
               }
-              aspectClassName="aspect-[16/10]"
+              aspectClassName={isFlagship ? "aspect-[16/10] h-full min-h-[300px] lg:aspect-auto" : "aspect-[16/10]"}
+              objectPosition={isFlagship ? "object-[82%_top]" : "object-top"}
               onError={() => setMediaFailed(true)}
             />
           </div>
-          <div className={isFlagship ? "col-span-12 lg:col-span-5" : undefined}>
+          <div className={isFlagship ? "border-white/[0.08] lg:border-l" : "flex flex-1"}>
             {renderBody()}
           </div>
         </div>
