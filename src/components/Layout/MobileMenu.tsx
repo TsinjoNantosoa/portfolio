@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 
 interface NavItem {
   label: string;
@@ -14,7 +16,48 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items }) => {
-  return (
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const focusTimer = window.setTimeout(() => closeButtonRef.current?.focus(), 0);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab" || !panelRef.current) return;
+
+      const focusableElements = panelRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement?.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.clearTimeout(focusTimer);
+      document.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, [isOpen, setIsOpen]);
+
+  const menu = (
     <AnimatePresence>
       {isOpen && (
         <>
@@ -24,10 +67,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items })
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black/50 md:hidden"
+            className="fixed inset-0 z-[90] bg-black/70 md:hidden"
             onClick={() => setIsOpen(false)}
           />
           <motion.div
+            ref={panelRef}
             id={id}
             role="dialog"
             aria-modal="true"
@@ -36,10 +80,23 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items })
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -280 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-y-0 left-0 z-50 w-[min(280px,85vw)] border-r border-white/10 bg-[var(--surface-1)] md:hidden"
+            className="fixed inset-y-0 left-0 z-[100] w-[min(320px,86vw)] border-r border-white/10 bg-[#0D1318] shadow-2xl md:hidden"
           >
-            <div className="h-16" />
-            <nav className="p-6" aria-label="Mobile">
+            <div className="flex h-16 items-center justify-between border-b border-white/10 px-6">
+              <span className="text-lg font-semibold text-white">
+                Tsinjo<span className="text-neon">.</span>
+              </span>
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={() => setIsOpen(false)}
+                aria-label="Close menu"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-neon transition hover:border-neon/50"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <nav className="p-6 pt-8" aria-label="Mobile">
               <ul className="flex flex-col gap-2">
                 {items.map((item) => (
                   <li key={item.href}>
@@ -66,6 +123,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items })
       )}
     </AnimatePresence>
   );
+
+  return createPortal(menu, document.body);
 };
 
 export default MobileMenu;
