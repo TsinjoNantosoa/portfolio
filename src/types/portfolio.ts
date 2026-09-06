@@ -20,6 +20,7 @@ export interface FeaturedProject {
   proof?: ProjectProof[];
   stack: string[];
   imageUrl?: string;
+  imageAlt?: string;
   demoLink?: string;
   githubLink?: string;
   caseStudyLink: string;
@@ -28,6 +29,22 @@ export interface FeaturedProject {
   decisions?: string[];
   security?: string[];
   overview?: string;
+  howItWorks?: string[];
+  scoring?: {
+    summary: string;
+    factors: string[];
+    range: string;
+    classes: string[];
+  };
+  automation?: {
+    summary: string;
+    workflows: string[];
+  };
+  hitl?: string;
+  decisionHighlight?: {
+    title: string;
+    body: string;
+  };
 }
 
 export interface SecondaryProject {
@@ -36,7 +53,7 @@ export interface SecondaryProject {
   description: string;
   category: "AI / RAG" | "Automation" | "Backend & Data";
   stack: string[];
-  imageUrl: string;
+  imageUrl?: string;
   githubLink?: string;
   demoLink?: string;
 }

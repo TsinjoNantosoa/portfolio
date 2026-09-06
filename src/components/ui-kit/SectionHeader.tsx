@@ -14,19 +14,18 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   className = "",
 }) => {
   return (
-    <div className={`mb-10 max-w-[720px] md:mb-12 ${className}`}>
-      <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-neon sm:text-xs">
+    <div className={`mb-8 max-w-[720px] md:mb-10 ${className}`}>
+      <p className="mb-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-neon sm:text-xs">
         {eyebrow}
       </p>
-      <h2 className="text-balance font-sans text-[clamp(2rem,3vw,2.75rem)] font-semibold leading-[1.1] tracking-tight text-[var(--text-primary)]">
+      <h2 className="text-balance font-sans text-[clamp(2rem,3vw,3rem)] font-semibold leading-[1.1] tracking-tight text-[var(--text-primary)]">
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-[15.5px] leading-relaxed text-[var(--text-secondary)] sm:text-base">
+        <p className="mt-3 max-w-[640px] text-[15px] leading-relaxed text-[var(--text-secondary)] sm:text-[15.5px]">
           {description}
         </p>
       )}
-      <div className="mt-6 h-px w-16 bg-white/10" aria-hidden />
     </div>
   );
 };

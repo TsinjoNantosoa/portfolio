@@ -5,35 +5,62 @@ import SectionHeader from "@/components/ui-kit/SectionHeader";
 import { featuredProjects, secondaryProjects } from "@/data/projects";
 
 const Projects: React.FC = () => {
+  const [flagship, arcwell, aiBos, sihia, aiSales] = featuredProjects;
+
   return (
-    <section id="work" className="section-block scroll-mt-24">
+    <section id="work" className="section-block scroll-mt-24 bg-[var(--bg-secondary)]/40">
       <div className="site-container">
         <SectionHeader
           eyebrow="Selected Work"
           title="Selected AI Engineering Work"
-          description="From customer-facing assistants to governed business agents, these projects show how I turn AI prototypes into complete systems."
+          description="Production RAG, governed AI agents, and business automation built as end-to-end systems."
+          className="mb-8 md:mb-10"
         />
-        <p className="-mt-4 mb-10 max-w-[720px] text-[15px] text-[var(--text-muted)]">
-          Production RAG, governed AI agents, and business automation built as end-to-end systems.
-        </p>
 
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
-          {featuredProjects.map((project, index) => (
-            <FeaturedProjectCard key={project.id} project={project} index={index} />
-          ))}
+        <div className="layout-grid">
+          <FeaturedProjectCard
+            project={flagship}
+            index={0}
+            density="flagship"
+            className="col-span-12"
+          />
+          <FeaturedProjectCard
+            project={arcwell}
+            index={1}
+            density="editorial"
+            className="col-span-12 md:col-span-5"
+          />
+          <FeaturedProjectCard
+            project={aiBos}
+            index={2}
+            density="media"
+            className="col-span-12 md:col-span-7"
+          />
+          <FeaturedProjectCard
+            project={sihia}
+            index={3}
+            density="media"
+            className="col-span-12 md:col-span-7"
+          />
+          <FeaturedProjectCard
+            project={aiSales}
+            index={4}
+            density="media"
+            className="col-span-12 md:col-span-5"
+          />
         </div>
 
-        <div className="mt-20 border-t border-white/10 pt-14">
-          <div className="mb-8 max-w-xl">
-            <h3 className="text-[clamp(1.5rem,2.2vw,2rem)] font-semibold tracking-tight text-[var(--text-primary)]">
+        <div className="mt-12 border-t border-white/10 pt-10 md:mt-14 md:pt-12">
+          <div className="mb-6 max-w-xl">
+            <h3 className="text-[clamp(1.35rem,2vw,1.75rem)] font-semibold tracking-tight text-[var(--text-primary)]">
               Other Engineering Work
             </h3>
-            <p className="mt-2 text-sm text-[var(--text-muted)]">
-              Supporting projects across RAG, automation, and data/backend systems.
+            <p className="mt-1.5 text-sm text-[var(--text-muted)]">
+              Supporting projects across RAG, automation, and data systems.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
             {secondaryProjects.map((project) => (
               <SecondaryProjectCard key={project.id} project={project} />
             ))}

@@ -109,7 +109,7 @@ const ContactForm: React.FC = () => {
     "w-full rounded-lg border border-white/15 bg-[var(--surface-1)] px-3 py-2.5 text-[15px] text-[var(--text-primary)] outline-none transition focus:border-neon/50 focus:ring-1 focus:ring-neon/30";
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form onSubmit={handleSubmit} noValidate className="space-y-4">
       <div className="hidden" aria-hidden="true">
         <label htmlFor="website">Website</label>
         <input
@@ -123,50 +123,52 @@ const ContactForm: React.FC = () => {
         />
       </div>
 
-      <div>
-        <label htmlFor="name" className="mb-1.5 block text-sm text-white/65">
-          Name
-        </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          required
-          autoComplete="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          aria-invalid={Boolean(errors.name)}
-          aria-describedby={errors.name ? "name-error" : undefined}
-          className={fieldClass}
-        />
-        {errors.name && (
-          <p id="name-error" className="mt-1.5 text-sm text-red-400">
-            {errors.name}
-          </p>
-        )}
-      </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="name" className="mb-1.5 block text-sm text-white/65">
+            Name
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            autoComplete="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? "name-error" : undefined}
+            className={fieldClass}
+          />
+          {errors.name && (
+            <p id="name-error" className="mt-1.5 text-sm text-red-400">
+              {errors.name}
+            </p>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="email" className="mb-1.5 block text-sm text-white/65">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          aria-invalid={Boolean(errors.email)}
-          aria-describedby={errors.email ? "email-error" : undefined}
-          className={fieldClass}
-        />
-        {errors.email && (
-          <p id="email-error" className="mt-1.5 text-sm text-red-400">
-            {errors.email}
-          </p>
-        )}
+        <div>
+          <label htmlFor="email" className="mb-1.5 block text-sm text-white/65">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? "email-error" : undefined}
+            className={fieldClass}
+          />
+          {errors.email && (
+            <p id="email-error" className="mt-1.5 text-sm text-red-400">
+              {errors.email}
+            </p>
+          )}
+        </div>
       </div>
 
       <div>
@@ -208,12 +210,12 @@ const ContactForm: React.FC = () => {
           id="message"
           name="message"
           required
-          rows={5}
+          rows={4}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? "message-error" : undefined}
-          className={`${fieldClass} resize-y min-h-[120px]`}
+          className={`${fieldClass} min-h-[100px] resize-y`}
         />
         {errors.message && (
           <p id="message-error" className="mt-1.5 text-sm text-red-400">

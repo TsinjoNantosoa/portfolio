@@ -90,22 +90,23 @@ export const experienceItems: ExperienceItem[] = [
 export const educationItems: EducationItem[] = [
   {
     period: "2024 — 2026",
-    title: "Master’s Degree — Applied Mathematics, Computer Science & Statistics (MISA)",
+    title: "Master’s Degree",
+    detail: "Applied Mathematics, Computer Science & Statistics (MISA)",
     institution: "University of Antananarivo",
   },
   {
     period: "",
-    title: "Bachelor’s Degree — Applied Mathematics, Computer Science & Statistics (MISA)",
+    title: "Bachelor’s Degree",
+    detail: "Applied Mathematics, Computer Science & Statistics (MISA)",
     institution: "University of Antananarivo",
   },
 ];
 
 export const ABOUT = {
-  headline: "Engineer who turns LLM prototypes into reliable systems",
+  headline: "AI engineering beyond the prototype.",
   paragraphs: [
-    "I focus on AI systems that hold up in production: multi-tenant RAG, governed agents, and automation wired into real business tools.",
-    "My work sits at the intersection of retrieval quality, backend reliability, and clear human control when an AI action matters.",
-    "Based in Madagascar and open to remote collaboration with teams building serious AI products — not demos that never leave the notebook.",
+    "I'm an AI Engineer focused on turning promising AI prototypes into reliable systems that businesses can actually use.",
+    "My work combines RAG, governed agents, automation and backend engineering with a strong focus on reliability, security, testing and deployment.",
   ],
 };
 

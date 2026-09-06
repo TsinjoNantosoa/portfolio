@@ -29,7 +29,6 @@ export const featuredProjects: FeaturedProject[] = [
       { value: "97/98", label: "Quality checks", hint: "Validated before production" },
     ],
     stack: ["Python", "FastAPI", "LangChain", "Qdrant", "PostgreSQL", "Redis", "React", "Docker"],
-    imageUrl: "/portfolio-uploads/production-multi-tenant-rag-platform.png",
     caseStudyLink: "/work/multi-tenant-rag",
     featuredLayout: "flagship",
     overview:
@@ -70,6 +69,10 @@ export const featuredProjects: FeaturedProject[] = [
       "Audit trails for proposed and approved actions",
     ],
     stack: ["Python", "FastAPI", "LangGraph", "Qdrant", "PostgreSQL", "Redis", "Celery", "React"],
+    imageUrl: "/portfolio-uploads/arcwell-agentic-crm-login.png",
+    imageAlt:
+      "Arcwell Agentic CRM sign-in interface presenting governed revenue intelligence and human approval controls",
+    githubLink: "https://github.com/TsinjoNantosoa/arcwell-agentic-crm",
     caseStudyLink: "/work/arcwell-agentic-crm",
     featuredLayout: "standard",
     overview:
@@ -161,29 +164,95 @@ export const featuredProjects: FeaturedProject[] = [
     slug: "ai-sales-assistant",
     number: "05",
     title: "AI Sales Assistant",
+    subtitle:
+      "AI-assisted lead qualification and sales automation with deterministic scoring and Human-in-the-Loop control.",
     label: "Sales Automation · LangGraph",
     plainSummary:
-      "An AI sales assistant that qualifies leads, gathers structured information, and triggers follow-up workflows without letting the LLM control business scoring.",
+      "An AI-assisted sales platform that qualifies leads, gathers structured information, and automates follow-up workflows while keeping business scoring deterministic and sensitive decisions under human control.",
     technicalSummary:
-      "LangGraph conversation flow with deterministic scoring and n8n operational automation.",
+      "LangGraph orchestration · deterministic lead scoring · FastAPI backend · PostgreSQL · n8n workflow automation",
     description:
-      "AI-assisted sales system combining conversational qualification, deterministic lead scoring, Human-in-the-Loop handoff, and workflow automation.",
+      "AI-assisted sales platform combining conversational qualification, structured lead-data extraction, deterministic lead scoring, Human-in-the-Loop handoff, and automated business workflows.",
+    problem:
+      "Sales teams often spend time manually qualifying leads, updating CRM information, scheduling follow-ups, and deciding which opportunities deserve attention first. Using an LLM alone for these decisions would make the process difficult to control, audit, and reproduce. The system therefore needs to combine AI assistance with deterministic business rules and workflow automation.",
+    solution:
+      "Designed an AI-assisted sales platform that combines conversational qualification, structured lead-data extraction, deterministic lead scoring, Human-in-the-Loop handoff, and automated business workflows. The AI helps understand conversations and extract useful information, while business scoring remains deterministic in the backend. n8n workflows handle operational automation such as lead capture, alerts, follow-ups, appointments, reminders, and error handling.",
     highlights: [
-      "Conversational qualification that extracts structured lead data",
-      "Business scoring stays deterministic in the backend",
-      "Human handoff before sensitive next steps",
-      "Automated follow-up, alerts, and booking workflows",
+      "Conversational AI qualification with structured lead-data extraction",
+      "Deterministic 0–100 lead scoring kept outside the LLM",
+      "Human handoff before sensitive or high-value next steps",
+      "Automated follow-ups, alerts, bookings, and operational workflows",
     ],
-    stack: ["Python", "FastAPI", "LangGraph", "OpenAI", "n8n", "React", "PostgreSQL"],
+    stack: ["Python", "FastAPI", "LangGraph", "OpenAI", "PostgreSQL", "n8n", "React"],
+    imageUrl: "/portfolio-uploads/ai-sales-assistant-dashboard.png",
+    imageAlt:
+      "AI Sales Assistant dashboard showing lead metrics, qualification KPIs, lead generation trends, and lead source analytics",
     caseStudyLink: "/work/ai-sales-assistant",
     featuredLayout: "standard",
     overview:
-      "Sales qualification system where conversational AI extracts lead data while scoring remains deterministic.",
-    architecture: [
-      "User message → validation → safety check → context",
+      "AI Sales Assistant is an AI-assisted sales platform designed to help teams manage the journey from lead capture to qualification, follow-up, and meeting scheduling. The system combines conversational AI with structured business logic rather than allowing an LLM to control the complete sales process. LangGraph orchestrates the conversational workflow, FastAPI manages business logic and persistence, deterministic scoring prioritizes opportunities, and n8n handles operational automation.",
+    howItWorks: [
+      "User message",
+      "Validate input",
+      "Safety check",
+      "Load context",
       "LLM / LangGraph structured lead extraction",
-      "Deterministic scoring and Human-in-the-Loop handoff",
-      "n8n workflows for capture, alerts, follow-up, booking, and error handling",
+      "Deterministic scoring",
+      "Human handoff when required",
+      "Persistence",
+      "Automation events via n8n",
+    ],
+    architecture: [
+      "React UI for dashboard, leads, pipeline, and conversation management",
+      "FastAPI API for business logic, persistence, and scoring services",
+      "LangGraph conversation flow with OpenAI for structured extraction",
+      "Deterministic LeadScoringService produces a 0–100 score outside the LLM",
+      "PostgreSQL stores leads, scores, conversation state, and events",
+      "n8n orchestrates operational workflows without replacing the backend",
+    ],
+    decisions: [
+      "The LLM extracts structured lead information but does not control the final score",
+      "Business scoring stays deterministic, explainable, testable, and auditable",
+      "Sensitive next steps escalate to a human before execution",
+      "n8n handles operational automation while FastAPI remains the source of truth",
+    ],
+    decisionHighlight: {
+      title: "Why scoring is outside the LLM",
+      body: "The LLM is used to understand conversations and extract structured lead information, but it is not treated as the source of truth for business scoring. A deterministic backend service calculates the final score, making qualification more predictable, explainable, testable, and easier to audit.",
+    },
+    scoring: {
+      summary:
+        "A deterministic backend scoring service calculates a 0–100 qualification score from structured lead factors. The LLM does not directly decide whether a lead is Hot, Warm, or Cold.",
+      factors: [
+        "Budget",
+        "Urgency",
+        "Service Fit",
+        "Decision Authority",
+        "Company Size",
+        "Profile Completeness",
+      ],
+      range: "0–100",
+      classes: ["Hot", "Warm", "Cold"],
+    },
+    automation: {
+      summary:
+        "n8n is used as the orchestration layer for operational workflows, while FastAPI remains responsible for core business logic and data integrity.",
+      workflows: [
+        "Lead Capture",
+        "AI Qualification",
+        "Hot Lead Alert",
+        "Follow-up",
+        "Appointment Booking",
+        "Meeting Reminder",
+        "Global Error Handler",
+      ],
+    },
+    hitl: "Sensitive next steps and high-value sales actions can be escalated to a human rather than executed blindly by the AI layer. This keeps the system useful for automation while preserving operational control.",
+    security: [
+      "Input validation and safety checks before model calls",
+      "Deterministic scoring for reproducible qualification outcomes",
+      "Human approval path before sensitive or high-value actions",
+      "Global error-handling workflow for operational reliability",
     ],
   },
 ];
@@ -204,7 +273,6 @@ export const secondaryProjects: SecondaryProject[] = [
     description: "Real-time IoT streaming pipeline prepared for analytics ingestion.",
     category: "Backend & Data",
     stack: ["Kafka", "Spark", "AWS", "Python"],
-    imageUrl: "/portfolio-uploads/iot-pipeline.png",
     githubLink: "https://github.com/TsinjoNantosoa/iot-kafka-spark-redshift-pipeline",
   },
   {
@@ -213,7 +281,6 @@ export const secondaryProjects: SecondaryProject[] = [
     description: "Scheduled weather data extraction and transformation for analytics.",
     category: "Backend & Data",
     stack: ["Airflow", "Python", "ETL"],
-    imageUrl: "/portfolio-uploads/weather-etl.png",
     githubLink: "https://github.com/TsinjoNantosoa/weather_etl",
   },
   {

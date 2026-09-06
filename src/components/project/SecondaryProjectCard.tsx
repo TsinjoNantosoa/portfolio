@@ -11,9 +11,9 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
   const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
 
   return (
-    <article className="overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-1)] transition hover:border-[var(--border-medium)]">
-      {hasMedia && (
-        <div className="aspect-[16/9] overflow-hidden bg-[var(--surface-2)]">
+    <article className="self-start overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-1)] transition hover:border-[var(--border-medium)]">
+      {hasMedia && project.imageUrl && (
+        <div className="h-[132px] overflow-hidden bg-[var(--surface-2)]">
           <img
             src={project.imageUrl}
             alt={`${project.title} screenshot`}
@@ -25,21 +25,21 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
           />
         </div>
       )}
-      <div className="p-4">
-        <p className="mb-1.5 font-mono text-[11px] uppercase tracking-wider text-neon/80">
+      <div className="p-3.5">
+        <p className="mb-1 font-mono text-[10.5px] uppercase tracking-wider text-neon/80">
           {project.category}
         </p>
-        <h3 className="mb-1.5 text-[15px] font-semibold text-[var(--text-primary)]">
+        <h3 className="mb-1.5 text-[14.5px] font-semibold leading-snug text-[var(--text-primary)]">
           {project.title}
         </h3>
-        <p className="mb-3 line-clamp-2 text-[13px] leading-relaxed text-[var(--text-muted)]">
+        <p className="mb-2.5 line-clamp-2 text-[12.5px] leading-relaxed text-[var(--text-muted)]">
           {project.description}
         </p>
-        <div className="mb-3 flex flex-wrap gap-1.5">
-          {project.stack.slice(0, 4).map((tech) => (
+        <div className="mb-2.5 flex flex-wrap gap-1">
+          {project.stack.slice(0, 3).map((tech) => (
             <span
               key={tech}
-              className="rounded border border-white/10 px-2 py-0.5 font-mono text-[10.5px] text-white/55"
+              className="rounded border border-white/10 px-1.5 py-0.5 font-mono text-[10px] text-white/55"
             >
               {tech}
             </span>
@@ -51,9 +51,9 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
               href={project.githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-10 items-center gap-1 text-xs text-white/60 hover:text-white"
+              className="inline-flex min-h-9 items-center gap-1 text-xs text-white/60 hover:text-white"
             >
-              <Github size={13} />
+              <Github size={12} />
               Code
             </a>
           )}
@@ -62,9 +62,9 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
               href={project.demoLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-10 items-center gap-1 text-xs text-white/60 hover:text-white"
+              className="inline-flex min-h-9 items-center gap-1 text-xs text-white/60 hover:text-white"
             >
-              <ExternalLink size={13} />
+              <ExternalLink size={12} />
               Demo
             </a>
           )}

@@ -28,7 +28,7 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
         onError={onError}
         className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02] ${objectPosition}`}
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/75 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/35 via-transparent to-transparent" />
     </div>
   );
 };

@@ -16,7 +16,11 @@
     --text-muted: rgba(245, 247, 248, 0.52);
     --brand-accent: #0DFFA3;
 
-    /* shadcn semantic tokens (HSL channels) — dark-only site */
+    --section-xs: 3rem;
+    --section-sm: 4rem;
+    --section-md: 5rem;
+    --section-lg: 6.5rem;
+
     --background: 210 20% 4%;
     --foreground: 210 20% 98%;
     --card: 210 16% 7%;
@@ -122,11 +126,58 @@
 
 @layer components {
   .site-container {
-    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-5 lg:px-6;
+    width: min(calc(100% - 2rem), 1280px);
+    margin-inline: auto;
+  }
+
+  @media (min-width: 640px) {
+    .site-container {
+      width: min(calc(100% - 3rem), 1280px);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .site-container {
+      width: min(calc(100% - 3.5rem), 1320px);
+    }
+  }
+
+  .layout-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .layout-grid {
+      gap: 1.5rem;
+    }
   }
 
   .section-block {
-    @apply py-16 sm:py-20 lg:py-24;
+    padding-block: var(--section-sm);
+  }
+
+  @media (min-width: 768px) {
+    .section-block {
+      padding-block: var(--section-md);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-block {
+      padding-block: var(--section-lg);
+    }
+  }
+
+  .section-tight {
+    padding-block: var(--section-xs);
+  }
+
+  @media (min-width: 768px) {
+    .section-tight {
+      padding-block: var(--section-sm);
+    }
   }
 
   .link-underline {
