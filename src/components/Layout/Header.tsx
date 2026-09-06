@@ -1,89 +1,99 @@
-
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import MobileMenu from "./MobileMenu";
 
+const navItems = [
+  { label: "Work", href: "/#work", id: "work" },
+  { label: "Expertise", href: "/#expertise", id: "expertise" },
+  { label: "Experience", href: "/#experience", id: "experience" },
+  { label: "About", href: "/#about", id: "about" },
+  { label: "Contact", href: "/#contact", id: "contact" },
+];
+
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   const location = useLocation();
-  
-  // Handle scroll events
+
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    
+    const handleScroll = () => setIsScrolled(window.scrollY > 24);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  
-  // Close mobile menu when route changes
+
   useEffect(() => {
     setMobileMenuOpen(false);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+
+    const sectionIds = navItems.map((item) => item.id);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]?.target?.id) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      { rootMargin: "-35% 0px -50% 0px", threshold: [0.1, 0.25, 0.5] }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
   }, [location.pathname]);
-  
-  const isActive = (path: string) => location.pathname === path;
-  
+
   return (
-    <header 
+    <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-        isScrolled ? "bg-darkbg/90 backdrop-blur-md shadow-md" : "bg-transparent"
+        isScrolled
+          ? "border-b border-white/10 bg-[var(--bg-primary)]/90 backdrop-blur-md"
+          : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6 lg:px-8">
-        <Link to="/" className="flex items-center">
-          <h1 className="text-2xl font-bold">
-            Tsinjo<span className="text-neon">.</span>
-          </h1>
+      <div className="site-container flex h-14 items-center justify-between sm:h-16">
+        <Link to="/" className="text-xl font-semibold tracking-tight text-[var(--text-primary)]">
+          Tsinjo<span className="text-neon">.</span>
         </Link>
-        
-        {/* Desktop Navigation */}
-        <nav className="hidden md:block">
-          <ul className="flex items-center gap-2">
-            <li>
-              <Link to="/" className={`menu-item ${isActive("/") ? "active" : ""}`}>
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/services" className={`menu-item ${isActive("/services") ? "active" : ""}`}>
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link to="/resume" className={`menu-item ${isActive("/resume") ? "active" : ""}`}>
-                Resume
-              </Link>
-            </li>
-            <li>
-              <Link to="/work" className={`menu-item ${isActive("/work") ? "active" : ""}`}>
-                Work
-              </Link>
-            </li>
-            <li>
-              <Link to="/contact" className={`menu-item ${isActive("/contact") ? "active" : ""}`}>
-                Contact
-              </Link>
-            </li>
-            <li className="ml-4">
-              <Link to="/contact" className="btn-neon">
-                Hire me
-              </Link>
+
+        <nav className="hidden md:block" aria-label="Primary">
+          <ul className="flex items-center gap-1">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    className={`menu-item ${isActive ? "active" : ""}`}
+                    aria-current={isActive ? "true" : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
+            <li className="ml-3">
+              <a href="/#contact" className="btn-neon">
+                Let&apos;s Talk
+              </a>
             </li>
           </ul>
         </nav>
-        
-        {/* Mobile Menu Toggle */}
-        <button 
-          className="ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-darkcard md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
+
+        <button
+          type="button"
+          className="ml-2 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-[var(--surface-1)] md:hidden"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? (
             <X className="h-5 w-5 text-neon" />
@@ -92,9 +102,12 @@ const Header = () => {
           )}
         </button>
       </div>
-      
-      {/* Mobile Menu */}
-      <MobileMenu isOpen={mobileMenuOpen} setIsOpen={setMobileMenuOpen} />
+
+      <MobileMenu
+        isOpen={mobileMenuOpen}
+        setIsOpen={setMobileMenuOpen}
+        items={navItems.map(({ label, href }) => ({ label, href }))}
+      />
     </header>
   );
 };

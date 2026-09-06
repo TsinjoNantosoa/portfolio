@@ -2,181 +2,187 @@ import React, { useState } from "react";
 import { Send } from "lucide-react";
 import Button from "./Button";
 import { toast } from "sonner";
+import { EMAIL } from "@/data/experience";
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
-    phone: "",
     service: "",
     message: "",
+    website: "",
   });
-  
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const serviceLabels: Record<string, string> = {
-    "web-development": "Web Development",
-    "backend-development": "Backend Development",
-    "data-science": "Data Science",
-    "machine-learning": "Machine Learning",
-    "ai-automation-n8n": "AI Automation & n8n",
-    "ai-agents-rag": "AI Agents & RAG Systems",
+    "ai-agent": "AI Agent",
+    "rag-assistant": "RAG / AI Assistant",
+    automation: "Automation Workflow",
+    "ai-backend": "AI Backend / API",
+    "ai-product": "AI Product",
     other: "Other",
   };
-  
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  
+
+  const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.website) return;
+
+    if (!isValidEmail(formData.email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       const payload = {
-        ...formData,
+        name: formData.name,
+        email: formData.email,
+        service: formData.service,
         serviceLabel: serviceLabels[formData.service] ?? formData.service,
+        message: formData.message,
       };
 
-      const endpoints = ["/api/contacts", "http://localhost:8081/api/contacts"];
+      const apiUrl = import.meta.env.VITE_CONTACT_API_URL as string | undefined;
       let sentViaApi = false;
 
-      for (const endpoint of endpoints) {
-        try {
-          const response = await fetch(endpoint, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify(payload),
-          });
-
-          if (response.ok) {
-            sentViaApi = true;
-            break;
-          }
-        } catch {
-          continue;
-        }
+      if (apiUrl && !apiUrl.includes("localhost")) {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        sentViaApi = response.ok;
       }
 
       if (!sentViaApi) {
-        const subject = encodeURIComponent(
-          `Portfolio contact - ${payload.serviceLabel}`
-        );
+        const subject = encodeURIComponent(`Portfolio contact - ${payload.serviceLabel}`);
         const body = encodeURIComponent(
           [
-            `Name: ${formData.firstName} ${formData.lastName}`,
+            `Name: ${formData.name}`,
             `Email: ${formData.email}`,
-            `Phone: ${formData.phone || "N/A"}`,
             `Service: ${payload.serviceLabel}`,
             "",
             "Message:",
             formData.message,
           ].join("\n")
         );
-
-        window.location.href = `mailto:tsinjonantosoa@gmail.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
         toast.success("Email app opened. Please confirm sending your message.");
       } else {
-        toast.success("Message sent successfully! I'll get back to you soon.");
+        toast.success("Message sent successfully. I'll get back to you soon.");
       }
 
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        service: "",
-        message: "",
-      });
+      setFormData({ name: "", email: "", service: "", message: "", website: "" });
     } catch {
-      toast.error("Unable to send right now. Please try again.");
+      toast.error("Unable to send right now. Please email me directly.");
     } finally {
       setIsSubmitting(false);
     }
   };
-  
+
+  const fieldClass =
+    "w-full rounded-md border border-white/10 bg-[var(--surface-2)] px-4 py-3 text-[15px] text-white placeholder-white/40 focus:border-neon focus:outline-none focus:ring-1 focus:ring-neon";
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="website">Website</label>
         <input
+          id="website"
           type="text"
-          name="firstName"
-          placeholder="Firstname"
-          value={formData.firstName}
+          name="website"
+          value={formData.website}
           onChange={handleChange}
-          required
-          className="w-full rounded-md border border-white/10 bg-darkcard/50 px-4 py-3 text-white placeholder-white/50 focus:border-neon focus:outline-none focus:ring-1 focus:ring-neon"
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Lastname"
-          value={formData.lastName}
-          onChange={handleChange}
-          required
-          className="w-full rounded-md border border-white/10 bg-darkcard/50 px-4 py-3 text-white placeholder-white/50 focus:border-neon focus:outline-none focus:ring-1 focus:ring-neon"
+          tabIndex={-1}
+          autoComplete="off"
         />
       </div>
-      
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+      <div>
+        <label htmlFor="name" className="mb-1.5 block text-sm text-[var(--text-secondary)]">
+          Name
+        </label>
         <input
+          id="name"
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          className={fieldClass}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="email" className="mb-1.5 block text-sm text-[var(--text-secondary)]">
+          Email
+        </label>
+        <input
+          id="email"
           type="email"
           name="email"
-          placeholder="Email address"
           value={formData.email}
           onChange={handleChange}
           required
-          className="w-full rounded-md border border-white/10 bg-darkcard/50 px-4 py-3 text-white placeholder-white/50 focus:border-neon focus:outline-none focus:ring-1 focus:ring-neon"
-        />
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Phone number"
-          value={formData.phone}
-          onChange={handleChange}
-          className="w-full rounded-md border border-white/10 bg-darkcard/50 px-4 py-3 text-white placeholder-white/50 focus:border-neon focus:outline-none focus:ring-1 focus:ring-neon"
+          className={fieldClass}
         />
       </div>
-      
-      <select
-        name="service"
-        value={formData.service}
-        onChange={handleChange}
-        required
-        className="w-full appearance-none rounded-md border border-white/10 bg-darkcard/50 px-4 py-3 text-white placeholder-white/50 focus:border-neon focus:outline-none focus:ring-1 focus:ring-neon"
-      >
-        <option value="" disabled>
-          Select a service
-        </option>
-        <option value="web-development">Web Development</option>
-        <option value="backend-development">Backend Development</option>
-        <option value="data-science">Data Science</option>
-        <option value="machine-learning">Machine Learning</option>
-        <option value="ai-automation-n8n">AI Automation & n8n</option>
-        <option value="ai-agents-rag">AI Agents & RAG Systems</option>
-        <option value="other">Other</option>
-      </select>
-      
-      <textarea
-        name="message"
-        placeholder="Type your message here..."
-        value={formData.message}
-        onChange={handleChange}
-        required
-        rows={5}
-        className="w-full rounded-md border border-white/10 bg-darkcard/50 px-4 py-3 text-white placeholder-white/50 focus:border-neon focus:outline-none focus:ring-1 focus:ring-neon"
-      />
-      
+
+      <div>
+        <label htmlFor="service" className="mb-1.5 block text-sm text-[var(--text-secondary)]">
+          What are you building?
+        </label>
+        <select
+          id="service"
+          name="service"
+          value={formData.service}
+          onChange={handleChange}
+          required
+          className={fieldClass}
+        >
+          <option value="" disabled>
+            Select an option
+          </option>
+          <option value="ai-agent">AI Agent</option>
+          <option value="rag-assistant">RAG / AI Assistant</option>
+          <option value="automation">Automation Workflow</option>
+          <option value="ai-backend">AI Backend / API</option>
+          <option value="ai-product">AI Product</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div>
+        <label htmlFor="message" className="mb-1.5 block text-sm text-[var(--text-secondary)]">
+          Message
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+          rows={5}
+          className={fieldClass}
+        />
+      </div>
+
       <Button
         type="submit"
-        className="flex items-center gap-2 rounded-full bg-neon px-6 py-3 text-black transition-all hover:shadow-[0_0_15px_rgba(13,255,163,0.6)]"
+        className="flex min-h-11 items-center gap-2 rounded-full bg-neon px-6 py-3 text-black transition hover:bg-neon/90"
         disabled={isSubmitting}
         isLoading={isSubmitting}
       >

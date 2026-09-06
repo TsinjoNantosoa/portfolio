@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" role="img" aria-label="Arcwell Agentic CRM placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0D1117"/>
+      <stop offset="100%" stop-color="#161B22"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="800" fill="url(#bg)"/>
+  <rect x="64" y="64" width="1152" height="672" rx="24" fill="#11161D" stroke="#0DFFA333"/>
+  <text x="120" y="180" fill="#0DFFA3" font-family="ui-monospace, monospace" font-size="22">AGENTIC AI · GOVERNANCE · HITL</text>
+  <text x="120" y="260" fill="#F5F7FA" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="600">Arcwell</text>
+  <text x="120" y="320" fill="#F5F7FA" font-family="Inter, Arial, sans-serif" font-size="28">Governed Agentic CRM</text>
+  <text x="120" y="400" fill="#F5F7FAA6" font-family="Inter, Arial, sans-serif" font-size="20">LangGraph · Policy checks · Human-in-the-Loop · Audit trails</text>
+  <rect x="120" y="460" width="220" height="12" rx="6" fill="#0DFFA355"/>
+  <rect x="120" y="500" width="360" height="12" rx="6" fill="#ffffff22"/>
+  <rect x="120" y="540" width="300" height="12" rx="6" fill="#ffffff18"/>
+</svg>

@@ -1,57 +1,46 @@
-# Tsinjo Nantosoa — AI Automation & Data Engineer Portfolio
+# Sandaniaina Tsinjo Nantosoa — AI Engineer Portfolio
 
-Personal portfolio of **Sandaniaina Tsinjo Nantosoa**, AI Automation Engineer and Data Engineer based in Antananarivo, Madagascar.
-
-## Live Site
-
-Deployed on Netlify. Available at the configured custom domain.
-
-## About
-
-This portfolio showcases expertise in:
-
-- **AI Automation & n8n** — end-to-end agentic workflows, webhooks, RAG pipelines, Human-in-the-Loop systems
-- **RAG Systems** — FastAPI + LangChain + FAISS production chatbots (Humans4Help, World Bank AI Chatbot)
-- **Data Engineering** — Kafka, Spark, Airflow, dbt, AWS S3/Redshift pipelines
-- **Machine Learning** — NLP classification, CNN computer vision, scikit-learn, PyTorch
+Portfolio for **AI Engineer | RAG Systems, AI Agents & Automation**.
 
 ## Stack
 
-- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Framer Motion
-- **UI**: shadcn/ui (Radix UI)
-- **Routing**: React Router v6
-- **Deployment**: Netlify
+- React 18, TypeScript, Vite
+- Tailwind CSS, Framer Motion
+- React Router
 
-## Local Development
+## Local development
 
 ```sh
 npm install
 npm run dev
 ```
 
-Build for production:
-
 ```sh
 npm run build
+npm run lint
 ```
 
-## Key Projects
+## Environment
 
-| Project | Category | GitHub |
-|---|---|---|
-| World Bank AI Chatbot (RAG) | AI/ML | [github.com/TsinjoNantosoa/worldbank-ai-chatbot](https://github.com/TsinjoNantosoa/worldbank-ai-chatbot) |
-| AAA Data Chatbot (H4H Madagascar) | AI/ML | Private |
-| IoT Kafka Spark Redshift Pipeline | Data Engineering | [github.com/TsinjoNantosoa/iot-kafka-spark-redshift-pipeline](https://github.com/TsinjoNantosoa/iot-kafka-spark-redshift-pipeline) |
-| Weather ETL with Airflow | Data Engineering | [github.com/TsinjoNantosoa/weather_etl](https://github.com/TsinjoNantosoa/weather_etl) |
-| Bank Loan Analytics Dashboard | Analytics/BI | [github.com/TsinjoNantosoa/bank-loan-analytics-dashboard](https://github.com/TsinjoNantosoa/bank-loan-analytics-dashboard) |
+Optional contact API:
+
+```env
+VITE_CONTACT_API_URL=https://your-api.example.com/api/contacts
+```
+
+If unset, the contact form opens a mailto draft.
+
+## Featured work
+
+1. Production Multi-Tenant RAG Platform
+2. Arcwell — Governed Agentic CRM
+3. AI Business Operating System
+4. SIHIA — AI-Powered HealthTech Platform
+5. AI Sales Assistant
 
 ## Contact
 
 - Email: tsinjonantosoa@gmail.com
-- GitHub: [github.com/TsinjoNantosoa](https://github.com/TsinjoNantosoa)
-- LinkedIn: [linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330](https://www.linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330/)
-- DataCamp Portfolio: [datacamp.com/portfolio/sandaniainatsinjonantosoa](https://www.datacamp.com/portfolio/sandaniainatsinjonantosoa)
-
-## CV
-
-Download: [`/CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf`](./public/CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf)
+- GitHub: https://github.com/TsinjoNantosoa
+- LinkedIn: https://www.linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330/
+- CV: `/CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf`

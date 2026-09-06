@@ -65,8 +65,8 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				neon: '#0DFFA3',
-				darkbg: '#121212',
-				darkcard: '#1A1A1A',
+				darkbg: '#070A0D',
+				darkcard: '#0D1117',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
