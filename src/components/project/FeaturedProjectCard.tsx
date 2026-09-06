@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
@@ -14,7 +14,9 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
   project,
   index = 0,
 }) => {
-  const isFlagship = project.featuredLayout === "flagship";
+  const [mediaFailed, setMediaFailed] = useState(false);
+  const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
+  const isFlagship = project.featuredLayout === "flagship" && hasMedia;
 
   return (
     <motion.article
@@ -27,16 +29,16 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
       }`}
     >
       <div className={isFlagship ? "grid lg:grid-cols-[1.12fr_0.88fr]" : "flex flex-col"}>
-        <ProjectMedia
-          title={project.title}
-          label={project.label}
-          src={project.imageUrl}
-          alt={`${project.title} visual`}
-          usePlaceholder={project.usePlaceholder}
-          placeholderKind={project.placeholderKind}
-          placeholderSteps={project.placeholderSteps}
-          aspectClassName={isFlagship ? "min-h-[280px] lg:min-h-full lg:aspect-auto" : "aspect-[16/10]"}
-        />
+        {hasMedia && project.imageUrl && (
+          <ProjectMedia
+            src={project.imageUrl}
+            alt={`${project.title} screenshot`}
+            aspectClassName={
+              isFlagship ? "min-h-[280px] lg:min-h-full lg:aspect-auto" : "aspect-[16/10]"
+            }
+            onError={() => setMediaFailed(true)}
+          />
+        )}
 
         <div className="flex flex-col p-5 sm:p-7">
           <div className="mb-3 flex flex-wrap items-center gap-2">
@@ -56,7 +58,9 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
 
           <h3
             className={`mb-3 font-semibold tracking-tight text-[var(--text-primary)] ${
-              isFlagship ? "text-[clamp(1.5rem,2vw,2.1rem)]" : "text-[clamp(1.25rem,1.8vw,1.6rem)]"
+              isFlagship
+                ? "text-[clamp(1.5rem,2vw,2.1rem)]"
+                : "text-[clamp(1.25rem,1.8vw,1.6rem)]"
             }`}
           >
             {project.title}
@@ -71,7 +75,10 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
 
           <ul className="mb-5 space-y-2">
             {project.highlights.slice(0, 4).map((item) => (
-              <li key={item} className="flex gap-2.5 text-sm leading-snug text-[var(--text-secondary)]">
+              <li
+                key={item}
+                className="flex gap-2.5 text-sm leading-snug text-[var(--text-secondary)]"
+              >
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-neon" aria-hidden />
                 <span>{item}</span>
               </li>
@@ -82,7 +89,9 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
             <div className="mb-5 grid grid-cols-3 gap-2 border-y border-white/10 py-4">
               {project.proof.map((item) => (
                 <div key={item.label}>
-                  <p className="font-mono text-lg font-semibold text-neon sm:text-xl">{item.value}</p>
+                  <p className="font-mono text-lg font-semibold text-neon sm:text-xl">
+                    {item.value}
+                  </p>
                   <p className="mt-0.5 text-[12px] text-[var(--text-muted)]">{item.label}</p>
                 </div>
               ))}

@@ -1,203 +1,234 @@
-import React, { useState } from "react";
-import { Send } from "lucide-react";
-import Button from "./Button";
+import React, { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { EMAIL } from "@/data/experience";
 
+const PROJECT_TYPES = [
+  "AI Agent",
+  "RAG / AI Assistant",
+  "Automation Workflow",
+  "AI Backend / API",
+  "AI Product",
+  "Other",
+] as const;
+
+type FieldErrors = {
+  name?: string;
+  email?: string;
+  projectType?: string;
+  message?: string;
+};
+
+const isValidEmail = (value: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+
 const ContactForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    service: "",
-    message: "",
-    website: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [projectType, setProjectType] = useState("");
+  const [message, setMessage] = useState("");
+  const [website, setWebsite] = useState("");
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [submitting, setSubmitting] = useState(false);
 
-  const serviceLabels: Record<string, string> = {
-    "ai-agent": "AI Agent",
-    "rag-assistant": "RAG / AI Assistant",
-    automation: "Automation Workflow",
-    "ai-backend": "AI Backend / API",
-    "ai-product": "AI Product",
-    other: "Other",
+  const validate = (): FieldErrors => {
+    const next: FieldErrors = {};
+    if (!name.trim()) next.name = "Name is required.";
+    if (!email.trim()) next.email = "Email is required.";
+    else if (!isValidEmail(email)) next.email = "Enter a valid email.";
+    if (!projectType) next.projectType = "Select what you are building.";
+    if (!message.trim()) next.message = "Message is required.";
+    return next;
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (website.trim()) return;
 
-  const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    const nextErrors = validate();
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.website) return;
+    setSubmitting(true);
 
-    if (!isValidEmail(formData.email)) {
-      toast.error("Please enter a valid email address.");
-      return;
-    }
-
-    setIsSubmitting(true);
+    const apiUrl = import.meta.env.VITE_CONTACT_API_URL?.trim();
+    const useApi =
+      Boolean(apiUrl) &&
+      !apiUrl.includes("localhost") &&
+      !apiUrl.includes("127.0.0.1");
 
     try {
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        service: formData.service,
-        serviceLabel: serviceLabels[formData.service] ?? formData.service,
-        message: formData.message,
-      };
-
-      const apiUrl = import.meta.env.VITE_CONTACT_API_URL as string | undefined;
-      let sentViaApi = false;
-
-      if (apiUrl && !apiUrl.includes("localhost")) {
+      if (useApi && apiUrl) {
         const response = await fetch(apiUrl, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(payload),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name.trim(),
+            email: email.trim(),
+            projectType,
+            message: message.trim(),
+          }),
         });
-        sentViaApi = response.ok;
-      }
 
-      if (!sentViaApi) {
-        const subject = encodeURIComponent(`Portfolio contact - ${payload.serviceLabel}`);
+        if (!response.ok) {
+          throw new Error(`API error ${response.status}`);
+        }
+
+        toast.success("Message sent successfully.");
+        setName("");
+        setEmail("");
+        setProjectType("");
+        setMessage("");
+        setErrors({});
+      } else {
+        const subject = encodeURIComponent(
+          `Portfolio contact — ${projectType || "AI project"}`
+        );
         const body = encodeURIComponent(
-          [
-            `Name: ${formData.name}`,
-            `Email: ${formData.email}`,
-            `Service: ${payload.serviceLabel}`,
-            "",
-            "Message:",
-            formData.message,
-          ].join("\n")
+          `Name: ${name.trim()}\nEmail: ${email.trim()}\nWhat are you building?: ${projectType}\n\n${message.trim()}`
         );
         window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-        toast.success("Email app opened. Please confirm sending your message.");
-      } else {
-        toast.success("Message sent successfully. I'll get back to you soon.");
+        toast.message(
+          "Email draft opened. Please send it from your email app."
+        );
       }
-
-      setFormData({ name: "", email: "", service: "", message: "", website: "" });
     } catch {
-      toast.error("Unable to send right now. Please email me directly.");
+      toast.error("Could not send via form. Email me directly.", {
+        action: {
+          label: "Email me directly",
+          onClick: () => {
+            window.location.href = `mailto:${EMAIL}`;
+          },
+        },
+      });
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   };
 
   const fieldClass =
-    "w-full rounded-md border border-white/10 bg-[var(--surface-2)] px-4 py-3 text-[15px] text-white placeholder-white/40 focus:border-neon focus:outline-none focus:ring-1 focus:ring-neon";
+    "w-full rounded-lg border border-white/15 bg-[var(--surface-1)] px-3 py-2.5 text-[15px] text-[var(--text-primary)] outline-none transition focus:border-neon/50 focus:ring-1 focus:ring-neon/30";
 
   return (
-<<<<<<< HEAD
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+    <form onSubmit={handleSubmit} noValidate className="space-y-5">
       <div className="hidden" aria-hidden="true">
         <label htmlFor="website">Website</label>
-=======
-    <form onSubmit={handleSubmit} className="min-w-0 space-y-4">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
->>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
         <input
           id="website"
-          type="text"
           name="website"
-          value={formData.website}
-          onChange={handleChange}
+          type="text"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
           tabIndex={-1}
           autoComplete="off"
         />
       </div>
 
       <div>
-        <label htmlFor="name" className="mb-1.5 block text-sm text-[var(--text-secondary)]">
+        <label htmlFor="name" className="mb-1.5 block text-sm text-white/65">
           Name
         </label>
         <input
           id="name"
-          type="text"
           name="name"
-          value={formData.name}
-          onChange={handleChange}
+          type="text"
           required
+          autoComplete="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          aria-invalid={Boolean(errors.name)}
+          aria-describedby={errors.name ? "name-error" : undefined}
           className={fieldClass}
         />
+        {errors.name && (
+          <p id="name-error" className="mt-1.5 text-sm text-red-400">
+            {errors.name}
+          </p>
+        )}
       </div>
 
       <div>
-        <label htmlFor="email" className="mb-1.5 block text-sm text-[var(--text-secondary)]">
+        <label htmlFor="email" className="mb-1.5 block text-sm text-white/65">
           Email
         </label>
         <input
           id="email"
-          type="email"
           name="email"
-          value={formData.email}
-          onChange={handleChange}
+          type="email"
           required
+          autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          aria-invalid={Boolean(errors.email)}
+          aria-describedby={errors.email ? "email-error" : undefined}
           className={fieldClass}
         />
+        {errors.email && (
+          <p id="email-error" className="mt-1.5 text-sm text-red-400">
+            {errors.email}
+          </p>
+        )}
       </div>
 
       <div>
-        <label htmlFor="service" className="mb-1.5 block text-sm text-[var(--text-secondary)]">
+        <label
+          htmlFor="projectType"
+          className="mb-1.5 block text-sm text-white/65"
+        >
           What are you building?
         </label>
         <select
-          id="service"
-          name="service"
-          value={formData.service}
-          onChange={handleChange}
+          id="projectType"
+          name="projectType"
           required
+          value={projectType}
+          onChange={(e) => setProjectType(e.target.value)}
+          aria-invalid={Boolean(errors.projectType)}
+          aria-describedby={errors.projectType ? "projectType-error" : undefined}
           className={fieldClass}
         >
-          <option value="" disabled>
-            Select an option
-          </option>
-          <option value="ai-agent">AI Agent</option>
-          <option value="rag-assistant">RAG / AI Assistant</option>
-          <option value="automation">Automation Workflow</option>
-          <option value="ai-backend">AI Backend / API</option>
-          <option value="ai-product">AI Product</option>
-          <option value="other">Other</option>
+          <option value="">Select an option</option>
+          {PROJECT_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
         </select>
+        {errors.projectType && (
+          <p id="projectType-error" className="mt-1.5 text-sm text-red-400">
+            {errors.projectType}
+          </p>
+        )}
       </div>
 
       <div>
-        <label htmlFor="message" className="mb-1.5 block text-sm text-[var(--text-secondary)]">
+        <label htmlFor="message" className="mb-1.5 block text-sm text-white/65">
           Message
         </label>
         <textarea
           id="message"
           name="message"
-          value={formData.message}
-          onChange={handleChange}
           required
           rows={5}
-          className={fieldClass}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          aria-invalid={Boolean(errors.message)}
+          aria-describedby={errors.message ? "message-error" : undefined}
+          className={`${fieldClass} resize-y min-h-[120px]`}
         />
+        {errors.message && (
+          <p id="message-error" className="mt-1.5 text-sm text-red-400">
+            {errors.message}
+          </p>
+        )}
       </div>
 
-      <Button
+      <button
         type="submit"
-<<<<<<< HEAD
-        className="flex min-h-11 items-center gap-2 rounded-full bg-neon px-6 py-3 text-black transition hover:bg-neon/90"
-=======
-        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-neon px-6 py-3 text-black transition-all hover:shadow-[0_0_15px_rgba(13,255,163,0.6)] sm:w-auto"
->>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
-        disabled={isSubmitting}
-        isLoading={isSubmitting}
+        disabled={submitting}
+        className="btn-neon min-h-11 w-full sm:w-auto disabled:opacity-60"
       >
-        <Send size={16} />
-        Send message
-      </Button>
+        {submitting ? "Sending…" : "Send message"}
+      </button>
     </form>
   );
 };

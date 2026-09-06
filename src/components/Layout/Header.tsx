@@ -1,21 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import MobileMenu from "./MobileMenu";
-
-const navItems = [
-  { label: "Work", href: "/#work", id: "work" },
-  { label: "Expertise", href: "/#expertise", id: "expertise" },
-  { label: "Experience", href: "/#experience", id: "experience" },
-  { label: "About", href: "/#about", id: "about" },
-  { label: "Contact", href: "/#contact", id: "contact" },
-];
+import { navItems } from "@/data/navigation";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const location = useLocation();
+  const menuId = useId();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 24);
@@ -28,9 +22,24 @@ const Header = () => {
   }, [location.pathname, location.hash]);
 
   useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
     if (location.pathname !== "/") return;
 
-    const sectionIds = navItems.map((item) => item.id);
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
@@ -43,28 +52,14 @@ const Header = () => {
       { rootMargin: "-35% 0px -50% 0px", threshold: [0.1, 0.25, 0.5] }
     );
 
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
+    navItems.forEach((item) => {
+      const el = document.getElementById(item.id);
       if (el) observer.observe(el);
     });
 
     return () => observer.disconnect();
   }, [location.pathname]);
 
-<<<<<<< HEAD
-=======
-  useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [mobileMenuOpen]);
-  
-  const isActive = (path: string) => location.pathname === path;
-  
->>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
@@ -101,7 +96,6 @@ const Header = () => {
             </li>
           </ul>
         </nav>
-<<<<<<< HEAD
 
         <button
           type="button"
@@ -109,16 +103,7 @@ const Header = () => {
           onClick={() => setMobileMenuOpen((open) => !open)}
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
-=======
-        
-        {/* Mobile Menu Toggle */}
-        <button 
-          className="ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-darkcard md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
-          aria-expanded={mobileMenuOpen}
-          aria-controls="mobile-navigation"
->>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
+          aria-controls={menuId}
         >
           {mobileMenuOpen ? (
             <X className="h-5 w-5 text-neon" />
@@ -129,6 +114,7 @@ const Header = () => {
       </div>
 
       <MobileMenu
+        id={menuId}
         isOpen={mobileMenuOpen}
         setIsOpen={setMobileMenuOpen}
         items={navItems.map(({ label, href }) => ({ label, href }))}

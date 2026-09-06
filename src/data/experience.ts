@@ -40,8 +40,8 @@ export const experienceItems: ExperienceItem[] = [
     company: "Humans4Help Madagascar",
     location: "Antananarivo, Madagascar",
     plainSummary:
-      "Built and operated a multi-tenant AI assistant platform so multiple organizations could run independent assistants safely.",
-    technicalSummary: "FastAPI · Qdrant · Redis · PostgreSQL · LangChain · Docker",
+      "Built a shared AI assistant platform allowing multiple organizations to operate independent assistants while keeping their knowledge and configuration isolated.",
+    technicalSummary: "FastAPI · Qdrant · PostgreSQL · Redis · LangChain · Docker",
     highlights: [
       "Delivered tenant-isolated conversational AI backends",
       "Operated production RAG with knowledge isolation and retrieval controls",
@@ -57,7 +57,7 @@ export const experienceItems: ExperienceItem[] = [
   },
   {
     id: "freelance-automation",
-    period: "2025 — Present",
+    period: "Mar 2026 — Jul 2026",
     title: "AI Automation Consultant",
     company: "Freelance / Project-based",
     location: "Remote",
@@ -73,7 +73,7 @@ export const experienceItems: ExperienceItem[] = [
   },
   {
     id: "ets-baron",
-    period: "Project engagement",
+    period: "Jun 2026 — Aug 2026",
     title: "CRM & Business Automation — Odoo 18",
     company: "ETS Baron",
     plainSummary:
@@ -94,11 +94,20 @@ export const educationItems: EducationItem[] = [
     institution: "University of Antananarivo",
   },
   {
-    period: "Bachelor’s Degree",
-    title: "Applied Mathematics, Computer Science & Statistics (MISA)",
+    period: "",
+    title: "Bachelor’s Degree — Applied Mathematics, Computer Science & Statistics (MISA)",
     institution: "University of Antananarivo",
   },
 ];
+
+export const ABOUT = {
+  headline: "Engineer who turns LLM prototypes into reliable systems",
+  paragraphs: [
+    "I focus on AI systems that hold up in production: multi-tenant RAG, governed agents, and automation wired into real business tools.",
+    "My work sits at the intersection of retrieval quality, backend reliability, and clear human control when an AI action matters.",
+    "Based in Madagascar and open to remote collaboration with teams building serious AI products — not demos that never leave the notebook.",
+  ],
+};
 
 export const languages = [
   { name: "Malagasy", level: "Native" },
@@ -137,7 +146,6 @@ export const featuredCertifications: CertificationItem[] = [
   {
     title: "Associate AI Engineer for Developers",
     issuer: "DataCamp",
-    year: "2025",
     imageUrl: "/certificate/Screenshot from 2025-10-01 11-42-08.png",
     featured: true,
   },

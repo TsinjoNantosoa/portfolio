@@ -7,27 +7,24 @@ interface SecondaryProjectCardProps {
 }
 
 const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) => {
-  const [imageError, setImageError] = useState(false);
+  const [mediaFailed, setMediaFailed] = useState(false);
+  const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
 
   return (
     <article className="overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-1)] transition hover:border-[var(--border-medium)]">
-      <div className="aspect-[16/9] overflow-hidden bg-[var(--surface-2)]">
-        {!imageError ? (
+      {hasMedia && (
+        <div className="aspect-[16/9] overflow-hidden bg-[var(--surface-2)]">
           <img
             src={project.imageUrl}
             alt={`${project.title} screenshot`}
             loading="lazy"
             width={640}
             height={360}
-            onError={() => setImageError(true)}
+            onError={() => setMediaFailed(true)}
             className="h-full w-full object-cover object-top"
           />
-        ) : (
-          <div className="flex h-full items-center justify-center p-4 text-center text-sm text-white/55">
-            {project.title}
-          </div>
-        )}
-      </div>
+        </div>
+      )}
       <div className="p-4">
         <p className="mb-1.5 font-mono text-[11px] uppercase tracking-wider text-neon/80">
           {project.category}

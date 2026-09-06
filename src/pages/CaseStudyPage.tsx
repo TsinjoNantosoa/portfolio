@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import Header from "@/components/Layout/Header";
@@ -9,6 +9,7 @@ import { getFeaturedProjectBySlug } from "@/data/projects";
 const CaseStudyPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? getFeaturedProjectBySlug(slug) : undefined;
+  const [mediaFailed, setMediaFailed] = useState(false);
 
   if (!project) {
     return (
@@ -24,6 +25,8 @@ const CaseStudyPage: React.FC = () => {
       </div>
     );
   }
+
+  const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-white">
@@ -50,18 +53,16 @@ const CaseStudyPage: React.FC = () => {
           {project.technicalSummary}
         </p>
 
-        <div className="mb-10 overflow-hidden rounded-2xl border border-white/10">
-          <ProjectMedia
-            title={project.title}
-            label={project.label}
-            src={project.imageUrl}
-            alt={`${project.title} visual`}
-            usePlaceholder={project.usePlaceholder}
-            placeholderKind={project.placeholderKind}
-            placeholderSteps={project.placeholderSteps}
-            aspectClassName="aspect-[16/9]"
-          />
-        </div>
+        {hasMedia && project.imageUrl && (
+          <div className="mb-10 overflow-hidden rounded-2xl border border-white/10">
+            <ProjectMedia
+              src={project.imageUrl}
+              alt={`${project.title} screenshot`}
+              aspectClassName="aspect-[16/9]"
+              onError={() => setMediaFailed(true)}
+            />
+          </div>
+        )}
 
         <div className="mb-10 flex flex-wrap gap-4">
           {project.demoLink && (
@@ -92,45 +93,51 @@ const CaseStudyPage: React.FC = () => {
           {project.overview && (
             <section>
               <h2 className="mb-3 text-xl font-semibold">Overview</h2>
-              <p className="text-[var(--text-secondary)]">{project.overview}</p>
+              <p className="text-[15px] leading-relaxed text-[var(--text-secondary)]">
+                {project.overview}
+              </p>
             </section>
           )}
           {project.problem && (
             <section>
               <h2 className="mb-3 text-xl font-semibold">Challenge</h2>
-              <p className="text-[var(--text-secondary)]">{project.problem}</p>
+              <p className="text-[15px] leading-relaxed text-[var(--text-secondary)]">
+                {project.problem}
+              </p>
             </section>
           )}
           {project.solution && (
             <section>
               <h2 className="mb-3 text-xl font-semibold">Solution</h2>
-              <p className="text-[var(--text-secondary)]">{project.solution}</p>
+              <p className="text-[15px] leading-relaxed text-[var(--text-secondary)]">
+                {project.solution}
+              </p>
             </section>
           )}
-          {project.architecture && (
+          {project.architecture && project.architecture.length > 0 && (
             <section>
               <h2 className="mb-3 text-xl font-semibold">Architecture</h2>
-              <ul className="space-y-2 text-[var(--text-secondary)]">
+              <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
                 {project.architecture.map((item) => (
                   <li key={item}>• {item}</li>
                 ))}
               </ul>
             </section>
           )}
-          {project.decisions && (
+          {project.decisions && project.decisions.length > 0 && (
             <section>
               <h2 className="mb-3 text-xl font-semibold">Key Engineering Decisions</h2>
-              <ul className="space-y-2 text-[var(--text-secondary)]">
+              <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
                 {project.decisions.map((item) => (
                   <li key={item}>• {item}</li>
                 ))}
               </ul>
             </section>
           )}
-          {project.security && (
+          {project.security && project.security.length > 0 && (
             <section>
               <h2 className="mb-3 text-xl font-semibold">Security / Reliability</h2>
-              <ul className="space-y-2 text-[var(--text-secondary)]">
+              <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
                 {project.security.map((item) => (
                   <li key={item}>• {item}</li>
                 ))}
@@ -139,12 +146,15 @@ const CaseStudyPage: React.FC = () => {
           )}
         </div>
 
-        {project.proof && (
+        {project.proof && project.proof.length > 0 && (
           <section className="mt-10">
             <h2 className="mb-4 text-xl font-semibold">Results / Validation</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               {project.proof.map((item) => (
-                <div key={item.label} className="rounded-xl border border-white/10 bg-[var(--surface-1)] p-4">
+                <div
+                  key={item.label}
+                  className="rounded-xl border border-white/10 bg-[var(--surface-1)] p-4"
+                >
                   <p className="font-mono text-2xl font-semibold text-neon">{item.value}</p>
                   <p className="mt-1 text-sm text-[var(--text-muted)]">{item.label}</p>
                 </div>

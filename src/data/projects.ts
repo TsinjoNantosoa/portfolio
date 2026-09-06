@@ -58,9 +58,9 @@ export const featuredProjects: FeaturedProject[] = [
     title: "Arcwell — Governed Agentic CRM",
     label: "Agentic AI · Governance",
     plainSummary:
-      "An AI layer for CRM workflows where agents can propose actions, but sensitive changes require business rules and human approval first.",
+      "An AI layer that helps CRM teams automate work while keeping sensitive actions under business rules and human approval.",
     technicalSummary:
-      "LangGraph orchestration with tenant-scoped retrieval, policy checks, and Human-in-the-Loop approvals.",
+      "LangGraph orchestration · tenant-scoped retrieval · policy checks · Human-in-the-Loop",
     description:
       "A governed AI layer for CRM workflows where agents reason over authorized business context, propose structured actions, and require deterministic policy checks or human approval before sensitive mutations.",
     highlights: [
@@ -70,9 +70,6 @@ export const featuredProjects: FeaturedProject[] = [
       "Audit trails for proposed and approved actions",
     ],
     stack: ["Python", "FastAPI", "LangGraph", "Qdrant", "PostgreSQL", "Redis", "Celery", "React"],
-    usePlaceholder: true,
-    placeholderKind: "agent",
-    placeholderSteps: ["Context", "AI Agent", "Policy", "Human Approval", "Action", "Audit"],
     caseStudyLink: "/work/arcwell-agentic-crm",
     featuredLayout: "standard",
     overview:
@@ -178,16 +175,6 @@ export const featuredProjects: FeaturedProject[] = [
       "Automated follow-up, alerts, and booking workflows",
     ],
     stack: ["Python", "FastAPI", "LangGraph", "OpenAI", "n8n", "React", "PostgreSQL"],
-    usePlaceholder: true,
-    placeholderKind: "workflow",
-    placeholderSteps: [
-      "Message",
-      "Validation",
-      "AI Extraction",
-      "Deterministic Score",
-      "Human Handoff",
-      "Automation",
-    ],
     caseStudyLink: "/work/ai-sales-assistant",
     featuredLayout: "standard",
     overview:

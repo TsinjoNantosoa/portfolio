@@ -4,8 +4,6 @@ export interface ProjectProof {
   hint?: string;
 }
 
-export type PlaceholderKind = "rag" | "agent" | "dashboard" | "workflow" | "architecture";
-
 export interface FeaturedProject {
   id: string;
   slug: string;
@@ -22,9 +20,6 @@ export interface FeaturedProject {
   proof?: ProjectProof[];
   stack: string[];
   imageUrl?: string;
-  usePlaceholder?: boolean;
-  placeholderKind?: PlaceholderKind;
-  placeholderSteps?: string[];
   demoLink?: string;
   githubLink?: string;
   caseStudyLink: string;
