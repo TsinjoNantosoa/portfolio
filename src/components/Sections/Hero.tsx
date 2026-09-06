@@ -25,11 +25,19 @@ const Hero: React.FC = () => {
       />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_30%,rgba(13,255,163,0.06),transparent_35%)]" />
 
+<<<<<<< HEAD
       <div className="site-container">
         <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
           <div>
             <motion.p
               initial={{ opacity: 0, y: 12 }}
+=======
+      <div className="container mx-auto px-4 pb-12 pt-8 sm:pb-16 sm:pt-12 md:px-6 lg:px-8">
+        <div className="grid items-center gap-8 lg:grid-cols-2">
+          <div className="order-2 min-w-0 text-center lg:order-1 lg:text-left">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
               className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-neon sm:text-xs"
@@ -40,8 +48,13 @@ const Hero: React.FC = () => {
             <motion.h1
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
+<<<<<<< HEAD
               transition={{ duration: 0.45, delay: 0.05 }}
               className="mb-3 max-w-3xl text-balance font-sans text-[clamp(2.75rem,5vw,4.5rem)] font-semibold leading-[1.05] tracking-tight text-[var(--text-primary)]"
+=======
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="mb-6 break-words text-[clamp(1.75rem,9vw,3rem)] font-bold leading-[1.15] sm:text-6xl sm:leading-tight"
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
             >
               I build production-ready AI systems.
             </motion.h1>
@@ -49,8 +62,13 @@ const Hero: React.FC = () => {
             <motion.p
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
+<<<<<<< HEAD
               transition={{ duration: 0.45, delay: 0.1 }}
               className="mb-5 font-mono text-sm text-[var(--text-muted)] sm:text-base"
+=======
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mx-auto mb-8 max-w-xl break-words text-base text-white/70 sm:text-lg lg:mx-0"
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
             >
               Sandaniaina Tsinjo Nantosoa
             </motion.p>
@@ -106,10 +124,43 @@ const Hero: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
+<<<<<<< HEAD
               transition={{ duration: 0.45, delay: 0.3 }}
               className="flex items-center gap-3"
             >
               {socials.map(({ href, label, icon: Icon }) => (
+=======
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mb-10 flex min-w-0 flex-col items-center gap-4 sm:flex-row sm:flex-wrap lg:justify-start"
+            >
+<div className="flex w-full flex-col gap-3 min-[380px]:flex-row sm:w-auto sm:gap-4">
+  {/* Ouvrir dans navigateur */}
+  <a
+    href="/CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-neon px-4 py-3 font-semibold text-black transition hover:bg-neon/80 sm:w-auto sm:px-6"
+  >
+    <Download size={16} />
+    VIEW CV
+  </a>
+
+  {/* Download */}
+  <a
+    href="/CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf"
+    download="CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf"
+    className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-neon px-4 py-3 font-semibold text-neon transition hover:bg-neon/20 sm:w-auto sm:px-6"
+  >
+    <Download size={16} />
+    DOWNLOAD
+  </a>
+</div>
+
+
+
+
+              <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
                 <a
                   key={label}
                   href={href}
@@ -128,8 +179,13 @@ const Hero: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
+<<<<<<< HEAD
             transition={{ duration: 0.55, delay: 0.12 }}
             className="mx-auto w-full max-w-sm"
+=======
+            transition={{ duration: 0.8 }}
+            className="order-1 mx-auto w-full max-w-[18rem] sm:max-w-md lg:order-2"
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
           >
             <ProfileImage className="aspect-square w-full" />
           </motion.div>
@@ -138,8 +194,13 @@ const Hero: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
+<<<<<<< HEAD
           transition={{ duration: 0.5, delay: 0.35 }}
           className="mt-12 grid grid-cols-1 gap-3 border-t border-white/10 pt-8 sm:grid-cols-3 sm:gap-4"
+=======
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-12 grid grid-cols-1 gap-6 min-[360px]:grid-cols-2 sm:mt-20 sm:grid-cols-3 sm:gap-8"
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
         >
           <MetricCard
             value="3"

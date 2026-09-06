@@ -4,6 +4,7 @@ import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
 
 const Footer = () => {
   return (
+<<<<<<< HEAD
     <footer className="border-t border-white/10 bg-[var(--bg-primary)] py-10">
       <div className="site-container flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
         <div>
@@ -44,6 +45,12 @@ const Footer = () => {
         </div>
         <p className="text-sm text-white/40">
           © {new Date().getFullYear()} Sandaniaina Tsinjo Nantosoa
+=======
+    <footer className="border-t border-white/10 bg-darkbg py-8">
+      <div className="container mx-auto px-4 text-center text-white/50 md:px-6 lg:px-8">
+        <p className="break-words">
+          &copy; {new Date().getFullYear()} Sandaniaina Tsinjo Nantosoa. All rights reserved.
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
         </p>
       </div>
     </footer>

@@ -51,6 +51,20 @@ const Header = () => {
     return () => observer.disconnect();
   }, [location.pathname]);
 
+<<<<<<< HEAD
+=======
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileMenuOpen]);
+  
+  const isActive = (path: string) => location.pathname === path;
+  
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
@@ -87,6 +101,7 @@ const Header = () => {
             </li>
           </ul>
         </nav>
+<<<<<<< HEAD
 
         <button
           type="button"
@@ -94,6 +109,16 @@ const Header = () => {
           onClick={() => setMobileMenuOpen((open) => !open)}
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
+=======
+        
+        {/* Mobile Menu Toggle */}
+        <button 
+          className="ml-2 flex h-10 w-10 items-center justify-center rounded-full bg-darkcard md:hidden"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navigation"
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
         >
           {mobileMenuOpen ? (
             <X className="h-5 w-5 text-neon" />

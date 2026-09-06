@@ -23,7 +23,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: delay * 0.1 }}
-      className="group relative overflow-hidden rounded-lg bg-darkcard p-6 transition-all duration-300 hover:shadow-[0_0_20px_rgba(13,255,163,0.2)]"
+      className="group relative min-w-0 overflow-hidden rounded-lg bg-darkcard p-4 transition-all duration-300 hover:shadow-[0_0_20px_rgba(13,255,163,0.2)] sm:p-6"
     >
       <div className="mb-6 flex items-center gap-4">
         <div className="font-mono text-3xl font-semibold text-white/30">
@@ -49,10 +49,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           </svg>
         </div>
       </div>
-      <h3 className="mb-3 text-xl font-bold text-white group-hover:text-neon transition-colors">
+      <h3 className="mb-3 break-words text-xl font-bold text-white transition-colors group-hover:text-neon">
         {title}
       </h3>
-      <p className="text-white/70">{description}</p>
+      <p className="break-words text-white/70">{description}</p>
       
       {/* Decorative corner line */}
       <div className="absolute bottom-0 right-0 h-16 w-16 overflow-hidden">

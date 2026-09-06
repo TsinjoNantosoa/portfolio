@@ -73,6 +73,7 @@
     @apply border-border;
   }
 
+<<<<<<< HEAD
   html {
     scroll-behavior: smooth;
   }
@@ -89,12 +90,29 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+=======
+  html,
+  body,
+  #root {
+    @apply min-h-full max-w-full;
+  }
+
+  html,
+  body {
+    overflow-x: clip;
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
   }
 
   body {
     background: var(--bg-primary);
     color: var(--text-primary);
     @apply font-sans antialiased;
+  }
+
+  img,
+  svg,
+  canvas {
+    @apply max-w-full;
   }
 
   h1, h2, h3, h4, h5, h6 {

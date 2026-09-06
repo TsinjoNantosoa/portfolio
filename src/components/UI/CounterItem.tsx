@@ -50,13 +50,14 @@ const CounterItem: React.FC<CounterItemProps> = ({
       { threshold: 0.5 }
     );
     
-    if (countRef.current) {
-      observer.observe(countRef.current);
+    const observedElement = countRef.current;
+    if (observedElement) {
+      observer.observe(observedElement);
     }
     
     return () => {
-      if (countRef.current) {
-        observer.unobserve(countRef.current);
+      if (observedElement) {
+        observer.unobserve(observedElement);
       }
     };
   }, [value, delay, hasAnimated]);
@@ -68,13 +69,13 @@ const CounterItem: React.FC<CounterItemProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: delay * 0.1 }}
-      className="flex flex-col items-center"
+      className="min-w-0 flex flex-col items-center"
     >
-      <div className="mb-2 font-mono text-4xl font-bold text-white">
+      <div className="mb-2 font-mono text-3xl font-bold text-white sm:text-4xl">
         {count}
         <span className="text-neon">{suffix}</span>
       </div>
-      <p className="text-center text-white/70">{label}</p>
+      <p className="break-words text-center text-sm text-white/70 sm:text-base">{label}</p>
     </motion.div>
   );
 };

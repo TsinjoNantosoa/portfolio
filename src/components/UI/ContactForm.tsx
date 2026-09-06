@@ -97,9 +97,14 @@ const ContactForm: React.FC = () => {
     "w-full rounded-md border border-white/10 bg-[var(--surface-2)] px-4 py-3 text-[15px] text-white placeholder-white/40 focus:border-neon focus:outline-none focus:ring-1 focus:ring-neon";
 
   return (
+<<<<<<< HEAD
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       <div className="hidden" aria-hidden="true">
         <label htmlFor="website">Website</label>
+=======
+    <form onSubmit={handleSubmit} className="min-w-0 space-y-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
         <input
           id="website"
           type="text"
@@ -182,7 +187,11 @@ const ContactForm: React.FC = () => {
 
       <Button
         type="submit"
+<<<<<<< HEAD
         className="flex min-h-11 items-center gap-2 rounded-full bg-neon px-6 py-3 text-black transition hover:bg-neon/90"
+=======
+        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-neon px-6 py-3 text-black transition-all hover:shadow-[0_0_15px_rgba(13,255,163,0.6)] sm:w-auto"
+>>>>>>> 4738555d5281ba89bdd2674124bd862d97d03e99
         disabled={isSubmitting}
         isLoading={isSubmitting}
       >
