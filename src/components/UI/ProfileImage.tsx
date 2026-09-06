@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import imgTsinjo from "./tsinjo.png";
+import imgTsinjo from "./tsinjo.jpg";
 
 const ProfileImage: React.FC<{ className?: string }> = ({ className = "" }) => {
   return (

@@ -57,7 +57,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
       <p className="mb-2 line-clamp-3 text-[15.5px] leading-[1.6] text-[var(--text-secondary)]">
         {project.plainSummary}
       </p>
-      <p className="mb-4 line-clamp-2 font-mono text-[12px] leading-relaxed text-[var(--text-muted)]">
+      <p className="mb-4 line-clamp-2 font-mono text-[12.5px] leading-relaxed text-[var(--text-muted)]">
         {project.technicalSummary}
       </p>
 
@@ -65,7 +65,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
         {project.highlights.slice(0, highlightLimit).map((item) => (
           <li
             key={item}
-            className="flex gap-2.5 text-[14px] leading-[1.45] text-[var(--text-secondary)]"
+            className="flex gap-2.5 text-[14.5px] leading-[1.5] text-[var(--text-secondary)]"
           >
             <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-neon" aria-hidden />
             <span>{item}</span>
@@ -161,7 +161,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
           </div>
         </div>
       ) : hasMedia && project.imageUrl ? (
-        <div className={isFlagship ? "grid h-full lg:grid-cols-[1.25fr_0.75fr]" : "flex h-full flex-col"}>
+        <div className={isFlagship ? "grid h-full lg:grid-cols-[0.95fr_1.05fr]" : "flex h-full flex-col"}>
           <div className={isFlagship ? "min-h-0" : undefined}>
             <ProjectMedia
               src={project.imageUrl}
@@ -170,7 +170,8 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
                 `${project.title} screenshot`
               }
               aspectClassName={isFlagship ? "aspect-[16/10] h-full min-h-[300px] lg:aspect-auto" : "aspect-[16/10]"}
-              objectPosition={isFlagship ? "object-[82%_top]" : "object-top"}
+              objectPosition={isFlagship ? "object-right" : "object-top"}
+              imageClassName={isFlagship ? "origin-right scale-[1.35]" : ""}
               onError={() => setMediaFailed(true)}
             />
           </div>

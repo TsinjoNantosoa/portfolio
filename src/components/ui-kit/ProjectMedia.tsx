@@ -5,6 +5,7 @@ interface ProjectMediaProps {
   alt: string;
   aspectClassName?: string;
   className?: string;
+  imageClassName?: string;
   objectPosition?: string;
   onError?: () => void;
 }
@@ -14,6 +15,7 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
   alt,
   aspectClassName = "aspect-[16/10]",
   className = "",
+  imageClassName = "",
   objectPosition = "object-top",
   onError,
 }) => {
@@ -26,7 +28,7 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
         width={1280}
         height={800}
         onError={onError}
-        className={`h-full w-full object-cover transition duration-500 group-hover:scale-[1.015] group-hover:brightness-105 ${objectPosition}`}
+        className={`h-full w-full object-cover transition duration-500 group-hover:brightness-105 ${objectPosition} ${imageClassName}`}
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/20 via-transparent to-transparent" />
     </div>

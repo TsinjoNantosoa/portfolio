@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tsinjonantosoa.netlify.app/sitemap.xml
+Sitemap: https://tsinjona.netlify.app/sitemap.xml

@@ -28,14 +28,14 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
         <h3 className="mb-2 text-base font-semibold leading-snug text-[var(--text-primary)]">
           {project.title}
         </h3>
-        <p className="mb-3 line-clamp-2 text-[13.5px] leading-relaxed text-[var(--text-secondary)]">
+        <p className="mb-3 line-clamp-3 text-[14.5px] leading-relaxed text-[var(--text-secondary)]">
           {project.description}
         </p>
         <div className="mb-3 flex flex-wrap gap-1.5">
           {project.stack.slice(0, 3).map((tech) => (
             <span
               key={tech}
-              className="tech-tag !min-h-6 !px-2 !text-[10.5px]"
+              className="tech-tag !min-h-6 !px-2 !text-[11px]"
             >
               {tech}
             </span>
@@ -47,7 +47,7 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
               href={project.githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-9 items-center gap-1 text-xs text-white/60 hover:text-white"
+              className="inline-flex min-h-9 items-center gap-1.5 text-[13px] text-white/70 hover:text-white"
             >
               <Github size={12} />
               Code

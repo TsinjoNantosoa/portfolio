@@ -25,7 +25,7 @@ export const featuredProjects: FeaturedProject[] = [
     proof: [
       { value: "3", label: "Assistants", hint: "Deployed for real organizations" },
       { value: "700+", label: "Knowledge chunks", hint: "Indexed and maintained" },
-      { value: "97/98", label: "Quality checks", hint: "Validated before production" },
+      { value: "97/98", label: "Checks passed", hint: "Automated quality and security validation" },
     ],
     stack: ["Python", "FastAPI", "LangChain", "Qdrant", "PostgreSQL", "Redis", "React", "Docker"],
     imageUrl: "/portfolio-uploads/production-multi-tenant-rag-platform.png",

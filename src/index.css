@@ -12,8 +12,8 @@
     --border-subtle: rgba(255, 255, 255, 0.08);
     --border-medium: rgba(255, 255, 255, 0.12);
     --text-primary: #F5F7F8;
-    --text-secondary: rgba(245, 247, 248, 0.72);
-    --text-muted: rgba(245, 247, 248, 0.52);
+    --text-secondary: rgba(245, 247, 248, 0.8);
+    --text-muted: rgba(245, 247, 248, 0.64);
     --brand-accent: #0DFFA3;
 
     --section-xs: 3rem;
@@ -205,7 +205,7 @@
   }
 
   .surface-card {
-    @apply overflow-hidden rounded-2xl border border-white/[0.09] bg-[var(--surface-1)] transition duration-300;
+    @apply overflow-hidden rounded-lg border border-white/[0.11] bg-[var(--surface-1)] transition duration-300;
   }
 
   .surface-card-hover {
@@ -213,7 +213,7 @@
   }
 
   .tech-tag {
-    @apply inline-flex min-h-7 items-center rounded-md border border-white/10 bg-white/[0.015] px-2.5 py-1 font-mono text-[11.5px] leading-none text-white/65;
+    @apply inline-flex min-h-7 items-center rounded-md border border-white/10 bg-white/[0.025] px-2.5 py-1 font-mono text-xs leading-none text-white/70;
   }
 
   .eyebrow {

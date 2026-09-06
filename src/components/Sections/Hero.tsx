@@ -18,8 +18,8 @@ const metrics = [
   },
   {
     value: "97/98",
-    label: "Quality & Security Checks",
-    hint: "Validated before production",
+    label: "Automated Checks Passed",
+    hint: "Quality and security validation",
   },
   {
     value: "20",
@@ -46,13 +46,11 @@ const Hero: React.FC = () => {
         }}
         aria-hidden
       />
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_72%_28%,rgba(13,255,163,0.05),transparent_34%)]" />
-
       <div className="site-container">
         <div className="layout-grid items-center py-8 sm:py-10 lg:py-12">
           <div className="col-span-12 lg:col-span-7">
             <motion.p
-              initial={{ opacity: 0, y: 10 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
               className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-neon sm:text-xs"
@@ -61,16 +59,16 @@ const Hero: React.FC = () => {
             </motion.p>
 
             <motion.h1
-              initial={{ opacity: 0, y: 12 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.04 }}
-              className="mb-4 max-w-[720px] text-balance font-sans text-[clamp(2.8rem,5vw,4.8rem)] font-semibold leading-[1.03] tracking-tight text-[var(--text-primary)]"
+              className="mb-4 max-w-[720px] text-balance font-sans text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[1.03] tracking-tight text-[var(--text-primary)]"
             >
               I build production-ready AI systems.
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 12 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.08 }}
               className="mb-4 font-mono text-sm text-[var(--text-muted)] sm:text-[15px]"
@@ -79,7 +77,7 @@ const Hero: React.FC = () => {
             </motion.p>
 
             <motion.p
-              initial={{ opacity: 0, y: 12 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.12 }}
               className="mb-2 max-w-[650px] text-[16.5px] leading-relaxed text-[var(--text-secondary)] sm:text-[17.5px]"
@@ -89,7 +87,7 @@ const Hero: React.FC = () => {
             </motion.p>
 
             <motion.p
-              initial={{ opacity: 0, y: 12 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.16 }}
               className="mb-6 text-sm text-[var(--text-muted)]"
@@ -98,7 +96,7 @@ const Hero: React.FC = () => {
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
               className="mb-5 flex flex-wrap items-center gap-3"
@@ -127,7 +125,7 @@ const Hero: React.FC = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.24 }}
               className="flex items-center gap-2.5"
@@ -149,7 +147,7 @@ const Hero: React.FC = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="col-span-12 mx-auto w-full max-w-[260px] sm:max-w-[320px] lg:col-span-5 lg:mx-0 lg:max-w-[340px] lg:justify-self-end"

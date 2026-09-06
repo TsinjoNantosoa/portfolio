@@ -28,7 +28,7 @@ Optional contact API:
 VITE_CONTACT_API_URL=https://your-api.example.com/api/contacts
 ```
 
-If unset, the contact form opens a mailto draft.
+If unset, the contact form submits through Netlify Forms.
 
 ## Featured work
 

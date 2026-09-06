@@ -8,7 +8,7 @@ const Contact: React.FC = () => {
   return (
     <section
       id="contact"
-      className="section-block scroll-mt-24 bg-[radial-gradient(ellipse_at_top,rgba(13,255,163,0.04),transparent_45%)]"
+      className="section-block scroll-mt-24 bg-[var(--bg-secondary)]/35"
     >
       <div className="site-container">
         <div className="layout-grid items-start">
