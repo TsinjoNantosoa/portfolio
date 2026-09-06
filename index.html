@@ -68,6 +68,23 @@
   </head>
 
   <body>
+    <!-- Netlify parses this static blueprint at deploy time for the React form. -->
+    <form
+      name="portfolio-contact"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      hidden
+    >
+      <input type="hidden" name="form-name" value="portfolio-contact" />
+      <input name="name" type="text" />
+      <input name="email" type="email" />
+      <select name="projectType">
+        <option value="AI Agent">AI Agent</option>
+      </select>
+      <textarea name="message"></textarea>
+      <input name="bot-field" type="text" />
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

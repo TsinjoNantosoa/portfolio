@@ -21,6 +21,8 @@ type FieldErrors = {
 const isValidEmail = (value: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 
+const NETLIFY_FORM_NAME = "portfolio-contact";
+
 const ContactForm: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -72,25 +74,31 @@ const ContactForm: React.FC = () => {
         if (!response.ok) {
           throw new Error(`API error ${response.status}`);
         }
-
-        toast.success("Message sent successfully.");
-        setName("");
-        setEmail("");
-        setProjectType("");
-        setMessage("");
-        setErrors({});
       } else {
-        const subject = encodeURIComponent(
-          `Portfolio contact — ${projectType || "AI project"}`
-        );
-        const body = encodeURIComponent(
-          `Name: ${name.trim()}\nEmail: ${email.trim()}\nWhat are you building?: ${projectType}\n\n${message.trim()}`
-        );
-        window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-        toast.message(
-          "Email draft opened. Please send it from your email app."
-        );
+        const response = await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            "form-name": NETLIFY_FORM_NAME,
+            name: name.trim(),
+            email: email.trim(),
+            projectType,
+            message: message.trim(),
+            "bot-field": website,
+          }).toString(),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Netlify Forms error ${response.status}`);
+        }
       }
+
+      toast.success("Message sent successfully.");
+      setName("");
+      setEmail("");
+      setProjectType("");
+      setMessage("");
+      setErrors({});
     } catch {
       toast.error("Could not send via form. Email me directly.", {
         action: {
@@ -109,12 +117,21 @@ const ContactForm: React.FC = () => {
     "w-full min-h-12 rounded-lg border border-white/15 bg-[var(--surface-2)] px-3.5 py-2.5 text-[15.5px] text-[var(--text-primary)] outline-none transition placeholder:text-white/30 hover:border-white/25 focus:border-neon/60 focus:ring-1 focus:ring-neon/30";
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4">
+    <form
+      name={NETLIFY_FORM_NAME}
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      onSubmit={handleSubmit}
+      noValidate
+      className="space-y-4"
+    >
+      <input type="hidden" name="form-name" value={NETLIFY_FORM_NAME} />
       <div className="hidden" aria-hidden="true">
-        <label htmlFor="website">Website</label>
+        <label htmlFor="bot-field">Do not fill this field</label>
         <input
-          id="website"
-          name="website"
+          id="bot-field"
+          name="bot-field"
           type="text"
           value={website}
           onChange={(e) => setWebsite(e.target.value)}
