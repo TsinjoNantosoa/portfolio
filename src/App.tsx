@@ -5,20 +5,26 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import CaseStudyPage from "./pages/CaseStudyPage";
 import PortfolioAssistantLauncher from "./components/assistant/PortfolioAssistantLauncher";
+import { I18nProvider } from "./i18n/I18nProvider";
+import { ThemeProvider } from "./theme/ThemeProvider";
 
 const App = () => {
   return (
-    <TooltipProvider>
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/work/:slug" element={<CaseStudyPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <PortfolioAssistantLauncher />
-      </BrowserRouter>
-    </TooltipProvider>
+    <ThemeProvider>
+      <I18nProvider>
+        <TooltipProvider>
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/work/:slug" element={<CaseStudyPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <PortfolioAssistantLauncher />
+          </BrowserRouter>
+        </TooltipProvider>
+      </I18nProvider>
+    </ThemeProvider>
   );
 };
 

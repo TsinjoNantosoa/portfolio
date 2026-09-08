@@ -2,7 +2,9 @@ import { useEffect, useId, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import MobileMenu from "./MobileMenu";
+import PreferencesControls from "./PreferencesControls";
 import { navItems } from "@/data/navigation";
+import { useI18n, type TranslationKey } from "@/i18n/I18nProvider";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -10,6 +12,8 @@ const Header = () => {
   const [activeSection, setActiveSection] = useState("work");
   const location = useLocation();
   const menuId = useId();
+  const { t } = useI18n();
+  const navKey = (id: string) => `nav.${id}` as TranslationKey;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 16);
@@ -80,7 +84,7 @@ const Header = () => {
           Tsinjo<span className="text-neon">.</span>
         </Link>
 
-        <nav className="hidden md:block" aria-label="Primary">
+        <nav className="hidden lg:block" aria-label={t("nav.primary")}>
           <ul className="flex items-center gap-0.5">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
@@ -91,14 +95,17 @@ const Header = () => {
                     className={`menu-item ${isActive ? "active" : ""}`}
                     aria-current={isActive ? "true" : undefined}
                   >
-                    {item.label}
+                    {t(navKey(item.id))}
                   </a>
                 </li>
               );
             })}
-            <li className="ml-3">
+            <li className="ml-2">
+              <PreferencesControls />
+            </li>
+            <li className="ml-2">
               <a href="/#contact" className="btn-neon">
-                Let&apos;s Talk
+                {t("nav.talk")}
               </a>
             </li>
           </ul>
@@ -106,9 +113,9 @@ const Header = () => {
 
         <button
           type="button"
-          className="ml-2 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-[var(--surface-1)] md:hidden"
+          className="ml-2 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-[var(--surface-1)] lg:hidden"
           onClick={() => setMobileMenuOpen((open) => !open)}
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-label={mobileMenuOpen ? t("nav.close") : t("nav.open")}
           aria-expanded={mobileMenuOpen}
           aria-controls={menuId}
         >
@@ -124,7 +131,7 @@ const Header = () => {
         id={menuId}
         isOpen={mobileMenuOpen}
         setIsOpen={setMobileMenuOpen}
-        items={navItems.map(({ label, href }) => ({ label, href }))}
+        items={navItems.map(({ id, href }) => ({ label: t(navKey(id)), href }))}
       />
     </header>
   );

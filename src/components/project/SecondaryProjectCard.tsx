@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Github, ExternalLink } from "lucide-react";
 import type { SecondaryProject } from "@/types/portfolio";
 import ProjectMedia from "@/components/ui-kit/ProjectMedia";
+import { useI18n } from "@/i18n/I18nProvider";
+import { localizePortfolioText } from "@/i18n/portfolioContent";
 
 interface SecondaryProjectCardProps {
   project: SecondaryProject;
 }
 
 const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) => {
+  const { language, t } = useI18n();
   const [mediaFailed, setMediaFailed] = useState(false);
   const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
 
@@ -29,7 +32,7 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
           {project.title}
         </h3>
         <p className="mb-3 line-clamp-3 text-[14.5px] leading-relaxed text-[var(--text-secondary)]">
-          {project.description}
+          {localizePortfolioText(project.description, language)}
         </p>
         <div className="mb-3 flex flex-wrap gap-1.5">
           {project.stack.slice(0, 3).map((tech) => (
@@ -50,7 +53,7 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
               className="inline-flex min-h-9 items-center gap-1.5 text-[13px] text-white/70 hover:text-white"
             >
               <Github size={12} />
-              Code
+              {t("work.code")}
             </a>
           )}
           {project.demoLink && (
@@ -61,7 +64,7 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
               className="inline-flex min-h-9 items-center gap-1 text-xs text-white/60 hover:text-white"
             >
               <ExternalLink size={12} />
-              Demo
+              {t("work.demo")}
             </a>
           )}
         </div>

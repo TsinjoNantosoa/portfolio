@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import PreferencesControls from "./PreferencesControls";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface NavItem {
   label: string;
@@ -18,6 +20,7 @@ interface MobileMenuProps {
 const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -34,7 +37,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items })
       if (event.key !== "Tab" || !panelRef.current) return;
 
       const focusableElements = panelRef.current.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        'a[href], button:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
       );
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
@@ -63,11 +66,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items })
         <>
           <motion.button
             type="button"
-            aria-label="Close menu overlay"
+            aria-label={t("nav.close")}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[90] bg-black/70 md:hidden"
+            className="fixed inset-0 z-[90] bg-black/70 lg:hidden"
             onClick={() => setIsOpen(false)}
           />
           <motion.div
@@ -75,47 +78,50 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items })
             id={id}
             role="dialog"
             aria-modal="true"
-            aria-label="Mobile navigation"
+            aria-label={t("nav.mobile")}
             initial={{ opacity: 0, x: -280 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -280 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-y-0 left-0 z-[100] w-[min(320px,86vw)] border-r border-white/10 bg-[#0D1318] shadow-2xl md:hidden"
+            className="fixed inset-y-0 left-0 z-[100] w-[min(340px,88vw)] border-r border-white/10 bg-[var(--surface-1)] pb-[env(safe-area-inset-bottom)] text-[var(--text-primary)] shadow-2xl lg:hidden"
           >
             <div className="flex h-16 items-center justify-between border-b border-white/10 px-6">
-              <span className="text-lg font-semibold text-white">
+              <span className="text-lg font-semibold text-[var(--text-primary)]">
                 Tsinjo<span className="text-neon">.</span>
               </span>
               <button
                 ref={closeButtonRef}
                 type="button"
                 onClick={() => setIsOpen(false)}
-                aria-label="Close menu"
+                aria-label={t("nav.close")}
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-neon transition hover:border-neon/50"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <nav className="p-6 pt-8" aria-label="Mobile">
+            <nav className="p-6 pt-8" aria-label={t("nav.mobile")}>
               <ul className="flex flex-col gap-2">
                 {items.map((item) => (
                   <li key={item.href}>
                     <a
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className="flex min-h-11 items-center rounded-lg px-3 text-base text-white/75 transition hover:bg-white/5 hover:text-neon"
+                      className="flex min-h-11 items-center rounded-lg px-3 text-base text-[var(--text-secondary)] transition hover:bg-white/5 hover:text-neon"
                     >
                       {item.label}
                     </a>
                   </li>
                 ))}
               </ul>
+              <div className="mt-7 border-t border-white/10 pt-5">
+                <PreferencesControls compact />
+              </div>
               <a
                 href="/#contact"
                 onClick={() => setIsOpen(false)}
                 className="mt-8 flex min-h-11 w-full items-center justify-center rounded-full bg-neon text-sm font-semibold text-black"
               >
-                Let&apos;s Talk
+                {t("nav.talk")}
               </a>
             </nav>
           </motion.div>

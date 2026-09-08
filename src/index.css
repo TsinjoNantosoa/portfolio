@@ -50,6 +50,37 @@
     --sidebar-border: 210 12% 14%;
     --sidebar-ring: 158 100% 52%;
   }
+
+  html[data-theme="light"] {
+    --bg-primary: #F3F1EB;
+    --bg-secondary: #EAE7DF;
+    --surface-1: #FAF9F5;
+    --surface-2: #F0EEE7;
+    --surface-hover: #E7E4DB;
+    --border-subtle: rgba(15, 31, 27, 0.09);
+    --border-medium: rgba(15, 31, 27, 0.15);
+    --text-primary: #10201B;
+    --text-secondary: rgba(16, 32, 27, 0.78);
+    --text-muted: rgba(16, 32, 27, 0.58);
+    --brand-accent: #087F58;
+    --background: 43 24% 94%;
+    --foreground: 160 27% 9%;
+    --card: 45 29% 97%;
+    --card-foreground: 160 27% 9%;
+    --popover: 45 29% 97%;
+    --popover-foreground: 160 27% 9%;
+    --primary: 160 27% 9%;
+    --primary-foreground: 43 24% 94%;
+    --secondary: 43 17% 88%;
+    --secondary-foreground: 160 27% 9%;
+    --muted: 43 17% 88%;
+    --muted-foreground: 158 12% 40%;
+    --accent: 158 88% 27%;
+    --accent-foreground: 45 29% 97%;
+    --border: 150 11% 82%;
+    --input: 150 11% 82%;
+    --ring: 158 88% 27%;
+  }
 }
 
 @layer base {
@@ -90,6 +121,7 @@
     background: var(--bg-primary);
     color: var(--text-primary);
     @apply font-sans antialiased;
+    transition: background-color 180ms ease, color 180ms ease;
   }
 
   img,
@@ -185,7 +217,8 @@
   }
 
   .menu-item {
-    @apply relative px-3 py-2 text-sm text-white/70 transition-colors duration-300 hover:text-neon;
+    @apply relative px-3 py-2 text-sm transition-colors duration-300 hover:text-neon;
+    color: var(--text-muted);
   }
 
   .menu-item.active {
@@ -201,7 +234,9 @@
   }
 
   .btn-outline {
-    @apply inline-flex min-h-11 items-center justify-center rounded-full border border-white/20 px-5 py-2 text-sm font-medium text-white transition hover:border-neon/50 hover:text-neon;
+    @apply inline-flex min-h-11 items-center justify-center rounded-full px-5 py-2 text-sm font-medium transition hover:text-neon;
+    border: 1px solid var(--border-medium);
+    color: var(--text-primary);
   }
 
   .surface-card {
@@ -227,10 +262,79 @@
   .text-link {
     @apply inline-flex min-h-10 items-center gap-1.5 text-sm font-medium text-neon transition hover:text-neon/80;
   }
+
+  .preference-controls {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+  }
+
+  .language-selector,
+  .theme-selector {
+    display: flex;
+    min-height: 2.25rem;
+    align-items: center;
+    border: 1px solid var(--border-medium);
+    border-radius: .65rem;
+    background: color-mix(in srgb, var(--surface-1) 88%, transparent);
+  }
+
+  .language-selector button {
+    min-width: 2rem;
+    padding: .4rem .45rem;
+    border-radius: .5rem;
+    color: var(--text-muted);
+    font: 600 10px/1 ui-monospace, SFMono-Regular, monospace;
+  }
+
+  .language-selector button[aria-pressed="true"] {
+    background: color-mix(in srgb, var(--brand-accent) 13%, transparent);
+    color: var(--brand-accent);
+  }
+
+  .theme-selector {
+    gap: .25rem;
+    padding: 0 .45rem;
+    color: var(--text-muted);
+  }
+
+  .theme-selector select {
+    max-width: 5.3rem;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 11px;
+  }
+
+  .theme-selector option {
+    background: var(--surface-1);
+    color: var(--text-primary);
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+html[data-theme="light"] [class*="text-white"] {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme="light"] [class*="border-white"] {
+  border-color: var(--border-subtle) !important;
+}
+
+html[data-theme="light"] [class*="bg-white/"] {
+  background-color: rgba(16, 32, 27, .025) !important;
+}
+
+.text-neon {
+  color: var(--brand-accent) !important;
+}
+
+.bg-neon {
+  background-color: var(--brand-accent) !important;
 }

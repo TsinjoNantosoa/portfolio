@@ -8,8 +8,11 @@ import {
   languages,
   skillGroups,
 } from "@/data/experience";
+import { useI18n } from "@/i18n/I18nProvider";
+import { localizePortfolioText } from "@/i18n/portfolioContent";
 
 const Background: React.FC = () => {
+  const { language, t } = useI18n();
   const [showAllCerts, setShowAllCerts] = useState(false);
   const visibleCerts = showAllCerts ? allCertifications : featuredCertifications;
 
@@ -17,16 +20,16 @@ const Background: React.FC = () => {
     <section id="background" className="section-block scroll-mt-24 bg-[var(--bg-secondary)]/35">
       <div className="site-container">
         <SectionHeader
-          eyebrow="Background"
-          title="Engineering stack, education & credentials"
-          description="Technical toolkit and academic foundation behind the production work."
+          eyebrow={t("nav.background")}
+          title={t("background.title")}
+          description={t("background.description")}
           className="mb-8 md:mb-10"
         />
 
         <div className="layout-grid">
           <div className="surface-card col-span-12 p-5 sm:p-6 lg:col-span-7">
             <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.18em] text-neon">
-              Engineering Stack
+              {t("background.stack")}
             </h3>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {skillGroups.map((group) => (
@@ -51,7 +54,7 @@ const Background: React.FC = () => {
 
           <div className="surface-card col-span-12 p-5 sm:p-6 lg:col-span-5">
             <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.18em] text-neon">
-              Education
+              {t("background.education")}
             </h3>
             <ul className="space-y-5">
               {educationItems.map((edu) => (
@@ -62,10 +65,10 @@ const Background: React.FC = () => {
                   {edu.period ? (
                     <p className="mb-1.5 font-mono text-xs text-neon">{edu.period}</p>
                   ) : null}
-                  <p className="text-[15px] font-medium text-[var(--text-primary)]">{edu.title}</p>
+                  <p className="text-[15px] font-medium text-[var(--text-primary)]">{localizePortfolioText(edu.title, language)}</p>
                   {edu.detail && (
                     <p className="mt-1 text-[14.5px] leading-relaxed text-[var(--text-secondary)]">
-                      {edu.detail}
+                      {localizePortfolioText(edu.detail, language)}
                     </p>
                   )}
                   <p className="mt-1.5 text-sm text-white/50">{edu.institution}</p>
@@ -75,7 +78,7 @@ const Background: React.FC = () => {
 
             <div className="mt-8 border-t border-white/10 pt-4">
               <h3 className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-neon">
-                Languages
+                {t("background.languages")}
               </h3>
               <ul className="space-y-2">
                 {languages.map((lang) => (
@@ -84,7 +87,11 @@ const Background: React.FC = () => {
                     className="flex items-baseline justify-between gap-4 text-[14.5px]"
                   >
                     <span className="text-[var(--text-primary)]">{lang.name}</span>
-                    <span className="font-mono text-[12.5px] text-white/50">{lang.level}</span>
+                    <span className="font-mono text-[12.5px] text-white/50">
+                      {language === "fr"
+                        ? lang.level === "Native" ? "Langue maternelle" : "Professionnel"
+                        : lang.level}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -93,7 +100,7 @@ const Background: React.FC = () => {
 
           <div className="col-span-12 mt-2 border-t border-white/10 pt-8">
             <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.18em] text-neon">
-              Selected Credentials
+              {t("background.credentials")}
             </h3>
             <ul className="grid grid-cols-1 gap-x-10 gap-y-0 sm:grid-cols-2">
               {visibleCerts.map((cert) => (
@@ -116,7 +123,7 @@ const Background: React.FC = () => {
                     rel="noopener noreferrer"
                     className="inline-flex min-h-10 shrink-0 items-center gap-1 text-sm text-neon hover:underline"
                   >
-                    View
+                    {t("background.view")}
                     <ExternalLink size={13} aria-hidden />
                   </a>
                 </li>
@@ -129,7 +136,7 @@ const Background: React.FC = () => {
                   onClick={() => setShowAllCerts(true)}
                   className="mt-4 text-sm text-neon hover:underline"
                 >
-                  View all certifications →
+                  {t("background.viewAll")}
                 </button>
               )}
           </div>

@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { Bot, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import AssistantHeader from "./AssistantHeader";
 import Composer from "./Composer";
 import MessageBubble from "./MessageBubble";
@@ -9,16 +9,25 @@ import { AssistantApiError, createPublicSession, streamChat } from "./assistant-
 import { assistantConfig, INITIAL_QUESTIONS } from "./assistant-config";
 import { clearMessages, clearSession, getSession, readMessages, saveMessages, saveSession } from "./assistant-session";
 import type { AssistantStatus, ChatMessage, SessionResponse, StreamEvent } from "./assistant-types";
+import TsinjoAiMark from "@/components/brand/TsinjoAiMark";
+import { useI18n } from "@/i18n/I18nProvider";
 import "./portfolio-assistant.css";
 
-const STATUS_LABELS: Record<AssistantStatus, string> = {
-  connecting: "Connecting to Tsinjo AI...", idle: "Public portfolio knowledge", thinking: "Searching portfolio...",
-  streaming: "Writing answer...", complete: "Answer grounded in public portfolio data",
-  error: "The assistant could not complete the request.", rate_limited: "Too many requests. Please try again shortly.",
-  unavailable: "Assistant temporarily unavailable.",
-};
-
 export default function PortfolioAssistant({ onClose }: { onClose: () => void }) {
+  const { language, t } = useI18n();
+  const statusLabels: Record<AssistantStatus, string> = {
+    connecting: t("assistant.connecting"),
+    idle: t("assistant.idle"),
+    thinking: t("assistant.searching"),
+    streaming: t("assistant.writing"),
+    complete: t("assistant.complete"),
+    error: t("assistant.error"),
+    rate_limited: t("assistant.rateLimited"),
+    unavailable: t("assistant.unavailable"),
+  };
+  const initialQuestions = language === "fr"
+    ? ["Systèmes RAG", "Agents IA", "Automatisation et n8n", "Ingénierie backend", "Expérience professionnelle", "Contacter Tsinjo"]
+    : INITIAL_QUESTIONS;
   const [messages, setMessages] = useState<ChatMessage[]>(readMessages);
   const [session, setSession] = useState<SessionResponse | null>(getSession);
   const [input, setInput] = useState("");
@@ -127,7 +136,7 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
     } catch (error) {
       const stopped = error instanceof DOMException && error.name === "AbortError" && !timedOut;
       const rateLimited = error instanceof AssistantApiError && error.status === 429;
-      const message = timedOut ? "The response timed out. Please retry." : stopped ? "Response stopped." : rateLimited ? STATUS_LABELS.rate_limited : "Tsinjo AI is temporarily unavailable. Please try again.";
+      const message = timedOut ? (language === "fr" ? "La réponse a expiré. Réessayez." : "The response timed out. Please retry.") : stopped ? (language === "fr" ? "Réponse arrêtée." : "Response stopped.") : rateLimited ? statusLabels.rate_limited : t("assistant.unavailable");
       setStatus(rateLimited ? "rate_limited" : stopped ? "idle" : "error");
       setMessages((current) => current.map((item) => item.id === answerId ? { ...item, text: item.text || message, failed: !stopped } : item));
     } finally { window.clearTimeout(timeout); setSending(false); abortRef.current = null; }
@@ -137,15 +146,15 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
 
   return <div ref={dialogRef} className="tsinjo-ai" role="dialog" aria-modal="true" aria-labelledby={titleId}>
     <AssistantHeader titleId={titleId} onClear={resetConversation} onClose={onClose} />
-    <div className={`tsinjo-ai__status is-${status}`} role="status"><span />{STATUS_LABELS[status]}</div>
+    <div className={`tsinjo-ai__status is-${status}`} role="status"><span />{statusLabels[status]}</div>
     <div ref={listRef} className="tsinjo-ai__messages" aria-live="polite" aria-busy={sending}>
-      {messages.length === 0 && <section className="tsinjo-ai__welcome"><div className="tsinjo-ai__orb"><Bot size={26} /></div><h3>Hi, I am Tsinjo AI.</h3><p>Ask about Tsinjo's RAG systems, AI agents, automation projects, or engineering experience.</p>{assistantConfig.available ? <QuickQuestions questions={INITIAL_QUESTIONS} onSelect={(question) => void ask(question)} /> : <p className="tsinjo-ai__unavailable">The portfolio remains available while the assistant configuration is restored.</p>}</section>}
+      {messages.length === 0 && <section className="tsinjo-ai__welcome"><div className="tsinjo-ai__orb"><TsinjoAiMark className="h-8 w-8" /></div><h3>{t("assistant.ask")}</h3><p>{t("assistant.intro")}</p>{assistantConfig.available ? <QuickQuestions questions={initialQuestions} onSelect={(question) => void ask(question)} /> : <p className="tsinjo-ai__unavailable">{t("assistant.configRestored")}</p>}</section>}
       {messages.map((message) => <MessageBubble key={message.id} message={message} onQuestion={(question) => void ask(question)} />)}
-      {sending && !messages.at(-1)?.text ? <TypingIndicator label={STATUS_LABELS[status]} /> : null}
+      {sending && !messages.at(-1)?.text ? <TypingIndicator label={statusLabels[status]} /> : null}
     </div>
-    {!session && assistantConfig.available && !sending && (status === "error" || status === "unavailable" || status === "rate_limited") ? <button type="button" className="tsinjo-ai__retry" onClick={() => void retryConnection()}><RotateCcw size={14} /> Retry connection</button> : null}
-    {retryQuestion && !sending && messages.at(-1)?.failed ? <button type="button" className="tsinjo-ai__retry" onClick={() => void ask(retryQuestion, true)}><RotateCcw size={14} /> Retry answer</button> : null}
+    {!session && assistantConfig.available && !sending && (status === "error" || status === "unavailable" || status === "rate_limited") ? <button type="button" className="tsinjo-ai__retry" onClick={() => void retryConnection()}><RotateCcw size={14} /> {t("assistant.retryConnection")}</button> : null}
+    {retryQuestion && !sending && messages.at(-1)?.failed ? <button type="button" className="tsinjo-ai__retry" onClick={() => void ask(retryQuestion, true)}><RotateCcw size={14} /> {t("assistant.retryAnswer")}</button> : null}
     <Composer value={input} maxLength={assistantConfig.maxMessageLength} sending={sending} disabled={!assistantConfig.available} inputRef={inputRef} onChange={setInput} onSend={() => void ask(input)} onStop={() => abortRef.current?.abort()} />
-    <footer>Public portfolio data only · <a href="/privacy.html">Privacy</a></footer>
+    <footer>{t("assistant.privacy")} · <a href="/privacy.html">{t("assistant.privacyLink")}</a></footer>
   </div>;
 }

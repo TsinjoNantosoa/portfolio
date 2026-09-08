@@ -3,8 +3,10 @@ import { Github, Linkedin, Mail, MapPin } from "lucide-react";
 import ContactForm from "@/components/UI/ContactForm";
 import SectionHeader from "@/components/ui-kit/SectionHeader";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const Contact: React.FC = () => {
+  const { t } = useI18n();
   return (
     <section
       id="contact"
@@ -14,9 +16,9 @@ const Contact: React.FC = () => {
         <div className="layout-grid items-start">
           <div className="col-span-12 lg:col-span-5">
             <SectionHeader
-              eyebrow="Contact"
-              title="Building an AI product, RAG system or automation workflow?"
-              description="Let's discuss how to turn it into a reliable production-ready system."
+              eyebrow={t("nav.contact")}
+              title={t("contact.title")}
+              description={t("contact.description")}
               className="mb-6"
             />
 
@@ -36,9 +38,9 @@ const Contact: React.FC = () => {
               <div className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neon" aria-hidden />
                 <div>
-                  <p className="text-xs text-white/45">Location</p>
+                  <p className="text-xs text-white/45">{t("contact.location")}</p>
                   <p className="text-[15px] text-[var(--text-primary)]">
-                    Madagascar · Open to remote
+                    {t("contact.locationValue")}
                   </p>
                 </div>
               </div>

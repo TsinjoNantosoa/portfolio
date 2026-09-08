@@ -12,7 +12,7 @@ export const assistantConfig = {
   streamTimeoutMs: 90_000,
 } as const;
 
-export const INITIAL_QUESTIONS = ["Explore RAG projects", "AI Agents and LangGraph", "Automation with n8n", "Professional experience", "Backend engineering", "Contact Tsinjo"];
+export const INITIAL_QUESTIONS = ["RAG Systems", "AI Agents", "Automation & n8n", "Backend Engineering", "Professional Experience", "Contact Tsinjo"];
 
 if (import.meta.env.PROD && !api.available) {
   console.error("[Tsinjo AI] VITE_PORTFOLIO_AI_API_URL is missing. The assistant is disabled.");

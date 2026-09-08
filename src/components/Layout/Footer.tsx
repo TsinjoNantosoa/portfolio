@@ -1,8 +1,10 @@
 import React from "react";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const Footer = () => {
+  const { t } = useI18n();
   return (
     <footer className="border-t border-white/10 bg-[var(--bg-primary)] py-8">
       <div className="site-container flex flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
@@ -11,7 +13,7 @@ const Footer = () => {
             Sandaniaina Tsinjo Nantosoa
           </p>
           <p className="mt-1 font-mono text-[11px] text-[var(--text-muted)]">
-            AI Engineer — RAG · Agents · Automation
+            {t("hero.eyebrow")}
           </p>
         </div>
         <div className="flex items-center gap-2.5">

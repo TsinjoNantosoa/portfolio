@@ -8,11 +8,11 @@ vi.mock("./PortfolioAssistant", () => ({ default: ({ onClose }: { onClose: () =>
 describe("PortfolioAssistantLauncher", () => {
   it("is closed by default, opens explicitly, closes, and restores focus", async () => {
     render(<PortfolioAssistantLauncher />);
-    const launcher = screen.getByRole("button", { name: "Open Tsinjo AI portfolio assistant" });
+    const launcher = screen.getByRole("button", { name: "Ask Tsinjo AI" });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     await userEvent.click(launcher);
     expect(await screen.findByRole("dialog")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Close assistant" }));
-    await waitFor(() => expect(screen.getByRole("button", { name: "Open Tsinjo AI portfolio assistant" })).toHaveFocus());
+    await waitFor(() => expect(screen.getByRole("button", { name: "Ask Tsinjo AI" })).toHaveFocus());
   });
 });

@@ -2,17 +2,20 @@ import React from "react";
 import { motion } from "framer-motion";
 import SectionHeader from "@/components/ui-kit/SectionHeader";
 import { experienceItems } from "@/data/experience";
+import { useI18n } from "@/i18n/I18nProvider";
+import { localizePortfolioText } from "@/i18n/portfolioContent";
 
 const Experience: React.FC = () => {
+  const { language, t } = useI18n();
   return (
     <section id="experience" className="section-block scroll-mt-24">
       <div className="site-container">
         <div className="layout-grid">
           <div className="col-span-12 lg:col-span-3">
             <SectionHeader
-              eyebrow="Experience"
-              title="Professional Experience"
-              description="Production AI systems, automation, and backend reliability."
+              eyebrow={t("nav.experience")}
+              title={t("experience.title")}
+              description={t("experience.description")}
               className="mb-6 lg:mb-0"
             />
           </div>
@@ -33,14 +36,14 @@ const Experience: React.FC = () => {
 
                 <div className="col-span-12 sm:col-span-9 lg:col-span-7">
                   <h3 className="text-[19px] font-semibold leading-snug text-[var(--text-primary)]">
-                    {item.title}
+                    {localizePortfolioText(item.title, language)}
                   </h3>
                   <p className="mt-1 text-[14.5px] text-white/60">
                     {item.company}
                     {item.location ? ` · ${item.location}` : ""}
                   </p>
                   <p className="mt-3 max-w-2xl text-[15.5px] leading-relaxed text-[var(--text-secondary)]">
-                    {item.plainSummary}
+                    {localizePortfolioText(item.plainSummary, language)}
                   </p>
                   <ul className="mt-3 space-y-1.5">
                     {item.highlights.slice(0, item.isPrimary ? 3 : 2).map((highlight) => (
@@ -48,7 +51,7 @@ const Experience: React.FC = () => {
                         key={highlight}
                         className="flex gap-2 text-[14px] leading-relaxed text-white/70"
                       >
-                        <span className="text-neon">▹</span><span>{highlight}</span>
+                        <span className="text-neon">▹</span><span>{localizePortfolioText(highlight, language)}</span>
                       </li>
                     ))}
                   </ul>

@@ -18,7 +18,7 @@ describe("PortfolioAssistant", () => {
 
   it("starts in English, creates a session, and exposes privacy", async () => {
     render(<PortfolioAssistant onClose={() => undefined} />);
-    expect(screen.getByText("Hi, I am Tsinjo AI.")).toBeInTheDocument();
+    expect(screen.getByText("Ask Tsinjo AI")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Privacy" })).toHaveAttribute("href", "/privacy.html");
     await waitFor(() => expect(mockedCreateSession).toHaveBeenCalledOnce());
   });
@@ -40,14 +40,15 @@ describe("PortfolioAssistant", () => {
   it("submits a message, renders stream output, sources, CTAs and follow-ups", async () => {
     mockedStreamChat.mockImplementation(async (_url, _session, _message, onEvent) => {
       onEvent({ type: "status", status: "thinking" });
-      onEvent({ type: "delta", text: "Arcwell uses " });
-      onEvent({ type: "delta", text: "LangGraph." });
+      onEvent({ type: "delta", text: "**Arcwell** uses " });
+      onEvent({ type: "delta", text: "`LangGraph`." });
       onEvent({ type: "done", sources: [{ title: "Arcwell", section: "Architecture", url: "/work/arcwell-agentic-crm" }], suggested_links: [{ label: "View GitHub", url: "https://github.com/TsinjoNantosoa/arcwell-agentic-crm" }, { label: "Unsafe", url: "javascript:alert(1)" }], suggested_questions: ["How does HITL work?"] });
     });
     render(<PortfolioAssistant onClose={() => undefined} />);
     await waitFor(() => expect(mockedCreateSession).toHaveBeenCalled());
-    await userEvent.click(screen.getByRole("button", { name: "AI Agents and LangGraph" }));
-    expect(await screen.findByText("Arcwell uses LangGraph.")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "AI Agents" }));
+    expect(await screen.findByText("Arcwell", { selector: "strong" })).toBeInTheDocument();
+    expect(screen.getByText("LangGraph", { selector: "code" })).toBeInTheDocument();
     const internal = screen.getByRole("link", { name: /Arcwell · Architecture/ });
     expect(internal).not.toHaveAttribute("target");
     expect(screen.getByRole("link", { name: "View GitHub" })).toHaveAttribute("target", "_blank");
@@ -82,7 +83,7 @@ describe("PortfolioAssistant", () => {
       });
     render(<PortfolioAssistant onClose={() => undefined} />);
     await waitFor(() => expect(mockedCreateSession).toHaveBeenCalledOnce());
-    await userEvent.click(screen.getByRole("button", { name: "Backend engineering" }));
+    await userEvent.click(screen.getByRole("button", { name: "Backend Engineering" }));
     expect(await screen.findByText("Recovered after refresh.")).toBeInTheDocument();
     expect(mockedCreateSession).toHaveBeenCalledTimes(2);
     expect(mockedStreamChat).toHaveBeenCalledTimes(2);
@@ -111,7 +112,7 @@ describe("PortfolioAssistant", () => {
     });
     render(<PortfolioAssistant onClose={() => undefined} />);
     await waitFor(() => expect(mockedCreateSession).toHaveBeenCalled());
-    await userEvent.click(screen.getByRole("button", { name: "Explore RAG projects" }));
+    await userEvent.click(screen.getByRole("button", { name: "RAG Systems" }));
     expect(await screen.findByText("Partial answer")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Stop response" }));
     await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("Public portfolio knowledge"));
@@ -122,7 +123,7 @@ describe("PortfolioAssistant", () => {
     mockedStreamChat.mockRejectedValue(new Error("provider-secret-details"));
     render(<PortfolioAssistant onClose={() => undefined} />);
     await waitFor(() => expect(mockedCreateSession).toHaveBeenCalled());
-    await userEvent.click(screen.getByRole("button", { name: "Professional experience" }));
+    await userEvent.click(screen.getByRole("button", { name: "Professional Experience" }));
     expect(await screen.findByText("Tsinjo AI is temporarily unavailable. Please try again.")).toBeInTheDocument();
     expect(screen.queryByText(/provider-secret-details/)).not.toBeInTheDocument();
   });

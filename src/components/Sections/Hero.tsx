@@ -2,7 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Download, Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 import ProfileImage from "../UI/ProfileImage";
-import { ABOUT, CV_PATH, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
+import { CV_PATH, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const socials = [
   { href: GITHUB_URL, label: "GitHub", icon: Github },
@@ -10,31 +11,20 @@ const socials = [
   { href: `mailto:${EMAIL}`, label: "Email", icon: Mail },
 ];
 
-const metrics = [
-  {
-    value: "3",
-    label: "Production AI Assistants",
-    hint: "Deployed for real organizations",
-  },
-  {
-    value: "97/98",
-    label: "Automated Checks Passed",
-    hint: "Quality and security validation",
-  },
-  {
-    value: "20",
-    label: "Automation Workflows",
-    hint: "Business operations automated",
-  },
-];
-
-const aboutMeta = [
-  { label: "Build", value: "End-to-end AI products" },
-  { label: "Prioritize", value: "Reliability, safety & clarity" },
-  { label: "Deliver", value: "Tested, deployable systems" },
-];
-
 const Hero: React.FC = () => {
+  const { t } = useI18n();
+  const metrics = [
+    { value: "3", label: t("metrics.assistants"), hint: t("metrics.assistantsHint") },
+    { value: "97/98", label: t("metrics.checks"), hint: t("metrics.checksHint") },
+    { value: "20", label: t("metrics.workflows"), hint: t("metrics.workflowsHint") },
+  ];
+  const aboutMeta = [
+    { label: t("hero.build"), value: t("hero.buildValue") },
+    { label: t("hero.prioritize"), value: t("hero.prioritizeValue") },
+    { label: t("hero.deliver"), value: t("hero.deliverValue") },
+  ];
+  const aboutParagraphs = [t("hero.aboutOne"), t("hero.aboutTwo")];
+
   return (
     <section className="relative overflow-hidden pb-0 pt-20 sm:pt-24">
       <div
@@ -55,7 +45,7 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.35 }}
               className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-neon sm:text-xs"
             >
-              AI Engineer — RAG · Agents · Automation
+              {t("hero.eyebrow")}
             </motion.p>
 
             <motion.h1
@@ -64,7 +54,7 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.4, delay: 0.04 }}
               className="mb-4 max-w-[720px] text-balance font-sans text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[1.03] tracking-tight text-[var(--text-primary)]"
             >
-              I build production-ready AI systems.
+              {t("hero.title")}
             </motion.h1>
 
             <motion.p
@@ -82,8 +72,7 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.4, delay: 0.12 }}
               className="mb-2 max-w-[650px] text-[16.5px] leading-relaxed text-[var(--text-secondary)] sm:text-[17.5px]"
             >
-              I design RAG platforms, governed AI agents, and business automation with Python,
-              FastAPI, LangGraph, Qdrant, PostgreSQL, and n8n.
+              {t("hero.description")}
             </motion.p>
 
             <motion.p
@@ -92,7 +81,7 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.4, delay: 0.16 }}
               className="mb-6 text-sm text-[var(--text-muted)]"
             >
-              Based in Madagascar · Open to Remote Opportunities
+              {t("hero.location")}
             </motion.p>
 
             <motion.div
@@ -105,14 +94,14 @@ const Hero: React.FC = () => {
                 href="#work"
                 className="btn-neon gap-2 px-6"
               >
-                View Selected Work
+                {t("hero.work")}
                 <ArrowDown size={16} />
               </a>
               <a
                 href="#contact"
                 className="btn-outline px-6"
               >
-                Let&apos;s Talk
+                {t("nav.talk")}
               </a>
               <a
                 href={CV_PATH}
@@ -120,7 +109,7 @@ const Hero: React.FC = () => {
                 className="inline-flex min-h-11 items-center gap-2 px-2 text-sm text-[var(--text-muted)] transition hover:text-white"
               >
                 <Download size={15} />
-                Download CV
+                {t("hero.cv")}
               </a>
             </motion.div>
 
@@ -174,13 +163,13 @@ const Hero: React.FC = () => {
           <div className="layout-grid items-start gap-y-6">
             <div className="col-span-12 lg:col-span-8">
               <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-neon">
-                About
+                {t("hero.about")}
               </p>
               <h2 className="mb-3 max-w-[620px] text-[clamp(1.45rem,2.2vw,1.85rem)] font-semibold leading-snug text-[var(--text-primary)]">
-                {ABOUT.headline}
+                {t("hero.aboutTitle")}
               </h2>
               <div className="max-w-[700px] space-y-3">
-                {ABOUT.paragraphs.map((paragraph) => (
+                {aboutParagraphs.map((paragraph) => (
                   <p
                     key={paragraph.slice(0, 40)}
                     className="text-[15.5px] leading-relaxed text-[var(--text-secondary)]"

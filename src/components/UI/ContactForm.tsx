@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { EMAIL } from "@/data/experience";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const PROJECT_TYPES = [
   "AI Agent",
@@ -24,6 +25,7 @@ const isValidEmail = (value: string) =>
 const NETLIFY_FORM_NAME = "portfolio-contact";
 
 const ContactForm: React.FC = () => {
+  const { language, t } = useI18n();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [projectType, setProjectType] = useState("");
@@ -34,11 +36,11 @@ const ContactForm: React.FC = () => {
 
   const validate = (): FieldErrors => {
     const next: FieldErrors = {};
-    if (!name.trim()) next.name = "Name is required.";
-    if (!email.trim()) next.email = "Email is required.";
-    else if (!isValidEmail(email)) next.email = "Enter a valid email.";
-    if (!projectType) next.projectType = "Select what you are building.";
-    if (!message.trim()) next.message = "Message is required.";
+    if (!name.trim()) next.name = t("form.requiredName");
+    if (!email.trim()) next.email = t("form.requiredEmail");
+    else if (!isValidEmail(email)) next.email = t("form.invalidEmail");
+    if (!projectType) next.projectType = t("form.requiredProject");
+    if (!message.trim()) next.message = t("form.requiredMessage");
     return next;
   };
 
@@ -93,16 +95,16 @@ const ContactForm: React.FC = () => {
         }
       }
 
-      toast.success("Message sent successfully.");
+      toast.success(t("form.success"));
       setName("");
       setEmail("");
       setProjectType("");
       setMessage("");
       setErrors({});
     } catch {
-      toast.error("Could not send via form. Email me directly.", {
+      toast.error(t("form.failure"), {
         action: {
-          label: "Email me directly",
+          label: t("form.emailDirect"),
           onClick: () => {
             window.location.href = `mailto:${EMAIL}`;
           },
@@ -143,7 +145,7 @@ const ContactForm: React.FC = () => {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="mb-1.5 block text-sm text-white/65">
-            Name
+            {t("form.name")}
           </label>
           <input
             id="name"
@@ -193,7 +195,7 @@ const ContactForm: React.FC = () => {
           htmlFor="projectType"
           className="mb-1.5 block text-sm text-white/65"
         >
-          What are you building?
+          {t("form.project")}
         </label>
         <select
           id="projectType"
@@ -205,10 +207,19 @@ const ContactForm: React.FC = () => {
           aria-describedby={errors.projectType ? "projectType-error" : undefined}
           className={fieldClass}
         >
-          <option value="">Select an option</option>
+          <option value="">{t("form.select")}</option>
           {PROJECT_TYPES.map((type) => (
             <option key={type} value={type}>
-              {type}
+              {language === "fr"
+                ? {
+                    "AI Agent": "Agent IA",
+                    "RAG / AI Assistant": "RAG / Assistant IA",
+                    "Automation Workflow": "Workflow d’automatisation",
+                    "AI Backend / API": "Backend IA / API",
+                    "AI Product": "Produit IA",
+                    Other: "Autre",
+                  }[type]
+                : type}
             </option>
           ))}
         </select>
@@ -221,7 +232,7 @@ const ContactForm: React.FC = () => {
 
       <div>
         <label htmlFor="message" className="mb-1.5 block text-sm text-white/65">
-          Message
+          {t("form.message")}
         </label>
         <textarea
           id="message"
@@ -246,7 +257,7 @@ const ContactForm: React.FC = () => {
         disabled={submitting}
         className="btn-neon min-h-11 w-full sm:w-auto disabled:opacity-60"
       >
-        {submitting ? "Sending…" : "Send message"}
+        {submitting ? t("form.sending") : t("form.send")}
       </button>
     </form>
   );

@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
 import type { FeaturedProject } from "@/types/portfolio";
 import ProjectMedia from "@/components/ui-kit/ProjectMedia";
+import { useI18n } from "@/i18n/I18nProvider";
+import { localizePortfolioText } from "@/i18n/portfolioContent";
 
 interface FeaturedProjectCardProps {
   project: FeaturedProject;
@@ -18,6 +20,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
   className = "",
   density = "media",
 }) => {
+  const { language, t } = useI18n();
   const [mediaFailed, setMediaFailed] = useState(false);
   const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
   const isFlagship = density === "flagship";
@@ -40,7 +43,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
 
       {isFlagship && (
         <span className="mb-3 inline-flex min-h-7 w-fit items-center rounded-full border border-neon/25 bg-neon/[0.07] px-3 font-mono text-[11px] text-neon">
-          Professional Project
+          {t("work.professional")}
         </span>
       )}
 
@@ -55,7 +58,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
       </h3>
 
       <p className="mb-2 line-clamp-3 text-[15.5px] leading-[1.6] text-[var(--text-secondary)]">
-        {project.plainSummary}
+        {localizePortfolioText(project.plainSummary, language)}
       </p>
       <p className="mb-4 line-clamp-2 font-mono text-[12.5px] leading-relaxed text-[var(--text-muted)]">
         {project.technicalSummary}
@@ -68,7 +71,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
             className="flex gap-2.5 text-[14.5px] leading-[1.5] text-[var(--text-secondary)]"
           >
             <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-neon" aria-hidden />
-            <span>{item}</span>
+            <span>{localizePortfolioText(item, language)}</span>
           </li>
         ))}
       </ul>
@@ -97,7 +100,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
           to={project.caseStudyLink}
           className="text-link group/link"
         >
-          View Case Study
+          {t("work.caseStudy")}
           <ArrowUpRight size={15} className="transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
         </Link>
         {project.demoLink && (
@@ -108,7 +111,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
             className="inline-flex min-h-10 items-center gap-1.5 text-sm text-[var(--text-muted)] transition hover:text-white"
           >
             <ExternalLink size={14} />
-            Live Demo
+            {t("work.demo")}
           </a>
         )}
         {project.githubLink && (
@@ -119,7 +122,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
             className="inline-flex min-h-10 items-center gap-1.5 text-sm text-[var(--text-muted)] transition hover:text-white"
           >
             <Github size={14} />
-            View Code
+            {t("work.code")}
           </a>
         )}
       </div>
@@ -142,10 +145,10 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
           <div className="col-span-12 flex flex-col justify-center gap-5 p-6 sm:p-7 lg:col-span-5">
             <div>
               <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.16em] text-neon">
-                Business value
+                {t("work.businessValue")}
               </p>
               <p className="text-[14.5px] leading-relaxed text-[var(--text-secondary)]">
-                {project.solution || project.overview}
+                {localizePortfolioText(project.solution || project.overview, language)}
               </p>
             </div>
             {project.proof && (

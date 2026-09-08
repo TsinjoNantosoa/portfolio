@@ -5,8 +5,11 @@ import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import ProjectMedia from "@/components/ui-kit/ProjectMedia";
 import { getFeaturedProjectBySlug } from "@/data/projects";
+import { useI18n } from "@/i18n/I18nProvider";
+import { localizePortfolioText } from "@/i18n/portfolioContent";
 
 const CaseStudyPage: React.FC = () => {
+  const { language, t } = useI18n();
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? getFeaturedProjectBySlug(slug) : undefined;
   const [mediaFailed, setMediaFailed] = useState(false);
@@ -16,9 +19,9 @@ const CaseStudyPage: React.FC = () => {
       <div className="min-h-screen bg-[var(--bg-primary)] text-white">
         <Header />
         <main className="site-container pb-20 pt-28">
-          <h1 className="mb-4 text-3xl font-semibold">Case study not found</h1>
+          <h1 className="mb-4 text-3xl font-semibold">{t("case.notFound")}</h1>
           <Link to="/#work" className="text-neon hover:underline">
-            Back to work
+            {t("notFound.work")}
           </Link>
         </main>
         <Footer />
@@ -39,7 +42,7 @@ const CaseStudyPage: React.FC = () => {
           className="mb-8 inline-flex min-h-11 items-center gap-2 text-sm text-white/60 hover:text-neon"
         >
           <ArrowLeft size={16} />
-          Back to selected work
+          {t("case.backWork")}
         </Link>
 
         <p className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-neon">
@@ -50,11 +53,11 @@ const CaseStudyPage: React.FC = () => {
         </h1>
         {project.subtitle ? (
           <p className="mb-4 max-w-[720px] text-[16px] leading-relaxed text-[var(--text-secondary)]">
-            {project.subtitle}
+            {localizePortfolioText(project.subtitle, language)}
           </p>
         ) : (
           <p className="mb-4 max-w-[720px] text-lg leading-relaxed text-[var(--text-secondary)]">
-            {project.plainSummary}
+            {localizePortfolioText(project.plainSummary, language)}
           </p>
         )}
         <p className="mb-8 max-w-[720px] font-mono text-sm text-[var(--text-muted)]">
@@ -81,7 +84,7 @@ const CaseStudyPage: React.FC = () => {
               className="inline-flex min-h-11 items-center gap-2 rounded-full bg-neon px-5 py-2.5 text-sm font-semibold text-black"
             >
               <ExternalLink size={16} />
-              Live Demo
+              {t("work.demo")}
             </a>
           )}
           {project.githubLink && (
@@ -92,7 +95,7 @@ const CaseStudyPage: React.FC = () => {
               className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-sm"
             >
               <Github size={16} />
-              View Code
+              {t("work.code")}
             </a>
           )}
         </div>
@@ -100,34 +103,34 @@ const CaseStudyPage: React.FC = () => {
         <div className="grid gap-8 lg:grid-cols-2">
           {project.overview && (
             <section>
-              <h2 className="mb-3 text-xl font-semibold">Overview</h2>
+              <h2 className="mb-3 text-xl font-semibold">{t("case.overview")}</h2>
               <p className="text-[15px] leading-relaxed text-[var(--text-secondary)]">
-                {project.overview}
+                {localizePortfolioText(project.overview, language)}
               </p>
             </section>
           )}
           {project.problem && (
             <section>
-              <h2 className="mb-3 text-xl font-semibold">Business Problem</h2>
+              <h2 className="mb-3 text-xl font-semibold">{t("case.problem")}</h2>
               <p className="text-[15px] leading-relaxed text-[var(--text-secondary)]">
-                {project.problem}
+                {localizePortfolioText(project.problem, language)}
               </p>
             </section>
           )}
           {project.solution && (
             <section>
-              <h2 className="mb-3 text-xl font-semibold">Solution</h2>
+              <h2 className="mb-3 text-xl font-semibold">{t("case.solution")}</h2>
               <p className="text-[15px] leading-relaxed text-[var(--text-secondary)]">
-                {project.solution}
+                {localizePortfolioText(project.solution, language)}
               </p>
             </section>
           )}
           {project.architecture && project.architecture.length > 0 && (
             <section>
-              <h2 className="mb-3 text-xl font-semibold">Architecture</h2>
+              <h2 className="mb-3 text-xl font-semibold">{t("case.architecture")}</h2>
               <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
                 {project.architecture.map((item) => (
-                  <li key={item}>• {item}</li>
+                  <li key={item}>• {localizePortfolioText(item, language)}</li>
                 ))}
               </ul>
             </section>
@@ -136,7 +139,7 @@ const CaseStudyPage: React.FC = () => {
 
         {project.howItWorks && project.howItWorks.length > 0 && (
           <section className="mt-10">
-            <h2 className="mb-4 text-xl font-semibold">How It Works</h2>
+            <h2 className="mb-4 text-xl font-semibold">{t("case.how")}</h2>
             <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {project.howItWorks.map((step, index) => (
                 <li
@@ -146,7 +149,7 @@ const CaseStudyPage: React.FC = () => {
                   <span className="mb-1 block font-mono text-xs text-neon">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  {step}
+                  {localizePortfolioText(step, language)}
                 </li>
               ))}
             </ol>
@@ -156,23 +159,23 @@ const CaseStudyPage: React.FC = () => {
         {project.decisionHighlight && (
           <section className="mt-10 rounded-2xl border border-neon/25 bg-neon/[0.04] p-6 sm:p-7">
             <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.16em] text-neon">
-              Key Engineering Decision
+              {t("case.keyDecision")}
             </p>
             <h2 className="mb-3 text-xl font-semibold text-[var(--text-primary)]">
-              {project.decisionHighlight.title}
+              {localizePortfolioText(project.decisionHighlight.title, language)}
             </h2>
             <p className="max-w-3xl text-[15px] leading-relaxed text-[var(--text-secondary)]">
-              {project.decisionHighlight.body}
+              {localizePortfolioText(project.decisionHighlight.body, language)}
             </p>
           </section>
         )}
 
         {project.decisions && project.decisions.length > 0 && (
           <section className="mt-10">
-            <h2 className="mb-3 text-xl font-semibold">Key Engineering Decisions</h2>
+            <h2 className="mb-3 text-xl font-semibold">{t("case.decisions")}</h2>
             <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
               {project.decisions.map((item) => (
-                <li key={item}>• {item}</li>
+                <li key={item}>• {localizePortfolioText(item, language)}</li>
               ))}
             </ul>
           </section>
@@ -180,14 +183,14 @@ const CaseStudyPage: React.FC = () => {
 
         {project.scoring && (
           <section className="mt-10">
-            <h2 className="mb-3 text-xl font-semibold">Lead Scoring</h2>
+            <h2 className="mb-3 text-xl font-semibold">{t("case.scoring")}</h2>
             <p className="mb-4 max-w-3xl text-[15px] leading-relaxed text-[var(--text-secondary)]">
-              {project.scoring.summary}
+              {localizePortfolioText(project.scoring.summary, language)}
             </p>
             <div className="layout-grid">
               <div className="col-span-12 sm:col-span-6 lg:col-span-5">
                 <p className="mb-2 font-mono text-xs uppercase tracking-[0.14em] text-neon">
-                  Factors
+                  {t("case.factors")}
                 </p>
                 <ul className="flex flex-wrap gap-2">
                   {project.scoring.factors.map((factor) => (
@@ -195,14 +198,14 @@ const CaseStudyPage: React.FC = () => {
                       key={factor}
                       className="rounded-md border border-white/10 px-2.5 py-1 text-sm text-white/70"
                     >
-                      {factor}
+                      {localizePortfolioText(factor, language)}
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="col-span-12 sm:col-span-6 lg:col-span-3">
                 <p className="mb-2 font-mono text-xs uppercase tracking-[0.14em] text-neon">
-                  Score range
+                  {t("case.range")}
                 </p>
                 <p className="font-mono text-lg text-[var(--text-primary)]">
                   {project.scoring.range}
@@ -210,7 +213,7 @@ const CaseStudyPage: React.FC = () => {
               </div>
               <div className="col-span-12 lg:col-span-4">
                 <p className="mb-2 font-mono text-xs uppercase tracking-[0.14em] text-neon">
-                  Classification
+                  {t("case.classification")}
                 </p>
                 <ul className="flex flex-wrap gap-2">
                   {project.scoring.classes.map((item) => (
@@ -229,9 +232,9 @@ const CaseStudyPage: React.FC = () => {
 
         {project.automation && (
           <section className="mt-10">
-            <h2 className="mb-3 text-xl font-semibold">Operational Automation</h2>
+            <h2 className="mb-3 text-xl font-semibold">{t("case.automation")}</h2>
             <p className="mb-4 max-w-3xl text-[15px] leading-relaxed text-[var(--text-secondary)]">
-              {project.automation.summary}
+              {localizePortfolioText(project.automation.summary, language)}
             </p>
             <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {project.automation.workflows.map((workflow) => (
@@ -239,7 +242,7 @@ const CaseStudyPage: React.FC = () => {
                   key={workflow}
                   className="border-t border-white/10 pt-3 text-[14.5px] text-[var(--text-secondary)]"
                 >
-                  {workflow}
+                  {localizePortfolioText(workflow, language)}
                 </li>
               ))}
             </ul>
@@ -248,19 +251,19 @@ const CaseStudyPage: React.FC = () => {
 
         {project.hitl && (
           <section className="mt-10">
-            <h2 className="mb-3 text-xl font-semibold">Human-in-the-Loop</h2>
+            <h2 className="mb-3 text-xl font-semibold">{t("case.hitl")}</h2>
             <p className="max-w-3xl text-[15px] leading-relaxed text-[var(--text-secondary)]">
-              {project.hitl}
+              {localizePortfolioText(project.hitl, language)}
             </p>
           </section>
         )}
 
         {project.security && project.security.length > 0 && (
           <section className="mt-10">
-            <h2 className="mb-3 text-xl font-semibold">Reliability</h2>
+            <h2 className="mb-3 text-xl font-semibold">{t("case.reliability")}</h2>
             <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
               {project.security.map((item) => (
-                <li key={item}>• {item}</li>
+                <li key={item}>• {localizePortfolioText(item, language)}</li>
               ))}
             </ul>
           </section>
@@ -268,7 +271,7 @@ const CaseStudyPage: React.FC = () => {
 
         {project.proof && project.proof.length > 0 && (
           <section className="mt-10">
-            <h2 className="mb-4 text-xl font-semibold">Results / Validation</h2>
+            <h2 className="mb-4 text-xl font-semibold">{t("case.results")}</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               {project.proof.map((item) => (
                 <div
@@ -284,7 +287,7 @@ const CaseStudyPage: React.FC = () => {
         )}
 
         <section className="mt-10">
-          <h2 className="mb-4 text-xl font-semibold">Tech Stack</h2>
+          <h2 className="mb-4 text-xl font-semibold">{t("case.stack")}</h2>
           <div className="flex flex-wrap gap-2">
             {project.stack.map((tech) => (
               <span
