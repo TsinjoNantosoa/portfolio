@@ -15,8 +15,14 @@ EVAL_FILE = Path(__file__).parents[1] / "tests" / "evals" / "recruiter_questions
 async def evaluate(limit: int | None):
     settings = get_settings()
     if not settings.openai_api_key or not settings.qdrant_url:
-        raise SystemExit("OPENAI_API_KEY and QDRANT_URL are required for retrieval evaluation")
-    items = [item for item in json.loads(EVAL_FILE.read_text(encoding="utf-8")) if not item["out_of_scope"] and item["expected_source_slugs"]]
+        raise SystemExit(
+            "OPENAI_API_KEY and QDRANT_URL are required for retrieval evaluation"
+        )
+    items = [
+        item
+        for item in json.loads(EVAL_FILE.read_text(encoding="utf-8"))
+        if not item["out_of_scope"] and item["expected_source_slugs"]
+    ]
     if limit:
         items = items[:limit]
     retriever = QdrantRetriever(settings)
@@ -28,12 +34,31 @@ async def evaluate(limit: int | None):
         expected = set(item["expected_source_slugs"])
         matched = bool(retrieved & expected)
         passed += int(matched)
-        results.append({"question": item["question"], "passed": matched, "expected": sorted(expected), "retrieved": sorted(retrieved)})
-    print(json.dumps({"evaluated": len(items), "passed": passed, "recall_at_k": round(passed / len(items), 4) if items else 0, "results": results}, indent=2))
+        results.append(
+            {
+                "question": item["question"],
+                "passed": matched,
+                "expected": sorted(expected),
+                "retrieved": sorted(retrieved),
+            }
+        )
+    print(
+        json.dumps(
+            {
+                "evaluated": len(items),
+                "passed": passed,
+                "recall_at_k": round(passed / len(items), 4) if items else 0,
+                "results": results,
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run recruiter-question retrieval evaluation against Qdrant")
+    parser = argparse.ArgumentParser(
+        description="Run recruiter-question retrieval evaluation against Qdrant"
+    )
     parser.add_argument("--limit", type=int, default=None)
     args = parser.parse_args()
     asyncio.run(evaluate(args.limit))

@@ -30,6 +30,7 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
   const listRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
   const titleId = useId();
+  const retryQuestion = lastQuestion || [...messages].reverse().find((message) => message.role === "user")?.text || "";
 
   useEffect(() => {
     if (!assistantConfig.available) return;
@@ -65,19 +66,56 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
     saveSession(fresh); setSession(fresh); return fresh;
   }
 
-  async function ask(question: string) {
+  async function retryConnection() {
+    if (!assistantConfig.available || sending) return;
+    setStatus("connecting");
+    const controller = new AbortController();
+    const timer = window.setTimeout(
+      () => controller.abort(),
+      assistantConfig.sessionTimeoutMs,
+    );
+    try {
+      clearSession();
+      const fresh = await createPublicSession(
+        assistantConfig.apiBaseUrl,
+        controller.signal,
+      );
+      saveSession(fresh);
+      setSession(fresh);
+      setStatus("idle");
+      inputRef.current?.focus();
+    } catch (error) {
+      setStatus(
+        error instanceof AssistantApiError && error.status === 429
+          ? "rate_limited"
+          : "unavailable",
+      );
+    } finally {
+      window.clearTimeout(timer);
+    }
+  }
+
+  async function ask(question: string, retryFailedAnswer = false) {
     const clean = question.trim().slice(0, assistantConfig.maxMessageLength);
     if (!clean || sending || !assistantConfig.available) return;
     setLastQuestion(clean); setInput(""); setSending(true); setStatus("connecting");
     const timestamp = Date.now(); const answerId = `a-${timestamp}`;
-    setMessages((current) => [...current, { id: `u-${timestamp}`, role: "user", text: clean }, { id: answerId, role: "assistant", text: "" }]);
+    setMessages((current) => {
+      const replacesFailedPair = retryFailedAnswer
+        && current.at(-1)?.role === "assistant"
+        && current.at(-1)?.failed
+        && current.at(-2)?.role === "user"
+        && current.at(-2)?.text === clean;
+      const base = replacesFailedPair ? current.slice(0, -2) : current;
+      return [...base, { id: `u-${timestamp}`, role: "user", text: clean }, { id: answerId, role: "assistant", text: "" }];
+    });
     const controller = new AbortController(); abortRef.current = controller;
-    let timedOut = false; let receivedText = false;
+    let timedOut = false;
     const timeout = window.setTimeout(() => { timedOut = true; controller.abort(); }, assistantConfig.streamTimeoutMs);
 
     const onEvent = (event: StreamEvent) => {
       if (event.type === "status") setStatus("thinking");
-      if (event.type === "delta") { receivedText = true; setStatus("streaming"); setMessages((current) => current.map((item) => item.id === answerId ? { ...item, text: item.text + event.text } : item)); }
+      if (event.type === "delta") { setStatus("streaming"); setMessages((current) => current.map((item) => item.id === answerId ? { ...item, text: item.text + event.text } : item)); }
       if (event.type === "done") { setStatus("complete"); setMessages((current) => current.map((item) => item.id === answerId ? { ...item, sources: event.sources || [], suggestedLinks: event.suggested_links || [], suggestedQuestions: event.suggested_questions || [] } : item)); }
       if (event.type === "error") throw new AssistantApiError(event.message || "The stream failed.", 0, event.code, event.request_id);
     };
@@ -89,9 +127,9 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
     } catch (error) {
       const stopped = error instanceof DOMException && error.name === "AbortError" && !timedOut;
       const rateLimited = error instanceof AssistantApiError && error.status === 429;
-      const message = timedOut ? "The response timed out. Please retry." : stopped ? "Response stopped." : rateLimited ? STATUS_LABELS.rate_limited : "The assistant could not answer right now.";
+      const message = timedOut ? "The response timed out. Please retry." : stopped ? "Response stopped." : rateLimited ? STATUS_LABELS.rate_limited : "Tsinjo AI is temporarily unavailable. Please try again.";
       setStatus(rateLimited ? "rate_limited" : stopped ? "idle" : "error");
-      setMessages((current) => current.map((item) => item.id === answerId ? { ...item, text: item.text || message, failed: !stopped && !receivedText } : item));
+      setMessages((current) => current.map((item) => item.id === answerId ? { ...item, text: item.text || message, failed: !stopped } : item));
     } finally { window.clearTimeout(timeout); setSending(false); abortRef.current = null; }
   }
 
@@ -105,7 +143,8 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
       {messages.map((message) => <MessageBubble key={message.id} message={message} onQuestion={(question) => void ask(question)} />)}
       {sending && !messages.at(-1)?.text ? <TypingIndicator label={STATUS_LABELS[status]} /> : null}
     </div>
-    {lastQuestion && !sending && messages.at(-1)?.failed ? <button type="button" className="tsinjo-ai__retry" onClick={() => void ask(lastQuestion)}><RotateCcw size={14} /> Retry</button> : null}
+    {!session && assistantConfig.available && !sending && (status === "error" || status === "unavailable" || status === "rate_limited") ? <button type="button" className="tsinjo-ai__retry" onClick={() => void retryConnection()}><RotateCcw size={14} /> Retry connection</button> : null}
+    {retryQuestion && !sending && messages.at(-1)?.failed ? <button type="button" className="tsinjo-ai__retry" onClick={() => void ask(retryQuestion, true)}><RotateCcw size={14} /> Retry answer</button> : null}
     <Composer value={input} maxLength={assistantConfig.maxMessageLength} sending={sending} disabled={!assistantConfig.available} inputRef={inputRef} onChange={setInput} onSend={() => void ask(input)} onStop={() => abortRef.current?.abort()} />
     <footer>Public portfolio data only · <a href="/privacy.html">Privacy</a></footer>
   </div>;

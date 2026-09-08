@@ -18,7 +18,11 @@ class SlidingWindowLimiter:
                 events.popleft()
             if len(events) >= limit:
                 retry_after = max(1, int(window_seconds - (now - events[0])))
-                raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail="Rate limit exceeded", headers={"Retry-After": str(retry_after)})
+                raise HTTPException(
+                    status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                    detail="Rate limit exceeded",
+                    headers={"Retry-After": str(retry_after)},
+                )
             events.append(now)
 
     def clear(self):

@@ -5,14 +5,22 @@ services:
     rootDir: portfolio-ai-api
     dockerfilePath: ./Dockerfile
     healthCheckPath: /health
-    autoDeploy: true
+    autoDeployTrigger: commit
     envVars:
       - key: ENVIRONMENT
         value: production
       - key: OPENAI_MODEL
-        value: gpt-6-astra
+        value: gpt-4o-mini
       - key: OPENAI_EMBEDDING_MODEL
         value: text-embedding-3-small
+      - key: OPENAI_MAX_OUTPUT_TOKENS
+        value: "450"
+      - key: OPENAI_TIMEOUT_SECONDS
+        value: "60"
+      - key: RAG_TOP_K
+        value: "4"
+      - key: RETRIEVAL_SCORE_THRESHOLD
+        value: "0.20"
       - key: QDRANT_COLLECTION
         value: portfolio_knowledge
       - key: ALLOWED_ORIGINS

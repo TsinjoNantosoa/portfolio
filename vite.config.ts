@@ -21,5 +21,8 @@ export default defineConfig(({ mode }) => ({
     setupFiles: ["./src/test/setup.ts"],
     css: true,
     restoreMocks: true,
+    pool: "forks",
+    maxWorkers: 1,
+    minWorkers: 1,
   },
 }));

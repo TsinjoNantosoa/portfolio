@@ -23,12 +23,26 @@ describe("PortfolioAssistant", () => {
     await waitFor(() => expect(mockedCreateSession).toHaveBeenCalledOnce());
   });
 
+  it("retries initial session creation without requiring a previous question", async () => {
+    mockedCreateSession
+      .mockRejectedValueOnce(new Error("cold start"))
+      .mockResolvedValueOnce(session);
+    render(<PortfolioAssistant onClose={() => undefined} />);
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Retry connection" }),
+    );
+    await waitFor(() => expect(mockedCreateSession).toHaveBeenCalledTimes(2));
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "Public portfolio knowledge",
+    );
+  });
+
   it("submits a message, renders stream output, sources, CTAs and follow-ups", async () => {
     mockedStreamChat.mockImplementation(async (_url, _session, _message, onEvent) => {
       onEvent({ type: "status", status: "thinking" });
       onEvent({ type: "delta", text: "Arcwell uses " });
       onEvent({ type: "delta", text: "LangGraph." });
-      onEvent({ type: "done", sources: [{ title: "Arcwell", section: "Architecture", url: "/work/arcwell-agentic-crm" }], suggested_links: [{ label: "View GitHub", url: "https://github.com/TsinjoNantosoa/arcwell-agentic-crm" }], suggested_questions: ["How does HITL work?"] });
+      onEvent({ type: "done", sources: [{ title: "Arcwell", section: "Architecture", url: "/work/arcwell-agentic-crm" }], suggested_links: [{ label: "View GitHub", url: "https://github.com/TsinjoNantosoa/arcwell-agentic-crm" }, { label: "Unsafe", url: "javascript:alert(1)" }], suggested_questions: ["How does HITL work?"] });
     });
     render(<PortfolioAssistant onClose={() => undefined} />);
     await waitFor(() => expect(mockedCreateSession).toHaveBeenCalled());
@@ -37,6 +51,7 @@ describe("PortfolioAssistant", () => {
     const internal = screen.getByRole("link", { name: /Arcwell · Architecture/ });
     expect(internal).not.toHaveAttribute("target");
     expect(screen.getByRole("link", { name: "View GitHub" })).toHaveAttribute("target", "_blank");
+    expect(screen.queryByRole("link", { name: "Unsafe" })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "How does HITL work?" })).toBeInTheDocument();
   });
 
@@ -73,6 +88,22 @@ describe("PortfolioAssistant", () => {
     expect(mockedStreamChat).toHaveBeenCalledTimes(2);
   });
 
+  it("restores retry after reload without duplicating the failed question", async () => {
+    sessionStorage.setItem("tsinjo-ai:conversation", JSON.stringify([
+      { id: "u-old", role: "user", text: "Tell me about Arcwell" },
+      { id: "a-old", role: "assistant", text: "Temporary failure", failed: true },
+    ]));
+    mockedStreamChat.mockImplementation(async (_url, _session, _message, onEvent) => {
+      onEvent({ type: "delta", text: "Arcwell is a governed AI CRM." });
+      onEvent({ type: "done", sources: [], suggested_links: [], suggested_questions: [] });
+    });
+    render(<PortfolioAssistant onClose={() => undefined} />);
+    await userEvent.click(screen.getByRole("button", { name: "Retry answer" }));
+    expect(await screen.findByText("Arcwell is a governed AI CRM.")).toBeInTheDocument();
+    expect(screen.getAllByText("Tell me about Arcwell")).toHaveLength(1);
+    expect(screen.queryByText("Temporary failure")).not.toBeInTheDocument();
+  });
+
   it("preserves partial text when the user stops a stream", async () => {
     mockedStreamChat.mockImplementation(async (_url, _session, _message, onEvent, signal) => {
       onEvent({ type: "delta", text: "Partial answer" });
@@ -92,7 +123,7 @@ describe("PortfolioAssistant", () => {
     render(<PortfolioAssistant onClose={() => undefined} />);
     await waitFor(() => expect(mockedCreateSession).toHaveBeenCalled());
     await userEvent.click(screen.getByRole("button", { name: "Professional experience" }));
-    expect(await screen.findByText("The assistant could not answer right now.")).toBeInTheDocument();
+    expect(await screen.findByText("Tsinjo AI is temporarily unavailable. Please try again.")).toBeInTheDocument();
     expect(screen.queryByText(/provider-secret-details/)).not.toBeInTheDocument();
   });
 });

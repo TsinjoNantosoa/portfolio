@@ -2,9 +2,11 @@ import { ArrowUpRight } from "lucide-react";
 import type { ChatMessage } from "./assistant-types";
 import QuickQuestions from "./QuickQuestions";
 
-const isInternal = (url: string) => url.startsWith("/");
+const isInternal = (url: string) => url.startsWith("/") && !url.startsWith("//");
+const isSafeLink = (url: string) => isInternal(url) || /^https:\/\//i.test(url);
 
 function SmartLink({ url, label, className }: { url: string; label: string; className?: string }) {
+  if (!isSafeLink(url)) return null;
   const external = !isInternal(url);
   return <a href={url} className={className} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}><span>{label}</span><ArrowUpRight size={13} aria-hidden="true" /></a>;
 }

@@ -21,6 +21,15 @@ flowchart LR
 
 The browser receives only a short-lived anonymous JWT fixed to the `portfolio_chat` scope and `portfolio` tenant. Messages and the token live in `sessionStorage`; there are no frontend secrets, agent tools or write operations. The API adds explicit CORS, per-IP and per-session limits, request IDs, input/output limits, guardrails and source deduplication.
 
+The assistant deliberately uses a low-cost production configuration:
+
+- `gpt-4o-mini` for grounded answer generation;
+- `text-embedding-3-small` for search embeddings;
+- four retrieved chunks by default;
+- a 450-token maximum answer;
+- deterministic refusals for obvious attacks, unsupported requests and empty retrieval;
+- explicit ingestion instead of embedding the corpus during application startup.
+
 ## Local development
 
 ### Frontend
@@ -42,11 +51,13 @@ The portfolio runs on `http://localhost:8080`. If `VITE_CONTACT_API_URL` is empt
 
 Python 3.11+ and a Qdrant instance are required.
 
+`pyproject.toml` remains the dependency metadata source. Production installs the fully pinned `requirements.lock`; local/test validation uses `requirements-dev.lock`. Regenerate both with `pip-compile` after changing Python dependencies.
+
 ```powershell
 Set-Location portfolio-ai-api
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-pip install -e ".[dev]"
+pip install -r requirements-dev.lock
 Copy-Item .env.example .env
 Set-Location ..
 npm run knowledge:build
@@ -56,7 +67,7 @@ python scripts/ingest_portfolio.py
 uvicorn app.main:app --reload --port 8000
 ```
 
-`npm run knowledge:build` derives the 51 public chunks from `src/data/projects.ts` and `src/data/experience.ts`, validates internal routes, and writes the reviewable JSON corpus. Rerun the build and ingestion after significant portfolio content changes. `--recreate` deliberately replaces the dedicated `portfolio_knowledge` collection.
+`npm run knowledge:build` currently derives 51 public chunks from `src/data/projects.ts` and `src/data/experience.ts`, validates internal routes, and writes the reviewable JSON corpus. Rerun the build and ingestion after significant portfolio content changes. Ingestion uses stable UUID5 point IDs and removes stale points only from the dedicated `portfolio_knowledge` collection. `--recreate` deliberately replaces that collection.
 
 Health endpoints:
 
@@ -86,8 +97,11 @@ Create a Blueprint from [`render.yaml`](render.yaml). Required variables actuall
 ```env
 ENVIRONMENT=production
 OPENAI_API_KEY=
-OPENAI_MODEL=gpt-6-astra
+OPENAI_MODEL=gpt-4o-mini
 OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+OPENAI_MAX_OUTPUT_TOKENS=450
+OPENAI_TIMEOUT_SECONDS=60
+RAG_TOP_K=4
 QDRANT_URL=
 QDRANT_API_KEY=
 QDRANT_COLLECTION=portfolio_knowledge
@@ -97,11 +111,30 @@ PUBLIC_SITE_URL=https://tsinjona.netlify.app
 TRUST_PROXY_HEADERS=true
 ```
 
-`SESSION_SECRET` must be a unique value of at least 32 characters. `TRUST_PROXY_HEADERS=true` is intended only behind Render; the limiter then uses the last proxy-provided address and hashes it before storage. Run ingestion from a trusted environment before expecting `/ready` to pass.
+`SESSION_SECRET` must be a unique value of at least 32 characters. `TRUST_PROXY_HEADERS=true` is intended only behind Render; the limiter then validates and uses the first address supplied by Render in `X-Forwarded-For`, and hashes it before process-local storage. Do not enable proxy trust when exposing the API without a trusted reverse proxy.
+
+No Render region is hardcoded because the Qdrant region is not recorded in this repository. Before creating the service, select the Render region closest to the Qdrant deployment. Changing region later may require recreating the Render service.
 
 ### Qdrant and OpenAI
 
-Use a dedicated Qdrant collection and keep both provider keys only in Render and the trusted ingestion environment. The model is configured once through `OPENAI_MODEL`; generation uses the OpenAI Responses API with response storage disabled.
+Use a dedicated Qdrant collection and keep both provider keys only in Render and the trusted ingestion environment. The model is configured once through `OPENAI_MODEL`; generation uses the OpenAI Responses API with response storage disabled. `/ready` checks Qdrant collection availability and point count but never calls the generation model.
+
+### Deployment sequence
+
+1. Run the local frontend and backend test commands below.
+2. Run `npm run knowledge:build`.
+3. Run `python scripts/ingest_portfolio.py --dry-run` from `portfolio-ai-api`.
+4. Run `python scripts/ingest_portfolio.py` from a trusted environment.
+5. Push the repository.
+6. Create the Render Blueprint and select the region nearest Qdrant.
+7. Configure `OPENAI_API_KEY`, `QDRANT_URL` and `QDRANT_API_KEY`; let the Blueprint generate `SESSION_SECRET`.
+8. Verify `GET /health` and `GET /ready`.
+9. Run `python scripts/smoke_deployment.py --base-url https://<service>.onrender.com`. Add `--chat` only for one intentional paid chat smoke test.
+10. Set `VITE_PORTFOLIO_AI_API_URL` in Netlify.
+11. Redeploy Netlify because Vite variables are build-time values.
+12. Test the assistant from `https://tsinjona.netlify.app`.
+
+Once the Render URL is stable, replace the temporary `https://*.onrender.com` CSP entry in `netlify.toml` with the exact service origin.
 
 ## Validation
 
@@ -113,12 +146,16 @@ npm run build
 npx tsc --noEmit -p tsconfig.app.json
 Set-Location portfolio-ai-api
 python -m pytest
+ruff check app scripts tests
+mypy app scripts
+bandit -q -r app scripts
 python scripts/ingest_portfolio.py --dry-run
 ```
 
 ## Current limitations
 
 - Rate limiting is instance-local and intended for one Render instance.
+- Some Render plans sleep when idle; the frontend allows 60 seconds for session creation and exposes a connection retry.
 - Portfolio changes require rebuilding and re-ingesting the corpus.
 - Session history is temporary and scoped to the current browser tab.
 - An idle Render service may need time to wake up.

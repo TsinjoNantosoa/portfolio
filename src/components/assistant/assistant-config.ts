@@ -8,8 +8,8 @@ const api = resolveApiConfiguration(import.meta.env.VITE_PORTFOLIO_AI_API_URL, i
 export const assistantConfig = {
   ...api,
   maxMessageLength: 800,
-  sessionTimeoutMs: 20_000,
-  streamTimeoutMs: 45_000,
+  sessionTimeoutMs: 60_000,
+  streamTimeoutMs: 90_000,
 } as const;
 
 export const INITIAL_QUESTIONS = ["Explore RAG projects", "AI Agents and LangGraph", "Automation with n8n", "Professional experience", "Backend engineering", "Contact Tsinjo"];

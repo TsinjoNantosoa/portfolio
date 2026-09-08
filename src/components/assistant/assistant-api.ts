@@ -35,12 +35,16 @@ export async function streamChat(apiBaseUrl: string, session: SessionResponse, m
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
+  let sawDone = false;
 
   const parseBlock = (block: string) => {
     const data = block.split(/\r?\n/).filter((line) => line.startsWith("data:")).map((line) => line.slice(5).trimStart()).join("\n");
     if (!data) return;
-    try { onEvent(JSON.parse(data) as StreamEvent); }
+    let event: StreamEvent;
+    try { event = JSON.parse(data) as StreamEvent; }
     catch { throw new AssistantApiError("The assistant returned an invalid stream event.", 0, "INVALID_STREAM"); }
+    sawDone = sawDone || event.type === "done";
+    onEvent(event);
   };
 
   while (true) {
@@ -52,4 +56,11 @@ export async function streamChat(apiBaseUrl: string, session: SessionResponse, m
     if (done) break;
   }
   if (buffer.trim()) parseBlock(buffer);
+  if (!sawDone) {
+    throw new AssistantApiError(
+      "The assistant stream ended before completion.",
+      0,
+      "INCOMPLETE_STREAM",
+    );
+  }
 }
