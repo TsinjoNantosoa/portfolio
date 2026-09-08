@@ -22,7 +22,7 @@
     <h2>Browser storage</h2>
     <p>The widget stores its short-lived access token and up to 20 recent messages in <code>sessionStorage</code>. This data is scoped to the current browser tab and is cleared when the tab session ends. The widget does not use <code>localStorage</code>.</p>
     <h2>Server retention</h2>
-    <p>The application does not create user accounts or a server-side conversation history. OpenAI generation requests are sent with response storage disabled. Security logs contain session identifiers, message length, result status, and error type; they do not intentionally contain message text, access tokens, API keys, or retrieved content. Hosting providers may retain infrastructure logs under their own policies.</p>
+    <p>The application does not create user accounts or a server-side conversation history. OpenAI generation requests are sent with response storage disabled. Operational logs use request IDs and shortened hashes for sessions and network rate-limit keys. They record message length, result status, latency, retrieval count, model name, and error type; they do not intentionally contain message text, access tokens, API keys, IP addresses, or retrieved content. Hosting providers may retain infrastructure logs under their own policies.</p>
     <h2>Your choices</h2>
     <p>Using the assistant is optional. You can stop a response, close the widget, clear the current tab session by closing the tab, or contact the portfolio owner about a privacy request.</p>
     <h2>Contact</h2>

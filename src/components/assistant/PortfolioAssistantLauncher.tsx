@@ -1,15 +1,18 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 import { Bot, LoaderCircle, Sparkles } from "lucide-react";
 
 const PortfolioAssistant = lazy(() => import("./PortfolioAssistant"));
 
 export default function PortfolioAssistantLauncher() {
   const [open, setOpen] = useState(false);
+  const launcherRef = useRef<HTMLButtonElement>(null);
+  const close = () => { setOpen(false); window.setTimeout(() => launcherRef.current?.focus(), 0); };
 
   return (
     <div className="fixed bottom-4 right-4 z-[70] sm:bottom-6 sm:right-6">
       {!open && (
         <button
+          ref={launcherRef}
           type="button"
           onClick={() => setOpen(true)}
           className="group flex min-h-12 items-center gap-2 rounded-full border border-accent/35 bg-[#0D1318]/95 px-4 py-3 text-sm font-semibold text-foreground shadow-[0_16px_50px_rgba(0,0,0,.45)] backdrop-blur transition hover:border-accent/70 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
@@ -31,7 +34,7 @@ export default function PortfolioAssistantLauncher() {
             </div>
           }
         >
-          <PortfolioAssistant onClose={() => setOpen(false)} />
+          <PortfolioAssistant onClose={close} />
         </Suspense>
       )}
     </div>

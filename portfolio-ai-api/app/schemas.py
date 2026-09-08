@@ -26,6 +26,11 @@ class Source(BaseModel):
     section: str | None = None
 
 
+class KnowledgeLink(BaseModel):
+    label: str
+    url: str
+
+
 class KnowledgeChunk(BaseModel):
     id: str
     type: str
@@ -35,3 +40,5 @@ class KnowledgeChunk(BaseModel):
     url: str
     content: str
     score: float = 0
+    links: list[KnowledgeLink] = Field(default_factory=list)
+    suggested_questions: list[str] = Field(default_factory=list)

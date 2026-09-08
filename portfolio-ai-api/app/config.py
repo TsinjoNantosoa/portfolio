@@ -10,14 +10,15 @@ class Settings(BaseSettings):
 
     environment: Literal["development", "test", "production"] = "development"
     openai_api_key: str = ""
-    openai_chat_model: str = "gpt-6-astra"
+    openai_model: str = "gpt-6-astra"
     openai_embedding_model: str = "text-embedding-3-small"
     qdrant_url: str = ""
     qdrant_api_key: str = ""
     qdrant_collection: str = "portfolio_knowledge"
     session_secret: str = "development-only-change-this-secret"
-    cors_origins: Annotated[list[str], NoDecode] = Field(default_factory=lambda: ["http://localhost:8080", "http://localhost:5173"])
+    allowed_origins: Annotated[list[str], NoDecode] = Field(default_factory=lambda: ["http://localhost:8080", "http://127.0.0.1:8080", "http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:4173", "http://127.0.0.1:4173"])
     public_site_url: str = "https://tsinjona.netlify.app"
+    trust_proxy_headers: bool = False
     session_ttl_minutes: int = Field(default=30, ge=5, le=60)
     ip_rate_limit_per_minute: int = Field(default=15, ge=1, le=100)
     session_rate_limit_per_hour: int = Field(default=60, ge=1, le=500)
@@ -26,7 +27,7 @@ class Settings(BaseSettings):
     retrieval_limit: int = Field(default=5, ge=1, le=10)
     retrieval_score_threshold: float = Field(default=0.25, ge=0, le=1)
 
-    @field_validator("cors_origins", mode="before")
+    @field_validator("allowed_origins", mode="before")
     @classmethod
     def split_origins(cls, value):
         if isinstance(value, str):
@@ -35,10 +36,12 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def validate_security(self):
-        if "*" in self.cors_origins:
-            raise ValueError("CORS_ORIGINS must be an explicit allowlist")
+        if "*" in self.allowed_origins:
+            raise ValueError("ALLOWED_ORIGINS must be an explicit allowlist")
         if self.environment == "production" and (len(self.session_secret) < 32 or self.session_secret == "development-only-change-this-secret"):
             raise ValueError("SESSION_SECRET must be a non-default value with at least 32 characters in production")
+        if self.environment == "production" and self.public_site_url.rstrip("/") not in self.allowed_origins:
+            raise ValueError("PUBLIC_SITE_URL must be included in ALLOWED_ORIGINS in production")
         return self
 
 

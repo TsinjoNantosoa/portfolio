@@ -9,14 +9,16 @@ services:
     envVars:
       - key: ENVIRONMENT
         value: production
-      - key: OPENAI_CHAT_MODEL
+      - key: OPENAI_MODEL
         value: gpt-6-astra
       - key: OPENAI_EMBEDDING_MODEL
         value: text-embedding-3-small
       - key: QDRANT_COLLECTION
         value: portfolio_knowledge
-      - key: CORS_ORIGINS
+      - key: ALLOWED_ORIGINS
         value: https://tsinjona.netlify.app
+      - key: TRUST_PROXY_HEADERS
+        value: "true"
       - key: PUBLIC_SITE_URL
         value: https://tsinjona.netlify.app
       - key: OPENAI_API_KEY

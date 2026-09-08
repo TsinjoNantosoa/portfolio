@@ -17,9 +17,20 @@ class FakeChat:
             yield "answer."
         return [KnowledgeChunk(id="1", type="project", slug="arcwell", title="Arcwell", section="Case study", url="https://example.test/work/arcwell", content="Evidence", score=.9)], tokens()
 
+    async def readiness(self):
+        return {"ready": True, "documents": 51}
+
+
+class FailingChat:
+    async def stream(self, _message: str):
+        raise RuntimeError("provider-secret-details")
+
+    async def readiness(self):
+        raise RuntimeError("qdrant-private-details")
+
 
 def settings(**overrides):
-    values = dict(environment="test", session_secret="test-secret-that-is-long-enough-123", cors_origins=["https://portfolio.test"], openai_api_key="test", max_input_chars=100, ip_rate_limit_per_minute=10, session_rate_limit_per_hour=10)
+    values = dict(environment="test", session_secret="test-secret-that-is-long-enough-123", allowed_origins=["https://portfolio.test"], openai_api_key="test", max_input_chars=100, ip_rate_limit_per_minute=10, session_rate_limit_per_hour=10)
     values.update(overrides)
     return Settings(**values)
 
@@ -32,7 +43,9 @@ def test_health_and_session_claims():
     with TestClient(create_app(settings(), FakeChat())) as client:
         health = client.get("/health")
         assert health.status_code == 200
-        assert health.json() == {"status": "ok", "service": "tsinjo-portfolio-ai", "ready": True}
+        assert health.json() == {"status": "ok", "service": "tsinjo-portfolio-ai"}
+        assert health.headers["x-request-id"]
+        assert client.get("/ready").json() == {"status": "ready", "collection": "portfolio_knowledge", "documents": 51}
         session = client.post("/api/public/session")
         payload = jwt.decode(session.json()["token"], settings().session_secret, algorithms=[ALGORITHM])
         assert payload["scope"] == "portfolio_chat"
@@ -45,9 +58,16 @@ def test_expired_and_wrong_scope_tokens_are_rejected():
     now = datetime.now(timezone.utc)
     expired = jwt.encode({"sub": "anonymous", "sid": "x", "scope": "portfolio_chat", "tenant": "portfolio", "iat": now - timedelta(hours=2), "exp": now - timedelta(hours=1)}, config.session_secret, algorithm=ALGORITHM)
     wrong = jwt.encode({"sub": "anonymous", "sid": "x", "scope": "admin", "tenant": "portfolio", "iat": now, "exp": now + timedelta(minutes=5)}, config.session_secret, algorithm=ALGORITHM)
+    wrong_tenant = jwt.encode({"sub": "anonymous", "sid": "x", "scope": "portfolio_chat", "tenant": "h4h", "iat": now, "exp": now + timedelta(minutes=5)}, config.session_secret, algorithm=ALGORITHM)
     with TestClient(create_app(config, FakeChat())) as client:
-        assert client.post("/api/public/chat/stream", json={"message": "Arcwell"}, headers={"Authorization": f"Bearer {expired}"}).status_code == 401
+        expired_response = client.post("/api/public/chat/stream", json={"message": "Arcwell"}, headers={"Authorization": f"Bearer {expired}"})
+        assert expired_response.status_code == 401
+        assert expired_response.json()["error"]["code"] == "SESSION_INVALID"
         assert client.post("/api/public/chat/stream", json={"message": "Arcwell"}, headers={"Authorization": f"Bearer {wrong}"}).status_code == 403
+        assert client.post("/api/public/chat/stream", json={"message": "Arcwell"}, headers={"Authorization": f"Bearer {wrong_tenant}"}).status_code == 403
+        malformed = client.post("/api/public/chat/stream", json={"message": "Arcwell"}, headers={"Authorization": "Bearer definitely-not-a-jwt"})
+        assert malformed.status_code == 401
+        assert "definitely-not-a-jwt" not in malformed.text
 
 
 def test_validation_streaming_and_grounded_sources():
@@ -62,7 +82,7 @@ def test_validation_streaming_and_grounded_sources():
         events = [json.loads(line[6:]) for line in response.text.splitlines() if line.startswith("data: ")]
         assert "".join(event.get("text", "") for event in events) == "Grounded answer."
         assert "https://example.test/work/arcwell" in response.text
-        assert events[-1]["suggested_links"][0]["label"] == "Open Arcwell"
+        assert events[-1]["suggested_links"][0]["label"] == "View Arcwell"
 
 
 def test_rate_limit_and_cors_allowlist():
@@ -79,9 +99,32 @@ def test_rate_limit_and_cors_allowlist():
 
 
 def test_production_rejects_weak_secret_and_wildcard_cors():
-    for values in ({"environment": "production", "session_secret": "short"}, {"environment": "production", "session_secret": "development-only-change-this-secret"}, {"cors_origins": ["*"]}):
+    for values in ({"environment": "production", "session_secret": "short"}, {"environment": "production", "session_secret": "development-only-change-this-secret"}, {"allowed_origins": ["*"]}, {"environment": "production", "session_secret": "production-secret-that-is-long-enough", "public_site_url": "https://different.test"}):
         try:
             settings(**values)
             assert False, "Settings should reject insecure configuration"
         except ValueError:
             pass
+
+
+def test_unconfigured_readiness_is_safe():
+    config = settings(openai_api_key="", qdrant_url="")
+    with TestClient(create_app(config)) as client:
+        assert client.get("/health").status_code == 200
+        response = client.get("/ready")
+        assert response.status_code == 503
+        assert response.json()["error"]["code"] == "ASSISTANT_UNAVAILABLE"
+        assert "openai" not in response.text.lower()
+
+
+def test_provider_failures_return_safe_errors_without_internal_details():
+    with TestClient(create_app(settings(), FailingChat())) as client:
+        readiness = client.get("/ready")
+        assert readiness.status_code == 503
+        assert readiness.json()["error"]["code"] == "ASSISTANT_UNAVAILABLE"
+        response = client.post("/api/public/chat/stream", json={"message": "Tell me about Arcwell"}, headers=auth(client))
+        assert response.status_code == 200
+        assert '"type": "error"' in response.text
+        assert '"code": "STREAM_FAILED"' in response.text
+        assert "provider-secret-details" not in response.text
+        assert "qdrant-private-details" not in readiness.text

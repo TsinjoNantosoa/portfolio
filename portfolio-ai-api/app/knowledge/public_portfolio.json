@@ -1,98 +1,989 @@
 [
   {
-    "type": "profile",
+    "id": "about:about:professional-positioning",
+    "type": "about",
     "slug": "about",
-    "title": "About Tsinjo",
-    "section": "Overview",
-    "url": "https://tsinjona.netlify.app/#about",
-    "content": "Sandaniaina Tsinjo Nantosoa is an AI Engineer focused on turning AI prototypes into reliable business systems. His work combines retrieval-augmented generation, governed agents, automation, and backend engineering, with an emphasis on reliability, security, testing, and deployment."
+    "project_slug": null,
+    "title": "AI engineering beyond the prototype.",
+    "section": "Professional positioning",
+    "url": "/#background",
+    "content": "I'm an AI Engineer focused on turning promising AI prototypes into reliable systems that businesses can actually use. My work combines RAG, governed agents, automation and backend engineering with a strong focus on reliability, security, testing and deployment.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects best demonstrate this experience?",
+      "What backend technologies does Tsinjo use?",
+      "What is Tsinjo's professional experience?"
+    ]
   },
   {
-    "type": "expertise",
-    "slug": "ai-agents",
+    "id": "skill:ai-agents-agentic-systems:expertise",
+    "type": "skill",
+    "slug": "ai-agents-agentic-systems",
+    "project_slug": null,
     "title": "AI Agents & Agentic Systems",
     "section": "Expertise",
-    "url": "https://tsinjona.netlify.app/#services",
-    "content": "Tsinjo designs controlled and auditable AI agents for business workflows using LangGraph, tool calling, structured outputs, deterministic policy checks, and Human-in-the-Loop approval. His architecture separates model reasoning from authorization and execution."
+    "url": "/#expertise",
+    "content": "I design AI agents that can take useful actions while remaining controlled, auditable, and safe for business workflows. Technical focus: LangGraph · tool calling · structured outputs · policy checks · Human-in-the-Loop.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects demonstrate this expertise?",
+      "What is Tsinjo's production experience?"
+    ]
   },
   {
-    "type": "expertise",
-    "slug": "production-rag",
+    "id": "skill:production-rag-systems:expertise",
+    "type": "skill",
+    "slug": "production-rag-systems",
+    "project_slug": null,
     "title": "Production RAG Systems",
     "section": "Expertise",
-    "url": "https://tsinjona.netlify.app/#services",
-    "content": "Tsinjo builds knowledge assistants with ingestion pipelines, vector and hybrid retrieval, reranking, evaluation, citations, and multi-tenant isolation. Answers are grounded in retrieved evidence and can refuse when evidence is insufficient."
+    "url": "/#expertise",
+    "content": "I build knowledge assistants that retrieve trusted evidence, answer with citations, and keep each organization's data isolated. Technical focus: Ingestion · vector search · hybrid retrieval · reranking · evaluation · multi-tenancy.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects demonstrate this expertise?",
+      "What is Tsinjo's production experience?"
+    ]
   },
   {
+    "id": "skill:ai-automation-backend-engineering:expertise",
+    "type": "skill",
+    "slug": "ai-automation-backend-engineering",
+    "project_slug": null,
+    "title": "AI Automation & Backend Engineering",
+    "section": "Expertise",
+    "url": "/#expertise",
+    "content": "I connect AI to real business operations through reliable APIs, workflows, retries, and production-ready backends. Technical focus: Python · FastAPI · n8n · webhooks · PostgreSQL · Redis · CI/CD.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects demonstrate this expertise?",
+      "What is Tsinjo's production experience?"
+    ]
+  },
+  {
+    "id": "experience:h4h:role-overview",
     "type": "experience",
-    "slug": "humans4help",
-    "title": "AI Engineer — Conversational AI & RAG Systems",
-    "section": "Experience",
-    "url": "https://tsinjona.netlify.app/#experience",
-    "content": "From January to August 2026 at Humans4Help Madagascar in Antananarivo, Tsinjo built a shared AI assistant platform for multiple organizations. The platform isolated each organization's knowledge and configuration and used FastAPI, Qdrant, PostgreSQL, Redis, LangChain, and Docker."
+    "slug": "h4h",
+    "project_slug": null,
+    "title": "AI Engineer — Conversational AI & RAG Systems at Humans4Help Madagascar",
+    "section": "Role overview",
+    "url": "/#experience",
+    "content": "Jan 2026 — Aug 2026. Antananarivo, Madagascar. Built a shared AI assistant platform allowing multiple organizations to operate independent assistants while keeping their knowledge and configuration isolated. FastAPI · Qdrant · PostgreSQL · Redis · LangChain · Docker.",
+    "links": [],
+    "suggested_questions": [
+      "How was tenant isolation implemented?",
+      "What stack powered the RAG platform?",
+      "How did Tsinjo validate RAG quality?"
+    ]
   },
   {
+    "id": "experience:h4h:engineering-contributions",
     "type": "experience",
-    "slug": "automation-consulting",
-    "title": "AI Automation Consultant",
-    "section": "Experience",
-    "url": "https://tsinjona.netlify.app/#experience",
-    "content": "From March to July 2026, Tsinjo delivered project-based AI automation remotely. He connected APIs, CRM tools, and AI services with n8n, webhooks, Airtable, Google Workspace, Python, and FastAPI, adding retries, idempotency, error handling, and human approval for sensitive actions."
+    "slug": "h4h",
+    "project_slug": null,
+    "title": "AI Engineer — Conversational AI & RAG Systems at Humans4Help Madagascar",
+    "section": "Engineering contributions",
+    "url": "/#experience",
+    "content": "Delivered tenant-isolated conversational AI backends; Operated production RAG with knowledge isolation and retrieval controls; Strengthened deployment, reliability, auditing, and security workflows",
+    "links": [],
+    "suggested_questions": [
+      "What technical decisions did Tsinjo make?",
+      "Which technologies supported this work?"
+    ]
   },
   {
+    "id": "experience:h4h:stack-and-public-evidence",
+    "type": "experience",
+    "slug": "h4h",
+    "project_slug": null,
+    "title": "AI Engineer — Conversational AI & RAG Systems at Humans4Help Madagascar",
+    "section": "Stack and public evidence",
+    "url": "/#experience",
+    "content": "Technologies: Python; FastAPI; LangChain; Qdrant; PostgreSQL; Redis; Docker. Public portfolio evidence: 3 Assistants, 700+ Chunks, 97/98 Checks.",
+    "links": [],
+    "suggested_questions": []
+  },
+  {
+    "id": "experience:freelance-automation:role-overview",
+    "type": "experience",
+    "slug": "freelance-automation",
+    "project_slug": null,
+    "title": "AI Automation Consultant at Freelance / Project-based",
+    "section": "Role overview",
+    "url": "/#experience",
+    "content": "Mar 2026 — Jul 2026. Remote. Built business automation workflows connecting APIs, CRM tools, and AI services with reliability-first orchestration. n8n · Webhooks · Airtable · Google Workspace · FastAPI.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects demonstrate this experience?",
+      "What automation tools does Tsinjo use?"
+    ]
+  },
+  {
+    "id": "experience:freelance-automation:engineering-contributions",
+    "type": "experience",
+    "slug": "freelance-automation",
+    "project_slug": null,
+    "title": "AI Automation Consultant at Freelance / Project-based",
+    "section": "Engineering contributions",
+    "url": "/#experience",
+    "content": "Designed modular workflows with retries, idempotency, and error handling; Extended automation with Python/FastAPI when orchestration alone was insufficient; Added human approval for sensitive business actions",
+    "links": [],
+    "suggested_questions": [
+      "What technical decisions did Tsinjo make?",
+      "Which technologies supported this work?"
+    ]
+  },
+  {
+    "id": "experience:freelance-automation:stack-and-public-evidence",
+    "type": "experience",
+    "slug": "freelance-automation",
+    "project_slug": null,
+    "title": "AI Automation Consultant at Freelance / Project-based",
+    "section": "Stack and public evidence",
+    "url": "/#experience",
+    "content": "Technologies: n8n; Python; FastAPI; Webhooks; Airtable; Google Workspace.",
+    "links": [],
+    "suggested_questions": []
+  },
+  {
+    "id": "experience:ets-baron:role-overview",
+    "type": "experience",
+    "slug": "ets-baron",
+    "project_slug": null,
+    "title": "CRM & Business Automation — Odoo 18 at ETS Baron",
+    "section": "Role overview",
+    "url": "/#experience",
+    "content": "Jun 2026 — Aug 2026. Implemented CRM and operational automation covering quotes, orders, planning, delivery, and invoicing. Odoo 18 · Python · XML · PostgreSQL · Docker.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects demonstrate this experience?",
+      "What automation tools does Tsinjo use?"
+    ]
+  },
+  {
+    "id": "experience:ets-baron:engineering-contributions",
+    "type": "experience",
+    "slug": "ets-baron",
+    "project_slug": null,
+    "title": "CRM & Business Automation — Odoo 18 at ETS Baron",
+    "section": "Engineering contributions",
+    "url": "/#experience",
+    "content": "Customized CRM and operational processes in Odoo 18; Supported Docker-based delivery and CI/CD-oriented development practices",
+    "links": [],
+    "suggested_questions": [
+      "What technical decisions did Tsinjo make?",
+      "Which technologies supported this work?"
+    ]
+  },
+  {
+    "id": "experience:ets-baron:stack-and-public-evidence",
+    "type": "experience",
+    "slug": "ets-baron",
+    "project_slug": null,
+    "title": "CRM & Business Automation — Odoo 18 at ETS Baron",
+    "section": "Stack and public evidence",
+    "url": "/#experience",
+    "content": "Technologies: Odoo 18; Python; XML; PostgreSQL; Docker; CI/CD.",
+    "links": [],
+    "suggested_questions": []
+  },
+  {
+    "id": "education:education:degrees",
+    "type": "education",
+    "slug": "education",
+    "project_slug": null,
+    "title": "Education",
+    "section": "Degrees",
+    "url": "/#background",
+    "content": "Master’s Degree, Applied Mathematics, Computer Science & Statistics (MISA), University of Antananarivo, 2024 — 2026. Bachelor’s Degree, Applied Mathematics, Computer Science & Statistics (MISA), University of Antananarivo, period not displayed",
+    "links": [],
+    "suggested_questions": [
+      "What AI certifications does Tsinjo have?",
+      "What are his strongest engineering skills?"
+    ]
+  },
+  {
+    "id": "skill:languages:professional-languages",
+    "type": "skill",
+    "slug": "languages",
+    "project_slug": null,
+    "title": "Languages",
+    "section": "Professional languages",
+    "url": "/#background",
+    "content": "Malagasy: Native. French: Professional. English: Professional",
+    "links": [],
+    "suggested_questions": []
+  },
+  {
+    "id": "skill:ai-llm:technical-skills",
+    "type": "skill",
+    "slug": "ai-llm",
+    "project_slug": null,
+    "title": "AI / LLM",
+    "section": "Technical skills",
+    "url": "/#background",
+    "content": "Publicly listed skills: LangGraph; LangChain; OpenAI API; RAG; AI Agents; Tool Calling; Human-in-the-Loop.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects use these technologies?",
+      "What production experience supports these skills?"
+    ]
+  },
+  {
+    "id": "skill:backend-data:technical-skills",
+    "type": "skill",
+    "slug": "backend-data",
+    "project_slug": null,
+    "title": "Backend & Data",
+    "section": "Technical skills",
+    "url": "/#background",
+    "content": "Publicly listed skills: Python; FastAPI; PostgreSQL; Redis; Qdrant; SQLAlchemy; REST APIs.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects use these technologies?",
+      "What production experience supports these skills?"
+    ]
+  },
+  {
+    "id": "skill:automation-infrastructure:technical-skills",
+    "type": "skill",
+    "slug": "automation-infrastructure",
+    "project_slug": null,
+    "title": "Automation & Infrastructure",
+    "section": "Technical skills",
+    "url": "/#background",
+    "content": "Publicly listed skills: n8n; Webhooks; Docker; GitHub Actions; Linux; CI/CD.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects use these technologies?",
+      "What production experience supports these skills?"
+    ]
+  },
+  {
+    "id": "skill:frontend:technical-skills",
+    "type": "skill",
+    "slug": "frontend",
+    "project_slug": null,
+    "title": "Frontend",
+    "section": "Technical skills",
+    "url": "/#background",
+    "content": "Publicly listed skills: React; TypeScript.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects use these technologies?",
+      "What production experience supports these skills?"
+    ]
+  },
+  {
+    "id": "certification:featured-certifications:credentials",
+    "type": "certification",
+    "slug": "featured-certifications",
+    "project_slug": null,
+    "title": "Featured certifications",
+    "section": "Credentials",
+    "url": "/#background",
+    "content": "Associate AI Engineer for Developers by DataCamp. Data Engineer Professional by DataCamp. Professional Data Analyst by DataCamp. SQL Associate by DataCamp",
+    "links": [],
+    "suggested_questions": [
+      "What is Tsinjo's education?",
+      "Which projects demonstrate his AI engineering skills?"
+    ]
+  },
+  {
+    "id": "certification:additional-certifications:credentials",
+    "type": "certification",
+    "slug": "additional-certifications",
+    "project_slug": null,
+    "title": "Additional certifications",
+    "section": "Credentials",
+    "url": "/#background",
+    "content": "Data Engineer Associate by DataCamp. Python Data Associate by DataCamp. AWS Cloud Practitioner (CLF-C02) by AWS. Data Engineer Career Track by DataCamp. Data Analyst in Python by DataCamp. Data Analyst in Power BI by DataCamp. Data Engineer in Python by DataCamp. Power BI Fundamentals by DataCamp. Snowflake Data Engineer Associate by DataCamp",
+    "links": [],
+    "suggested_questions": []
+  },
+  {
+    "id": "project:multi-tenant-rag:overview",
     "type": "project",
     "slug": "multi-tenant-rag",
+    "project_slug": "multi-tenant-rag",
     "title": "Production Multi-Tenant RAG Platform",
-    "section": "Case study",
-    "url": "https://tsinjona.netlify.app/work/multi-tenant-rag",
-    "content": "This production-oriented platform operates independent conversational assistants on shared infrastructure. It includes tenant-aware ingestion, isolated vector retrieval, conversation memory, configuration APIs, branded embeddable interfaces, access controls, guardrails, and auditing."
+    "section": "Overview",
+    "url": "/work/multi-tenant-rag",
+    "content": "A shared AI platform for independent assistants, with each organization's data, knowledge, branding, and configuration kept isolated. Production-oriented multi-tenant conversational AI platform designed for multiple organizations with isolated knowledge bases, prompts, configuration, branding, and retrieval infrastructure. Built for a professional engagement delivering conversational AI assistants across multiple organizations on a shared multi-tenant platform.",
+    "links": [
+      {
+        "label": "View Production Multi-Tenant RAG Platform case study",
+        "url": "/work/multi-tenant-rag"
+      }
+    ],
+    "suggested_questions": [
+      "How was tenant isolation implemented?",
+      "What stack powered the RAG platform?",
+      "How did Tsinjo validate RAG quality?"
+    ]
   },
   {
+    "id": "project:multi-tenant-rag:problem-and-solution",
+    "type": "project",
+    "slug": "multi-tenant-rag",
+    "project_slug": "multi-tenant-rag",
+    "title": "Production Multi-Tenant RAG Platform",
+    "section": "Problem and solution",
+    "url": "/work/multi-tenant-rag",
+    "content": "Businesses needed independent AI assistants on one platform without sharing data or knowledge. Built an end-to-end multi-tenant RAG architecture with ingestion, retrieval, tenant-aware config, memory, security controls, and embeddable chat interfaces. Each organization only retrieves knowledge it is authorized to access; Automated website ingestion into searchable knowledge bases; Admin APIs for configuration, branding, and assistant operations",
+    "links": [
+      {
+        "label": "View Production Multi-Tenant RAG Platform case study",
+        "url": "/work/multi-tenant-rag"
+      }
+    ],
+    "suggested_questions": [
+      "How was tenant isolation implemented?",
+      "What stack powered the RAG platform?",
+      "How did Tsinjo validate RAG quality?"
+    ]
+  },
+  {
+    "id": "project:multi-tenant-rag:architecture",
+    "type": "project",
+    "slug": "multi-tenant-rag",
+    "project_slug": "multi-tenant-rag",
+    "title": "Production Multi-Tenant RAG Platform",
+    "section": "Architecture",
+    "url": "/work/multi-tenant-rag",
+    "content": "Tenant-aware ingestion and embedding pipeline; Vector retrieval with isolated knowledge bases; Conversation memory and admin configuration APIs; Embeddable chat interfaces with branding per tenant.",
+    "links": [
+      {
+        "label": "View Production Multi-Tenant RAG Platform case study",
+        "url": "/work/multi-tenant-rag"
+      }
+    ],
+    "suggested_questions": [
+      "How was tenant isolation implemented?",
+      "What stack powered the RAG platform?",
+      "How did Tsinjo validate RAG quality?"
+    ]
+  },
+  {
+    "id": "project:multi-tenant-rag:engineering-decisions",
+    "type": "project",
+    "slug": "multi-tenant-rag",
+    "project_slug": "multi-tenant-rag",
+    "title": "Production Multi-Tenant RAG Platform",
+    "section": "Engineering decisions",
+    "url": "/work/multi-tenant-rag",
+    "content": "Isolated tenant knowledge to prevent cross-tenant leakage; Shared platform infrastructure for operational efficiency; Security and auditing layered around retrieval and responses.",
+    "links": [
+      {
+        "label": "View Production Multi-Tenant RAG Platform case study",
+        "url": "/work/multi-tenant-rag"
+      }
+    ],
+    "suggested_questions": [
+      "How was tenant isolation implemented?",
+      "What stack powered the RAG platform?",
+      "How did Tsinjo validate RAG quality?"
+    ]
+  },
+  {
+    "id": "project:multi-tenant-rag:controls-evidence-and-stack",
+    "type": "project",
+    "slug": "multi-tenant-rag",
+    "project_slug": "multi-tenant-rag",
+    "title": "Production Multi-Tenant RAG Platform",
+    "section": "Controls, evidence and stack",
+    "url": "/work/multi-tenant-rag",
+    "content": "Tenant isolation for knowledge and configuration; Guardrails and audited conversational flows; Validated quality and security check suites (97/98). Technologies: Python; FastAPI; LangChain; Qdrant; PostgreSQL; Redis; React; Docker. Public evidence: 3 Assistants (Deployed for real organizations), 700+ Knowledge chunks (Indexed and maintained), 97/98 Checks passed (Automated quality and security validation).",
+    "links": [
+      {
+        "label": "View Production Multi-Tenant RAG Platform case study",
+        "url": "/work/multi-tenant-rag"
+      }
+    ],
+    "suggested_questions": [
+      "How was tenant isolation implemented?",
+      "What stack powered the RAG platform?",
+      "How did Tsinjo validate RAG quality?"
+    ]
+  },
+  {
+    "id": "project:arcwell-agentic-crm:overview",
     "type": "project",
     "slug": "arcwell-agentic-crm",
+    "project_slug": "arcwell-agentic-crm",
     "title": "Arcwell — Governed Agentic CRM",
-    "section": "Case study",
-    "url": "https://tsinjona.netlify.app/work/arcwell-agentic-crm",
-    "content": "Arcwell is a governed agentic CRM layer built with FastAPI, LangGraph, Qdrant, PostgreSQL, Redis, Celery, and React. Agents retrieve tenant-scoped context and propose structured actions. Deterministic business policy checks and human approval protect sensitive CRM mutations, and audit trails record decisions. Source code: https://github.com/TsinjoNantosoa/arcwell-agentic-crm"
+    "section": "Overview",
+    "url": "/work/arcwell-agentic-crm",
+    "content": "An AI layer that helps CRM teams automate work while keeping sensitive actions under business rules and human approval. A governed AI layer for CRM workflows where agents reason over authorized business context, propose structured actions, and require deterministic policy checks or human approval before sensitive mutations. Agentic CRM layer focused on governed tool use, policy checks, and human approval before sensitive mutations.",
+    "links": [
+      {
+        "label": "View Arcwell — Governed Agentic CRM case study",
+        "url": "/work/arcwell-agentic-crm"
+      },
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/arcwell-agentic-crm"
+      }
+    ],
+    "suggested_questions": [
+      "How does Human-in-the-Loop work in Arcwell?",
+      "Why are policy checks deterministic?",
+      "Which other project uses LangGraph?"
+    ]
   },
   {
+    "id": "project:arcwell-agentic-crm:problem-and-solution",
+    "type": "project",
+    "slug": "arcwell-agentic-crm",
+    "project_slug": "arcwell-agentic-crm",
+    "title": "Arcwell — Governed Agentic CRM",
+    "section": "Problem and solution",
+    "url": "/work/arcwell-agentic-crm",
+    "content": "Agents propose actions instead of executing blindly; Sensitive AI actions must pass business rules before execution; Human approval before high-impact CRM changes; Audit trails for proposed and approved actions",
+    "links": [
+      {
+        "label": "View Arcwell — Governed Agentic CRM case study",
+        "url": "/work/arcwell-agentic-crm"
+      },
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/arcwell-agentic-crm"
+      }
+    ],
+    "suggested_questions": [
+      "How does Human-in-the-Loop work in Arcwell?",
+      "Why are policy checks deterministic?",
+      "Which other project uses LangGraph?"
+    ]
+  },
+  {
+    "id": "project:arcwell-agentic-crm:architecture",
+    "type": "project",
+    "slug": "arcwell-agentic-crm",
+    "project_slug": "arcwell-agentic-crm",
+    "title": "Arcwell — Governed Agentic CRM",
+    "section": "Architecture",
+    "url": "/work/arcwell-agentic-crm",
+    "content": "LangGraph orchestration for multi-step agent workflows; Tenant-scoped retrieval with access filtering; Action proposal layer separated from execution; HITL approval and audit trail persistence.",
+    "links": [
+      {
+        "label": "View Arcwell — Governed Agentic CRM case study",
+        "url": "/work/arcwell-agentic-crm"
+      },
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/arcwell-agentic-crm"
+      }
+    ],
+    "suggested_questions": [
+      "How does Human-in-the-Loop work in Arcwell?",
+      "Why are policy checks deterministic?",
+      "Which other project uses LangGraph?"
+    ]
+  },
+  {
+    "id": "project:arcwell-agentic-crm:engineering-decisions",
+    "type": "project",
+    "slug": "arcwell-agentic-crm",
+    "project_slug": "arcwell-agentic-crm",
+    "title": "Arcwell — Governed Agentic CRM",
+    "section": "Engineering decisions",
+    "url": "/work/arcwell-agentic-crm",
+    "content": "Separate reasoning from authorization and execution; Deterministic policy checks before sensitive mutations; Human approval for high-impact CRM operations.",
+    "links": [
+      {
+        "label": "View Arcwell — Governed Agentic CRM case study",
+        "url": "/work/arcwell-agentic-crm"
+      },
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/arcwell-agentic-crm"
+      }
+    ],
+    "suggested_questions": [
+      "How does Human-in-the-Loop work in Arcwell?",
+      "Why are policy checks deterministic?",
+      "Which other project uses LangGraph?"
+    ]
+  },
+  {
+    "id": "project:arcwell-agentic-crm:controls-evidence-and-stack",
+    "type": "project",
+    "slug": "arcwell-agentic-crm",
+    "project_slug": "arcwell-agentic-crm",
+    "title": "Arcwell — Governed Agentic CRM",
+    "section": "Controls, evidence and stack",
+    "url": "/work/arcwell-agentic-crm",
+    "content": "Technologies: Python; FastAPI; LangGraph; Qdrant; PostgreSQL; Redis; Celery; React.",
+    "links": [
+      {
+        "label": "View Arcwell — Governed Agentic CRM case study",
+        "url": "/work/arcwell-agentic-crm"
+      },
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/arcwell-agentic-crm"
+      }
+    ],
+    "suggested_questions": [
+      "How does Human-in-the-Loop work in Arcwell?",
+      "Why are policy checks deterministic?",
+      "Which other project uses LangGraph?"
+    ]
+  },
+  {
+    "id": "project:ai-business-os:overview",
     "type": "project",
     "slug": "ai-business-os",
+    "project_slug": "ai-business-os",
     "title": "AI Business Operating System",
-    "section": "Case study",
-    "url": "https://tsinjona.netlify.app/work/ai-business-os",
-    "content": "The AI Business Operating System is a multi-tenant FastAPI and React SaaS platform combining business operations, RAG, tool orchestration, PostgreSQL, Redis, and controlled agent actions. Human approval is required before sensitive operations. Public demo: https://ai-business-os-murex.vercel.app/"
+    "section": "Overview",
+    "url": "/work/ai-business-os",
+    "content": "An AI-first business platform where agents can retrieve context, help with business tasks, and propose controlled actions. Multi-tenant AI-first SaaS platform combining business operations, knowledge retrieval, workflows, and controlled agent actions. Full-stack AI business platform combining operations, agent-driven actions, and a working product demo.",
+    "links": [
+      {
+        "label": "View AI Business Operating System case study",
+        "url": "/work/ai-business-os"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://ai-business-os-murex.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does AI BOS control agent actions?",
+      "What is the AI BOS architecture?",
+      "Which projects demonstrate multi-tenancy?"
+    ]
   },
   {
+    "id": "project:ai-business-os:problem-and-solution",
+    "type": "project",
+    "slug": "ai-business-os",
+    "project_slug": "ai-business-os",
+    "title": "AI Business Operating System",
+    "section": "Problem and solution",
+    "url": "/work/ai-business-os",
+    "content": "Agents help with business tasks using authorized tools; Human approval before sensitive operations; Shared platform with organization-level access control; Business modules connected to knowledge retrieval and workflows",
+    "links": [
+      {
+        "label": "View AI Business Operating System case study",
+        "url": "/work/ai-business-os"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://ai-business-os-murex.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does AI BOS control agent actions?",
+      "What is the AI BOS architecture?",
+      "Which projects demonstrate multi-tenancy?"
+    ]
+  },
+  {
+    "id": "project:ai-business-os:architecture",
+    "type": "project",
+    "slug": "ai-business-os",
+    "project_slug": "ai-business-os",
+    "title": "AI Business Operating System",
+    "section": "Architecture",
+    "url": "/work/ai-business-os",
+    "content": "FastAPI backend with React frontend; Agent and tool orchestration with controlled execution; PostgreSQL + Redis supporting application state; Human-in-the-Loop approval for sensitive actions.",
+    "links": [
+      {
+        "label": "View AI Business Operating System case study",
+        "url": "/work/ai-business-os"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://ai-business-os-murex.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does AI BOS control agent actions?",
+      "What is the AI BOS architecture?",
+      "Which projects demonstrate multi-tenancy?"
+    ]
+  },
+  {
+    "id": "project:ai-business-os:controls-evidence-and-stack",
+    "type": "project",
+    "slug": "ai-business-os",
+    "project_slug": "ai-business-os",
+    "title": "AI Business Operating System",
+    "section": "Controls, evidence and stack",
+    "url": "/work/ai-business-os",
+    "content": "Technologies: Python; FastAPI; React; PostgreSQL; Redis; OpenAI; Docker.",
+    "links": [
+      {
+        "label": "View AI Business Operating System case study",
+        "url": "/work/ai-business-os"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://ai-business-os-murex.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does AI BOS control agent actions?",
+      "What is the AI BOS architecture?",
+      "Which projects demonstrate multi-tenancy?"
+    ]
+  },
+  {
+    "id": "project:sihia:overview",
     "type": "project",
     "slug": "sihia",
+    "project_slug": "sihia",
     "title": "SIHIA — AI-Powered HealthTech Platform",
-    "section": "Case study",
-    "url": "https://tsinjona.netlify.app/work/sihia",
-    "content": "SIHIA combines healthcare operations, predictive analytics, and a grounded Hybrid RAG assistant. Retrieval uses dense search and BM25, Reciprocal Rank Fusion, and cross-encoder reranking before the model answers with citations. The platform uses FastAPI, React, PostgreSQL, Qdrant, and Docker. Public demo: https://sihia-platform.vercel.app/"
+    "section": "Overview",
+    "url": "/work/sihia",
+    "content": "A healthcare operations platform combining hospital workflows, predictive analytics, and an AI assistant grounded in trusted knowledge. Full-stack healthcare operations platform combining secure hospital workflows, predictive analytics, and a grounded Hybrid RAG assistant. Healthcare operations platform with predictive analytics and a grounded Hybrid RAG assistant.",
+    "links": [
+      {
+        "label": "View SIHIA — AI-Powered HealthTech Platform case study",
+        "url": "/work/sihia"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://sihia-platform.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does SIHIA's hybrid retrieval work?",
+      "Why does SIHIA use reranking?",
+      "Which projects use Qdrant?"
+    ]
   },
   {
+    "id": "project:sihia:problem-and-solution",
+    "type": "project",
+    "slug": "sihia",
+    "project_slug": "sihia",
+    "title": "SIHIA — AI-Powered HealthTech Platform",
+    "section": "Problem and solution",
+    "url": "/work/sihia",
+    "content": "Combines semantic and keyword search for more reliable evidence; Reranks evidence before the model answers; Answers include citations and can refuse when evidence is weak; Hospital workflows and predictive analytics in one platform",
+    "links": [
+      {
+        "label": "View SIHIA — AI-Powered HealthTech Platform case study",
+        "url": "/work/sihia"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://sihia-platform.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does SIHIA's hybrid retrieval work?",
+      "Why does SIHIA use reranking?",
+      "Which projects use Qdrant?"
+    ]
+  },
+  {
+    "id": "project:sihia:architecture",
+    "type": "project",
+    "slug": "sihia",
+    "project_slug": "sihia",
+    "title": "SIHIA — AI-Powered HealthTech Platform",
+    "section": "Architecture",
+    "url": "/work/sihia",
+    "content": "Dense retrieval + BM25; Reciprocal Rank Fusion; Cross-encoder reranking; Evidence → LLM → Answer + Citations.",
+    "links": [
+      {
+        "label": "View SIHIA — AI-Powered HealthTech Platform case study",
+        "url": "/work/sihia"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://sihia-platform.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does SIHIA's hybrid retrieval work?",
+      "Why does SIHIA use reranking?",
+      "Which projects use Qdrant?"
+    ]
+  },
+  {
+    "id": "project:sihia:controls-evidence-and-stack",
+    "type": "project",
+    "slug": "sihia",
+    "project_slug": "sihia",
+    "title": "SIHIA — AI-Powered HealthTech Platform",
+    "section": "Controls, evidence and stack",
+    "url": "/work/sihia",
+    "content": "Technologies: FastAPI; React; PostgreSQL; Qdrant; BM25; FastEmbed; Docker. Public evidence: 118 Backend tests (Automated validation), 65 Frontend tests (UI coverage), 17 End-to-end scenarios (Playwright flows).",
+    "links": [
+      {
+        "label": "View SIHIA — AI-Powered HealthTech Platform case study",
+        "url": "/work/sihia"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://sihia-platform.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does SIHIA's hybrid retrieval work?",
+      "Why does SIHIA use reranking?",
+      "Which projects use Qdrant?"
+    ]
+  },
+  {
+    "id": "project:ai-sales-assistant:overview",
     "type": "project",
     "slug": "ai-sales-assistant",
+    "project_slug": "ai-sales-assistant",
     "title": "AI Sales Assistant",
-    "section": "Case study",
-    "url": "https://tsinjona.netlify.app/work/ai-sales-assistant",
-    "content": "The AI Sales Assistant uses LangGraph and OpenAI for conversational qualification and structured lead extraction. A FastAPI service calculates lead scores deterministically outside the model, PostgreSQL stores state, and n8n automates lead capture, follow-ups, alerts, bookings, reminders, and error handling. Sensitive steps can be handed to a human."
+    "section": "Overview",
+    "url": "/work/ai-sales-assistant",
+    "content": "An AI-assisted sales platform that qualifies leads, gathers structured information, and automates follow-up workflows while keeping business scoring deterministic and sensitive decisions under human control. AI-assisted sales platform combining conversational qualification, structured lead-data extraction, deterministic lead scoring, Human-in-the-Loop handoff, and automated business workflows. AI Sales Assistant is an AI-assisted sales platform designed to help teams manage the journey from lead capture to qualification, follow-up, and meeting scheduling. The system combines conversational AI with structured business logic rather than allowing an LLM to control the complete sales process. LangGraph orchestrates the conversational workflow, FastAPI manages business logic and persistence, deterministic scoring prioritizes opportunities, and n8n handles operational automation.",
+    "links": [
+      {
+        "label": "View AI Sales Assistant case study",
+        "url": "/work/ai-sales-assistant"
+      }
+    ],
+    "suggested_questions": [
+      "Why is lead scoring outside the LLM?",
+      "Which n8n workflows does AI Sales use?",
+      "How does Human-in-the-Loop protect sales actions?"
+    ]
   },
   {
-    "type": "profile",
-    "slug": "skills",
-    "title": "Technical Skills",
-    "section": "Skills",
-    "url": "https://tsinjona.netlify.app/#background",
-    "content": "Tsinjo's public technical skills include Python, FastAPI, LangGraph, LangChain, OpenAI API, RAG, AI agents, tool calling, Human-in-the-Loop, PostgreSQL, Redis, Qdrant, SQLAlchemy, n8n, webhooks, Docker, GitHub Actions, Linux, CI/CD, React, and TypeScript."
+    "id": "project:ai-sales-assistant:problem-and-solution",
+    "type": "project",
+    "slug": "ai-sales-assistant",
+    "project_slug": "ai-sales-assistant",
+    "title": "AI Sales Assistant",
+    "section": "Problem and solution",
+    "url": "/work/ai-sales-assistant",
+    "content": "Sales teams often spend time manually qualifying leads, updating CRM information, scheduling follow-ups, and deciding which opportunities deserve attention first. Using an LLM alone for these decisions would make the process difficult to control, audit, and reproduce. The system therefore needs to combine AI assistance with deterministic business rules and workflow automation. Designed an AI-assisted sales platform that combines conversational qualification, structured lead-data extraction, deterministic lead scoring, Human-in-the-Loop handoff, and automated business workflows. The AI helps understand conversations and extract useful information, while business scoring remains deterministic in the backend. n8n workflows handle operational automation such as lead capture, alerts, follow-ups, appointments, reminders, and error handling. Conversational AI qualification with structured lead-data extraction; Deterministic 0–100 lead scoring kept outside the LLM; Human handoff before sensitive or high-value next steps; Automated follow-ups, alerts, bookings, and operational workflows",
+    "links": [
+      {
+        "label": "View AI Sales Assistant case study",
+        "url": "/work/ai-sales-assistant"
+      }
+    ],
+    "suggested_questions": [
+      "Why is lead scoring outside the LLM?",
+      "Which n8n workflows does AI Sales use?",
+      "How does Human-in-the-Loop protect sales actions?"
+    ]
   },
   {
+    "id": "project:ai-sales-assistant:architecture",
+    "type": "project",
+    "slug": "ai-sales-assistant",
+    "project_slug": "ai-sales-assistant",
+    "title": "AI Sales Assistant",
+    "section": "Architecture",
+    "url": "/work/ai-sales-assistant",
+    "content": "React UI for dashboard, leads, pipeline, and conversation management; FastAPI API for business logic, persistence, and scoring services; LangGraph conversation flow with OpenAI for structured extraction; Deterministic LeadScoringService produces a 0–100 score outside the LLM; PostgreSQL stores leads, scores, conversation state, and events; n8n orchestrates operational workflows without replacing the backend. Flow: User message; Validate input; Safety check; Load context; LLM / LangGraph structured lead extraction; Deterministic scoring; Human handoff when required; Persistence; Automation events via n8n.",
+    "links": [
+      {
+        "label": "View AI Sales Assistant case study",
+        "url": "/work/ai-sales-assistant"
+      }
+    ],
+    "suggested_questions": [
+      "Why is lead scoring outside the LLM?",
+      "Which n8n workflows does AI Sales use?",
+      "How does Human-in-the-Loop protect sales actions?"
+    ]
+  },
+  {
+    "id": "project:ai-sales-assistant:engineering-decisions",
+    "type": "project",
+    "slug": "ai-sales-assistant",
+    "project_slug": "ai-sales-assistant",
+    "title": "AI Sales Assistant",
+    "section": "Engineering decisions",
+    "url": "/work/ai-sales-assistant",
+    "content": "The LLM extracts structured lead information but does not control the final score; Business scoring stays deterministic, explainable, testable, and auditable; Sensitive next steps escalate to a human before execution; n8n handles operational automation while FastAPI remains the source of truth. Why scoring is outside the LLM: The LLM is used to understand conversations and extract structured lead information, but it is not treated as the source of truth for business scoring. A deterministic backend service calculates the final score, making qualification more predictable, explainable, testable, and easier to audit.",
+    "links": [
+      {
+        "label": "View AI Sales Assistant case study",
+        "url": "/work/ai-sales-assistant"
+      }
+    ],
+    "suggested_questions": [
+      "Why is lead scoring outside the LLM?",
+      "Which n8n workflows does AI Sales use?",
+      "How does Human-in-the-Loop protect sales actions?"
+    ]
+  },
+  {
+    "id": "project:ai-sales-assistant:controls-evidence-and-stack",
+    "type": "project",
+    "slug": "ai-sales-assistant",
+    "project_slug": "ai-sales-assistant",
+    "title": "AI Sales Assistant",
+    "section": "Controls, evidence and stack",
+    "url": "/work/ai-sales-assistant",
+    "content": "Input validation and safety checks before model calls; Deterministic scoring for reproducible qualification outcomes; Human approval path before sensitive or high-value actions; Global error-handling workflow for operational reliability. Sensitive next steps and high-value sales actions can be escalated to a human rather than executed blindly by the AI layer. This keeps the system useful for automation while preserving operational control. Technologies: Python; FastAPI; LangGraph; OpenAI; PostgreSQL; n8n; React.",
+    "links": [
+      {
+        "label": "View AI Sales Assistant case study",
+        "url": "/work/ai-sales-assistant"
+      }
+    ],
+    "suggested_questions": [
+      "Why is lead scoring outside the LLM?",
+      "Which n8n workflows does AI Sales use?",
+      "How does Human-in-the-Loop protect sales actions?"
+    ]
+  },
+  {
+    "id": "project:ai-sales-assistant:deterministic-lead-scoring",
+    "type": "project",
+    "slug": "ai-sales-assistant",
+    "project_slug": "ai-sales-assistant",
+    "title": "AI Sales Assistant",
+    "section": "Deterministic lead scoring",
+    "url": "/work/ai-sales-assistant",
+    "content": "A deterministic backend scoring service calculates a 0–100 qualification score from structured lead factors. The LLM does not directly decide whether a lead is Hot, Warm, or Cold. Factors: Budget; Urgency; Service Fit; Decision Authority; Company Size; Profile Completeness. Range: 0–100. Classes: Hot; Warm; Cold.",
+    "links": [
+      {
+        "label": "View AI Sales Assistant case study",
+        "url": "/work/ai-sales-assistant"
+      }
+    ],
+    "suggested_questions": [
+      "Why is lead scoring outside the LLM?",
+      "Which n8n workflows does AI Sales use?",
+      "How does Human-in-the-Loop protect sales actions?"
+    ]
+  },
+  {
+    "id": "project:ai-sales-assistant:n8n-workflow-automation",
+    "type": "project",
+    "slug": "ai-sales-assistant",
+    "project_slug": "ai-sales-assistant",
+    "title": "AI Sales Assistant",
+    "section": "n8n workflow automation",
+    "url": "/work/ai-sales-assistant",
+    "content": "n8n is used as the orchestration layer for operational workflows, while FastAPI remains responsible for core business logic and data integrity. Workflows: Lead Capture; AI Qualification; Hot Lead Alert; Follow-up; Appointment Booking; Meeting Reminder; Global Error Handler.",
+    "links": [
+      {
+        "label": "View AI Sales Assistant case study",
+        "url": "/work/ai-sales-assistant"
+      }
+    ],
+    "suggested_questions": [
+      "Why is lead scoring outside the LLM?",
+      "Which n8n workflows does AI Sales use?",
+      "How does Human-in-the-Loop protect sales actions?"
+    ]
+  },
+  {
+    "id": "project:worldbank:project-overview",
+    "type": "project",
+    "slug": "worldbank",
+    "project_slug": "worldbank",
+    "title": "World Bank AI Chatbot (RAG)",
+    "section": "Project overview",
+    "url": "https://github.com/TsinjoNantosoa/worldbank-ai-chatbot",
+    "content": "Ask questions about World Bank open data and get sourced answers. Category: AI / RAG. Technologies: Python; RAG; FAISS; FastAPI.",
+    "links": [
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/worldbank-ai-chatbot"
+      }
+    ],
+    "suggested_questions": [
+      "Which flagship project uses related technologies?",
+      "What are Tsinjo's strongest engineering projects?"
+    ]
+  },
+  {
+    "id": "project:iot-pipeline:project-overview",
+    "type": "project",
+    "slug": "iot-pipeline",
+    "project_slug": "iot-pipeline",
+    "title": "IoT Kafka Spark Pipeline",
+    "section": "Project overview",
+    "url": "https://github.com/TsinjoNantosoa/iot-kafka-spark-redshift-pipeline",
+    "content": "Real-time IoT streaming pipeline prepared for analytics ingestion. Category: Backend & Data. Technologies: Kafka; Spark; AWS; Python.",
+    "links": [
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/iot-kafka-spark-redshift-pipeline"
+      }
+    ],
+    "suggested_questions": [
+      "Which flagship project uses related technologies?",
+      "What are Tsinjo's strongest engineering projects?"
+    ]
+  },
+  {
+    "id": "project:weather-etl:project-overview",
+    "type": "project",
+    "slug": "weather-etl",
+    "project_slug": "weather-etl",
+    "title": "Weather ETL with Airflow",
+    "section": "Project overview",
+    "url": "https://github.com/TsinjoNantosoa/weather_etl",
+    "content": "Scheduled weather data extraction and transformation for analytics. Category: Backend & Data. Technologies: Airflow; Python; ETL.",
+    "links": [
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/weather_etl"
+      }
+    ],
+    "suggested_questions": [
+      "Which flagship project uses related technologies?",
+      "What are Tsinjo's strongest engineering projects?"
+    ]
+  },
+  {
+    "id": "project:bank-loan:project-overview",
+    "type": "project",
+    "slug": "bank-loan",
+    "project_slug": "bank-loan",
+    "title": "Bank Loan Analytics Dashboard",
+    "section": "Project overview",
+    "url": "https://github.com/TsinjoNantosoa/bank-loan-analytics-dashboard",
+    "content": "Portfolio quality and banking risk indicators in one dashboard. Category: Backend & Data. Technologies: Power BI; SQL; Dashboard.",
+    "links": [
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/bank-loan-analytics-dashboard"
+      }
+    ],
+    "suggested_questions": [
+      "Which flagship project uses related technologies?",
+      "What are Tsinjo's strongest engineering projects?"
+    ]
+  },
+  {
+    "id": "contact:contact:public-links",
     "type": "contact",
     "slug": "contact",
+    "project_slug": null,
     "title": "Contact and public profiles",
-    "section": "Contact",
-    "url": "https://tsinjona.netlify.app/#contact",
-    "content": "Contact Tsinjo at tsinjonantosoa@gmail.com. GitHub: https://github.com/TsinjoNantosoa. LinkedIn: https://www.linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330/. The portfolio contact section and downloadable CV are also public."
+    "section": "Public links",
+    "url": "/#contact",
+    "content": "Email: tsinjonantosoa@gmail.com. GitHub: https://github.com/TsinjoNantosoa. LinkedIn: https://www.linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330/. CV: /CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf.",
+    "links": [
+      {
+        "label": "Contact Tsinjo",
+        "url": "/#contact"
+      },
+      {
+        "label": "View GitHub",
+        "url": "https://github.com/TsinjoNantosoa"
+      },
+      {
+        "label": "View LinkedIn",
+        "url": "https://www.linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330/"
+      }
+    ],
+    "suggested_questions": [
+      "Which projects should I review first?",
+      "What is Tsinjo's professional experience?"
+    ]
   }
 ]

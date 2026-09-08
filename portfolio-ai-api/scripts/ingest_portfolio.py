@@ -19,7 +19,7 @@ async def ingest(dry_run: bool, recreate: bool):
     settings = get_settings()
     documents = json.loads(KNOWLEDGE_FILE.read_text(encoding="utf-8"))
     if dry_run:
-        print(json.dumps({"collection": settings.qdrant_collection, "documents": len(documents), "source": str(KNOWLEDGE_FILE)}, indent=2))
+        print(json.dumps({"collection": settings.qdrant_collection, "documents_loaded": len(documents), "chunks_generated": len(documents), "embedding_model": settings.openai_embedding_model, "source": str(KNOWLEDGE_FILE)}, indent=2))
         return
     if not settings.openai_api_key or not settings.qdrant_url:
         raise SystemExit("OPENAI_API_KEY and QDRANT_URL are required")
@@ -35,10 +35,10 @@ async def ingest(dry_run: bool, recreate: bool):
         await qdrant.create_collection(settings.qdrant_collection, vectors_config=models.VectorParams(size=vector_size, distance=models.Distance.COSINE))
     points = []
     for item, embedding in zip(documents, embeddings.data, strict=True):
-        stable_id = str(uuid5(NAMESPACE_URL, f"portfolio:{item['type']}:{item['slug']}:{item['section']}"))
+        stable_id = str(uuid5(NAMESPACE_URL, item["id"]))
         points.append(models.PointStruct(id=stable_id, vector=embedding.embedding, payload=item))
     await qdrant.upsert(collection_name=settings.qdrant_collection, points=points, wait=True)
-    print(json.dumps({"collection": settings.qdrant_collection, "upserted": len(points)}, indent=2))
+    print(json.dumps({"collection": settings.qdrant_collection, "documents_loaded": len(documents), "chunks_upserted": len(points), "embedding_model": settings.openai_embedding_model}, indent=2))
 
 
 if __name__ == "__main__":
