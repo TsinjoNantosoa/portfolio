@@ -1,0 +1,98 @@
+[
+  {
+    "type": "profile",
+    "slug": "about",
+    "title": "About Tsinjo",
+    "section": "Overview",
+    "url": "https://tsinjona.netlify.app/#about",
+    "content": "Sandaniaina Tsinjo Nantosoa is an AI Engineer focused on turning AI prototypes into reliable business systems. His work combines retrieval-augmented generation, governed agents, automation, and backend engineering, with an emphasis on reliability, security, testing, and deployment."
+  },
+  {
+    "type": "expertise",
+    "slug": "ai-agents",
+    "title": "AI Agents & Agentic Systems",
+    "section": "Expertise",
+    "url": "https://tsinjona.netlify.app/#services",
+    "content": "Tsinjo designs controlled and auditable AI agents for business workflows using LangGraph, tool calling, structured outputs, deterministic policy checks, and Human-in-the-Loop approval. His architecture separates model reasoning from authorization and execution."
+  },
+  {
+    "type": "expertise",
+    "slug": "production-rag",
+    "title": "Production RAG Systems",
+    "section": "Expertise",
+    "url": "https://tsinjona.netlify.app/#services",
+    "content": "Tsinjo builds knowledge assistants with ingestion pipelines, vector and hybrid retrieval, reranking, evaluation, citations, and multi-tenant isolation. Answers are grounded in retrieved evidence and can refuse when evidence is insufficient."
+  },
+  {
+    "type": "experience",
+    "slug": "humans4help",
+    "title": "AI Engineer — Conversational AI & RAG Systems",
+    "section": "Experience",
+    "url": "https://tsinjona.netlify.app/#experience",
+    "content": "From January to August 2026 at Humans4Help Madagascar in Antananarivo, Tsinjo built a shared AI assistant platform for multiple organizations. The platform isolated each organization's knowledge and configuration and used FastAPI, Qdrant, PostgreSQL, Redis, LangChain, and Docker."
+  },
+  {
+    "type": "experience",
+    "slug": "automation-consulting",
+    "title": "AI Automation Consultant",
+    "section": "Experience",
+    "url": "https://tsinjona.netlify.app/#experience",
+    "content": "From March to July 2026, Tsinjo delivered project-based AI automation remotely. He connected APIs, CRM tools, and AI services with n8n, webhooks, Airtable, Google Workspace, Python, and FastAPI, adding retries, idempotency, error handling, and human approval for sensitive actions."
+  },
+  {
+    "type": "project",
+    "slug": "multi-tenant-rag",
+    "title": "Production Multi-Tenant RAG Platform",
+    "section": "Case study",
+    "url": "https://tsinjona.netlify.app/work/multi-tenant-rag",
+    "content": "This production-oriented platform operates independent conversational assistants on shared infrastructure. It includes tenant-aware ingestion, isolated vector retrieval, conversation memory, configuration APIs, branded embeddable interfaces, access controls, guardrails, and auditing."
+  },
+  {
+    "type": "project",
+    "slug": "arcwell-agentic-crm",
+    "title": "Arcwell — Governed Agentic CRM",
+    "section": "Case study",
+    "url": "https://tsinjona.netlify.app/work/arcwell-agentic-crm",
+    "content": "Arcwell is a governed agentic CRM layer built with FastAPI, LangGraph, Qdrant, PostgreSQL, Redis, Celery, and React. Agents retrieve tenant-scoped context and propose structured actions. Deterministic business policy checks and human approval protect sensitive CRM mutations, and audit trails record decisions. Source code: https://github.com/TsinjoNantosoa/arcwell-agentic-crm"
+  },
+  {
+    "type": "project",
+    "slug": "ai-business-os",
+    "title": "AI Business Operating System",
+    "section": "Case study",
+    "url": "https://tsinjona.netlify.app/work/ai-business-os",
+    "content": "The AI Business Operating System is a multi-tenant FastAPI and React SaaS platform combining business operations, RAG, tool orchestration, PostgreSQL, Redis, and controlled agent actions. Human approval is required before sensitive operations. Public demo: https://ai-business-os-murex.vercel.app/"
+  },
+  {
+    "type": "project",
+    "slug": "sihia",
+    "title": "SIHIA — AI-Powered HealthTech Platform",
+    "section": "Case study",
+    "url": "https://tsinjona.netlify.app/work/sihia",
+    "content": "SIHIA combines healthcare operations, predictive analytics, and a grounded Hybrid RAG assistant. Retrieval uses dense search and BM25, Reciprocal Rank Fusion, and cross-encoder reranking before the model answers with citations. The platform uses FastAPI, React, PostgreSQL, Qdrant, and Docker. Public demo: https://sihia-platform.vercel.app/"
+  },
+  {
+    "type": "project",
+    "slug": "ai-sales-assistant",
+    "title": "AI Sales Assistant",
+    "section": "Case study",
+    "url": "https://tsinjona.netlify.app/work/ai-sales-assistant",
+    "content": "The AI Sales Assistant uses LangGraph and OpenAI for conversational qualification and structured lead extraction. A FastAPI service calculates lead scores deterministically outside the model, PostgreSQL stores state, and n8n automates lead capture, follow-ups, alerts, bookings, reminders, and error handling. Sensitive steps can be handed to a human."
+  },
+  {
+    "type": "profile",
+    "slug": "skills",
+    "title": "Technical Skills",
+    "section": "Skills",
+    "url": "https://tsinjona.netlify.app/#background",
+    "content": "Tsinjo's public technical skills include Python, FastAPI, LangGraph, LangChain, OpenAI API, RAG, AI agents, tool calling, Human-in-the-Loop, PostgreSQL, Redis, Qdrant, SQLAlchemy, n8n, webhooks, Docker, GitHub Actions, Linux, CI/CD, React, and TypeScript."
+  },
+  {
+    "type": "contact",
+    "slug": "contact",
+    "title": "Contact and public profiles",
+    "section": "Contact",
+    "url": "https://tsinjona.netlify.app/#contact",
+    "content": "Contact Tsinjo at tsinjonantosoa@gmail.com. GitHub: https://github.com/TsinjoNantosoa. LinkedIn: https://www.linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330/. The portfolio contact section and downloadable CV are also public."
+  }
+]

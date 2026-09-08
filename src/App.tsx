@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import CaseStudyPage from "./pages/CaseStudyPage";
+import PortfolioAssistantLauncher from "./components/assistant/PortfolioAssistantLauncher";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <Route path="/work/:slug" element={<CaseStudyPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <PortfolioAssistantLauncher />
       </BrowserRouter>
     </TooltipProvider>
   );

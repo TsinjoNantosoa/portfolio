@@ -1,57 +1,32 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Politique de Confidentialité | Tsinjona Portfolio</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 40px auto; padding: 20px; background-color: #f4f7f6; }
-        .container { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-        h2 { color: #2980b9; margin-top: 25px; }
-        p { margin-bottom: 15px; }
-        .contact-info { background: #e8f4fd; padding: 15px; border-left: 5px solid #3498db; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index,follow" />
+  <title>Portfolio Assistant Privacy | Tsinjo Nantosoa</title>
+  <style>
+    :root{color-scheme:dark}body{margin:0;background:#070a0d;color:#f5f7f8;font:16px/1.7 Inter,system-ui,sans-serif}.wrap{max-width:760px;margin:auto;padding:64px 24px}a{color:#0dffa3}h1{font-size:clamp(2rem,7vw,3.5rem);line-height:1.05}h2{margin-top:2rem;font-size:1.15rem}.muted{color:#93a0a8}.card{margin-top:28px;padding:22px;border:1px solid #243038;border-radius:18px;background:#0d1318}code{color:#b8ffdf}
+  </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Politique de Confidentialité</h1>
-        <p><em>Dernière mise à jour : 2 avril 2026</em></p>
-
-        <section>
-            <h2>1. Introduction</h2>
-            <p>Cette politique concerne l'application "Chatbot" développée par <strong>Tsinjona Nantosoa</strong>. Nous respectons votre vie privée et nous nous engageons à protéger vos données personnelles.</p>
-        </section>
-
-        <section>
-            <h2>2. Données Collectées</h2>
-            <p>Dans le cadre des tests de notre chatbot Instagram, nous collectons uniquement :</p>
-            <ul>
-                <li>L'identifiant de l'utilisateur (ID Instagram).</li>
-                <li>Le contenu des messages envoyés au chatbot pour permettre une réponse automatisée.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>3. Utilisation des Données</h2>
-            <p>Les données sont utilisées exclusivement pour :</p>
-            <ul>
-                <li>Traiter vos demandes via l'IA (LLM/LangChain).</li>
-                <li>Améliorer les performances de réponse du chatbot.</li>
-            </ul>
-            <p><strong>Note :</strong> Vos données ne sont jamais vendues à des tiers.</p>
-        </section>
-
-        <section>
-            <h2>4. Suppression des Données</h2>
-            <p>Conformément aux règles de Meta, vous pouvez demander la suppression de vos données de test à tout moment en envoyant un email à l'adresse ci-dessous.</p>
-        </section>
-
-        <div class="contact-info">
-            <strong>Contact :</strong> tsinjonantosoa@gmail.com
-        </div>
-
-        <p style="margin-top: 30px;"><a href="/">← Retour au portfolio</a></p>
-    </div>
-</body>
+<body><main class="wrap">
+  <a href="/">← Back to portfolio</a>
+  <h1>Portfolio Assistant Privacy</h1>
+  <p class="muted">Last updated: September 8, 2026</p>
+  <div class="card">
+    <p><strong>Tsinjo AI</strong> is a public, read-only assistant that answers questions about Sandaniaina Tsinjo Nantosoa’s professional portfolio.</p>
+    <h2>Data processed</h2>
+    <p>The service processes the messages you submit, an anonymous short-lived session identifier, basic request metadata such as IP address for abuse prevention, and technical error information. Please do not submit confidential, sensitive, or personal information.</p>
+    <h2>Purpose and providers</h2>
+    <p>Messages are used to retrieve relevant public portfolio passages and generate an answer. The backend uses Qdrant for vector retrieval and OpenAI for embeddings and response generation. Those providers process data under their respective terms and privacy policies.</p>
+    <h2>Browser storage</h2>
+    <p>The widget stores its short-lived access token and up to 20 recent messages in <code>sessionStorage</code>. This data is scoped to the current browser tab and is cleared when the tab session ends. The widget does not use <code>localStorage</code>.</p>
+    <h2>Server retention</h2>
+    <p>The application does not create user accounts or a server-side conversation history. OpenAI generation requests are sent with response storage disabled. Security logs contain session identifiers, message length, result status, and error type; they do not intentionally contain message text, access tokens, API keys, or retrieved content. Hosting providers may retain infrastructure logs under their own policies.</p>
+    <h2>Your choices</h2>
+    <p>Using the assistant is optional. You can stop a response, close the widget, clear the current tab session by closing the tab, or contact the portfolio owner about a privacy request.</p>
+    <h2>Contact</h2>
+    <p><a href="mailto:tsinjonantosoa@gmail.com">tsinjonantosoa@gmail.com</a></p>
+  </div>
+</main></body>
 </html>
