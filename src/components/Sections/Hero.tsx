@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, type Transition } from "framer-motion";
 import { Download, Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 import ProfileImage from "../UI/ProfileImage";
 import { CV_PATH, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
@@ -11,8 +11,21 @@ const socials = [
   { href: `mailto:${EMAIL}`, label: "Email", icon: Mail },
 ];
 
+const HERO_EASE: Transition["ease"] = [0.22, 1, 0.36, 1];
+const portraitEntranceDelay = 0.24;
+
 const Hero: React.FC = () => {
   const { t } = useI18n();
+  const reduceMotion = useReducedMotion();
+  const fromHidden = reduceMotion ? false : { opacity: 0, y: 14 };
+  const toVisible = { opacity: 1, y: 0 };
+  const fade = (delay: number, duration = 0.48) => ({
+    initial: fromHidden,
+    animate: toVisible,
+    transition: reduceMotion
+      ? { duration: 0.01 }
+      : { duration, delay, ease: HERO_EASE },
+  });
   const metrics = [
     { value: "3", label: t("metrics.assistants"), hint: t("metrics.assistantsHint") },
     { value: "97/98", label: t("metrics.checks"), hint: t("metrics.checksHint") },
@@ -40,54 +53,42 @@ const Hero: React.FC = () => {
         <div className="layout-grid items-center py-8 sm:py-10 lg:py-12">
           <div className="col-span-12 lg:col-span-7">
             <motion.p
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35 }}
+              {...fade(0, 0.42)}
               className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-neon sm:text-xs"
             >
               {t("hero.eyebrow")}
             </motion.p>
 
             <motion.h1
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.04 }}
+              {...fade(0.08, 0.52)}
               className="mb-4 max-w-[720px] text-balance font-sans text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[1.03] tracking-tight text-[var(--text-primary)]"
             >
               {t("hero.title")}
             </motion.h1>
 
             <motion.p
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.08 }}
+              {...fade(0.14, 0.46)}
               className="mb-4 font-mono text-sm text-[var(--text-muted)] sm:text-[15px]"
             >
               Sandaniaina Tsinjo Nantosoa
             </motion.p>
 
             <motion.p
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.12 }}
+              {...fade(0.2, 0.46)}
               className="mb-2 max-w-[650px] text-[16.5px] leading-relaxed text-[var(--text-secondary)] sm:text-[17.5px]"
             >
               {t("hero.description")}
             </motion.p>
 
             <motion.p
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.16 }}
+              {...fade(0.26, 0.44)}
               className="mb-6 text-sm text-[var(--text-muted)]"
             >
               {t("hero.location")}
             </motion.p>
 
             <motion.div
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+              {...fade(0.32, 0.46)}
               className="mb-5 flex flex-wrap items-center gap-3"
             >
               <a
@@ -114,9 +115,7 @@ const Hero: React.FC = () => {
             </motion.div>
 
             <motion.div
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.24 }}
+              {...fade(0.38, 0.44)}
               className="flex items-center gap-2.5"
             >
               {socials.map(({ href, label, icon: Icon }) => (
@@ -135,14 +134,12 @@ const Hero: React.FC = () => {
             </motion.div>
           </div>
 
-          <motion.div
-            initial={false}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="col-span-12 mx-auto w-full max-w-[260px] sm:max-w-[320px] lg:col-span-5 lg:mx-0 lg:max-w-[340px] lg:justify-self-end"
-          >
-            <ProfileImage className="aspect-square w-full" />
-          </motion.div>
+          <div className="col-span-12 mx-auto w-full max-w-[260px] sm:max-w-[320px] lg:col-span-5 lg:mx-0 lg:max-w-[340px] lg:justify-self-end">
+            <ProfileImage
+              className="aspect-square w-full"
+              entranceDelay={portraitEntranceDelay}
+            />
+          </div>
         </div>
 
         <div className="border-y border-white/10 py-5 sm:py-6">

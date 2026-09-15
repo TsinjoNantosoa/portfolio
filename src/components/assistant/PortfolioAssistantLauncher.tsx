@@ -12,7 +12,7 @@ export default function PortfolioAssistantLauncher() {
   const close = () => { setOpen(false); window.setTimeout(() => launcherRef.current?.focus(), 0); };
 
   return (
-    <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-[70] sm:bottom-6 sm:right-6">
+    <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-[60] pb-0 sm:bottom-6 sm:right-6 lg:z-[70]">
       {!open && (
         <button
           ref={launcherRef}

@@ -240,15 +240,34 @@
   }
 
   .surface-card {
-    @apply overflow-hidden rounded-lg border border-white/[0.11] bg-[var(--surface-1)] transition duration-300;
+    @apply overflow-hidden rounded-lg bg-[var(--surface-1)] transition duration-300;
+    border: 1px solid var(--border-subtle);
   }
 
   .surface-card-hover {
-    @apply hover:-translate-y-0.5 hover:border-neon/25 hover:shadow-[0_18px_50px_rgba(0,0,0,0.2)];
+    @apply hover:-translate-y-0.5 hover:border-neon/25;
+  }
+
+  html[data-theme="light"] .surface-card-hover:hover {
+    box-shadow: 0 18px 50px rgba(16, 32, 27, 0.08);
+  }
+
+  html[data-theme="dark"] .surface-card-hover:hover,
+  html:not([data-theme="light"]) .surface-card-hover:hover {
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
   }
 
   .tech-tag {
-    @apply inline-flex min-h-7 items-center rounded-md border border-white/10 bg-white/[0.025] px-2.5 py-1 font-mono text-xs leading-none text-white/70;
+    @apply inline-flex min-h-7 items-center rounded-md px-2.5 py-1 font-mono text-xs leading-none;
+    border: 1px solid var(--border-medium);
+    background: color-mix(in srgb, var(--text-primary) 4%, var(--surface-2));
+    color: var(--text-secondary);
+  }
+
+  html[data-theme="light"] .tech-tag {
+    background: color-mix(in srgb, var(--text-primary) 6%, var(--surface-1));
+    color: var(--text-secondary);
+    border-color: var(--border-medium);
   }
 
   .eyebrow {
@@ -256,17 +275,32 @@
   }
 
   .icon-link {
-    @apply flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:border-neon/60 hover:bg-neon/[0.04] hover:text-neon;
+    @apply flex h-10 w-10 items-center justify-center rounded-full transition hover:border-neon/60 hover:bg-neon/[0.04] hover:text-neon;
+    border: 1px solid var(--border-medium);
+    color: var(--text-muted);
   }
 
   .text-link {
     @apply inline-flex min-h-10 items-center gap-1.5 text-sm font-medium text-neon transition hover:text-neon/80;
   }
 
+  .border-theme {
+    border-color: var(--border-subtle);
+  }
+
   .preference-controls {
     display: flex;
     align-items: center;
     gap: .45rem;
+  }
+
+  .preference-controls.is-compact {
+    flex-wrap: wrap;
+    gap: .6rem;
+  }
+
+  .preference-controls.is-compact .theme-selector select {
+    max-width: 6.5rem;
   }
 
   .language-selector,
@@ -328,7 +362,7 @@ html[data-theme="light"] [class*="border-white"] {
 }
 
 html[data-theme="light"] [class*="bg-white/"] {
-  background-color: rgba(16, 32, 27, .025) !important;
+  background-color: rgba(16, 32, 27, .04) !important;
 }
 
 .text-neon {

@@ -6,6 +6,8 @@ import MessageBubble from "./MessageBubble";
 import QuickQuestions from "./QuickQuestions";
 import TypingIndicator from "./TypingIndicator";
 import { AssistantApiError, createPublicSession, streamChat } from "./assistant-api";
+import { messageForAssistantApi } from "./assistant-language";
+import { enrichAssistantMetadata } from "./contextual-suggestions";
 import { assistantConfig, INITIAL_QUESTIONS } from "./assistant-config";
 import { clearMessages, clearSession, getSession, readMessages, saveMessages, saveSession } from "./assistant-session";
 import type { AssistantStatus, ChatMessage, SessionResponse, StreamEvent } from "./assistant-types";
@@ -125,14 +127,45 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
     const onEvent = (event: StreamEvent) => {
       if (event.type === "status") setStatus("thinking");
       if (event.type === "delta") { setStatus("streaming"); setMessages((current) => current.map((item) => item.id === answerId ? { ...item, text: item.text + event.text } : item)); }
-      if (event.type === "done") { setStatus("complete"); setMessages((current) => current.map((item) => item.id === answerId ? { ...item, sources: event.sources || [], suggestedLinks: event.suggested_links || [], suggestedQuestions: event.suggested_questions || [] } : item)); }
+      if (event.type === "done") {
+        setStatus("complete");
+        const enriched = enrichAssistantMetadata(
+          event.sources || [],
+          event.suggested_links || [],
+          event.suggested_questions || [],
+          language,
+        );
+        setMessages((current) =>
+          current.map((item) =>
+            item.id === answerId
+              ? {
+                  ...item,
+                  sources: enriched.sources,
+                  suggestedLinks: enriched.suggestedLinks,
+                  suggestedQuestions: enriched.suggestedQuestions,
+                }
+              : item,
+          ),
+        );
+      }
       if (event.type === "error") throw new AssistantApiError(event.message || "The stream failed.", 0, event.code, event.request_id);
     };
 
     try {
       let active = await acquireSession(false, controller.signal);
-      try { await streamChat(assistantConfig.apiBaseUrl, active, clean, onEvent, controller.signal); }
-      catch (error) { if (!(error instanceof AssistantApiError) || error.status !== 401) throw error; clearSession(); active = await acquireSession(true, controller.signal); await streamChat(assistantConfig.apiBaseUrl, active, clean, onEvent, controller.signal); }
+      const apiMessage = messageForAssistantApi(
+        clean,
+        language,
+        assistantConfig.maxMessageLength,
+      );
+      try {
+        await streamChat(assistantConfig.apiBaseUrl, active, apiMessage, onEvent, controller.signal);
+      } catch (error) {
+        if (!(error instanceof AssistantApiError) || error.status !== 401) throw error;
+        clearSession();
+        active = await acquireSession(true, controller.signal);
+        await streamChat(assistantConfig.apiBaseUrl, active, apiMessage, onEvent, controller.signal);
+      }
     } catch (error) {
       const stopped = error instanceof DOMException && error.name === "AbortError" && !timedOut;
       const rateLimited = error instanceof AssistantApiError && error.status === 429;

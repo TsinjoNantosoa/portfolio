@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import { Check, Copy, ThumbsDown, ThumbsUp } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import type { ChatMessage } from "./assistant-types";
-import QuickQuestions from "./QuickQuestions";
-import SourceCards, { isSafeAssistantUrl } from "./SourceCards";
+import SuggestedActions from "./SuggestedActions";
+import { isSafeAssistantUrl } from "./SourceCards";
 import { useI18n } from "@/i18n/I18nProvider";
 
 export default function MessageBubble({ message, onQuestion }: { message: ChatMessage; onQuestion: (question: string) => void }) {
@@ -41,8 +41,12 @@ export default function MessageBubble({ message, onQuestion }: { message: ChatMe
         </ReactMarkdown>
       </div>
     ) : <p>{message.text}</p>}
-    <SourceCards sources={message.sources} links={message.suggestedLinks} />
-    {message.suggestedQuestions?.length ? <QuickQuestions questions={message.suggestedQuestions} onSelect={onQuestion} label={t("assistant.followUp")} /> : null}
+    <SuggestedActions
+      sources={message.sources}
+      links={message.suggestedLinks}
+      questions={message.suggestedQuestions}
+      onQuestion={onQuestion}
+    />
     {message.role === "assistant" && message.text && !message.failed ? (
       <div className="tsinjo-ai__message-tools">
         <button type="button" onClick={() => void copyAnswer()} aria-label={t("assistant.copy")}>

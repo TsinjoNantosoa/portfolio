@@ -1,0 +1,25 @@
+.profile-portrait__ring-svg {
+  pointer-events: none;
+}
+
+.profile-portrait__frame {
+  transition:
+    box-shadow 0.45s ease,
+    border-color 0.45s ease;
+}
+
+.profile-portrait:hover .profile-portrait__frame,
+.profile-portrait:focus-within .profile-portrait__frame {
+  border-color: color-mix(in srgb, var(--brand-accent) 45%, transparent);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.35),
+    0 0 28px color-mix(in srgb, var(--brand-accent) 14%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-portrait__float,
+  .profile-portrait__nodes,
+  .profile-portrait__ring-highlight {
+    animation: none !important;
+  }
+}
