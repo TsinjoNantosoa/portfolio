@@ -31,7 +31,9 @@ const Experience: React.FC = () => {
                 className="layout-grid relative border-t border-white/10 py-7 first:border-t-0 first:pt-0 last:pb-0"
               >
                 <div className="col-span-12 sm:col-span-3 lg:col-span-2">
-                  <p className="font-mono text-[12.5px] leading-relaxed text-neon">{item.period}</p>
+                  <p className="font-mono text-[12.5px] leading-relaxed text-neon">
+                    {localizePortfolioText(item.period, language)}
+                  </p>
                 </div>
 
                 <div className="col-span-12 sm:col-span-9 lg:col-span-7">

@@ -20,7 +20,7 @@ const NotFound = () => {
           <Link to="/" className="btn-neon">
             {t("notFound.home")}
           </Link>
-          <Link to="/#work" className="btn-outline">
+          <Link to="/#projects" className="btn-outline">
             {t("notFound.work")}
           </Link>
         </div>

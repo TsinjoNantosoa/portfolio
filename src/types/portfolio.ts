@@ -45,6 +45,11 @@ export interface FeaturedProject {
     title: string;
     body: string;
   };
+  status?: string;
+  integrations?: string[];
+  outcomes?: string[];
+  learnings?: string[];
+  showArchitectureDiagram?: boolean;
 }
 
 export interface SecondaryProject {

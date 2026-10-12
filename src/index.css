@@ -288,6 +288,24 @@
     border-color: var(--border-subtle);
   }
 
+  .architecture-arrow {
+    position: absolute;
+    right: -.62rem;
+    top: 50%;
+    z-index: 2;
+    display: none;
+    transform: translateY(-50%);
+    color: var(--brand-accent);
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: .8rem;
+  }
+
+  @media (min-width: 1024px) {
+    .architecture-arrow {
+      display: block;
+    }
+  }
+
   .preference-controls {
     display: flex;
     align-items: center;

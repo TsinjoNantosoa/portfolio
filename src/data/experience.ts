@@ -35,24 +35,19 @@ export const expertisePillars: ExpertisePillar[] = [
 export const experienceItems: ExperienceItem[] = [
   {
     id: "h4h",
-    period: "Jan 2026 — Aug 2026",
-    title: "AI Engineer — Conversational AI & RAG Systems",
+    period: "2025 – September 2026",
+    title: "AI Engineer — Generative AI, RAG & AI Agents",
     company: "Humans4Help Madagascar",
     location: "Antananarivo, Madagascar",
     plainSummary:
-      "Built a shared AI assistant platform allowing multiple organizations to operate independent assistants while keeping their knowledge and configuration isolated.",
-    technicalSummary: "FastAPI · Qdrant · PostgreSQL · Redis · LangChain · Docker",
+      "Developed and deployed a multi-tenant conversational AI platform combining RAG, hybrid search, custom assistants, and LLM Tool Calling. Designed a commercial agent extension with business-tool orchestration, CRM integrations, and safety controls.",
+    technicalSummary: "Python · FastAPI · LangChain · RAG · AI Agents · Tool Calling · Qdrant · PostgreSQL · Redis · React · TypeScript · Docker",
     highlights: [
-      "Delivered tenant-isolated conversational AI backends",
-      "Operated production RAG with knowledge isolation and retrieval controls",
-      "Strengthened deployment, reliability, auditing, and security workflows",
+      "Built a reusable RAG platform deployed for multiple organizations, with tenant-isolated knowledge and configuration",
+      "Evolved the deterministic RAG assistant into a pilot commercial agent that selects approved business tools in a controlled execution loop",
+      "Integrated HubSpot, Microsoft Teams, and SMTP workflows with server-side validation and explicit consent before sensitive actions",
     ],
-    proof: [
-      { value: "3", label: "Assistants" },
-      { value: "700+", label: "Chunks" },
-      { value: "97/98", label: "Checks" },
-    ],
-    stack: ["Python", "FastAPI", "LangChain", "Qdrant", "PostgreSQL", "Redis", "Docker"],
+    stack: ["Python", "FastAPI", "LangChain", "RAG", "AI Agents", "Tool Calling", "Qdrant", "PostgreSQL", "Redis", "React", "TypeScript", "Docker"],
     isPrimary: true,
   },
   {
@@ -89,13 +84,13 @@ export const experienceItems: ExperienceItem[] = [
 
 export const educationItems: EducationItem[] = [
   {
-    period: "2024 — 2026",
-    title: "Master’s Degree",
+    period: "2026",
+    title: "Master 2",
     detail: "Applied Mathematics, Computer Science & Statistics (MISA)",
     institution: "University of Antananarivo",
   },
   {
-    period: "",
+    period: "2024",
     title: "Bachelor’s Degree",
     detail: "Applied Mathematics, Computer Science & Statistics (MISA)",
     institution: "University of Antananarivo",
@@ -118,28 +113,43 @@ export const languages = [
 
 export const skillGroups: SkillGroup[] = [
   {
-    title: "AI / LLM",
+    title: "Generative AI & Agentic Systems",
     skills: [
-      "LangGraph",
-      "LangChain",
-      "OpenAI API",
       "RAG",
       "AI Agents",
       "Tool Calling",
+      "LangChain",
+      "LangGraph",
+      "OpenAI API",
+      "Prompt Engineering",
+      "Guardrails",
+      "Vector Search",
       "Human-in-the-Loop",
     ],
   },
   {
-    title: "Backend & Data",
-    skills: ["Python", "FastAPI", "PostgreSQL", "Redis", "Qdrant", "SQLAlchemy", "REST APIs"],
+    title: "Backend Engineering",
+    skills: ["Python", "FastAPI", "REST APIs", "SSE", "WebSockets", "Pydantic", "SQLAlchemy", "JWT", "RBAC"],
   },
   {
-    title: "Automation & Infrastructure",
-    skills: ["n8n", "Webhooks", "Docker", "GitHub Actions", "Linux", "CI/CD"],
+    title: "Data & Vector Databases",
+    skills: ["PostgreSQL", "Qdrant", "Redis", "SQL", "MongoDB"],
   },
   {
-    title: "Frontend",
-    skills: ["React", "TypeScript"],
+    title: "Frontend Engineering",
+    skills: ["React", "TypeScript", "Tailwind CSS"],
+  },
+  {
+    title: "AI Automation & Integration",
+    skills: ["n8n", "Workflow Orchestration", "API Integrations", "Webhooks", "CRM Integration", "Business Automation"],
+  },
+  {
+    title: "DevOps & Infrastructure",
+    skills: ["Docker", "Linux", "GitHub Actions", "CI/CD", "Automated Testing"],
+  },
+  {
+    title: "Data Engineering & Machine Learning",
+    skills: ["Pandas", "ETL / ELT", "Airflow", "Machine Learning", "Data Analytics"],
   },
 ];
 

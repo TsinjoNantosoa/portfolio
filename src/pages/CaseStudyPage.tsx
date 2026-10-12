@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import ProjectMedia from "@/components/ui-kit/ProjectMedia";
+import ArchitectureDiagram from "@/components/project/ArchitectureDiagram";
 import { getFeaturedProjectBySlug } from "@/data/projects";
 import { useI18n } from "@/i18n/I18nProvider";
 import { localizePortfolioText } from "@/i18n/portfolioContent";
@@ -14,13 +15,28 @@ const CaseStudyPage: React.FC = () => {
   const project = slug ? getFeaturedProjectBySlug(slug) : undefined;
   const [mediaFailed, setMediaFailed] = useState(false);
 
+  useEffect(() => {
+    if (!project) return;
+    const suffix = language === "fr" ? "Étude de cas IA" : "AI Engineering Case Study";
+    const title = `${project.title} — ${suffix}`;
+    const description = localizePortfolioText(project.plainSummary, language) || project.description;
+    document.title = title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", description);
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
+    document.querySelector('link[rel="canonical"]')?.setAttribute(
+      "href",
+      `https://tsinjona.netlify.app${project.caseStudyLink}`,
+    );
+  }, [language, project]);
+
   if (!project) {
     return (
       <div className="min-h-screen bg-[var(--bg-primary)] text-white">
         <Header />
         <main className="site-container pb-20 pt-28">
           <h1 className="mb-4 text-3xl font-semibold">{t("case.notFound")}</h1>
-          <Link to="/#work" className="text-neon hover:underline">
+          <Link to="/#projects" className="text-neon hover:underline">
             {t("notFound.work")}
           </Link>
         </main>
@@ -38,7 +54,7 @@ const CaseStudyPage: React.FC = () => {
       <Header />
       <main className="site-container pb-16 pt-28 sm:pb-20">
         <Link
-          to="/#work"
+          to="/#projects"
           className="mb-8 inline-flex min-h-11 items-center gap-2 text-sm text-white/60 hover:text-neon"
         >
           <ArrowLeft size={16} />
@@ -46,7 +62,7 @@ const CaseStudyPage: React.FC = () => {
         </Link>
 
         <p className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-neon">
-          {project.number} / {project.label}
+          {project.number} / {localizePortfolioText(project.label, language)}
         </p>
         <h1 className="mb-3 max-w-4xl font-sans text-[clamp(2rem,4vw,3rem)] font-semibold tracking-tight">
           {project.title}
@@ -64,12 +80,20 @@ const CaseStudyPage: React.FC = () => {
           {project.technicalSummary}
         </p>
 
+        {project.status ? (
+          <p className="mb-8 inline-flex rounded-full border border-neon/25 bg-neon/[0.06] px-3 py-1.5 font-mono text-xs text-neon">
+            {localizePortfolioText(project.status, language)}
+          </p>
+        ) : null}
+
         {hasMedia && project.imageUrl && (
           <div className="mb-10 overflow-hidden rounded-2xl border border-white/10">
             <ProjectMedia
               src={project.imageUrl}
               alt={mediaAlt}
               aspectClassName="aspect-[16/10]"
+              objectPosition={project.showArchitectureDiagram ? "object-right" : "object-top"}
+              imageClassName={project.showArchitectureDiagram ? "origin-right scale-[1.2]" : ""}
               onError={() => setMediaFailed(true)}
             />
           </div>
@@ -136,6 +160,15 @@ const CaseStudyPage: React.FC = () => {
             </section>
           )}
         </div>
+
+        {project.showArchitectureDiagram ? (
+          <section className="mt-10" aria-labelledby="visual-architecture-title">
+            <h2 id="visual-architecture-title" className="mb-4 text-xl font-semibold">
+              {t("case.architectureDiagram")}
+            </h2>
+            <ArchitectureDiagram />
+          </section>
+        ) : null}
 
         {project.howItWorks && project.howItWorks.length > 0 && (
           <section className="mt-10">
@@ -269,6 +302,46 @@ const CaseStudyPage: React.FC = () => {
           </section>
         )}
 
+        {project.integrations && project.integrations.length > 0 && (
+          <section className="mt-10">
+            <h2 className="mb-4 text-xl font-semibold">{t("case.integrations")}</h2>
+            <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {project.integrations.map((item) => (
+                <li key={item} className="rounded-lg border border-white/10 bg-[var(--surface-1)] p-3 text-sm text-[var(--text-secondary)]">
+                  {localizePortfolioText(item, language)}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {project.outcomes && project.outcomes.length > 0 && (
+          <section className="mt-10">
+            <h2 className="mb-3 text-xl font-semibold">{t("case.outcomes")}</h2>
+            <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
+              {project.outcomes.map((item) => (
+                <li key={item} className="flex gap-2.5">
+                  <span className="text-neon" aria-hidden>✓</span>
+                  <span>{localizePortfolioText(item, language)}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {project.learnings && project.learnings.length > 0 && (
+          <section className="mt-10">
+            <h2 className="mb-3 text-xl font-semibold">{t("case.learnings")}</h2>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {project.learnings.map((item) => (
+                <li key={item} className="border-t border-white/10 pt-3 text-[14.5px] leading-relaxed text-[var(--text-secondary)]">
+                  {localizePortfolioText(item, language)}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {project.proof && project.proof.length > 0 && (
           <section className="mt-10">
             <h2 className="mb-4 text-xl font-semibold">{t("case.results")}</h2>
@@ -278,8 +351,8 @@ const CaseStudyPage: React.FC = () => {
                   key={item.label}
                   className="rounded-xl border border-white/10 bg-[var(--surface-1)] p-4"
                 >
-                  <p className="font-mono text-2xl font-semibold text-neon">{item.value}</p>
-                  <p className="mt-1 text-sm text-[var(--text-muted)]">{item.label}</p>
+                  <p className="font-mono text-2xl font-semibold text-neon">{localizePortfolioText(item.value, language)}</p>
+                  <p className="mt-1 text-sm text-[var(--text-muted)]">{localizePortfolioText(item.label, language)}</p>
                 </div>
               ))}
             </div>

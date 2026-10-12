@@ -65,10 +65,10 @@
     "type": "experience",
     "slug": "h4h",
     "project_slug": null,
-    "title": "AI Engineer — Conversational AI & RAG Systems at Humans4Help Madagascar",
+    "title": "AI Engineer — Generative AI, RAG & AI Agents at Humans4Help Madagascar",
     "section": "Role overview",
     "url": "/#experience",
-    "content": "Jan 2026 — Aug 2026. Antananarivo, Madagascar. Built a shared AI assistant platform allowing multiple organizations to operate independent assistants while keeping their knowledge and configuration isolated. FastAPI · Qdrant · PostgreSQL · Redis · LangChain · Docker.",
+    "content": "2025 – September 2026. Antananarivo, Madagascar. Developed and deployed a multi-tenant conversational AI platform combining RAG, hybrid search, custom assistants, and LLM Tool Calling. Designed a commercial agent extension with business-tool orchestration, CRM integrations, and safety controls. Python · FastAPI · LangChain · RAG · AI Agents · Tool Calling · Qdrant · PostgreSQL · Redis · React · TypeScript · Docker.",
     "links": [],
     "suggested_questions": [
       "How was tenant isolation implemented?",
@@ -81,10 +81,10 @@
     "type": "experience",
     "slug": "h4h",
     "project_slug": null,
-    "title": "AI Engineer — Conversational AI & RAG Systems at Humans4Help Madagascar",
+    "title": "AI Engineer — Generative AI, RAG & AI Agents at Humans4Help Madagascar",
     "section": "Engineering contributions",
     "url": "/#experience",
-    "content": "Delivered tenant-isolated conversational AI backends; Operated production RAG with knowledge isolation and retrieval controls; Strengthened deployment, reliability, auditing, and security workflows",
+    "content": "Built a reusable RAG platform deployed for multiple organizations, with tenant-isolated knowledge and configuration; Evolved the deterministic RAG assistant into a pilot commercial agent that selects approved business tools in a controlled execution loop; Integrated HubSpot, Microsoft Teams, and SMTP workflows with server-side validation and explicit consent before sensitive actions",
     "links": [],
     "suggested_questions": [
       "What technical decisions did Tsinjo make?",
@@ -96,10 +96,10 @@
     "type": "experience",
     "slug": "h4h",
     "project_slug": null,
-    "title": "AI Engineer — Conversational AI & RAG Systems at Humans4Help Madagascar",
+    "title": "AI Engineer — Generative AI, RAG & AI Agents at Humans4Help Madagascar",
     "section": "Stack and public evidence",
     "url": "/#experience",
-    "content": "Technologies: Python; FastAPI; LangChain; Qdrant; PostgreSQL; Redis; Docker. Public portfolio evidence: 3 Assistants, 700+ Chunks, 97/98 Checks.",
+    "content": "Technologies: Python; FastAPI; LangChain; RAG; AI Agents; Tool Calling; Qdrant; PostgreSQL; Redis; React; TypeScript; Docker.",
     "links": [],
     "suggested_questions": []
   },
@@ -195,7 +195,7 @@
     "title": "Education",
     "section": "Degrees",
     "url": "/#background",
-    "content": "Master’s Degree, Applied Mathematics, Computer Science & Statistics (MISA), University of Antananarivo, 2024 — 2026. Bachelor’s Degree, Applied Mathematics, Computer Science & Statistics (MISA), University of Antananarivo, period not displayed",
+    "content": "Master 2, Applied Mathematics, Computer Science & Statistics (MISA), University of Antananarivo, 2026. Bachelor’s Degree, Applied Mathematics, Computer Science & Statistics (MISA), University of Antananarivo, 2024",
     "links": [],
     "suggested_questions": [
       "What AI certifications does Tsinjo have?",
@@ -215,14 +215,14 @@
     "suggested_questions": []
   },
   {
-    "id": "skill:ai-llm:technical-skills",
+    "id": "skill:generative-ai-agentic-systems:technical-skills",
     "type": "skill",
-    "slug": "ai-llm",
+    "slug": "generative-ai-agentic-systems",
     "project_slug": null,
-    "title": "AI / LLM",
+    "title": "Generative AI & Agentic Systems",
     "section": "Technical skills",
     "url": "/#background",
-    "content": "Publicly listed skills: LangGraph; LangChain; OpenAI API; RAG; AI Agents; Tool Calling; Human-in-the-Loop.",
+    "content": "Publicly listed skills: RAG; AI Agents; Tool Calling; LangChain; LangGraph; OpenAI API; Prompt Engineering; Guardrails; Vector Search; Human-in-the-Loop.",
     "links": [],
     "suggested_questions": [
       "Which projects use these technologies?",
@@ -230,14 +230,14 @@
     ]
   },
   {
-    "id": "skill:backend-data:technical-skills",
+    "id": "skill:backend-engineering:technical-skills",
     "type": "skill",
-    "slug": "backend-data",
+    "slug": "backend-engineering",
     "project_slug": null,
-    "title": "Backend & Data",
+    "title": "Backend Engineering",
     "section": "Technical skills",
     "url": "/#background",
-    "content": "Publicly listed skills: Python; FastAPI; PostgreSQL; Redis; Qdrant; SQLAlchemy; REST APIs.",
+    "content": "Publicly listed skills: Python; FastAPI; REST APIs; SSE; WebSockets; Pydantic; SQLAlchemy; JWT; RBAC.",
     "links": [],
     "suggested_questions": [
       "Which projects use these technologies?",
@@ -245,14 +245,14 @@
     ]
   },
   {
-    "id": "skill:automation-infrastructure:technical-skills",
+    "id": "skill:data-vector-databases:technical-skills",
     "type": "skill",
-    "slug": "automation-infrastructure",
+    "slug": "data-vector-databases",
     "project_slug": null,
-    "title": "Automation & Infrastructure",
+    "title": "Data & Vector Databases",
     "section": "Technical skills",
     "url": "/#background",
-    "content": "Publicly listed skills: n8n; Webhooks; Docker; GitHub Actions; Linux; CI/CD.",
+    "content": "Publicly listed skills: PostgreSQL; Qdrant; Redis; SQL; MongoDB.",
     "links": [],
     "suggested_questions": [
       "Which projects use these technologies?",
@@ -260,14 +260,59 @@
     ]
   },
   {
-    "id": "skill:frontend:technical-skills",
+    "id": "skill:frontend-engineering:technical-skills",
     "type": "skill",
-    "slug": "frontend",
+    "slug": "frontend-engineering",
     "project_slug": null,
-    "title": "Frontend",
+    "title": "Frontend Engineering",
     "section": "Technical skills",
     "url": "/#background",
-    "content": "Publicly listed skills: React; TypeScript.",
+    "content": "Publicly listed skills: React; TypeScript; Tailwind CSS.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects use these technologies?",
+      "What production experience supports these skills?"
+    ]
+  },
+  {
+    "id": "skill:ai-automation-integration:technical-skills",
+    "type": "skill",
+    "slug": "ai-automation-integration",
+    "project_slug": null,
+    "title": "AI Automation & Integration",
+    "section": "Technical skills",
+    "url": "/#background",
+    "content": "Publicly listed skills: n8n; Workflow Orchestration; API Integrations; Webhooks; CRM Integration; Business Automation.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects use these technologies?",
+      "What production experience supports these skills?"
+    ]
+  },
+  {
+    "id": "skill:devops-infrastructure:technical-skills",
+    "type": "skill",
+    "slug": "devops-infrastructure",
+    "project_slug": null,
+    "title": "DevOps & Infrastructure",
+    "section": "Technical skills",
+    "url": "/#background",
+    "content": "Publicly listed skills: Docker; Linux; GitHub Actions; CI/CD; Automated Testing.",
+    "links": [],
+    "suggested_questions": [
+      "Which projects use these technologies?",
+      "What production experience supports these skills?"
+    ]
+  },
+  {
+    "id": "skill:data-engineering-machine-learning:technical-skills",
+    "type": "skill",
+    "slug": "data-engineering-machine-learning",
+    "project_slug": null,
+    "title": "Data Engineering & Machine Learning",
+    "section": "Technical skills",
+    "url": "/#background",
+    "content": "Publicly listed skills: Pandas; ETL / ELT; Airflow; Machine Learning; Data Analytics.",
     "links": [],
     "suggested_questions": [
       "Which projects use these technologies?",
@@ -306,13 +351,13 @@
     "type": "project",
     "slug": "multi-tenant-rag",
     "project_slug": "multi-tenant-rag",
-    "title": "Production Multi-Tenant RAG Platform",
+    "title": "Enterprise RAG & AI Commercial Agent Platform",
     "section": "Overview",
     "url": "/work/multi-tenant-rag",
-    "content": "A shared AI platform for independent assistants, with each organization's data, knowledge, branding, and configuration kept isolated. Production-oriented multi-tenant conversational AI platform designed for multiple organizations with isolated knowledge bases, prompts, configuration, branding, and retrieval infrastructure. Built for a professional engagement delivering conversational AI assistants across multiple organizations on a shared multi-tenant platform.",
+    "content": "A multi-tenant conversational AI platform combining grounded knowledge assistants with a controlled commercial agent that can select and use approved business tools. Design, development, and production delivery of a multi-tenant conversational AI platform combining Retrieval-Augmented Generation, LLM integration, custom assistants, and a pilot commercial agent with controlled business-tool orchestration. Built at Humans4Help Madagascar as a professional platform for several organizations. It combines a production RAG foundation with a distinct commercial-agent extension, keeping deterministic retrieval and action-oriented agent behavior clearly separated.",
     "links": [
       {
-        "label": "View Production Multi-Tenant RAG Platform case study",
+        "label": "View Enterprise RAG & AI Commercial Agent Platform case study",
         "url": "/work/multi-tenant-rag"
       }
     ],
@@ -327,13 +372,13 @@
     "type": "project",
     "slug": "multi-tenant-rag",
     "project_slug": "multi-tenant-rag",
-    "title": "Production Multi-Tenant RAG Platform",
+    "title": "Enterprise RAG & AI Commercial Agent Platform",
     "section": "Problem and solution",
     "url": "/work/multi-tenant-rag",
-    "content": "Businesses needed independent AI assistants on one platform without sharing data or knowledge. Built an end-to-end multi-tenant RAG architecture with ingestion, retrieval, tenant-aware config, memory, security controls, and embeddable chat interfaces. Each organization only retrieves knowledge it is authorized to access; Automated website ingestion into searchable knowledge bases; Admin APIs for configuration, branding, and assistant operations",
+    "content": "Organizations needed reliable assistants grounded in their own content, with isolated data and configuration. The platform also needed to move beyond question answering and support commercial workflows without giving the LLM unrestricted control over business actions. Built an end-to-end platform spanning content ingestion, hybrid retrieval, tenant-aware APIs, conversational interfaces, LLM providers, and deployment. Added a separate agentic extension in which the model can select approved tools while server-side code validates parameters, consent, iteration limits, and execution outcomes. Reusable RAG platform deployed for multiple organizations with isolated knowledge and configuration; Hybrid semantic and BM25 retrieval with source-grounded answers; Pilot commercial agent using controlled LLM Tool Calling and business integrations",
     "links": [
       {
-        "label": "View Production Multi-Tenant RAG Platform case study",
+        "label": "View Enterprise RAG & AI Commercial Agent Platform case study",
         "url": "/work/multi-tenant-rag"
       }
     ],
@@ -348,13 +393,13 @@
     "type": "project",
     "slug": "multi-tenant-rag",
     "project_slug": "multi-tenant-rag",
-    "title": "Production Multi-Tenant RAG Platform",
+    "title": "Enterprise RAG & AI Commercial Agent Platform",
     "section": "Architecture",
     "url": "/work/multi-tenant-rag",
-    "content": "Tenant-aware ingestion and embedding pipeline; Vector retrieval with isolated knowledge bases; Conversation memory and admin configuration APIs; Embeddable chat interfaces with branding per tenant.",
+    "content": "React and TypeScript widget embedded in client websites, including WordPress integrations; FastAPI services for tenant configuration, sessions, retrieval, responses, and server-side controls; RAG path: ingestion, extraction, chunking, embeddings, Qdrant vector search, BM25, and source-grounded context; Agent path: LangChain bind_tools(), tool_calls, ToolMessage results, controlled execution loops, and conversational state; Configurable OpenAI and Azure OpenAI providers integrated through the backend; PostgreSQL for application data, Redis for transient state, and Docker-based delivery. Flow: Content from approved websites and documents is extracted, segmented, embedded, and indexed for the correct organization.; A visitor asks a question through the branded React widget; FastAPI resolves the tenant and conversation context.; The RAG path retrieves tenant-scoped semantic and lexical evidence, then supplies grounded context and sources to the LLM.; For eligible commercial requests, the separate agent path lets the LLM select from a restricted set of business tools.; The server validates tool parameters, consent, access rules, and iteration limits before executing any action.; Tool results return to the agent as structured messages, which are used to prepare the final response or a human handoff.",
     "links": [
       {
-        "label": "View Production Multi-Tenant RAG Platform case study",
+        "label": "View Enterprise RAG & AI Commercial Agent Platform case study",
         "url": "/work/multi-tenant-rag"
       }
     ],
@@ -369,13 +414,13 @@
     "type": "project",
     "slug": "multi-tenant-rag",
     "project_slug": "multi-tenant-rag",
-    "title": "Production Multi-Tenant RAG Platform",
+    "title": "Enterprise RAG & AI Commercial Agent Platform",
     "section": "Engineering decisions",
     "url": "/work/multi-tenant-rag",
-    "content": "Isolated tenant knowledge to prevent cross-tenant leakage; Shared platform infrastructure for operational efficiency; Security and auditing layered around retrieval and responses.",
+    "content": "Kept deterministic RAG retrieval separate from the agentic execution loop; Scoped knowledge, prompts, branding, and configuration to each organization; Allowed the agent to choose only registered tools; authorization and execution remain server-controlled; Required explicit consent before contact collection or other sensitive commercial actions.",
     "links": [
       {
-        "label": "View Production Multi-Tenant RAG Platform case study",
+        "label": "View Enterprise RAG & AI Commercial Agent Platform case study",
         "url": "/work/multi-tenant-rag"
       }
     ],
@@ -390,13 +435,13 @@
     "type": "project",
     "slug": "multi-tenant-rag",
     "project_slug": "multi-tenant-rag",
-    "title": "Production Multi-Tenant RAG Platform",
+    "title": "Enterprise RAG & AI Commercial Agent Platform",
     "section": "Controls, evidence and stack",
     "url": "/work/multi-tenant-rag",
-    "content": "Tenant isolation for knowledge and configuration; Guardrails and audited conversational flows; Validated quality and security check suites (97/98). Technologies: Python; FastAPI; LangChain; Qdrant; PostgreSQL; Redis; React; Docker. Public evidence: 3 Assistants (Deployed for real organizations), 700+ Knowledge chunks (Indexed and maintained), 97/98 Checks passed (Automated quality and security validation).",
+    "content": "Tenant isolation for knowledge, sessions, and configuration; Server-side input and tool-parameter validation; Explicit consent gates and access controls before sensitive actions; Iteration limits, error handling, logging, and application guardrails around LLM behavior; Automated tests and CI/CD checks for platform reliability; Docker-based deployment and platform maintenance through Plesk. Technologies: Python; FastAPI; LangChain; RAG; AI Agents; Tool Calling; Qdrant; PostgreSQL; Redis; React; TypeScript; Docker. Public evidence: Production Multi-tenant RAG (Deployed for multiple organizations), Pilot Commercial agent (Tool Calling extension evaluated in a controlled environment), Isolated Tenant knowledge (Organization-scoped data and configuration).",
     "links": [
       {
-        "label": "View Production Multi-Tenant RAG Platform case study",
+        "label": "View Enterprise RAG & AI Commercial Agent Platform case study",
         "url": "/work/multi-tenant-rag"
       }
     ],

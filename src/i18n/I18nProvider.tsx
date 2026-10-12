@@ -12,6 +12,11 @@ export type Language = "en" | "fr";
 
 const messages = {
   en: {
+    "nav.home": "Home",
+    "nav.about": "About",
+    "nav.projects": "Projects",
+    "nav.skills": "Skills",
+    "nav.education": "Education",
     "nav.work": "Work",
     "nav.expertise": "Expertise",
     "nav.experience": "Experience",
@@ -27,11 +32,13 @@ const messages = {
     "theme.system": "System",
     "theme.light": "Light",
     "theme.dark": "Dark",
-    "hero.eyebrow": "AI Engineer — RAG · Agents · Automation",
-    "hero.title": "I build production-ready AI systems.",
-    "hero.description": "I design RAG platforms, governed AI agents, and business automation with Python, FastAPI, LangGraph, Qdrant, PostgreSQL, and n8n.",
+    "hero.eyebrow": "Generative AI · RAG · AI Agents · Tool Calling · Automation",
+    "hero.title": "AI Engineer building intelligent systems.",
+    "hero.description": "I design generative AI systems, multi-tenant RAG platforms, and intelligent agents that interact with business tools. My work spans backend engineering, LLM orchestration, testing, and production delivery.",
     "hero.location": "Based in Madagascar · Open to Remote Opportunities",
     "hero.work": "View Selected Work",
+    "hero.experience": "Professional Experience",
+    "hero.contact": "Contact Me",
     "hero.cv": "Download CV",
     "hero.about": "About",
     "hero.aboutTitle": "AI engineering beyond the prototype.",
@@ -43,12 +50,12 @@ const messages = {
     "hero.prioritizeValue": "Reliability, safety & clarity",
     "hero.deliver": "Deliver",
     "hero.deliverValue": "Tested, deployable systems",
-    "metrics.assistants": "Production AI Assistants",
-    "metrics.assistantsHint": "Deployed for real organizations",
-    "metrics.checks": "Automated Checks Passed",
-    "metrics.checksHint": "Quality and security validation",
-    "metrics.workflows": "Automation Workflows",
-    "metrics.workflowsHint": "Business operations automated",
+    "metrics.assistants": "Organization-aware architecture",
+    "metrics.assistantsHint": "Isolated knowledge, configuration, and sessions",
+    "metrics.checks": "RAG and Tool Calling",
+    "metrics.checksHint": "Grounded answers plus controlled business actions",
+    "metrics.workflows": "Full-stack AI delivery",
+    "metrics.workflowsHint": "Backend, retrieval, frontend, testing, and deployment",
     "work.eyebrow": "Selected Work",
     "work.title": "Selected AI Engineering Work",
     "work.description": "Production RAG, governed AI agents, and business automation built as end-to-end systems.",
@@ -136,6 +143,7 @@ const messages = {
     "case.problem": "Business Problem",
     "case.solution": "Solution",
     "case.architecture": "Architecture",
+    "case.architectureDiagram": "System Architecture",
     "case.how": "How It Works",
     "case.keyDecision": "Key Engineering Decision",
     "case.decisions": "Key Engineering Decisions",
@@ -147,9 +155,17 @@ const messages = {
     "case.hitl": "Human-in-the-Loop",
     "case.reliability": "Reliability",
     "case.results": "Results / Validation",
+    "case.integrations": "Business Tools & Integrations",
+    "case.outcomes": "Verifiable Outcomes",
+    "case.learnings": "Engineering Skills Developed",
     "case.stack": "Tech Stack",
   },
   fr: {
+    "nav.home": "Accueil",
+    "nav.about": "À propos",
+    "nav.projects": "Projets",
+    "nav.skills": "Compétences",
+    "nav.education": "Formation",
     "nav.work": "Projets",
     "nav.expertise": "Expertise",
     "nav.experience": "Expérience",
@@ -165,11 +181,13 @@ const messages = {
     "theme.system": "Système",
     "theme.light": "Clair",
     "theme.dark": "Sombre",
-    "hero.eyebrow": "Ingénieur IA — RAG · Agents · Automatisation",
-    "hero.title": "Je conçois des systèmes IA prêts pour la production.",
-    "hero.description": "Je conçois des plateformes RAG, des agents IA gouvernés et des automatisations métier avec Python, FastAPI, LangGraph, Qdrant, PostgreSQL et n8n.",
+    "hero.eyebrow": "IA générative · RAG · Agents IA · Tool Calling · Automatisation",
+    "hero.title": "Ingénieur IA, concepteur de systèmes intelligents.",
+    "hero.description": "Je conçois des systèmes d’IA générative, des plateformes RAG multi-tenant et des agents intelligents capables d’interagir avec des outils métier. Mon expérience couvre le backend, l’orchestration LLM, les tests et la mise en production.",
     "hero.location": "Basé à Madagascar · Ouvert aux opportunités à distance",
     "hero.work": "Voir les projets sélectionnés",
+    "hero.experience": "Expérience professionnelle",
+    "hero.contact": "Me contacter",
     "hero.cv": "Télécharger le CV",
     "hero.about": "À propos",
     "hero.aboutTitle": "L’ingénierie IA au-delà du prototype.",
@@ -181,12 +199,12 @@ const messages = {
     "hero.prioritizeValue": "Fiabilité, sécurité et clarté",
     "hero.deliver": "Livrer",
     "hero.deliverValue": "Systèmes testés et déployables",
-    "metrics.assistants": "Assistants IA en production",
-    "metrics.assistantsHint": "Déployés pour de vraies organisations",
-    "metrics.checks": "Contrôles automatisés réussis",
-    "metrics.checksHint": "Validation qualité et sécurité",
-    "metrics.workflows": "Workflows d’automatisation",
-    "metrics.workflowsHint": "Opérations métier automatisées",
+    "metrics.assistants": "Architecture par organisation",
+    "metrics.assistantsHint": "Connaissances, configuration et sessions isolées",
+    "metrics.checks": "RAG et Tool Calling",
+    "metrics.checksHint": "Réponses sourcées et actions métier contrôlées",
+    "metrics.workflows": "Livraison IA full-stack",
+    "metrics.workflowsHint": "Backend, recherche, frontend, tests et déploiement",
     "work.eyebrow": "Projets sélectionnés",
     "work.title": "Projets d’ingénierie IA sélectionnés",
     "work.description": "RAG de production, agents IA gouvernés et automatisations métier conçus comme des systèmes complets.",
@@ -274,6 +292,7 @@ const messages = {
     "case.problem": "Problème métier",
     "case.solution": "Solution",
     "case.architecture": "Architecture",
+    "case.architectureDiagram": "Architecture du système",
     "case.how": "Fonctionnement",
     "case.keyDecision": "Décision d’ingénierie clé",
     "case.decisions": "Décisions d’ingénierie clés",
@@ -285,6 +304,9 @@ const messages = {
     "case.hitl": "Validation humaine",
     "case.reliability": "Fiabilité",
     "case.results": "Résultats / Validation",
+    "case.integrations": "Outils métier et intégrations",
+    "case.outcomes": "Résultats vérifiables",
+    "case.learnings": "Compétences d’ingénierie développées",
     "case.stack": "Stack technique",
   },
 } as const;
@@ -313,6 +335,16 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, language);
     document.documentElement.lang = language;
+    const isFrench = language === "fr";
+    document.title = isFrench
+      ? "Sandaniaina Tsinjo Nantosoa — Ingénieur IA | RAG, agents IA et Tool Calling"
+      : "Sandaniaina Tsinjo Nantosoa — AI Engineer | RAG, AI Agents & Tool Calling";
+    const description = isFrench
+      ? "Ingénieur IA spécialisé en IA générative, plateformes RAG multi-tenant, agents IA avec Tool Calling, backend FastAPI et déploiement de solutions fiables."
+      : "AI Engineer specializing in generative AI, multi-tenant RAG platforms, Tool Calling agents, FastAPI backends, and reliable production delivery.";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", description);
+    document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", description);
   }, [language]);
 
   const value = useMemo<I18nContextValue>(

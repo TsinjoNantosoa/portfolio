@@ -1,5 +1,5 @@
 import React from "react";
-import { motion, useReducedMotion, type Transition } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Download, Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 import ProfileImage from "../UI/ProfileImage";
 import { CV_PATH, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
@@ -11,7 +11,7 @@ const socials = [
   { href: `mailto:${EMAIL}`, label: "Email", icon: Mail },
 ];
 
-const HERO_EASE: Transition["ease"] = [0.22, 1, 0.36, 1];
+const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const portraitEntranceDelay = 0.24;
 
 const Hero: React.FC = () => {
@@ -27,9 +27,9 @@ const Hero: React.FC = () => {
       : { duration, delay, ease: HERO_EASE },
   });
   const metrics = [
-    { value: "3", label: t("metrics.assistants"), hint: t("metrics.assistantsHint") },
-    { value: "97/98", label: t("metrics.checks"), hint: t("metrics.checksHint") },
-    { value: "20", label: t("metrics.workflows"), hint: t("metrics.workflowsHint") },
+    { value: "Multi-tenant", label: t("metrics.assistants"), hint: t("metrics.assistantsHint") },
+    { value: "RAG + Agent", label: t("metrics.checks"), hint: t("metrics.checksHint") },
+    { value: "End-to-end", label: t("metrics.workflows"), hint: t("metrics.workflowsHint") },
   ];
   const aboutMeta = [
     { label: t("hero.build"), value: t("hero.buildValue") },
@@ -39,7 +39,7 @@ const Hero: React.FC = () => {
   const aboutParagraphs = [t("hero.aboutOne"), t("hero.aboutTwo")];
 
   return (
-    <section className="relative overflow-hidden pb-0 pt-20 sm:pt-24">
+    <section id="home" className="relative scroll-mt-24 overflow-hidden pb-0 pt-20 sm:pt-24">
       <div
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.03]"
         style={{
@@ -92,17 +92,17 @@ const Hero: React.FC = () => {
               className="mb-5 flex flex-wrap items-center gap-3"
             >
               <a
-                href="#work"
+                href="#projects"
                 className="btn-neon gap-2 px-6"
               >
                 {t("hero.work")}
                 <ArrowDown size={16} />
               </a>
               <a
-                href="#contact"
+                href="#experience"
                 className="btn-outline px-6"
               >
-                {t("nav.talk")}
+                {t("hero.experience")}
               </a>
               <a
                 href={CV_PATH}
@@ -111,6 +111,12 @@ const Hero: React.FC = () => {
               >
                 <Download size={15} />
                 {t("hero.cv")}
+              </a>
+              <a
+                href="#contact"
+                className="btn-outline px-6"
+              >
+                {t("hero.contact")}
               </a>
             </motion.div>
 
@@ -156,7 +162,7 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        <div className="section-tight border-b border-white/10">
+        <div id="about" className="section-tight scroll-mt-24 border-b border-white/10">
           <div className="layout-grid items-start gap-y-6">
             <div className="col-span-12 lg:col-span-8">
               <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-neon">

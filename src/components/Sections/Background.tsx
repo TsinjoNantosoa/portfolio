@@ -17,25 +17,25 @@ const Background: React.FC = () => {
   const visibleCerts = showAllCerts ? allCertifications : featuredCertifications;
 
   return (
-    <section id="background" className="section-block scroll-mt-24 bg-[var(--bg-secondary)]/35">
+    <section id="skills" className="section-block scroll-mt-24 bg-[var(--bg-secondary)]/35">
       <div className="site-container">
         <SectionHeader
-          eyebrow={t("nav.background")}
+          eyebrow={t("nav.skills")}
           title={t("background.title")}
           description={t("background.description")}
           className="mb-8 md:mb-10"
         />
 
         <div className="layout-grid">
-          <div className="surface-card col-span-12 p-5 sm:p-6 lg:col-span-7">
+          <div className="surface-card col-span-12 p-5 sm:p-6">
             <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.18em] text-neon">
               {t("background.stack")}
             </h3>
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {skillGroups.map((group) => (
                 <div key={group.title} className="border-theme border-t pt-4">
                   <h4 className="mb-3 text-sm font-medium text-[var(--text-primary)]">
-                    {group.title}
+                    {localizePortfolioText(group.title, language)}
                   </h4>
                   <ul className="flex flex-wrap gap-1.5">
                     {group.skills.map((skill) => (
@@ -52,7 +52,7 @@ const Background: React.FC = () => {
             </div>
           </div>
 
-          <div className="surface-card col-span-12 p-5 sm:p-6 lg:col-span-5">
+          <div id="education" className="surface-card col-span-12 scroll-mt-24 p-5 sm:p-6">
             <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.18em] text-neon">
               {t("background.education")}
             </h3>

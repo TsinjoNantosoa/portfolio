@@ -10,7 +10,7 @@ const Projects: React.FC = () => {
   const [flagship, arcwell, aiBos, sihia, aiSales] = featuredProjects;
 
   return (
-    <section id="work" className="section-block scroll-mt-24 bg-[var(--bg-secondary)]/40">
+    <section id="projects" className="section-block scroll-mt-24 bg-[var(--bg-secondary)]/40">
       <div className="site-container">
         <SectionHeader
           eyebrow={t("work.eyebrow")}

@@ -37,7 +37,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
         </span>
         <span className="h-3 w-px bg-white/20" aria-hidden />
         <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-neon/90">
-          {project.label}
+          {localizePortfolioText(project.label, language)}
         </span>
       </div>
 
@@ -80,8 +80,8 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
         <div className="mb-5 grid grid-cols-3 gap-2 border-y border-white/10 py-3.5">
           {project.proof.map((item) => (
             <div key={item.label}>
-              <p className="font-mono text-lg font-semibold text-neon">{item.value}</p>
-              <p className="mt-0.5 text-xs leading-snug text-[var(--text-muted)]">{item.label}</p>
+              <p className="font-mono text-lg font-semibold text-neon">{localizePortfolioText(item.value, language)}</p>
+              <p className="mt-0.5 text-xs leading-snug text-[var(--text-muted)]">{localizePortfolioText(item.label, language)}</p>
             </div>
           ))}
         </div>
@@ -155,8 +155,8 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
               <div className="grid grid-cols-3 gap-3 border-t border-white/10 pt-4">
                 {project.proof.map((item) => (
                   <div key={item.label}>
-                    <p className="font-mono text-xl font-semibold text-neon">{item.value}</p>
-                    <p className="mt-1 text-[11.5px] text-[var(--text-muted)]">{item.label}</p>
+                    <p className="font-mono text-xl font-semibold text-neon">{localizePortfolioText(item.value, language)}</p>
+                    <p className="mt-1 text-[11.5px] text-[var(--text-muted)]">{localizePortfolioText(item.label, language)}</p>
                   </div>
                 ))}
               </div>
