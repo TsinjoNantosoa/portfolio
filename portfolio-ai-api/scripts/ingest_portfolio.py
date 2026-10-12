@@ -12,6 +12,8 @@ from qdrant_client import AsyncQdrantClient, models
 
 from app.config import get_settings
 
+UPSERT_BATCH_SIZE = 16
+QDRANT_TIMEOUT_SECONDS = 60
 KNOWLEDGE_FILE = (
     Path(__file__).parents[1] / "app" / "knowledge" / "public_portfolio.json"
 )
@@ -65,7 +67,9 @@ async def ingest(dry_run: bool, recreate: bool):
         max_retries=1,
     )
     qdrant = AsyncQdrantClient(
-        url=settings.qdrant_url, api_key=settings.qdrant_api_key or None
+        url=settings.qdrant_url,
+        api_key=settings.qdrant_api_key or None,
+        timeout=QDRANT_TIMEOUT_SECONDS,
     )
     embeddings = await openai.embeddings.create(
         model=settings.openai_embedding_model,
@@ -89,9 +93,12 @@ async def ingest(dry_run: bool, recreate: bool):
         points.append(
             models.PointStruct(id=stable_id, vector=embedding.embedding, payload=item)
         )
-    await qdrant.upsert(
-        collection_name=settings.qdrant_collection, points=points, wait=True
-    )
+    for start in range(0, len(points), UPSERT_BATCH_SIZE):
+        await qdrant.upsert(
+            collection_name=settings.qdrant_collection,
+            points=points[start : start + UPSERT_BATCH_SIZE],
+            wait=True,
+        )
     current_ids = {str(point.id) for point in points}
     stored_ids = await list_collection_point_ids(qdrant, settings.qdrant_collection)
     stale_ids: list[int | str | UUID] = sorted(stored_ids - current_ids)
