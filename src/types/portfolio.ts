@@ -21,6 +21,7 @@ export interface FeaturedProject {
   stack: string[];
   imageUrl?: string;
   imageAlt?: string;
+  imagePending?: boolean;
   demoLink?: string;
   githubLink?: string;
   caseStudyLink: string;

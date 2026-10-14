@@ -172,6 +172,126 @@ const french: Record<string, string> = {
   "Bachelor’s Degree": "Licence",
   "Applied Mathematics, Computer Science & Statistics (MISA)":
     "Mathématiques appliquées, informatique et statistique (MISA)",
+  "AI Travel Operations Orchestrator": "Orchestrateur IA des opérations de voyage",
+  "AI Automation · Travel Operations": "Automatisation IA · Opérations de voyage",
+  "AI-powered travel operations platform that transforms email and WhatsApp fare requests into structured RFQs and orchestrates Fare Desk operations, human-approved quotes, booking handoff, and after-sales workflows.":
+    "Plateforme IA d’orchestration des opérations de voyage qui transforme les demandes tarifaires reçues par email et WhatsApp en RFQ structurées, puis coordonne le Fare Desk, les devis validés par un humain, le transfert vers la réservation et l’après-vente.",
+  "18 modular n8n workflows across the end-to-end RFQ lifecycle":
+    "18 workflows n8n modulaires couvrant tout le cycle de vie des RFQ",
+  "Gmail thread-aware intake and delivery with a multi-channel WhatsApp architecture":
+    "Réception et envoi Gmail avec conservation du fil, complétés par une architecture WhatsApp multicanale",
+  "Human-approved quotes with deterministic safeguards around every fare price":
+    "Devis validés par un humain avec des garde-fous déterministes sur chaque tarif",
+  "n8n workflows": "workflows n8n",
+  "Thread-aware": "Fil préservé",
+  "Approved quotes": "Devis validés",
+  "Advanced working prototype · Production-oriented architecture":
+    "Prototype avancé fonctionnel · Architecture orientée production",
+  "Offshore Fares is an AI-assisted operations platform for premium airfare requests. It turns fragmented inbound conversations into a traceable RFQ lifecycle while keeping fare entry, quote approval, ticketing decisions, and sensitive after-sales actions under human control.":
+    "Offshore Fares est une plateforme d’opérations assistée par IA pour les demandes de tarifs aériens premium. Elle transforme des conversations entrantes fragmentées en un cycle RFQ traçable, tout en laissant à l’humain la saisie des tarifs, la validation des devis, les décisions de billetterie et les actions d’après-vente sensibles.",
+  "Premium travel agents receive urgent fare requests through fragmented email and WhatsApp conversations. Requests may be incomplete, spread across several messages, and followed by multiple operational handoffs, quote revisions, booking decisions, changes, or refunds.":
+    "Les agents de voyage premium reçoivent des demandes tarifaires urgentes dans des conversations email et WhatsApp fragmentées. Ces demandes peuvent être incomplètes, réparties sur plusieurs messages et suivies de multiples transferts opérationnels, révisions de devis, décisions de réservation, modifications ou remboursements.",
+  "Built a modular orchestration platform that classifies inbound intent, extracts structured travel requirements, merges conversations into RFQs, applies priority and SLA rules, routes work to the Fare Desk, prepares guarded quotes, and coordinates human approval, client delivery, booking handoff, and after-sales routing.":
+    "Construction d’une plateforme d’orchestration modulaire qui classe l’intention entrante, extrait les besoins de voyage structurés, fusionne les conversations en RFQ, applique les règles de priorité et de SLA, route le travail vers le Fare Desk, prépare des devis contrôlés et coordonne validation humaine, envoi client, transfert vers la réservation et après-vente.",
+  "Gmail OAuth2 integration and WhatsApp Cloud API architecture normalize inbound requests into a common message model":
+    "L’intégration Gmail OAuth2 et l’architecture WhatsApp Cloud API normalisent les demandes entrantes dans un modèle de message commun",
+  "OpenAI Structured Outputs classify intent and extract travel requirements; server-side validation verifies every AI result":
+    "Les Structured Outputs d’OpenAI classent l’intention et extraient les besoins de voyage ; une validation côté serveur vérifie chaque résultat IA",
+  "PostgreSQL stores conversations, RFQs, state transitions, fares, approvals, audit logs, and workflow events":
+    "PostgreSQL stocke les conversations, RFQ, transitions d’état, tarifs, validations, journaux d’audit et événements de workflow",
+  "18 event-driven n8n workflows coordinate intake, clarification, priority, SLA, Fare Desk, quotes, delivery, replies, and errors":
+    "18 workflows n8n pilotés par événements coordonnent réception, clarification, priorité, SLA, Fare Desk, devis, livraison, réponses et erreurs",
+  "A Node.js operations console exposes the queue, approvals, desk inbox, activity trail, dead letters, and QA simulator":
+    "Une console d’opérations Node.js présente la file, les validations, la boîte du desk, l’historique d’activité, les dead letters et le simulateur QA",
+  "Render hosts the operations console, Neon provides PostgreSQL, and n8n is designed for deployment on an OVH VPS":
+    "Render héberge la console d’opérations, Neon fournit PostgreSQL et n8n est prévu pour un déploiement sur VPS OVH",
+  "Email or WhatsApp request enters the channel-specific intake workflow":
+    "La demande email ou WhatsApp entre dans le workflow de réception propre au canal",
+  "AI classifies the intent and extracts structured travel requirements":
+    "L’IA classe l’intention et extrait les besoins de voyage structurés",
+  "Deterministic validation identifies missing or unsupported information":
+    "Une validation déterministe identifie les informations manquantes ou non prises en charge",
+  "The conversation is merged into a structured RFQ":
+    "La conversation est fusionnée dans une RFQ structurée",
+  "Priority and SLA rules classify urgency and response targets":
+    "Les règles de priorité et de SLA classent l’urgence et les objectifs de réponse",
+  "The RFQ is routed to the appropriate Fare Desk":
+    "La RFQ est routée vers le Fare Desk approprié",
+  "A human operator enters or verifies the fare options":
+    "Un opérateur humain saisit ou vérifie les options tarifaires",
+  "AI formats the quote without controlling commercial numbers":
+    "L’IA met en forme le devis sans contrôler les données tarifaires",
+  "A human approves, edits, or rejects the exact quote version":
+    "Un humain approuve, modifie ou rejette la version exacte du devis",
+  "The approved quote returns through the original client channel":
+    "Le devis approuvé est renvoyé par le canal d’origine du client",
+  "The client response is matched to the selected option":
+    "La réponse du client est associée à l’option sélectionnée",
+  "Booking is handed off to the Ticketing Desk":
+    "La réservation est transférée au Ticketing Desk",
+  "Change, cancellation, and refund requests become traceable after-sales tasks":
+    "Les demandes de modification, d’annulation et de remboursement deviennent des tâches d’après-vente traçables",
+  "Use AI for classification, structured extraction, and controlled content formatting, not for commercial authority":
+    "Utiliser l’IA pour la classification, l’extraction structurée et la mise en forme contrôlée, jamais comme autorité commerciale",
+  "Enforce RFQ state transitions, idempotency, price preservation, and approval gates in deterministic code and PostgreSQL":
+    "Imposer les transitions d’état RFQ, l’idempotence, la préservation des prix et les validations dans du code déterministe et PostgreSQL",
+  "Separate Fare Desk entry from quote formatting so mock fares can later be replaced by a GDS or NDC provider adapter":
+    "Séparer la saisie du Fare Desk de la mise en forme du devis afin de pouvoir remplacer les tarifs simulés par un adaptateur GDS ou NDC",
+  "Keep booking as a human handoff rather than claiming automated ticket issuance":
+    "Conserver la réservation comme transfert humain au lieu de prétendre automatiser l’émission des billets",
+  "The AI never creates or edits a fare price":
+    "L’IA ne crée ni ne modifie jamais un tarif",
+  "Fare prices come from the Fare Desk and currently use mock data for demonstration scenarios. The AI may understand the request and format a response, but code verifies every commercial number, rejects altered values, and requires human approval before delivery.":
+    "Les tarifs proviennent du Fare Desk et utilisent actuellement des données simulées pour les scénarios de démonstration. L’IA peut comprendre la demande et mettre en forme une réponse, mais le code vérifie chaque donnée commerciale, rejette les valeurs modifiées et exige une validation humaine avant l’envoi.",
+  "Modular event-driven orchestration across 18 n8n workflows, with each workflow owning one operational responsibility and failures routed through retry and dead-letter handling.":
+    "Orchestration modulaire pilotée par événements à travers 18 workflows n8n, chacun responsable d’une fonction opérationnelle, avec reprise et dead-letter handling en cas d’échec.",
+  "Email and WhatsApp intake": "Réception Email et WhatsApp",
+  "Intent classification and travel extraction": "Classification de l’intention et extraction du voyage",
+  "Missing-information handling and RFQ management": "Gestion des informations manquantes et des RFQ",
+  "Priority, SLA, and Fare Desk routing": "Priorité, SLA et routage vers le Fare Desk",
+  "Fare intake and guarded quote formatting": "Saisie des tarifs et mise en forme contrôlée des devis",
+  "Human approval and client delivery": "Validation humaine et envoi au client",
+  "Follow-up and client response handling": "Relance et traitement des réponses client",
+  "Booking and after-sales handoff": "Transfert réservation et après-vente",
+  "Operator actions and error handling": "Actions opérateur et gestion des erreurs",
+  "Human-in-the-loop by design: operators enter or verify fares, approve the exact quote version, own ticketing decisions, and handle changes, cancellations, and refunds. The platform coordinates these decisions but does not replace them.":
+    "Human-in-the-loop par conception : les opérateurs saisissent ou vérifient les tarifs, approuvent la version exacte du devis, prennent les décisions de billetterie et traitent modifications, annulations et remboursements. La plateforme coordonne ces décisions sans les remplacer.",
+  "AI outputs are schema-constrained and verified against the original message or approved fare data":
+    "Les sorties IA sont contraintes par schéma et vérifiées par rapport au message original ou aux données tarifaires approuvées",
+  "A quote cannot be delivered without approval, and the database independently blocks unapproved or duplicate sends":
+    "Un devis ne peut pas être envoyé sans validation, et la base bloque indépendamment les envois non approuvés ou dupliqués",
+  "Idempotent message registration and conversation locks prevent duplicate or out-of-order processing":
+    "L’enregistrement idempotent des messages et les verrous de conversation empêchent les traitements dupliqués ou désordonnés",
+  "Prompt-injection screening, secret isolation, retries, dead letters, and full audit trails protect operations":
+    "Le filtrage des injections de prompt, l’isolation des secrets, les reprises, les dead letters et l’audit complet protègent les opérations",
+  "Demo fares are explicitly mocked; no live GDS pricing or automated ticket issuance is claimed":
+    "Les tarifs de démonstration sont explicitement simulés ; aucun tarif GDS live ni aucune émission automatique de billet n’est revendiqué",
+  "Gmail API and OAuth2 for thread-aware inbound and outbound email":
+    "Gmail API et OAuth2 pour les emails entrants et sortants avec conservation du fil",
+  "WhatsApp Business Cloud API architecture with webhook verification and delivery status handling":
+    "Architecture WhatsApp Business Cloud API avec vérification des webhooks et suivi des statuts de livraison",
+  "OpenAI Chat Completions with Structured Outputs (configurable model, default GPT-4.1-mini)":
+    "OpenAI Chat Completions avec Structured Outputs (modèle configurable, GPT-4.1-mini par défaut)",
+  "PostgreSQL 16 with Neon deployment support":
+    "PostgreSQL 16 avec prise en charge du déploiement Neon",
+  "Render operations console connected to n8n on an OVH VPS":
+    "Console d’opérations Render connectée à n8n sur un VPS OVH",
+  "FareProvider contract prepared for future GDS or NDC adapters":
+    "Contrat FareProvider préparé pour de futurs adaptateurs GDS ou NDC",
+  "A traceable workflow from unstructured inbound request to RFQ, controlled quote, booking handoff, and after-sales":
+    "Un workflow traçable de la demande entrante non structurée jusqu’à la RFQ, au devis contrôlé, au transfert réservation et à l’après-vente",
+  "A validated Gmail scenario can preserve the original thread across request intake and quote delivery":
+    "Un scénario Gmail validé peut préserver le fil d’origine entre la réception de la demande et l’envoi du devis",
+  "Fare prices remain sourced from human-entered or mock provider data rather than generated by the model":
+    "Les tarifs restent issus de données saisies par un humain ou fournies par le mock provider, et non générés par le modèle",
+  "The operator dashboard and QA simulator make workflow state, approvals, errors, and audit history inspectable":
+    "Le tableau de bord opérateur et le simulateur QA rendent consultables l’état des workflows, validations, erreurs et historique d’audit",
+  "Designing AI-assisted operations around deterministic state machines and transactional boundaries":
+    "Conception d’opérations assistées par IA autour de machines à états déterministes et de frontières transactionnelles",
+  "Coordinating long-running, multi-channel workflows with idempotency, SLA monitoring, and human checkpoints":
+    "Coordination de workflows longs et multicanaux avec idempotence, suivi des SLA et points de contrôle humains",
+  "Keeping provider integrations replaceable without coupling AI reasoning to sensitive commercial data":
+    "Maintien d’intégrations fournisseurs remplaçables sans coupler le raisonnement IA aux données commerciales sensibles",
 };
 
 export function localizePortfolioText(

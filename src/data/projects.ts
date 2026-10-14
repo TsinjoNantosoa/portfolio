@@ -89,9 +89,137 @@ export const featuredProjects: FeaturedProject[] = [
     ],
   },
   {
+    id: "offshore-fares",
+    slug: "offshore-fares",
+    number: "02",
+    title: "Offshore Fares",
+    subtitle: "AI Travel Operations Orchestrator",
+    label: "AI Automation · Travel Operations",
+    plainSummary:
+      "AI-powered travel operations platform that transforms email and WhatsApp fare requests into structured RFQs and orchestrates Fare Desk operations, human-approved quotes, booking handoff, and after-sales workflows.",
+    technicalSummary:
+      "n8n · OpenAI · PostgreSQL · Node.js · Gmail API · Docker",
+    description:
+      "A production-oriented travel operations orchestrator for premium airfare requests, coordinating the workflow from inbound message to RFQ, Fare Desk, controlled quote delivery, booking handoff, and after-sales.",
+    problem:
+      "Premium travel agents receive urgent fare requests through fragmented email and WhatsApp conversations. Requests may be incomplete, spread across several messages, and followed by multiple operational handoffs, quote revisions, booking decisions, changes, or refunds.",
+    solution:
+      "Built a modular orchestration platform that classifies inbound intent, extracts structured travel requirements, merges conversations into RFQs, applies priority and SLA rules, routes work to the Fare Desk, prepares guarded quotes, and coordinates human approval, client delivery, booking handoff, and after-sales routing.",
+    highlights: [
+      "18 modular n8n workflows across the end-to-end RFQ lifecycle",
+      "Gmail thread-aware intake and delivery with a multi-channel WhatsApp architecture",
+      "Human-approved quotes with deterministic safeguards around every fare price",
+    ],
+    proof: [
+      { value: "18", label: "n8n workflows", hint: "Modular event-driven orchestration" },
+      { value: "Gmail", label: "Thread-aware", hint: "Inbound and outbound OAuth2 integration" },
+      { value: "Human", label: "Approved quotes", hint: "Sensitive delivery stays controlled" },
+    ],
+    stack: [
+      "n8n",
+      "OpenAI",
+      "PostgreSQL",
+      "Node.js",
+      "Gmail API",
+      "Docker",
+      "GPT-4.1-mini",
+      "Neon",
+      "WhatsApp Cloud API",
+      "REST APIs",
+      "Render",
+      "OVH VPS",
+      "JavaScript",
+    ],
+    // TODO: replace with the final Offshore Fares portfolio image supplied by the user.
+    imagePending: true,
+    imageAlt: "Offshore Fares AI Travel Operations Orchestrator dashboard",
+    githubLink: "https://github.com/TsinjoNantosoa/offshore-fares-ai-automation",
+    caseStudyLink: "/work/offshore-fares",
+    featuredLayout: "standard",
+    status: "Advanced working prototype · Production-oriented architecture",
+    overview:
+      "Offshore Fares is an AI-assisted operations platform for premium airfare requests. It turns fragmented inbound conversations into a traceable RFQ lifecycle while keeping fare entry, quote approval, ticketing decisions, and sensitive after-sales actions under human control.",
+    architecture: [
+      "Gmail OAuth2 integration and WhatsApp Cloud API architecture normalize inbound requests into a common message model",
+      "OpenAI Structured Outputs classify intent and extract travel requirements; server-side validation verifies every AI result",
+      "PostgreSQL stores conversations, RFQs, state transitions, fares, approvals, audit logs, and workflow events",
+      "18 event-driven n8n workflows coordinate intake, clarification, priority, SLA, Fare Desk, quotes, delivery, replies, and errors",
+      "A Node.js operations console exposes the queue, approvals, desk inbox, activity trail, dead letters, and QA simulator",
+      "Render hosts the operations console, Neon provides PostgreSQL, and n8n is designed for deployment on an OVH VPS",
+    ],
+    howItWorks: [
+      "Email or WhatsApp request enters the channel-specific intake workflow",
+      "AI classifies the intent and extracts structured travel requirements",
+      "Deterministic validation identifies missing or unsupported information",
+      "The conversation is merged into a structured RFQ",
+      "Priority and SLA rules classify urgency and response targets",
+      "The RFQ is routed to the appropriate Fare Desk",
+      "A human operator enters or verifies the fare options",
+      "AI formats the quote without controlling commercial numbers",
+      "A human approves, edits, or rejects the exact quote version",
+      "The approved quote returns through the original client channel",
+      "The client response is matched to the selected option",
+      "Booking is handed off to the Ticketing Desk",
+      "Change, cancellation, and refund requests become traceable after-sales tasks",
+    ],
+    decisions: [
+      "Use AI for classification, structured extraction, and controlled content formatting, not for commercial authority",
+      "Enforce RFQ state transitions, idempotency, price preservation, and approval gates in deterministic code and PostgreSQL",
+      "Separate Fare Desk entry from quote formatting so mock fares can later be replaced by a GDS or NDC provider adapter",
+      "Keep booking as a human handoff rather than claiming automated ticket issuance",
+    ],
+    decisionHighlight: {
+      title: "The AI never creates or edits a fare price",
+      body: "Fare prices come from the Fare Desk and currently use mock data for demonstration scenarios. The AI may understand the request and format a response, but code verifies every commercial number, rejects altered values, and requires human approval before delivery.",
+    },
+    automation: {
+      summary:
+        "Modular event-driven orchestration across 18 n8n workflows, with each workflow owning one operational responsibility and failures routed through retry and dead-letter handling.",
+      workflows: [
+        "Email and WhatsApp intake",
+        "Intent classification and travel extraction",
+        "Missing-information handling and RFQ management",
+        "Priority, SLA, and Fare Desk routing",
+        "Fare intake and guarded quote formatting",
+        "Human approval and client delivery",
+        "Follow-up and client response handling",
+        "Booking and after-sales handoff",
+        "Operator actions and error handling",
+      ],
+    },
+    hitl:
+      "Human-in-the-loop by design: operators enter or verify fares, approve the exact quote version, own ticketing decisions, and handle changes, cancellations, and refunds. The platform coordinates these decisions but does not replace them.",
+    security: [
+      "AI outputs are schema-constrained and verified against the original message or approved fare data",
+      "A quote cannot be delivered without approval, and the database independently blocks unapproved or duplicate sends",
+      "Idempotent message registration and conversation locks prevent duplicate or out-of-order processing",
+      "Prompt-injection screening, secret isolation, retries, dead letters, and full audit trails protect operations",
+      "Demo fares are explicitly mocked; no live GDS pricing or automated ticket issuance is claimed",
+    ],
+    integrations: [
+      "Gmail API and OAuth2 for thread-aware inbound and outbound email",
+      "WhatsApp Business Cloud API architecture with webhook verification and delivery status handling",
+      "OpenAI Chat Completions with Structured Outputs (configurable model, default GPT-4.1-mini)",
+      "PostgreSQL 16 with Neon deployment support",
+      "Render operations console connected to n8n on an OVH VPS",
+      "FareProvider contract prepared for future GDS or NDC adapters",
+    ],
+    outcomes: [
+      "A traceable workflow from unstructured inbound request to RFQ, controlled quote, booking handoff, and after-sales",
+      "A validated Gmail scenario can preserve the original thread across request intake and quote delivery",
+      "Fare prices remain sourced from human-entered or mock provider data rather than generated by the model",
+      "The operator dashboard and QA simulator make workflow state, approvals, errors, and audit history inspectable",
+    ],
+    learnings: [
+      "Designing AI-assisted operations around deterministic state machines and transactional boundaries",
+      "Coordinating long-running, multi-channel workflows with idempotency, SLA monitoring, and human checkpoints",
+      "Keeping provider integrations replaceable without coupling AI reasoning to sensitive commercial data",
+    ],
+  },
+  {
     id: "arcwell",
     slug: "arcwell-agentic-crm",
-    number: "02",
+    number: "03",
     title: "Arcwell — Governed Agentic CRM",
     label: "Agentic AI · Governance",
     plainSummary:
@@ -130,7 +258,7 @@ export const featuredProjects: FeaturedProject[] = [
   {
     id: "ai-bos",
     slug: "ai-business-os",
-    number: "03",
+    number: "04",
     title: "AI Business Operating System",
     subtitle: "Agentic Business Platform",
     label: "AI SaaS · Agents · Workflows",
@@ -163,7 +291,7 @@ export const featuredProjects: FeaturedProject[] = [
   {
     id: "sihia",
     slug: "sihia",
-    number: "04",
+    number: "05",
     title: "SIHIA — AI-Powered HealthTech Platform",
     label: "HealthTech · Hybrid RAG",
     plainSummary:
@@ -200,7 +328,7 @@ export const featuredProjects: FeaturedProject[] = [
   {
     id: "ai-sales",
     slug: "ai-sales-assistant",
-    number: "05",
+    number: "06",
     title: "AI Sales Assistant",
     subtitle:
       "AI-assisted lead qualification and sales automation with deterministic scoring and Human-in-the-Loop control.",

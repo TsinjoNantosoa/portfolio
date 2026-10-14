@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
 import type { FeaturedProject } from "@/types/portfolio";
-import ProjectMedia from "@/components/ui-kit/ProjectMedia";
+import ProjectMedia, { ProjectMediaPlaceholder } from "@/components/ui-kit/ProjectMedia";
 import { useI18n } from "@/i18n/I18nProvider";
 import { localizePortfolioText } from "@/i18n/portfolioContent";
 
@@ -11,7 +11,7 @@ interface FeaturedProjectCardProps {
   project: FeaturedProject;
   index?: number;
   className?: string;
-  density?: "flagship" | "media" | "editorial";
+  density?: "flagship" | "spotlight" | "media" | "editorial";
 }
 
 const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
@@ -24,11 +24,13 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
   const [mediaFailed, setMediaFailed] = useState(false);
   const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
   const isFlagship = density === "flagship";
+  const isWide = isFlagship || density === "spotlight";
+  const hasMediaSlot = hasMedia || Boolean(project.imagePending);
   const highlightLimit = 3;
-  const splitFlagship = isFlagship && !hasMedia;
+  const splitWide = isWide && !hasMediaSlot;
 
   const renderBody = (options?: { hideProof?: boolean }) => (
-    <div className={`flex h-full flex-col ${isFlagship ? "p-5 sm:p-7" : "p-5 sm:p-6"}`}>
+    <div className={`flex h-full flex-col ${isWide ? "p-5 sm:p-7" : "p-5 sm:p-6"}`}>
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <span
           className="font-mono text-[13px] font-semibold leading-none text-white/35"
@@ -49,7 +51,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
 
       <h3
         className={`mb-3 font-semibold tracking-tight text-[var(--text-primary)] ${
-          isFlagship
+          isWide
             ? "text-[clamp(1.55rem,2vw,2rem)]"
             : "text-[clamp(1.35rem,1.7vw,1.75rem)]"
         }`}
@@ -137,7 +139,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
       transition={{ duration: 0.4, delay: index * 0.03 }}
       className={`surface-card surface-card-hover group h-full ${className}`}
     >
-      {splitFlagship ? (
+      {splitWide ? (
         <div className="layout-grid !gap-0">
           <div className="col-span-12 border-b border-white/10 lg:col-span-7 lg:border-b-0 lg:border-r">
             {renderBody({ hideProof: true })}
@@ -163,22 +165,28 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
             )}
           </div>
         </div>
-      ) : hasMedia && project.imageUrl ? (
-        <div className={isFlagship ? "grid h-full lg:grid-cols-[0.95fr_1.05fr]" : "flex h-full flex-col"}>
-          <div className={isFlagship ? "min-h-0" : undefined}>
-            <ProjectMedia
-              src={project.imageUrl}
-              alt={
-                project.imageAlt ||
-                `${project.title} screenshot`
-              }
-              aspectClassName={isFlagship ? "aspect-[16/10] h-full min-h-[300px] lg:aspect-auto" : "aspect-[16/10]"}
-              objectPosition={isFlagship ? "object-right" : "object-top"}
-              imageClassName={isFlagship ? "origin-right scale-[1.35]" : ""}
-              onError={() => setMediaFailed(true)}
-            />
+      ) : hasMediaSlot ? (
+        <div className={isWide ? "grid h-full lg:grid-cols-[0.95fr_1.05fr]" : "flex h-full flex-col"}>
+          <div className={isWide ? "min-h-0" : undefined}>
+            {hasMedia && project.imageUrl ? (
+              <ProjectMedia
+                src={project.imageUrl}
+                alt={project.imageAlt || `${project.title} screenshot`}
+                aspectClassName={isWide ? "aspect-[16/10] h-full min-h-[300px] lg:aspect-auto" : "aspect-[16/10]"}
+                objectPosition={isWide ? "object-right" : "object-top"}
+                imageClassName={isFlagship ? "origin-right scale-[1.35]" : ""}
+                onError={() => setMediaFailed(true)}
+              />
+            ) : (
+              <ProjectMediaPlaceholder
+                title={project.title}
+                subtitle={localizePortfolioText(project.subtitle || project.label, language) || project.label}
+                alt={project.imageAlt || `${project.title} project media placeholder`}
+                aspectClassName={isWide ? "aspect-[16/10] h-full min-h-[300px] lg:aspect-auto" : "aspect-[16/10]"}
+              />
+            )}
           </div>
-          <div className={isFlagship ? "border-white/[0.08] lg:border-l" : "flex flex-1"}>
+          <div className={isWide ? "border-white/[0.08] lg:border-l" : "flex flex-1"}>
             {renderBody()}
           </div>
         </div>

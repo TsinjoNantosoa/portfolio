@@ -32,6 +32,7 @@ const joinSentences = (...parts) => parts
   .join(". ") + ".";
 const projectQuestions = {
   "multi-tenant-rag": ["How was tenant isolation implemented?", "What stack powered the RAG platform?", "How did Tsinjo validate RAG quality?"],
+  "offshore-fares": ["How does Offshore Fares protect fare prices?", "What do the 18 n8n workflows orchestrate?", "How does Human-in-the-Loop work in Offshore Fares?"],
   "arcwell-agentic-crm": ["How does Human-in-the-Loop work in Arcwell?", "Why are policy checks deterministic?", "Which other project uses LangGraph?"],
   "ai-business-os": ["How does AI BOS control agent actions?", "What is the AI BOS architecture?", "Which projects demonstrate multi-tenancy?"],
   sihia: ["How does SIHIA's hybrid retrieval work?", "Why does SIHIA use reranking?", "Which projects use Qdrant?"],

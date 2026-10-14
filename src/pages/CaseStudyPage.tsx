@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
-import ProjectMedia from "@/components/ui-kit/ProjectMedia";
+import ProjectMedia, { ProjectMediaPlaceholder } from "@/components/ui-kit/ProjectMedia";
 import ArchitectureDiagram from "@/components/project/ArchitectureDiagram";
 import { getFeaturedProjectBySlug } from "@/data/projects";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -46,6 +46,7 @@ const CaseStudyPage: React.FC = () => {
   }
 
   const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
+  const hasMediaSlot = hasMedia || Boolean(project.imagePending);
   const mediaAlt =
     project.imageAlt || `${project.title} product screenshot`;
 
@@ -76,26 +77,34 @@ const CaseStudyPage: React.FC = () => {
             {localizePortfolioText(project.plainSummary, language)}
           </p>
         )}
-        <p className="mb-8 max-w-[720px] font-mono text-sm text-[var(--text-muted)]">
+        <p className="mb-8 max-w-[720px] break-words font-mono text-sm leading-relaxed text-[var(--text-muted)]">
           {project.technicalSummary}
         </p>
 
         {project.status ? (
-          <p className="mb-8 inline-flex rounded-full border border-neon/25 bg-neon/[0.06] px-3 py-1.5 font-mono text-xs text-neon">
+          <p className="mb-8 inline-flex max-w-full whitespace-normal rounded-2xl border border-neon/25 bg-neon/[0.06] px-3 py-1.5 font-mono text-xs leading-relaxed text-neon sm:rounded-full">
             {localizePortfolioText(project.status, language)}
           </p>
         ) : null}
 
-        {hasMedia && project.imageUrl && (
-          <div className="mb-10 overflow-hidden rounded-2xl border border-white/10">
-            <ProjectMedia
-              src={project.imageUrl}
-              alt={mediaAlt}
-              aspectClassName="aspect-[16/10]"
-              objectPosition={project.showArchitectureDiagram ? "object-right" : "object-top"}
-              imageClassName={project.showArchitectureDiagram ? "origin-right scale-[1.2]" : ""}
-              onError={() => setMediaFailed(true)}
-            />
+        {hasMediaSlot && (
+          <div className="mb-10 min-w-0 max-w-full overflow-hidden rounded-2xl border border-white/10">
+            {hasMedia && project.imageUrl ? (
+              <ProjectMedia
+                src={project.imageUrl}
+                alt={mediaAlt}
+                aspectClassName="aspect-[16/10]"
+                objectPosition={project.showArchitectureDiagram ? "object-right" : "object-top"}
+                imageClassName={project.showArchitectureDiagram ? "origin-right scale-[1.2]" : ""}
+                onError={() => setMediaFailed(true)}
+              />
+            ) : (
+              <ProjectMediaPlaceholder
+                title={project.title}
+                subtitle={localizePortfolioText(project.subtitle || project.label, language) || project.label}
+                alt={mediaAlt}
+              />
+            )}
           </div>
         )}
 

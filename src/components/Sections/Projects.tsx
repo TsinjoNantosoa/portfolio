@@ -7,7 +7,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 
 const Projects: React.FC = () => {
   const { t } = useI18n();
-  const [flagship, arcwell, aiBos, sihia, aiSales] = featuredProjects;
+  const [flagship, offshoreFares, ...otherFeaturedProjects] = featuredProjects;
 
   return (
     <section id="projects" className="section-block scroll-mt-24 bg-[var(--bg-secondary)]/40">
@@ -27,25 +27,19 @@ const Projects: React.FC = () => {
             className="lg:col-span-2"
           />
           <FeaturedProjectCard
-            project={arcwell}
+            project={offshoreFares}
             index={1}
-            density="editorial"
+            density="spotlight"
+            className="lg:col-span-2"
           />
-          <FeaturedProjectCard
-            project={aiBos}
-            index={2}
-            density="media"
-          />
-          <FeaturedProjectCard
-            project={sihia}
-            index={3}
-            density="media"
-          />
-          <FeaturedProjectCard
-            project={aiSales}
-            index={4}
-            density="media"
-          />
+          {otherFeaturedProjects.map((project, index) => (
+            <FeaturedProjectCard
+              key={project.id}
+              project={project}
+              index={index + 2}
+              density={project.imageUrl ? "media" : "editorial"}
+            />
+          ))}
         </div>
 
         <div className="mt-10 border-t border-white/10 pt-9 md:mt-12 md:pt-10">
