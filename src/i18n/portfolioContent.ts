@@ -1,6 +1,111 @@
 import type { Language } from "./I18nProvider";
 
 const french: Record<string, string> = {
+  "HealthTech · Hybrid RAG": "HealthTech · RAG hybride",
+  "Healthcare operations, predictive planning, and a citation-first AI assistant in one secure full-stack platform.":
+    "Opérations de santé, planification prédictive et assistant IA fondé sur des citations au sein d’une plateforme full-stack sécurisée.",
+  "A full-stack hospital operations platform for patient records, appointments, waiting rooms, analytics, attendance forecasting, and a grounded document assistant.":
+    "Une plateforme hospitalière full-stack pour les dossiers patients, rendez-vous, salles d’attente, analyses, prévisions de fréquentation et un assistant documentaire fondé sur des sources fiables.",
+  "Secure healthcare operations platform combining patient workflows, predictive analytics, and a source-grounded Hybrid RAG assistant.":
+    "Plateforme sécurisée d’opérations de santé réunissant parcours patients, analyse prédictive et assistant RAG hybride fondé sur des sources.",
+  "Hospital teams need to coordinate patient records, practitioners, appointments, waiting rooms, documents, and operational forecasts without fragmenting data across disconnected tools. A generic chatbot is not sufficient in this context: answers must be traceable, medical boundaries must be enforced, and the system must fail safely when evidence is missing.":
+    "Les équipes hospitalières doivent coordonner dossiers patients, praticiens, rendez-vous, salles d’attente, documents et prévisions opérationnelles sans disperser les données entre des outils déconnectés. Un chatbot générique ne suffit pas : les réponses doivent être traçables, les limites médicales doivent être appliquées et le système doit échouer de manière sûre lorsque les preuves manquent.",
+  "SIHIA unifies day-to-day hospital operations with secure role-based workflows, 7/30-day attendance forecasts, configurable notifications, and an administrable knowledge base. Its assistant retrieves evidence from approved PDF, Markdown, and text documents, cites the sources used, streams the answer, and refuses unsupported diagnosis or low-evidence questions.":
+    "SIHIA unifie les opérations hospitalières quotidiennes avec des workflows sécurisés par rôle, des prévisions de fréquentation à 7 et 30 jours, des notifications configurables et une base de connaissances administrable. Son assistant extrait les preuves depuis des documents PDF, Markdown et texte approuvés, cite les sources utilisées, diffuse la réponse en streaming et refuse les diagnostics ou questions insuffisamment étayées.",
+  "Patient, practitioner, appointment, waiting-room, document, and analytics workflows":
+    "Workflows pour les patients, praticiens, rendez-vous, salles d’attente, documents et analyses",
+  "Hybrid dense + BM25 retrieval fused with RRF and reranked before generation":
+    "Recherche hybride dense + BM25, fusionnée par RRF puis rerankée avant génération",
+  "Citation-first answers with medical guardrails and evidence-based refusal":
+    "Réponses centrées sur les citations, avec garde-fous médicaux et refus fondé sur les preuves",
+  "Responsive trilingual interface with light/dark themes and RTL support":
+    "Interface responsive trilingue avec thèmes clair/sombre et prise en charge RTL",
+  "Active development · Product demo · Automated quality gates":
+    "Développement actif · Démo produit · Contrôles qualité automatisés",
+  "React 19 + FastAPI · PostgreSQL/Alembic · Qdrant + BM25 Hybrid RAG · SSE streaming · JWT/RBAC · Playwright CI":
+    "React 19 + FastAPI · PostgreSQL/Alembic · RAG hybride Qdrant + BM25 · streaming SSE · JWT/RBAC · CI Playwright",
+  "Backend tests": "Tests backend",
+  "Frontend tests": "Tests frontend",
+  "End-to-end scenarios": "Scénarios de bout en bout",
+  "Automated validation": "Validation automatisée",
+  "UI coverage": "Couverture de l’interface",
+  "Playwright flows": "Parcours Playwright",
+  "SIHIA healthcare operations dashboard with predictive analytics and grounded AI assistant":
+    "Tableau de bord SIHIA pour les opérations de santé, l’analyse prédictive et l’assistant IA fondé sur des sources",
+  "SIHIA is an end-to-end HealthTech product rather than a standalone chatbot. The React application and FastAPI API cover operational workflows, analytics, forecasting, document administration, and a guarded assistant backed by PostgreSQL and Qdrant. The architecture can run with SQLite for lightweight development and PostgreSQL 16 for the complete environment.":
+    "SIHIA est un produit HealthTech de bout en bout, et non un simple chatbot. L’application React et l’API FastAPI couvrent les workflows opérationnels, l’analyse, les prévisions, l’administration documentaire et un assistant protégé, adossé à PostgreSQL et Qdrant. L’architecture peut fonctionner avec SQLite pour un développement léger et PostgreSQL 16 pour l’environnement complet.",
+  "React 19 and TypeScript frontend with TanStack data flows":
+    "Frontend React 19 et TypeScript avec flux de données TanStack",
+  "FastAPI application services with SQLAlchemy and Alembic migrations":
+    "Services applicatifs FastAPI avec SQLAlchemy et migrations Alembic",
+  "PostgreSQL for operational data, document lifecycle, and lexical chunks":
+    "PostgreSQL pour les données opérationnelles, le cycle de vie documentaire et les segments lexicaux",
+  "Qdrant dense retrieval combined with a persisted BM25 lexical index":
+    "Recherche dense Qdrant combinée à un index lexical BM25 persistant",
+  "Reciprocal Rank Fusion followed by a lazy CPU cross-encoder reranker":
+    "Fusion Reciprocal Rank Fusion suivie d’un reranker cross-encoder CPU chargé à la demande",
+  "Evidence-limited prompt → structured citations → streamed SSE answer":
+    "Prompt limité aux preuves → citations structurées → réponse diffusée en SSE",
+  "JWT authentication and RBAC authorize hospital and knowledge-base operations":
+    "L’authentification JWT et le RBAC autorisent les opérations hospitalières et documentaires",
+  "Teams manage patients, practitioners, availability, appointments, waiting rooms, and documents":
+    "Les équipes gèrent patients, praticiens, disponibilités, rendez-vous, salles d’attente et documents",
+  "Approved PDF, Markdown, and text files are validated, hashed, parsed, and split at semantic boundaries":
+    "Les fichiers PDF, Markdown et texte approuvés sont validés, hachés, analysés et découpés aux frontières sémantiques",
+  "Chunks are stored in SQL for lifecycle and lexical search, then embedded into Qdrant":
+    "Les segments sont stockés en SQL pour leur cycle de vie et la recherche lexicale, puis vectorisés dans Qdrant",
+  "Dense and BM25 results are fused with RRF and reranked before the relevance threshold is applied":
+    "Les résultats denses et BM25 sont fusionnés par RRF puis rerankés avant application du seuil de pertinence",
+  "Sources are emitted before answer tokens; insufficient evidence triggers a controlled refusal":
+    "Les sources sont émises avant les tokens de réponse ; des preuves insuffisantes déclenchent un refus contrôlé",
+  "Degrade retrieval safely; never fall back to unsupported model memory":
+    "Dégrader la recherche de manière sûre, sans revenir à une mémoire modèle non vérifiée",
+  "When Qdrant or the embedding provider is unavailable, SIHIA falls back to its persisted lexical index. If the remaining evidence does not meet the configured threshold, the assistant refuses to answer instead of relying on unverified model knowledge.":
+    "Lorsque Qdrant ou le fournisseur d’embeddings est indisponible, SIHIA revient à son index lexical persistant. Si les preuves restantes n’atteignent pas le seuil configuré, l’assistant refuse de répondre au lieu de s’appuyer sur des connaissances non vérifiées du modèle.",
+  "Separate SQL document lifecycle and searchable text from Qdrant vector storage":
+    "Séparer le cycle de vie documentaire et le texte consultable en SQL du stockage vectoriel Qdrant",
+  "Use deterministic, boundary-aware chunking with preserved page and section metadata":
+    "Utiliser un découpage déterministe respectant les frontières, avec conservation des pages et sections",
+  "Lazy-load the semantic reranker and provide a deterministic lexical fallback":
+    "Charger le reranker sémantique à la demande et fournir un repli lexical déterministe",
+  "Contextualize short follow-ups with the latest user turn without using full chat history as the retrieval query":
+    "Contextualiser les questions de suivi courtes avec le dernier tour utilisateur sans employer tout l’historique comme requête de recherche",
+  "Send structured sources before SSE answer tokens so citations remain inspectable":
+    "Envoyer les sources structurées avant les tokens SSE afin que les citations restent vérifiables",
+  "JWT access control, refresh-token rotation and revocation, plus RBAC in both API and interface":
+    "Contrôle d’accès JWT, rotation et révocation des refresh tokens, avec RBAC dans l’API et l’interface",
+  "Emergency, diagnosis, out-of-scope, and prompt-injection guardrails execute before retrieval and generation":
+    "Les garde-fous contre urgences, diagnostics, hors périmètre et injections de prompt s’exécutent avant recherche et génération",
+  "Uploads use allowlisted formats and sizes, normalized filenames, SHA-256 duplicate detection, and are never executed":
+    "Les imports utilisent des formats et tailles autorisés, des noms normalisés, une détection des doublons SHA-256 et ne sont jamais exécutés",
+  "Operational logs expose identifiers and error types without recording document bodies or user queries":
+    "Les journaux opérationnels exposent les identifiants et types d’erreur sans enregistrer le contenu des documents ni les requêtes utilisateurs",
+  "The assistant does not diagnose or prescribe; medical content requires human validation before real-world use":
+    "L’assistant ne diagnostique ni ne prescrit ; le contenu médical exige une validation humaine avant tout usage réel",
+  "PostgreSQL 16 / SQLite development mode": "PostgreSQL 16 / mode de développement SQLite",
+  "Qdrant vector database": "Base vectorielle Qdrant",
+  "OpenAI-compatible generation and embeddings": "Génération et embeddings compatibles OpenAI",
+  "Configurable email and SMS reminders": "Rappels email et SMS configurables",
+  "Airflow operational and ML pipelines": "Pipelines opérationnels et ML avec Airflow",
+  "Docker Compose and GitHub Actions CI": "Docker Compose et CI GitHub Actions",
+  "A single product flow connects hospital operations, analytics, forecasting, and trusted document assistance":
+    "Un même parcours produit relie opérations hospitalières, analyses, prévisions et assistance documentaire fiable",
+  "The assistant supports cited answers, conversational follow-ups, and explicit no-answer behavior":
+    "L’assistant prend en charge les réponses citées, les suivis conversationnels et les refus explicites",
+  "A deterministic 30-question French/English benchmark measures retrieval and no-answer accuracy without network calls":
+    "Un benchmark déterministe de 30 questions françaises et anglaises mesure la recherche et la précision des refus sans appel réseau",
+  "CI validates dependencies, backend behavior, PostgreSQL hardening, frontend quality, production builds, and Playwright flows":
+    "La CI valide les dépendances, le backend, le durcissement PostgreSQL, la qualité frontend, les builds de production et les parcours Playwright",
+  "Designing medical AI around explicit safety gates, evidence thresholds, citations, and human responsibility":
+    "Conception d’une IA médicale autour de garde-fous explicites, seuils de preuve, citations et responsabilité humaine",
+  "Combining dense and lexical retrieval while preserving a deterministic fallback path":
+    "Combinaison de recherches dense et lexicale tout en conservant un chemin de repli déterministe",
+  "Coordinating SQL metadata, vector storage, reindexing, and failure states across the document lifecycle":
+    "Coordination des métadonnées SQL, du stockage vectoriel, de la réindexation et des états d’échec sur le cycle documentaire",
+  "Testing a full-stack product across unit, integration, security, accessibility, and end-to-end layers":
+    "Validation d’un produit full-stack par des tests unitaires, d’intégration, de sécurité, d’accessibilité et de bout en bout",
+  "SIHIA positions AI as an operational and documentary assistant, not a clinical decision-maker. Emergency requests are redirected to emergency services, diagnosis and prescription requests are refused, and healthcare professionals remain responsible for validating medical content and decisions.":
+    "SIHIA positionne l’IA comme assistant opérationnel et documentaire, non comme décideur clinique. Les urgences sont redirigées vers les services compétents, les demandes de diagnostic et de prescription sont refusées, et les professionnels de santé restent responsables de la validation des contenus et décisions médicales.",
   "2025 – September 2026": "2025 – Septembre 2026",
   "Featured Professional Project · Production + Pilot": "Projet professionnel phare · Production + pilote",
   "Multi-tenant RAG": "RAG multi-tenant",

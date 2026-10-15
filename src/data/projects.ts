@@ -321,36 +321,95 @@ export const featuredProjects: FeaturedProject[] = [
     number: "05",
     title: "SIHIA — AI-Powered HealthTech Platform",
     label: "HealthTech · Hybrid RAG",
+    subtitle:
+      "Healthcare operations, predictive planning, and a citation-first AI assistant in one secure full-stack platform.",
     plainSummary:
-      "A healthcare operations platform combining hospital workflows, predictive analytics, and an AI assistant grounded in trusted knowledge.",
+      "A full-stack hospital operations platform for patient records, appointments, waiting rooms, analytics, attendance forecasting, and a grounded document assistant.",
     technicalSummary:
-      "Hybrid RAG using dense search, BM25, RRF fusion, and cross-encoder reranking.",
+      "React 19 + FastAPI · PostgreSQL/Alembic · Qdrant + BM25 Hybrid RAG · SSE streaming · JWT/RBAC · Playwright CI",
     description:
-      "Full-stack healthcare operations platform combining secure hospital workflows, predictive analytics, and a grounded Hybrid RAG assistant.",
+      "Secure healthcare operations platform combining patient workflows, predictive analytics, and a source-grounded Hybrid RAG assistant.",
+    problem:
+      "Hospital teams need to coordinate patient records, practitioners, appointments, waiting rooms, documents, and operational forecasts without fragmenting data across disconnected tools. A generic chatbot is not sufficient in this context: answers must be traceable, medical boundaries must be enforced, and the system must fail safely when evidence is missing.",
+    solution:
+      "SIHIA unifies day-to-day hospital operations with secure role-based workflows, 7/30-day attendance forecasts, configurable notifications, and an administrable knowledge base. Its assistant retrieves evidence from approved PDF, Markdown, and text documents, cites the sources used, streams the answer, and refuses unsupported diagnosis or low-evidence questions.",
     highlights: [
-      "Combines semantic and keyword search for more reliable evidence",
-      "Reranks evidence before the model answers",
-      "Answers include citations and can refuse when evidence is weak",
-      "Hospital workflows and predictive analytics in one platform",
+      "Patient, practitioner, appointment, waiting-room, document, and analytics workflows",
+      "Hybrid dense + BM25 retrieval fused with RRF and reranked before generation",
+      "Citation-first answers with medical guardrails and evidence-based refusal",
+      "Responsive trilingual interface with light/dark themes and RTL support",
     ],
     proof: [
       { value: "118", label: "Backend tests", hint: "Automated validation" },
       { value: "65", label: "Frontend tests", hint: "UI coverage" },
       { value: "17", label: "End-to-end scenarios", hint: "Playwright flows" },
     ],
-    stack: ["FastAPI", "React", "PostgreSQL", "Qdrant", "BM25", "FastEmbed", "Docker"],
+    stack: ["React 19", "TypeScript", "FastAPI", "SQLAlchemy", "Alembic", "PostgreSQL", "Qdrant", "BM25 / RRF", "FastEmbed", "OpenAI", "Playwright", "Docker"],
     imageUrl: "/portfolio-uploads/sihia-rag-dashboard.png",
+    imageAlt: "SIHIA healthcare operations dashboard with predictive analytics and grounded AI assistant",
     demoLink: "https://sihia-platform.vercel.app/",
     caseStudyLink: "/work/sihia",
     featuredLayout: "standard",
+    status: "Active development · Product demo · Automated quality gates",
     overview:
-      "Healthcare operations platform with predictive analytics and a grounded Hybrid RAG assistant.",
+      "SIHIA is an end-to-end HealthTech product rather than a standalone chatbot. The React application and FastAPI API cover operational workflows, analytics, forecasting, document administration, and a guarded assistant backed by PostgreSQL and Qdrant. The architecture can run with SQLite for lightweight development and PostgreSQL 16 for the complete environment.",
     architecture: [
-      "Dense retrieval + BM25",
-      "Reciprocal Rank Fusion",
-      "Cross-encoder reranking",
-      "Evidence → LLM → Answer + Citations",
+      "React 19 and TypeScript frontend with TanStack data flows",
+      "FastAPI application services with SQLAlchemy and Alembic migrations",
+      "PostgreSQL for operational data, document lifecycle, and lexical chunks",
+      "Qdrant dense retrieval combined with a persisted BM25 lexical index",
+      "Reciprocal Rank Fusion followed by a lazy CPU cross-encoder reranker",
+      "Evidence-limited prompt → structured citations → streamed SSE answer",
     ],
+    howItWorks: [
+      "JWT authentication and RBAC authorize hospital and knowledge-base operations",
+      "Teams manage patients, practitioners, availability, appointments, waiting rooms, and documents",
+      "Approved PDF, Markdown, and text files are validated, hashed, parsed, and split at semantic boundaries",
+      "Chunks are stored in SQL for lifecycle and lexical search, then embedded into Qdrant",
+      "Dense and BM25 results are fused with RRF and reranked before the relevance threshold is applied",
+      "Sources are emitted before answer tokens; insufficient evidence triggers a controlled refusal",
+    ],
+    decisionHighlight: {
+      title: "Degrade retrieval safely; never fall back to unsupported model memory",
+      body:
+        "When Qdrant or the embedding provider is unavailable, SIHIA falls back to its persisted lexical index. If the remaining evidence does not meet the configured threshold, the assistant refuses to answer instead of relying on unverified model knowledge.",
+    },
+    decisions: [
+      "Separate SQL document lifecycle and searchable text from Qdrant vector storage",
+      "Use deterministic, boundary-aware chunking with preserved page and section metadata",
+      "Lazy-load the semantic reranker and provide a deterministic lexical fallback",
+      "Contextualize short follow-ups with the latest user turn without using full chat history as the retrieval query",
+      "Send structured sources before SSE answer tokens so citations remain inspectable",
+    ],
+    security: [
+      "JWT access control, refresh-token rotation and revocation, plus RBAC in both API and interface",
+      "Emergency, diagnosis, out-of-scope, and prompt-injection guardrails execute before retrieval and generation",
+      "Uploads use allowlisted formats and sizes, normalized filenames, SHA-256 duplicate detection, and are never executed",
+      "Operational logs expose identifiers and error types without recording document bodies or user queries",
+      "The assistant does not diagnose or prescribe; medical content requires human validation before real-world use",
+    ],
+    integrations: [
+      "PostgreSQL 16 / SQLite development mode",
+      "Qdrant vector database",
+      "OpenAI-compatible generation and embeddings",
+      "Configurable email and SMS reminders",
+      "Airflow operational and ML pipelines",
+      "Docker Compose and GitHub Actions CI",
+    ],
+    outcomes: [
+      "A single product flow connects hospital operations, analytics, forecasting, and trusted document assistance",
+      "The assistant supports cited answers, conversational follow-ups, and explicit no-answer behavior",
+      "A deterministic 30-question French/English benchmark measures retrieval and no-answer accuracy without network calls",
+      "CI validates dependencies, backend behavior, PostgreSQL hardening, frontend quality, production builds, and Playwright flows",
+    ],
+    learnings: [
+      "Designing medical AI around explicit safety gates, evidence thresholds, citations, and human responsibility",
+      "Combining dense and lexical retrieval while preserving a deterministic fallback path",
+      "Coordinating SQL metadata, vector storage, reindexing, and failure states across the document lifecycle",
+      "Testing a full-stack product across unit, integration, security, accessibility, and end-to-end layers",
+    ],
+    hitl:
+      "SIHIA positions AI as an operational and documentary assistant, not a clinical decision-maker. Emergency requests are redirected to emergency services, diagnosis and prescription requests are refused, and healthcare professionals remain responsible for validating medical content and decisions.",
   },
   {
     id: "ai-sales",

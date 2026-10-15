@@ -48,7 +48,7 @@ const CaseStudyPage: React.FC = () => {
   const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
   const hasMediaSlot = hasMedia || Boolean(project.imagePending);
   const mediaAlt =
-    project.imageAlt || `${project.title} product screenshot`;
+    localizePortfolioText(project.imageAlt, language) || `${project.title} product screenshot`;
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-white">
@@ -78,7 +78,7 @@ const CaseStudyPage: React.FC = () => {
           </p>
         )}
         <p className="mb-8 max-w-[720px] break-words font-mono text-sm leading-relaxed text-[var(--text-muted)]">
-          {project.technicalSummary}
+          {localizePortfolioText(project.technicalSummary, language)}
         </p>
 
         {project.status ? (
