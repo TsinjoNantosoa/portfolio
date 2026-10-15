@@ -187,6 +187,11 @@ const french: Record<string, string> = {
   "Approved quotes": "Devis validés",
   "Advanced working prototype · Production-oriented architecture":
     "Prototype avancé fonctionnel · Architecture orientée production",
+  "Client response orchestration workflow": "Workflow d’orchestration des réponses client",
+  "Live RFQ queue and SLA control": "File RFQ en direct et contrôle des SLA",
+  "Auditable client communications": "Communications client auditables",
+  "End-to-end activity and audit trail": "Activité et piste d’audit de bout en bout",
+  "Email and WhatsApp QA simulator": "Simulateur QA Email et WhatsApp",
   "Offshore Fares is an AI-assisted operations platform for premium airfare requests. It turns fragmented inbound conversations into a traceable RFQ lifecycle while keeping fare entry, quote approval, ticketing decisions, and sensitive after-sales actions under human control.":
     "Offshore Fares est une plateforme d’opérations assistée par IA pour les demandes de tarifs aériens premium. Elle transforme des conversations entrantes fragmentées en un cycle RFQ traçable, tout en laissant à l’humain la saisie des tarifs, la validation des devis, les décisions de billetterie et les actions d’après-vente sensibles.",
   "Premium travel agents receive urgent fare requests through fragmented email and WhatsApp conversations. Requests may be incomplete, spread across several messages, and followed by multiple operational handoffs, quote revisions, booking decisions, changes, or refunds.":

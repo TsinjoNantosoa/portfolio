@@ -178,10 +178,17 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
   function resetConversation() { abortRef.current?.abort(); clearMessages(); setMessages([]); setLastQuestion(""); setStatus(assistantConfig.available ? "idle" : "unavailable"); inputRef.current?.focus(); }
 
   return <div ref={dialogRef} className="tsinjo-ai" role="dialog" aria-modal="true" aria-labelledby={titleId}>
-    <AssistantHeader titleId={titleId} onClear={resetConversation} onClose={onClose} />
-    <div className={`tsinjo-ai__status is-${status}`} role="status"><span />{statusLabels[status]}</div>
+    <AssistantHeader titleId={titleId} status={status} statusLabel={statusLabels[status]} onClear={resetConversation} onClose={onClose} />
     <div ref={listRef} className="tsinjo-ai__messages" aria-live="polite" aria-busy={sending}>
-      {messages.length === 0 && <section className="tsinjo-ai__welcome"><div className="tsinjo-ai__orb"><TsinjoAiMark className="h-8 w-8" /></div><h3>{t("assistant.ask")}</h3><p>{t("assistant.intro")}</p>{assistantConfig.available ? <QuickQuestions questions={initialQuestions} onSelect={(question) => void ask(question)} /> : <p className="tsinjo-ai__unavailable">{t("assistant.configRestored")}</p>}</section>}
+      {messages.length === 0 && <section className="tsinjo-ai__welcome">
+        <h3 className="sr-only">{t("assistant.ask")}</h3>
+        <div className="tsinjo-ai__welcome-row">
+          <div className="tsinjo-ai__orb"><TsinjoAiMark className="h-7 w-7" /></div>
+          <div className="tsinjo-ai__welcome-bubble"><p>{t("assistant.greeting")}</p></div>
+        </div>
+        <p className="tsinjo-ai__choose">{t("assistant.choose")}</p>
+        {assistantConfig.available ? <QuickQuestions questions={initialQuestions} onSelect={(question) => void ask(question)} /> : <p className="tsinjo-ai__unavailable">{t("assistant.configRestored")}</p>}
+      </section>}
       {messages.map((message) => <MessageBubble key={message.id} message={message} onQuestion={(question) => void ask(question)} />)}
       {sending && !messages.at(-1)?.text ? <TypingIndicator label={statusLabels[status]} /> : null}
     </div>

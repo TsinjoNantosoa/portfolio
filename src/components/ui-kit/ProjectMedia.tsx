@@ -8,6 +8,7 @@ interface ProjectMediaProps {
   className?: string;
   imageClassName?: string;
   objectPosition?: string;
+  objectFit?: "cover" | "contain";
   onError?: () => void;
 }
 
@@ -18,6 +19,7 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
   className = "",
   imageClassName = "",
   objectPosition = "object-top",
+  objectFit = "cover",
   onError,
 }) => {
   return (
@@ -29,7 +31,7 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
         width={1280}
         height={800}
         onError={onError}
-        className={`h-full w-full object-cover transition duration-500 group-hover:brightness-105 ${objectPosition} ${imageClassName}`}
+        className={`h-full w-full ${objectFit === "contain" ? "object-contain" : "object-cover"} transition duration-500 group-hover:brightness-105 ${objectPosition} ${imageClassName}`}
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/20 via-transparent to-transparent" />
     </div>

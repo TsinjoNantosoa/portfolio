@@ -4,6 +4,12 @@ export interface ProjectProof {
   hint?: string;
 }
 
+export interface ProjectGalleryImage {
+  src: string;
+  alt: string;
+  title: string;
+}
+
 export interface FeaturedProject {
   id: string;
   slug: string;
@@ -22,6 +28,8 @@ export interface FeaturedProject {
   imageUrl?: string;
   imageAlt?: string;
   imagePending?: boolean;
+  imageFit?: "cover" | "contain";
+  gallery?: ProjectGalleryImage[];
   demoLink?: string;
   githubLink?: string;
   caseStudyLink: string;

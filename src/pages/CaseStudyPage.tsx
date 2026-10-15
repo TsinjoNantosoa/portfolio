@@ -93,8 +93,9 @@ const CaseStudyPage: React.FC = () => {
               <ProjectMedia
                 src={project.imageUrl}
                 alt={mediaAlt}
-                aspectClassName="aspect-[16/10]"
+                aspectClassName={project.imageFit === "contain" ? "aspect-[2/1]" : "aspect-[16/10]"}
                 objectPosition={project.showArchitectureDiagram ? "object-right" : "object-top"}
+                objectFit={project.imageFit}
                 imageClassName={project.showArchitectureDiagram ? "origin-right scale-[1.2]" : ""}
                 onError={() => setMediaFailed(true)}
               />
@@ -132,6 +133,41 @@ const CaseStudyPage: React.FC = () => {
             </a>
           )}
         </div>
+
+        {project.gallery && project.gallery.length > 0 ? (
+          <section className="mb-10" aria-labelledby="project-gallery-title">
+            <h2 id="project-gallery-title" className="mb-4 text-xl font-semibold">
+              {t("case.gallery")}
+            </h2>
+            <div className="grid gap-4 lg:grid-cols-2">
+              {project.gallery.map((image, index) => (
+                <figure
+                  key={image.src}
+                  className={`overflow-hidden rounded-xl border border-white/10 bg-[var(--surface-1)] ${index === 0 ? "lg:col-span-2" : ""}`}
+                >
+                  <a
+                    href={image.src}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/media block overflow-hidden bg-[#0b1019]"
+                  >
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      loading="lazy"
+                      width={1760}
+                      height={850}
+                      className="aspect-[2/1] h-auto w-full object-cover object-top transition duration-300 group-hover/media:brightness-110"
+                    />
+                  </a>
+                  <figcaption className="border-t border-white/10 px-4 py-3 text-sm text-[var(--text-secondary)]">
+                    {localizePortfolioText(image.title, language)}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <div className="grid gap-8 lg:grid-cols-2">
           {project.overview && (

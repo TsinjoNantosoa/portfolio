@@ -27,11 +27,11 @@ describe("portfolio preferences", () => {
       </ThemeProvider>,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "FR" }));
+    await userEvent.click(screen.getByRole("button", { name: "Switch to French" }));
     expect(localStorage.getItem("tsinjo:language")).toBe("fr");
     expect(document.documentElement.lang).toBe("fr");
 
-    await userEvent.selectOptions(screen.getByLabelText("Thème"), "light");
+    await userEvent.click(screen.getByRole("button", { name: "Passer au thème clair" }));
     await waitFor(() => {
       expect(localStorage.getItem("tsinjo:theme")).toBe("light");
       expect(document.documentElement.dataset.theme).toBe("light");

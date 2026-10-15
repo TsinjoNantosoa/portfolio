@@ -24,6 +24,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
   const [mediaFailed, setMediaFailed] = useState(false);
   const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
   const isFlagship = density === "flagship";
+  const isSpotlight = density === "spotlight";
   const isWide = isFlagship || density === "spotlight";
   const hasMediaSlot = hasMedia || Boolean(project.imagePending);
   const highlightLimit = 3;
@@ -166,15 +167,15 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
           </div>
         </div>
       ) : hasMediaSlot ? (
-        <div className={isWide ? "grid h-full lg:grid-cols-[0.95fr_1.05fr]" : "flex h-full flex-col"}>
+        <div className={isSpotlight ? "flex h-full flex-col" : isWide ? "grid h-full lg:grid-cols-[0.95fr_1.05fr]" : "flex h-full flex-col"}>
           <div className={isWide ? "min-h-0" : undefined}>
             {hasMedia && project.imageUrl ? (
               <ProjectMedia
                 src={project.imageUrl}
                 alt={project.imageAlt || `${project.title} screenshot`}
-                aspectClassName={isWide ? "aspect-[16/10] h-full min-h-[300px] lg:aspect-auto" : "aspect-[16/10]"}
+                aspectClassName={isSpotlight ? "aspect-[2/1]" : isWide ? "aspect-[16/10] h-full min-h-[300px] lg:aspect-auto" : "aspect-[16/10]"}
                 objectPosition={isWide ? "object-right" : "object-top"}
-                imageClassName={isFlagship ? "origin-right scale-[1.35]" : ""}
+                objectFit={project.imageFit}
                 onError={() => setMediaFailed(true)}
               />
             ) : (
@@ -186,7 +187,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
               />
             )}
           </div>
-          <div className={isWide ? "border-white/[0.08] lg:border-l" : "flex flex-1"}>
+          <div className={isSpotlight ? "flex flex-1 border-t border-white/[0.08]" : isWide ? "border-white/[0.08] lg:border-l" : "flex flex-1"}>
             {renderBody()}
           </div>
         </div>

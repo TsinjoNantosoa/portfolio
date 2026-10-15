@@ -18,14 +18,17 @@ export default function PortfolioAssistantLauncher() {
           ref={launcherRef}
           type="button"
           onClick={() => setOpen(true)}
-          className="group flex h-12 min-w-12 items-center justify-center gap-2 rounded-full border border-accent/35 bg-[var(--surface-1)]/95 px-3 text-sm font-semibold text-[var(--text-primary)] shadow-[0_16px_50px_rgba(0,0,0,.35)] backdrop-blur transition hover:border-accent/70 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:px-4"
+          className="assistant-launcher group relative block h-[68px] w-[68px] text-sm font-semibold text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:h-[145px] sm:w-[350px]"
           aria-haspopup="dialog"
           aria-label={t("assistant.ask")}
         >
-          <span className="grid h-8 w-8 place-items-center text-accent">
-            <TsinjoAiMark className="h-7 w-7" />
+          <span className="assistant-launcher__copy absolute left-0 top-0 hidden min-h-20 w-[316px] items-center rounded-xl border border-[var(--border-medium)] bg-[var(--surface-1)]/95 px-5 pr-[4.75rem] text-left text-[15px] leading-snug shadow-[0_16px_50px_rgba(0,0,0,.35)] backdrop-blur transition group-hover:border-accent/60 group-hover:text-accent sm:flex">
+            {t("assistant.prompt")}
+            <span className="absolute -bottom-1.5 right-7 h-3 w-3 rotate-45 border-b border-r border-[var(--border-medium)] bg-[var(--surface-1)]" aria-hidden />
           </span>
-          <span className="hidden sm:inline">{t("assistant.ask")}</span>
+          <span className="assistant-launcher__avatar absolute bottom-0 right-0 grid h-[68px] w-[68px] place-items-center rounded-full border border-accent/55 bg-[#07110d] shadow-[0_10px_35px_rgba(13,255,163,.24)] transition group-hover:scale-105 group-hover:border-accent sm:h-[80px] sm:w-[80px]">
+            <TsinjoAiMark className="h-[52px] w-[52px] sm:h-[61px] sm:w-[61px]" />
+          </span>
         </button>
       )}
       {open && (
