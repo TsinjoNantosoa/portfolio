@@ -418,6 +418,124 @@ const french: Record<string, string> = {
     "Coordination de workflows longs et multicanaux avec idempotence, suivi des SLA et points de contrôle humains",
   "Keeping provider integrations replaceable without coupling AI reasoning to sensitive commercial data":
     "Maintien d’intégrations fournisseurs remplaçables sans coupler le raisonnement IA aux données commerciales sensibles",
+  "AI SaaS · Governed Agents · Workflows": "SaaS IA · Agents gouvernés · Workflows",
+  "React 18 + FastAPI · PostgreSQL forced RLS · Hybrid RAG · Tool Calling · Human-in-the-Loop · SSE · GitHub Actions":
+    "React 18 + FastAPI · RLS PostgreSQL forcée · RAG hybride · Tool Calling · Human-in-the-Loop · SSE · GitHub Actions",
+  "A multi-tenant operating platform where business modules, governed AI tools, RAG, and auditable workflows share one secure foundation.":
+    "Une plateforme d’exploitation multi-tenant où modules métier, outils IA gouvernés, RAG et workflows auditables partagent une fondation sécurisée.",
+  "An AI-first business platform connecting CRM, finance, projects, support, knowledge, analytics, and controlled agent actions.":
+    "Une plateforme métier AI-first reliant CRM, finance, projets, support, connaissances, analyses et actions d’agents contrôlées.",
+  "Functional full-stack MVP combining persistence-backed business operations, tenant-grounded AI assistance, controlled tool execution, and durable workflow history.":
+    "MVP full-stack fonctionnel combinant opérations métier persistées, assistance IA fondée sur les données du tenant, exécution contrôlée des outils et historique durable des workflows.",
+  "Business teams often split CRM, finance, projects, support, documents, and automation across disconnected tools. Adding a separate copilot to every silo duplicates identity, permissions, context, observability, and integration logic while making AI actions difficult to govern.":
+    "Les équipes métier répartissent souvent CRM, finance, projets, support, documents et automatisation entre des outils déconnectés. Ajouter un copilote à chaque silo duplique identité, permissions, contexte, observabilité et intégrations, tout en compliquant la gouvernance des actions IA.",
+  "AI BOS consolidates operational modules on one tenant-aware platform layer. The copilot retrieves organization knowledge, selects only registered tools, and submits sensitive mutations for approval; backend permissions, repositories, audit records, and workflow rules remain the execution authority.":
+    "AI BOS réunit les modules opérationnels sur une couche de plateforme tenant-aware. Le copilote recherche les connaissances de l’organisation, sélectionne uniquement des outils enregistrés et soumet les mutations sensibles à validation ; les permissions backend, repositories, audits et règles de workflow restent l’autorité d’exécution.",
+  "Persistence-backed CRM, finance, projects, tasks, support, documents, and platform administration":
+    "CRM, finance, projets, tâches, support, documents et administration soutenus par une vraie couche de persistance",
+  "Custom AI orchestration with an explicit tool registry and deterministic offline fallback":
+    "Orchestration IA sur mesure avec registre d’outils explicite et fallback déterministe hors ligne",
+  "Tenant-grounded Hybrid RAG with database-backed sources and citations":
+    "RAG hybride fondé sur les données du tenant, avec sources et citations issues de la base",
+  "Human approval, permission checks, audit records, and AI traces around sensitive actions":
+    "Validation humaine, contrôles de permissions, audits et traces IA autour des actions sensibles",
+  "Backend tests passed": "Tests backend réussis",
+  "Frontend tests passed": "Tests frontend réussis",
+  "Database migrations": "Migrations de base de données",
+  "Latest documented audit": "Dernier audit documenté",
+  "Vitest validation": "Validation Vitest",
+  "PostgreSQL schema and RLS": "Schéma PostgreSQL et RLS",
+  "AI BOS executive dashboard with revenue, pipeline, treasury, clients, tickets, and team metrics":
+    "Tableau de bord exécutif AI BOS avec revenus, pipeline, trésorerie, clients, tickets et indicateurs d’équipe",
+  "AI BOS executive dashboard with business KPIs and commercial pipeline":
+    "Tableau de bord exécutif AI BOS avec KPI métier et pipeline commercial",
+  "Unified executive dashboard and operational KPIs": "Tableau de bord exécutif unifié et KPI opérationnels",
+  "AI BOS project portfolio with progress, teams, budgets, and delivery dates":
+    "Portefeuille de projets AI BOS avec avancement, équipes, budgets et dates de livraison",
+  "Project portfolio, delivery progress, teams, and budgets": "Portefeuille de projets, avancement, équipes et budgets",
+  "AI BOS business analytics with revenue, conversion, customer, and funnel charts":
+    "Analyses métier AI BOS avec graphiques de revenus, conversion, clients et tunnel",
+  "Cross-module business analytics and conversion insights": "Analyses métier transverses et indicateurs de conversion",
+  "AI BOS machine learning forecast with confidence interval and AI recommendations":
+    "Prévisions machine learning AI BOS avec intervalle de confiance et recommandations IA",
+  "Machine-learning forecasts with confidence and recommendations":
+    "Prévisions machine learning avec confiance et recommandations",
+  "Functional full-stack MVP · Local and staging-oriented · Active development":
+    "MVP full-stack fonctionnel · Environnements local et staging · Développement actif",
+  "AI BOS is a modular monolith that connects business data and AI actions inside the same identity, tenant, authorization, workflow, and audit boundaries. The React application exposes permission-aware operational modules while FastAPI services, tenant-filtered repositories, and PostgreSQL provide the enforcement layer.":
+    "AI BOS est un monolithe modulaire qui place données métier et actions IA dans les mêmes frontières d’identité, de tenant, d’autorisation, de workflow et d’audit. L’application React expose des modules sensibles aux permissions, tandis que les services FastAPI, les repositories filtrés par tenant et PostgreSQL assurent l’application des règles.",
+  "React 18 and TypeScript application with protected, permission-aware routes, TanStack Query, and Zustand":
+    "Application React 18 et TypeScript avec routes protégées selon les permissions, TanStack Query et Zustand",
+  "FastAPI modular monolith organized into presentation, service, repository, and SQLAlchemy layers":
+    "Monolithe modulaire FastAPI organisé en couches présentation, service, repository et SQLAlchemy",
+  "PostgreSQL 16 with Alembic migrations, tenant-aware repository filters, and forced Row-Level Security":
+    "PostgreSQL 16 avec migrations Alembic, filtres de repository par tenant et Row-Level Security forcée",
+  "Custom tool-calling orchestrator with registered JSON schemas and a deterministic local planner fallback":
+    "Orchestrateur Tool Calling sur mesure avec schémas JSON enregistrés et fallback de planification locale déterministe",
+  "Hybrid lexical and cosine retrieval over persisted knowledge chunks with database-backed citations":
+    "Recherche hybride lexicale et cosinus sur des fragments persistés, avec citations issues de la base",
+  "Persistent domain events and visual workflows with step inputs, outputs, status, duration, and sanitized errors":
+    "Événements métier persistés et workflows visuels avec entrées, sorties, statut, durée et erreurs assainies pour chaque étape",
+  "JWT or scoped API-key identity establishes an immutable organization context":
+    "L’identité JWT ou la clé API à portée limitée établit un contexte d’organisation immuable",
+  "Business modules read and mutate data through permission checks and tenant-filtered repositories":
+    "Les modules métier lisent et modifient les données via des permissions et des repositories filtrés par tenant",
+  "The copilot retrieves tenant knowledge and either calls OpenAI or uses deterministic local intent planning":
+    "Le copilote recherche les connaissances du tenant puis appelle OpenAI ou utilise une planification d’intention locale déterministe",
+  "The model can propose only tools exposed by the explicit registry; it never receives arbitrary database or shell access":
+    "Le modèle ne peut proposer que les outils du registre explicite ; il ne reçoit jamais d’accès arbitraire à la base ou au shell",
+  "Medium-risk mutations are persisted as pending actions and re-authorized when a human approves them":
+    "Les mutations à risque moyen sont enregistrées comme actions en attente puis réautorisées lors de leur validation humaine",
+  "Tool results, audit records, AI traces, notifications, and workflow execution history remain inspectable":
+    "Résultats d’outils, audits, traces IA, notifications et historique d’exécution des workflows restent consultables",
+  "AI reasons; the platform authorizes and executes": "L’IA raisonne ; la plateforme autorise et exécute",
+  "The model may select a registered tool and prepare its parameters, but authenticated tenant context, named backend permissions, risk metadata, human approval, repository validation, and audit logging determine whether the action can run.":
+    "Le modèle peut sélectionner un outil enregistré et préparer ses paramètres, mais le contexte tenant authentifié, les permissions backend, le niveau de risque, la validation humaine, les contrôles du repository et l’audit déterminent si l’action peut s’exécuter.",
+  "Use a modular monolith to keep cross-module transactions and platform policies coherent at the MVP stage":
+    "Utiliser un monolithe modulaire pour maintenir la cohérence des transactions transverses et des politiques de plateforme au stade MVP",
+  "Treat the tenant header as a consistency assertion, never as a way to switch organizations":
+    "Traiter l’en-tête tenant comme une vérification de cohérence, jamais comme un moyen de changer d’organisation",
+  "Keep authorization in backend policy code instead of prompts or model output":
+    "Conserver l’autorisation dans le code de politique backend plutôt que dans les prompts ou les sorties du modèle",
+  "Persist approval requests before sensitive mutations and re-check the approver's permissions at execution time":
+    "Persister les demandes de validation avant toute mutation sensible et revérifier les permissions de l’approbateur à l’exécution",
+  "Provide deterministic local embeddings and intent planning so core demonstrations remain usable without an AI provider":
+    "Fournir embeddings et planification d’intention locaux déterministes pour que les démonstrations principales fonctionnent sans fournisseur IA",
+  "PBKDF2 password hashing, signed JWTs, hashed refresh sessions, rotation, reuse detection, and revocation":
+    "Hachage PBKDF2 des mots de passe, JWT signés, sessions refresh hachées, rotation, détection de réutilisation et révocation",
+  "Named RBAC permissions, scoped API keys, tenant repository filters, and forced PostgreSQL Row-Level Security":
+    "Permissions RBAC nommées, clés API à portée limitée, filtres par tenant et Row-Level Security PostgreSQL forcée",
+  "Google and Microsoft OAuth with state, PKCE, verified profiles, and invitation-gated onboarding":
+    "OAuth Google et Microsoft avec state, PKCE, profils vérifiés et onboarding limité aux invitations",
+  "Secret redaction, security headers, production CORS validation, audit records, and disabled production OpenAPI routes":
+    "Masquage des secrets, en-têtes de sécurité, validation CORS en production, audits et routes OpenAPI désactivées en production",
+  "Outbound workflow requests reject credentials in URLs and local, private, or reserved network targets":
+    "Les requêtes sortantes des workflows refusent les identifiants dans les URL et les cibles réseau locales, privées ou réservées",
+  "OpenAI function calling and embeddings with deterministic local fallbacks":
+    "Function Calling et embeddings OpenAI avec fallbacks locaux déterministes",
+  "Google and Microsoft OAuth": "OAuth Google et Microsoft",
+  "Stripe billing webhooks": "Webhooks de facturation Stripe",
+  "SMTP email and in-app notifications": "Emails SMTP et notifications intégrées",
+  "S3-compatible document storage": "Stockage documentaire compatible S3",
+  "Render, Vercel, Docker Compose, and GitHub Actions": "Render, Vercel, Docker Compose et GitHub Actions",
+  "One platform foundation connects operational modules, tenant knowledge, AI tools, workflows, notifications, and audit history":
+    "Une même fondation relie modules opérationnels, connaissances du tenant, outils IA, workflows, notifications et historique d’audit",
+  "Sensitive agent actions remain inspectable and require approval before controlled execution":
+    "Les actions sensibles des agents restent consultables et exigent une validation avant exécution contrôlée",
+  "Database-grounded citations keep retrieved evidence separate from model-generated claims":
+    "Les citations fondées sur la base séparent les preuves récupérées des affirmations générées par le modèle",
+  "The documented audit reports 214 passing backend tests, 16 passing frontend tests, and successful production builds":
+    "L’audit documenté rapporte 214 tests backend réussis, 16 tests frontend réussis et des builds de production validés",
+  "Designing AI features as part of the authorization and data architecture rather than as a detached chat layer":
+    "Concevoir les fonctions IA au sein de l’architecture d’autorisation et de données plutôt que comme une couche de chat isolée",
+  "Enforcing tenant isolation redundantly across identity claims, repositories, and PostgreSQL policies":
+    "Appliquer l’isolation des tenants de manière redondante dans les claims d’identité, repositories et politiques PostgreSQL",
+  "Balancing portable local development with clearly documented production scaling limits":
+    "Équilibrer un développement local portable avec des limites de montée en charge clairement documentées",
+  "Separating implemented runtime behavior from roadmap concepts and partial module surfaces":
+    "Distinguer le comportement réellement implémenté des concepts de roadmap et des modules encore partiels",
+  "The copilot can read authorized business context and propose actions, but sensitive mutations such as creating a CRM lead or an assigned task are stored as pending actions. Approval triggers a fresh permission check before controlled execution; rejection stops the operation.":
+    "Le copilote peut lire le contexte métier autorisé et proposer des actions, mais les mutations sensibles, comme créer un lead CRM ou une tâche assignée, sont enregistrées comme actions en attente. La validation déclenche un nouveau contrôle des permissions avant exécution ; le refus arrête l’opération.",
 };
 
 export function localizePortfolioText(

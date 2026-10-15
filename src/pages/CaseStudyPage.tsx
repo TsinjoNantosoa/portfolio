@@ -90,15 +90,27 @@ const CaseStudyPage: React.FC = () => {
         {hasMediaSlot && (
           <div className="mb-10 min-w-0 max-w-full overflow-hidden rounded-2xl border border-white/10">
             {hasMedia && project.imageUrl ? (
-              <ProjectMedia
-                src={project.imageUrl}
-                alt={mediaAlt}
-                aspectClassName={project.imageFit === "contain" ? "aspect-[2/1]" : "aspect-[16/10]"}
-                objectPosition={project.showArchitectureDiagram ? "object-right" : "object-top"}
-                objectFit={project.imageFit}
-                imageClassName={project.showArchitectureDiagram ? "origin-right scale-[1.2]" : ""}
-                onError={() => setMediaFailed(true)}
-              />
+              <a
+                href={project.imageUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/media block cursor-zoom-in overflow-hidden"
+                aria-label={
+                  language === "fr"
+                    ? `Ouvrir l'image de ${project.title} en pleine resolution`
+                    : `Open the ${project.title} image at full resolution`
+                }
+              >
+                <ProjectMedia
+                  src={project.imageUrl}
+                  alt={mediaAlt}
+                  aspectClassName={project.imageFit === "contain" ? "aspect-[2/1]" : "aspect-[16/10]"}
+                  objectPosition={project.showArchitectureDiagram ? "object-right" : "object-top"}
+                  objectFit={project.imageFit}
+                  imageClassName={`${project.showArchitectureDiagram ? "origin-right scale-[1.2]" : ""} transition duration-300 group-hover/media:brightness-110`}
+                  onError={() => setMediaFailed(true)}
+                />
+              </a>
             ) : (
               <ProjectMediaPlaceholder
                 title={project.title}
