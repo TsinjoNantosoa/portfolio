@@ -536,6 +536,116 @@ const french: Record<string, string> = {
     "Distinguer le comportement réellement implémenté des concepts de roadmap et des modules encore partiels",
   "The copilot can read authorized business context and propose actions, but sensitive mutations such as creating a CRM lead or an assigned task are stored as pending actions. Approval triggers a fresh permission check before controlled execution; rejection stops the operation.":
     "Le copilote peut lire le contexte métier autorisé et proposer des actions, mais les mutations sensibles, comme créer un lead CRM ou une tâche assignée, sont enregistrées comme actions en attente. La validation déclenche un nouveau contrôle des permissions avant exécution ; le refus arrête l’opération.",
+  "Agentic CRM · Governance · Human Approval": "CRM agentique · Gouvernance · Validation humaine",
+  "A production-oriented CRM intelligence layer where AI proposes typed actions and the application retains authority over every business mutation.":
+    "Une couche d’intelligence CRM orientée production où l’IA propose des actions typées et où l’application conserve l’autorité sur chaque mutation métier.",
+  "A governed AI layer that analyzes CRM context, retrieves authorized knowledge, and proposes traceable actions without giving the model direct control over business data.":
+    "Une couche IA gouvernée qui analyse le contexte CRM, recherche les connaissances autorisées et propose des actions traçables sans donner au modèle le contrôle direct des données métier.",
+  "React 19 + FastAPI · LangGraph · PostgreSQL · Qdrant · Redis/Celery · Deterministic policy engine · Human-in-the-Loop":
+    "React 19 + FastAPI · LangGraph · PostgreSQL · Qdrant · Redis/Celery · Moteur de règles déterministe · Human-in-the-Loop",
+  "Full-stack governed Agentic CRM reference implementation with tenant-scoped intelligence, typed tool proposals, deterministic authorization, atomic human approval, controlled connectors, and correlated audit trails.":
+    "Implémentation de référence full-stack d’un CRM agentique gouverné, avec intelligence limitée au tenant, propositions d’outils typées, autorisation déterministe, validation humaine atomique, connecteurs contrôlés et pistes d’audit corrélées.",
+  "CRM teams benefit from AI summaries, call analysis, internal knowledge retrieval, and next-step recommendations. The risk begins when probabilistic model output is treated as permission to change lead status, move an opportunity, or create downstream work without deterministic access checks, tenant isolation, concurrency control, and an accountable decision trail.":
+    "Les équipes CRM bénéficient des résumés IA, de l’analyse des appels, de la recherche interne et des recommandations. Le risque apparaît lorsque la sortie probabiliste du modèle devient une autorisation de modifier un lead, déplacer une opportunité ou créer du travail sans contrôles d’accès déterministes, isolation du tenant, maîtrise de la concurrence et piste de décision responsable.",
+  "Arcwell treats every model-generated mutation as untrusted structured input. LangGraph assembles authorized CRM and knowledge context, the provider returns Pydantic-validated proposals, and a deterministic policy engine decides whether each proposal is denied, permitted, or held for approval. Only a trusted application service can execute an approved command through a typed CRM connector.":
+    "Arcwell traite chaque mutation générée par le modèle comme une entrée structurée non fiable. LangGraph assemble le contexte CRM et documentaire autorisé, le fournisseur renvoie des propositions validées par Pydantic, puis un moteur déterministe décide de refuser, autoriser ou soumettre chaque proposition à validation. Seul un service applicatif de confiance peut exécuter une commande approuvée via un connecteur CRM typé.",
+  "LangGraph account intelligence over tenant-scoped CRM and role-filtered knowledge":
+    "Intelligence de compte LangGraph sur un CRM limité au tenant et des connaissances filtrées par rôle",
+  "Typed proposals evaluated by deterministic policy before any sensitive CRM mutation":
+    "Propositions typées évaluées par des règles déterministes avant toute mutation CRM sensible",
+  "Atomic Manager/Admin approval with policy re-check and stale-value conflict protection":
+    "Validation atomique Manager/Admin avec revérification des règles et protection contre les valeurs obsolètes",
+  "Correlated audit, execution, AI usage, automation, and transactional outbox records":
+    "Enregistrements corrélés d’audit, d’exécution, d’usage IA, d’automatisation et d’outbox transactionnelle",
+  "Audited pytest suite": "Suite pytest auditée",
+  "Measured coverage": "Couverture mesurée",
+  "Backend line coverage": "Couverture des lignes backend",
+  "Production-oriented reference implementation · Full-stack demo · Active development":
+    "Implémentation de référence orientée production · Démo full-stack · Développement actif",
+  "Arcwell is a FastAPI modular monolith with a React client and Celery workers. Its central trust boundary is explicit: models may analyze evidence and propose typed actions, while authenticated application services retain authority over mutations. The complete Docker profile runs PostgreSQL, Redis, Qdrant, migrations, deterministic demo providers, the API, workers, and the frontend without requiring external credentials.":
+    "Arcwell est un monolithe modulaire FastAPI avec un client React et des workers Celery. Sa frontière de confiance est explicite : les modèles analysent les preuves et proposent des actions typées, tandis que les services applicatifs authentifiés conservent l’autorité sur les mutations. Le profil Docker complet exécute PostgreSQL, Redis, Qdrant, les migrations, les fournisseurs de démonstration déterministes, l’API, les workers et le frontend sans identifiants externes.",
+  "React 19 and TypeScript client with TanStack Query plus swappable HTTP and demo data providers":
+    "Client React 19 et TypeScript avec TanStack Query et fournisseurs de données HTTP ou démo interchangeables",
+  "FastAPI modular monolith with async SQLAlchemy, Pydantic contracts, Alembic migrations, and RBAC dependencies":
+    "Monolithe modulaire FastAPI avec SQLAlchemy asynchrone, contrats Pydantic, migrations Alembic et dépendances RBAC",
+  "LangGraph StateGraph for account intelligence and direct governed FastAPI flows for RAG and call analysis":
+    "StateGraph LangGraph pour l’intelligence de compte et flux FastAPI gouvernés pour le RAG et l’analyse des appels",
+  "PostgreSQL as the source of truth, Redis for rate limits and Celery, and optional filtered Qdrant retrieval":
+    "PostgreSQL comme source de vérité, Redis pour les limites et Celery, avec recherche Qdrant filtrée en option",
+  "Typed provider and connector boundaries for AI, embeddings, CRM, email, telephony, transcription, and vector search":
+    "Frontières typées pour les fournisseurs et connecteurs IA, embeddings, CRM, email, téléphonie, transcription et recherche vectorielle",
+  "Transactional proposal, approval, execution, audit, and outbox lifecycle with correlated request metadata":
+    "Cycle transactionnel proposition, validation, exécution, audit et outbox avec métadonnées de requête corrélées",
+  "The API authenticates the actor and reconstructs organization and role claims from a signed access token":
+    "L’API authentifie l’acteur et reconstruit l’organisation et le rôle depuis un jeton d’accès signé",
+  "LangGraph loads organization-scoped CRM aggregates and retrieves only knowledge permitted for the actor's role":
+    "LangGraph charge les agrégats CRM limités à l’organisation et uniquement les connaissances autorisées pour le rôle de l’acteur",
+  "The configured deterministic or OpenAI provider returns a structured analysis and typed action proposals":
+    "Le fournisseur déterministe ou OpenAI configuré renvoie une analyse structurée et des propositions d’actions typées",
+  "Each proposal is schema-validated and checked against tool allowlists, role permissions, tenant ownership, and sensitivity rules":
+    "Chaque proposition est validée par schéma puis contrôlée selon les outils autorisés, permissions du rôle, appartenance au tenant et règles de sensibilité",
+  "Sensitive proposals are persisted for a Manager or Administrator to approve or reject outside the model":
+    "Les propositions sensibles sont persistées afin qu’un Manager ou Administrateur les approuve ou les refuse hors du modèle",
+  "Approval acquires a row lock, atomically claims execution, re-runs policy, checks for stale CRM values, and dispatches through the trusted CRM service":
+    "La validation verrouille la ligne, revendique atomiquement l’exécution, rejoue les règles, contrôle les valeurs CRM obsolètes et délègue au service CRM de confiance",
+  "The outcome, before/after values, actor, evidence, correlation IDs, audit event, and outbox event are committed together":
+    "Le résultat, les valeurs avant/après, l’acteur, les preuves, identifiants de corrélation, l’audit et l’événement outbox sont validés ensemble",
+  "AI proposes; the system authorizes": "L’IA propose ; le système autorise",
+  "Natural-language model output is never accepted as permission. Arcwell parses supported responses into finite Pydantic schemas, evaluates policy in ordinary Python code, persists the decision, and permits execution only through an authenticated application service after any required human approval.":
+    "La sortie en langage naturel du modèle n’est jamais acceptée comme permission. Arcwell analyse les réponses prises en charge dans des schémas Pydantic finis, évalue les règles en Python, persiste la décision et n’autorise l’exécution que via un service applicatif authentifié après toute validation humaine requise.",
+  "Keep authorization outside prompts so policy remains deterministic and independently testable":
+    "Garder l’autorisation hors des prompts afin que les règles restent déterministes et testables indépendamment",
+  "Filter organization and access-level knowledge before evidence reaches the model":
+    "Filtrer les connaissances selon l’organisation et le niveau d’accès avant qu’elles atteignent le modèle",
+  "Separate approval from execution and use row locks plus conditional state transitions to prevent duplicate concurrent writes":
+    "Séparer validation et exécution, puis utiliser des verrous de ligne et transitions conditionnelles pour empêcher les écritures concurrentes dupliquées",
+  "Re-check policy and compare observed CRM values immediately before an approved mutation":
+    "Revérifier les règles et comparer les valeurs CRM observées immédiatement avant une mutation approuvée",
+  "Use a modular monolith to preserve simple transaction boundaries across approval, mutation, audit, and outbox records":
+    "Utiliser un monolithe modulaire pour conserver des frontières transactionnelles simples entre validation, mutation, audit et outbox",
+  "Expose deterministic demo providers explicitly as simulated instead of presenting seeded integrations as live":
+    "Présenter explicitement les fournisseurs de démonstration déterministes comme simulés au lieu de faire passer les intégrations initialisées pour du live",
+  "Argon2id passwords, short-lived signed JWTs, rotated hashed refresh tokens, HttpOnly cookies, and revocation":
+    "Mots de passe Argon2id, JWT signés de courte durée, jetons refresh hachés et renouvelés, cookies HttpOnly et révocation",
+  "RBAC for Administrator, Manager, and Sales Representative plus organization predicates and object-level checks":
+    "RBAC pour Administrateur, Manager et Commercial, avec prédicats d’organisation et contrôles au niveau objet",
+  "Tool allowlist, forbidden capabilities, typed arguments, risk classification, and tenant validation before execution":
+    "Liste d’outils autorisés, capacités interdites, arguments typés, classification du risque et validation du tenant avant exécution",
+  "Signed Twilio/Plivo and HMAC webhooks with replay protection, event idempotency, and Redis-backed rate limits":
+    "Webhooks Twilio/Plivo signés et HMAC avec protection anti-rejeu, idempotence des événements et limites soutenues par Redis",
+  "Upload type, size, filename, tenant-path, and retrieval-access validation for PDF, DOCX, TXT, and Markdown knowledge":
+    "Validation du type, de la taille, du nom, du chemin tenant et de l’accès à la recherche pour les connaissances PDF, DOCX, TXT et Markdown",
+  "HTTPS-only transcription URLs with host allowlists, DNS/private-address checks, redirect blocking, and content limits":
+    "URL de transcription HTTPS uniquement avec hôtes autorisés, contrôles DNS/adresses privées, redirections bloquées et limites de contenu",
+  "Local PostgreSQL CRM and SuiteCRM REST V8 connector": "CRM PostgreSQL local et connecteur SuiteCRM REST V8",
+  "OpenAI Responses API and deterministic demo AI provider": "API Responses d’OpenAI et fournisseur IA de démonstration déterministe",
+  "PostgreSQL lexical retrieval and Qdrant vector retrieval": "Recherche lexicale PostgreSQL et recherche vectorielle Qdrant",
+  "Twilio and Plivo signed inbound webhooks": "Webhooks entrants signés Twilio et Plivo",
+  "SendGrid adapter and n8n signed webhook ingestion": "Adaptateur SendGrid et ingestion de webhooks n8n signés",
+  "Prometheus metrics, structured JSON logs, Docker Compose, and GitHub Actions":
+    "Métriques Prometheus, logs JSON structurés, Docker Compose et GitHub Actions",
+  "A traceable account-intelligence flow from authorized evidence to proposal, policy decision, approval, and controlled mutation":
+    "Un flux d’intelligence de compte traçable, depuis les preuves autorisées jusqu’à la proposition, la décision, la validation et la mutation contrôlée",
+  "Executable approved actions for lead status, opportunity stage, and follow-up task creation":
+    "Actions approuvées exécutables pour le statut des leads, l’étape des opportunités et la création de tâches de suivi",
+  "Tenant- and role-filtered retrieval across PostgreSQL and Qdrant implementations":
+    "Recherche filtrée par tenant et rôle dans les implémentations PostgreSQL et Qdrant",
+  "The audited repository reports 99 passing backend tests with 71% measured coverage and 13 passing frontend tests":
+    "Le dépôt audité rapporte 99 tests backend réussis avec 71 % de couverture mesurée et 13 tests frontend réussis",
+  "CI validates linting, migrations, tests, builds, and Docker Compose configuration against PostgreSQL 16":
+    "La CI valide lint, migrations, tests, builds et configuration Docker Compose avec PostgreSQL 16",
+  "Model output should be treated as evidence for a decision, never as an authorization decision":
+    "La sortie du modèle doit être une preuve pour une décision, jamais une décision d’autorisation",
+  "Human approval is reliable only when execution is atomic, re-authorized, idempotent, and protected against stale data":
+    "La validation humaine n’est fiable que si l’exécution est atomique, réautorisée, idempotente et protégée des données obsolètes",
+  "Tenant isolation must cover CRM queries, connector context, approval lookup, and vector retrieval before generation":
+    "L’isolation du tenant doit couvrir les requêtes CRM, le contexte des connecteurs, la recherche des validations et la recherche vectorielle avant génération",
+  "Provider abstractions should reveal implementation maturity instead of making every available adapter look production-connected":
+    "Les abstractions de fournisseurs doivent montrer leur maturité réelle au lieu de faire paraître chaque adaptateur connecté en production",
+  "Production-oriented documentation must disclose validation gaps; the current dependency set still requires mypy remediation":
+    "Une documentation orientée production doit exposer les écarts de validation ; les dépendances actuelles nécessitent encore une correction mypy",
+  "Managers and Administrators can approve or reject sensitive proposals; Sales Representatives may inspect them but cannot resolve them. Rejection executes nothing. Approval re-evaluates policy and current CRM state before the application service performs a supported command, preventing the model or an outdated proposal from bypassing business control.":
+    "Les Managers et Administrateurs peuvent approuver ou refuser les propositions sensibles ; les Commerciaux peuvent les consulter sans les résoudre. Un refus n’exécute rien. Une validation réévalue les règles et l’état CRM courant avant que le service applicatif lance une commande prise en charge, empêchant le modèle ou une proposition obsolète de contourner le contrôle métier.",
 };
 
 export function localizePortfolioText(
