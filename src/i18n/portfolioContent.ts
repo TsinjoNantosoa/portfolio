@@ -646,6 +646,9 @@ const french: Record<string, string> = {
     "Une documentation orientée production doit exposer les écarts de validation ; les dépendances actuelles nécessitent encore une correction mypy",
   "Managers and Administrators can approve or reject sensitive proposals; Sales Representatives may inspect them but cannot resolve them. Rejection executes nothing. Approval re-evaluates policy and current CRM state before the application service performs a supported command, preventing the model or an outdated proposal from bypassing business control.":
     "Les Managers et Administrateurs peuvent approuver ou refuser les propositions sensibles ; les Commerciaux peuvent les consulter sans les résoudre. Un refus n’exécute rien. Une validation réévalue les règles et l’état CRM courant avant que le service applicatif lance une commande prise en charge, empêchant le modèle ou une proposition obsolète de contourner le contrôle métier.",
+  "AI / RAG": "IA / RAG",
+  "Automation": "Automatisation",
+  "Backend & Data": "Backend et données",
 };
 
 export function localizePortfolioText(

@@ -7,6 +7,8 @@ export const featuredProjects: FeaturedProject[] = [
     number: "01",
     title: "Enterprise RAG & AI Commercial Agent Platform",
     label: "Featured Professional Project · Production + Pilot",
+    categories: ["RAG & GenAI", "AI Agents", "Full-Stack"],
+    maturity: "Production",
     plainSummary:
       "A multi-tenant conversational AI platform combining grounded knowledge assistants with a controlled commercial agent that can select and use approved business tools.",
     technicalSummary:
@@ -95,6 +97,8 @@ export const featuredProjects: FeaturedProject[] = [
     title: "Offshore Fares",
     subtitle: "AI Travel Operations Orchestrator",
     label: "AI Automation · Travel Operations",
+    categories: ["AI Agents", "Automation / n8n", "Full-Stack"],
+    maturity: "Prototype",
     plainSummary:
       "AI-powered travel operations platform that transforms email and WhatsApp fare requests into structured RFQs and orchestrates Fare Desk operations, human-approved quotes, booking handoff, and after-sales workflows.",
     technicalSummary:
@@ -251,6 +255,8 @@ export const featuredProjects: FeaturedProject[] = [
     subtitle:
       "A production-oriented CRM intelligence layer where AI proposes typed actions and the application retains authority over every business mutation.",
     label: "Agentic CRM · Governance · Human Approval",
+    categories: ["RAG & GenAI", "AI Agents", "Full-Stack"],
+    maturity: "Prototype",
     plainSummary:
       "A governed AI layer that analyzes CRM context, retrieves authorized knowledge, and proposes traceable actions without giving the model direct control over business data.",
     technicalSummary:
@@ -354,6 +360,8 @@ export const featuredProjects: FeaturedProject[] = [
     subtitle:
       "A multi-tenant operating platform where business modules, governed AI tools, RAG, and auditable workflows share one secure foundation.",
     label: "AI SaaS · Governed Agents · Workflows",
+    categories: ["RAG & GenAI", "AI Agents", "Full-Stack"],
+    maturity: "Deployed Demo",
     plainSummary:
       "An AI-first business platform connecting CRM, finance, projects, support, knowledge, analytics, and controlled agent actions.",
     technicalSummary:
@@ -471,6 +479,8 @@ export const featuredProjects: FeaturedProject[] = [
     number: "05",
     title: "SIHIA — AI-Powered HealthTech Platform",
     label: "HealthTech · Hybrid RAG",
+    categories: ["RAG & GenAI", "Full-Stack", "Data Engineering"],
+    maturity: "Deployed Demo",
     subtitle:
       "Healthcare operations, predictive planning, and a citation-first AI assistant in one secure full-stack platform.",
     plainSummary:
@@ -591,6 +601,8 @@ export const featuredProjects: FeaturedProject[] = [
     subtitle:
       "AI-assisted lead qualification and sales automation with deterministic scoring and Human-in-the-Loop control.",
     label: "Sales Automation · LangGraph",
+    categories: ["AI Agents", "Automation / n8n", "Full-Stack"],
+    maturity: "Prototype",
     plainSummary:
       "An AI-assisted sales platform that qualifies leads, gathers structured information, and automates follow-up workflows while keeping business scoring deterministic and sensitive decisions under human control.",
     technicalSummary:
@@ -687,6 +699,8 @@ export const secondaryProjects: SecondaryProject[] = [
     title: "World Bank AI Chatbot (RAG)",
     description: "Ask questions about World Bank open data and get sourced answers.",
     category: "AI / RAG",
+    categories: ["RAG & GenAI", "Full-Stack"],
+    maturity: "Prototype",
     stack: ["Python", "RAG", "FAISS", "FastAPI"],
     imageUrl: "/portfolio-uploads/worldbank-ai-chatbot.png",
     githubLink: "https://github.com/TsinjoNantosoa/worldbank-ai-chatbot",
@@ -696,6 +710,8 @@ export const secondaryProjects: SecondaryProject[] = [
     title: "IoT Kafka Spark Pipeline",
     description: "Real-time IoT streaming pipeline prepared for analytics ingestion.",
     category: "Backend & Data",
+    categories: ["Data Engineering"],
+    maturity: "Prototype",
     stack: ["Kafka", "Spark", "AWS", "Python"],
     githubLink: "https://github.com/TsinjoNantosoa/iot-kafka-spark-redshift-pipeline",
   },
@@ -704,6 +720,8 @@ export const secondaryProjects: SecondaryProject[] = [
     title: "Weather ETL with Airflow",
     description: "Scheduled weather data extraction and transformation for analytics.",
     category: "Backend & Data",
+    categories: ["Automation / n8n", "Data Engineering"],
+    maturity: "Prototype",
     stack: ["Airflow", "Python", "ETL"],
     githubLink: "https://github.com/TsinjoNantosoa/weather_etl",
   },
@@ -712,6 +730,8 @@ export const secondaryProjects: SecondaryProject[] = [
     title: "Bank Loan Analytics Dashboard",
     description: "Portfolio quality and banking risk indicators in one dashboard.",
     category: "Backend & Data",
+    categories: ["Data Engineering"],
+    maturity: "Prototype",
     stack: ["Power BI", "SQL", "Dashboard"],
     imageUrl: "/portfolio-uploads/bank-loan-dashboard.png",
     githubLink: "https://github.com/TsinjoNantosoa/bank-loan-analytics-dashboard",

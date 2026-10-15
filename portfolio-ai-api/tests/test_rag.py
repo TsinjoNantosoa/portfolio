@@ -117,6 +117,7 @@ def test_generated_public_corpus_has_depth_valid_routes_and_no_private_markers()
         "/#background",
         "/#contact",
         "/work/multi-tenant-rag",
+        "/work/offshore-fares",
         "/work/arcwell-agentic-crm",
         "/work/ai-business-os",
         "/work/sihia",

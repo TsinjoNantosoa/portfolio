@@ -5,6 +5,13 @@ import ProjectMedia from "@/components/ui-kit/ProjectMedia";
 import { useI18n } from "@/i18n/I18nProvider";
 import { localizePortfolioText } from "@/i18n/portfolioContent";
 
+const maturityKey = {
+  Production: "maturity.production",
+  "Deployed Demo": "maturity.deployedDemo",
+  Prototype: "maturity.prototype",
+  Research: "maturity.research",
+} as const;
+
 interface SecondaryProjectCardProps {
   project: SecondaryProject;
 }
@@ -25,9 +32,14 @@ const SecondaryProjectCard: React.FC<SecondaryProjectCardProps> = ({ project }) 
         />
       )}
       <div className="flex flex-1 flex-col p-4">
-        <p className="mb-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-neon/80">
-          {project.category}
-        </p>
+        <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-neon/80">
+            {localizePortfolioText(project.category, language)}
+          </p>
+          <span className="inline-flex min-h-6 items-center rounded-full border border-white/15 px-2 font-mono text-[9px] uppercase text-[var(--text-muted)]">
+            {t(maturityKey[project.maturity])}
+          </span>
+        </div>
         <h3 className="mb-2 text-base font-semibold leading-snug text-[var(--text-primary)]">
           {project.title}
         </h3>

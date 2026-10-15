@@ -7,6 +7,13 @@ import ProjectMedia, { ProjectMediaPlaceholder } from "@/components/ui-kit/Proje
 import { useI18n } from "@/i18n/I18nProvider";
 import { localizePortfolioText } from "@/i18n/portfolioContent";
 
+const maturityKey = {
+  Production: "maturity.production",
+  "Deployed Demo": "maturity.deployedDemo",
+  Prototype: "maturity.prototype",
+  Research: "maturity.research",
+} as const;
+
 interface FeaturedProjectCardProps {
   project: FeaturedProject;
   index?: number;
@@ -42,6 +49,9 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
         <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-neon/90">
           {localizePortfolioText(project.label, language)}
         </span>
+        <span className="ml-auto inline-flex min-h-7 items-center rounded-full border border-white/15 bg-white/[0.035] px-2.5 font-mono text-[10px] uppercase text-[var(--text-muted)]">
+          {t(maturityKey[project.maturity])}
+        </span>
       </div>
 
       {isFlagship && (
@@ -64,7 +74,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
         {localizePortfolioText(project.plainSummary, language)}
       </p>
       <p className="mb-4 line-clamp-2 font-mono text-[12.5px] leading-relaxed text-[var(--text-muted)]">
-        {project.technicalSummary}
+        {localizePortfolioText(project.technicalSummary, language)}
       </p>
 
       <ul className="mb-5 space-y-2.5">

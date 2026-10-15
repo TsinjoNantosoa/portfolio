@@ -54,14 +54,14 @@ const Hero: React.FC = () => {
           <div className="col-span-12 lg:col-span-7">
             <motion.p
               {...fade(0, 0.42)}
-              className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-neon sm:text-xs"
+              className="mb-3 max-w-full break-words font-mono text-[10px] uppercase leading-relaxed tracking-[0.18em] text-neon sm:text-xs sm:tracking-[0.2em]"
             >
               {t("hero.eyebrow")}
             </motion.p>
 
             <motion.h1
               {...fade(0.08, 0.52)}
-              className="mb-4 max-w-[720px] text-balance font-sans text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[1.03] tracking-tight text-[var(--text-primary)]"
+              className="mb-4 max-w-[720px] break-words text-balance font-sans text-[2.15rem] font-semibold leading-[1.06] tracking-normal text-[var(--text-primary)] sm:text-5xl lg:text-[4.6rem]"
             >
               {t("hero.title")}
             </motion.h1>
@@ -75,7 +75,7 @@ const Hero: React.FC = () => {
 
             <motion.p
               {...fade(0.2, 0.46)}
-              className="mb-2 max-w-[650px] text-[16.5px] leading-relaxed text-[var(--text-secondary)] sm:text-[17.5px]"
+              className="mb-2 w-full max-w-[min(100%,340px)] break-words text-[16.5px] leading-relaxed text-[var(--text-secondary)] sm:max-w-[650px] sm:text-[17.5px]"
             >
               {t("hero.description")}
             </motion.p>
@@ -99,15 +99,9 @@ const Hero: React.FC = () => {
                 <ArrowDown size={16} />
               </a>
               <a
-                href="#experience"
-                className="btn-outline px-6"
-              >
-                {t("hero.experience")}
-              </a>
-              <a
                 href={CV_PATH}
                 download
-                className="inline-flex min-h-11 items-center gap-2 px-2 text-sm text-[var(--text-muted)] transition hover:text-white"
+                className="btn-outline gap-2 px-6"
               >
                 <Download size={15} />
                 {t("hero.cv")}
@@ -149,6 +143,9 @@ const Hero: React.FC = () => {
         </div>
 
         <div className="border-y border-white/10 py-5 sm:py-6">
+          <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">
+            {t("metrics.title")}
+          </p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-0">
             {metrics.map((metric) => (
               <div key={metric.label} className="rounded-xl border border-white/[0.08] bg-white/[0.015] p-4 sm:rounded-none sm:border-y-0 sm:border-r-0 sm:bg-transparent sm:px-6 sm:py-1 first:sm:border-l-0 first:sm:pl-0">

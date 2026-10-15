@@ -10,6 +10,15 @@ export interface ProjectGalleryImage {
   title: string;
 }
 
+export type ProjectCategory =
+  | "RAG & GenAI"
+  | "AI Agents"
+  | "Automation / n8n"
+  | "Full-Stack"
+  | "Data Engineering";
+
+export type ProjectMaturity = "Production" | "Deployed Demo" | "Prototype" | "Research";
+
 export interface FeaturedProject {
   id: string;
   slug: string;
@@ -17,6 +26,8 @@ export interface FeaturedProject {
   title: string;
   subtitle?: string;
   label: string;
+  categories: ProjectCategory[];
+  maturity: ProjectMaturity;
   plainSummary: string;
   technicalSummary: string;
   description: string;
@@ -66,6 +77,8 @@ export interface SecondaryProject {
   title: string;
   description: string;
   category: "AI / RAG" | "Automation" | "Backend & Data";
+  categories: ProjectCategory[];
+  maturity: ProjectMaturity;
   stack: string[];
   imageUrl?: string;
   githubLink?: string;

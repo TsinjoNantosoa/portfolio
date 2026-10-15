@@ -24,6 +24,11 @@ const Index = () => {
     document.querySelector('meta[name="description"]')?.setAttribute("content", description);
     document.querySelector('meta[property="og:title"]')?.setAttribute("content", title);
     document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
+    document.querySelector('meta[property="og:url"]')?.setAttribute("content", "https://tsinjona.netlify.app/");
+    document.querySelector('meta[property="og:image"]')?.setAttribute("content", "https://tsinjona.netlify.app/og-image.png");
+    document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", title);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", description);
+    document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", "https://tsinjona.netlify.app/og-image.png");
     document.querySelector('link[rel="canonical"]')?.setAttribute("href", "https://tsinjona.netlify.app/");
   }, [language]);
 
