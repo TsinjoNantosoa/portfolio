@@ -153,7 +153,7 @@ const CaseStudyPage: React.FC = () => {
                   >
                     <img
                       src={image.src}
-                      alt={image.alt}
+                      alt={localizePortfolioText(image.alt, language)}
                       loading="lazy"
                       width={1760}
                       height={850}

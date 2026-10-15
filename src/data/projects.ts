@@ -347,6 +347,28 @@ export const featuredProjects: FeaturedProject[] = [
     stack: ["React 19", "TypeScript", "FastAPI", "SQLAlchemy", "Alembic", "PostgreSQL", "Qdrant", "BM25 / RRF", "FastEmbed", "OpenAI", "Playwright", "Docker"],
     imageUrl: "/portfolio-uploads/sihia-rag-dashboard.png",
     imageAlt: "SIHIA healthcare operations dashboard with predictive analytics and grounded AI assistant",
+    gallery: [
+      {
+        src: "/portfolio-uploads/sihia-notifications-ai-assistant.webp",
+        alt: "SIHIA notification center with grounded healthcare assistant conversation",
+        title: "Proactive notifications and the grounded SIHIA assistant",
+      },
+      {
+        src: "/portfolio-uploads/sihia-healthcare-analytics.webp",
+        alt: "SIHIA healthcare analytics dashboard with revenue admissions satisfaction and age charts",
+        title: "Hospital analytics, occupancy, admissions, and patient satisfaction",
+      },
+      {
+        src: "/portfolio-uploads/sihia-doctor-directory.webp",
+        alt: "SIHIA practitioner directory showing availability schedules and patient metrics",
+        title: "Practitioner directory with availability and weekly planning",
+      },
+      {
+        src: "/portfolio-uploads/sihia-ai-prediction.webp",
+        alt: "SIHIA AI prediction screen for patient flow and no-show risk",
+        title: "Patient-flow forecasting and no-show risk prioritization",
+      },
+    ],
     demoLink: "https://sihia-platform.vercel.app/",
     caseStudyLink: "/work/sihia",
     featuredLayout: "standard",

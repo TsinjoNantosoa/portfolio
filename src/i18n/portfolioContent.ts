@@ -32,6 +32,22 @@ const french: Record<string, string> = {
   "Playwright flows": "Parcours Playwright",
   "SIHIA healthcare operations dashboard with predictive analytics and grounded AI assistant":
     "Tableau de bord SIHIA pour les opérations de santé, l’analyse prédictive et l’assistant IA fondé sur des sources",
+  "Proactive notifications and the grounded SIHIA assistant":
+    "Notifications proactives et assistant SIHIA fondé sur des sources",
+  "Hospital analytics, occupancy, admissions, and patient satisfaction":
+    "Analyses hospitalières, occupation, admissions et satisfaction des patients",
+  "Practitioner directory with availability and weekly planning":
+    "Annuaire des praticiens avec disponibilités et planning hebdomadaire",
+  "Patient-flow forecasting and no-show risk prioritization":
+    "Prévision du flux de patients et priorisation du risque d’absence",
+  "SIHIA notification center with grounded healthcare assistant conversation":
+    "Centre de notifications SIHIA avec conversation de l’assistant de santé fondé sur des sources",
+  "SIHIA healthcare analytics dashboard with revenue admissions satisfaction and age charts":
+    "Tableau de bord analytique SIHIA avec revenus, admissions, satisfaction et répartition par âge",
+  "SIHIA practitioner directory showing availability schedules and patient metrics":
+    "Annuaire des praticiens SIHIA présentant disponibilités, plannings et indicateurs patients",
+  "SIHIA AI prediction screen for patient flow and no-show risk":
+    "Écran de prédiction IA SIHIA pour le flux de patients et le risque d’absence",
   "SIHIA is an end-to-end HealthTech product rather than a standalone chatbot. The React application and FastAPI API cover operational workflows, analytics, forecasting, document administration, and a guarded assistant backed by PostgreSQL and Qdrant. The architecture can run with SQLite for lightweight development and PostgreSQL 16 for the complete environment.":
     "SIHIA est un produit HealthTech de bout en bout, et non un simple chatbot. L’application React et l’API FastAPI couvrent les workflows opérationnels, l’analyse, les prévisions, l’administration documentaire et un assistant protégé, adossé à PostgreSQL et Qdrant. L’architecture peut fonctionner avec SQLite pour un développement léger et PostgreSQL 16 pour l’environnement complet.",
   "React 19 and TypeScript frontend with TanStack data flows":
