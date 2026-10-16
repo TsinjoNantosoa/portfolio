@@ -25,6 +25,14 @@ services:
         value: "false"
       - key: PLAYGROUND_SESSION_RATE_LIMIT_PER_HOUR
         value: "12"
+      - key: PLAYGROUND_IP_RATE_LIMIT_PER_HOUR
+        value: "24"
+      - key: PLAYGROUND_GLOBAL_RATE_LIMIT_PER_HOUR
+        value: "120"
+      - key: PLAYGROUND_MAX_CONCURRENT_REQUESTS
+        value: "2"
+      - key: PLAYGROUND_INSTANCE_COUNT
+        value: "1"
       - key: PLAYGROUND_MAX_INPUT_CHARS
         value: "400"
       - key: PLAYGROUND_MAX_OUTPUT_TOKENS

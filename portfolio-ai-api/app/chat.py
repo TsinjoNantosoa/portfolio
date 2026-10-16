@@ -14,6 +14,10 @@ INJECTION_PATTERNS = re.compile(
     r"|\bswitch\b.{0,20}\btenant\b",
     re.IGNORECASE,
 )
+SENSITIVE_DATA_PATTERNS = re.compile(
+    r"\b(private|confidential|privé(?:e|s)?|confidentiel(?:le|s)?)\b.{0,35}\b(records?|contracts?|documents?|data|payroll|données?|contrats?|dossiers?|paie)\b",
+    re.IGNORECASE,
+)
 OUT_OF_SCOPE_PATTERNS = re.compile(
     r"\b(today'?s weather|weather forecast|president of|chocolate cake|recipe|sports score|stock price|write (me )?a poem"
     r"|météo|président de|recette|score sportif|cours de l'action|écris(?:-moi)? un poème)\b",
@@ -176,7 +180,7 @@ PLAYGROUND_COPY = {
         "retrieval": "Dense retrieval and deterministic lexical reranking completed.",
         "context": "Relevant public passages selected for generation.",
         "generation": "The model generated from the selected evidence only.",
-        "answer": "Grounded answer assembled.",
+        "answer": "Evidence-linked answer assembled; claim support was not automatically evaluated.",
         "citations": "Public source citations attached.",
         "skipped": "Not executed because an earlier stage stopped the request.",
         "empty": "No passage passed the retrieval threshold.",
@@ -184,6 +188,7 @@ PLAYGROUND_COPY = {
             "Only the selected public corpus was searched.",
             "Similarity scores rank retrieval candidates; they are not answer-confidence scores.",
             "The answer is bounded by the published portfolio evidence and may be incomplete.",
+            "Conflicts between retrieved documents are not automatically resolved.",
         ],
     },
     "fr": {
@@ -193,7 +198,7 @@ PLAYGROUND_COPY = {
         "retrieval": "Recherche dense et reclassement lexical déterministe terminés.",
         "context": "Passages publics pertinents sélectionnés pour la génération.",
         "generation": "Le modèle a généré uniquement à partir des preuves sélectionnées.",
-        "answer": "Réponse fondée sur les preuves assemblée.",
+        "answer": "Réponse reliée aux preuves assemblée; l’étayage des affirmations n’a pas été évalué automatiquement.",
         "citations": "Citations vers les sources publiques ajoutées.",
         "skipped": "Non exécuté car une étape précédente a arrêté la requête.",
         "empty": "Aucun passage n’a dépassé le seuil de recherche.",
@@ -201,6 +206,7 @@ PLAYGROUND_COPY = {
             "Seul le corpus public sélectionné a été interrogé.",
             "Les scores classent les résultats; ils ne mesurent pas la confiance de la réponse.",
             "La réponse dépend des preuves publiées dans le portfolio et peut être incomplète.",
+            "Les contradictions entre documents retrouvés ne sont pas résolues automatiquement.",
         ],
     },
 }
@@ -220,6 +226,10 @@ def is_prompt_injection(message: str) -> bool:
 
 def is_clearly_unrelated(message: str) -> bool:
     return bool(OUT_OF_SCOPE_PATTERNS.search(message))
+
+
+def is_sensitive_data_request(message: str) -> bool:
+    return bool(SENSITIVE_DATA_PATTERNS.search(message))
 
 
 def is_allowed_public_source(chunk: KnowledgeChunk) -> bool:
@@ -316,6 +326,9 @@ class PortfolioChatService:
         if is_prompt_injection(message):
             refusal_reason = "prompt_injection"
             refusal_answer = MESSAGES[language]["injection"]
+        elif is_sensitive_data_request(message):
+            refusal_reason = "sensitive_request"
+            refusal_answer = MESSAGES[language]["injection"]
         elif is_clearly_unrelated(message):
             refusal_reason = "out_of_scope"
             refusal_answer = MESSAGES[language]["unrelated"]
@@ -335,7 +348,9 @@ class PortfolioChatService:
                 "answer": refusal_answer,
                 "corpus": corpus,
                 "execution_mode": "guarded",
-                "grounded": False,
+                "generated_from_retrieved_documents": False,
+                "citations_available": False,
+                "support_status": "not_applicable",
                 "refusal_reason": refusal_reason,
                 "evidence": [],
                 "trace": trace,
@@ -350,6 +365,7 @@ class PortfolioChatService:
             chunk
             for chunk in await self.retriever.retrieve(message, corpus=corpus)
             if is_allowed_public_source(chunk)
+            and chunk.score >= self.settings.retrieval_score_threshold
         ]
         retrieval_ms = round((time.perf_counter() - retrieval_started) * 1000, 2)
         trace.append(
@@ -374,7 +390,9 @@ class PortfolioChatService:
                 "answer": MESSAGES[language]["no_evidence"],
                 "corpus": corpus,
                 "execution_mode": "no_evidence",
-                "grounded": False,
+                "generated_from_retrieved_documents": False,
+                "citations_available": False,
+                "support_status": "not_applicable",
                 "refusal_reason": "no_evidence",
                 "evidence": [],
                 "trace": trace,
@@ -404,6 +422,8 @@ class PortfolioChatService:
                 )
             ]
         )
+        if not answer.strip():
+            raise RuntimeError("empty_model_response")
         generation_ms = round((time.perf_counter() - generation_started) * 1000, 2)
         trace.extend(
             [
@@ -443,7 +463,9 @@ class PortfolioChatService:
             "answer": answer,
             "corpus": corpus,
             "execution_mode": "live",
-            "grounded": True,
+            "generated_from_retrieved_documents": True,
+            "citations_available": bool(evidence),
+            "support_status": "not_evaluated",
             "refusal_reason": None,
             "evidence": evidence,
             "trace": trace,

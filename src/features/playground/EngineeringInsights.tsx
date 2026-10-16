@@ -27,6 +27,18 @@ export default function EngineeringInsights({
             <dd className="mt-1 font-mono text-xs">{response.selected_passages}</dd>
           </div>
           <div>
+            <dt className="text-[var(--text-muted)]">{isFrench ? "Documents utilisés" : "Documents used"}</dt>
+            <dd className="mt-1 font-mono text-xs">{response.generated_from_retrieved_documents ? (isFrench ? "Oui" : "Yes") : (isFrench ? "Non" : "No")}</dd>
+          </div>
+          <div>
+            <dt className="text-[var(--text-muted)]">{isFrench ? "Citations" : "Citations"}</dt>
+            <dd className="mt-1 font-mono text-xs">{response.citations_available ? (isFrench ? "Disponibles" : "Available") : (isFrench ? "Absentes" : "Unavailable")}</dd>
+          </div>
+          <div>
+            <dt className="text-[var(--text-muted)]">{isFrench ? "Étayage" : "Claim support"}</dt>
+            <dd className="mt-1 font-mono text-xs">{response.support_status === "not_evaluated" ? (isFrench ? "Non évalué" : "Not evaluated") : (isFrench ? "Non applicable" : "Not applicable")}</dd>
+          </div>
+          <div>
             <dt className="text-[var(--text-muted)]">{isFrench ? "Durée totale" : "Total time"}</dt>
             <dd className="mt-1 font-mono text-xs">{response.response_time_ms.toFixed(1)} ms</dd>
           </div>

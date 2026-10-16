@@ -1,4 +1,7 @@
+import json
 import re
+from functools import lru_cache
+from pathlib import Path
 
 import structlog
 from openai import AsyncOpenAI
@@ -44,6 +47,13 @@ PLAYGROUND_CORPUS_FILTERS = {
         ]
     ),
 }
+
+
+@lru_cache
+def expected_corpus_version() -> str:
+    knowledge_file = Path(__file__).parent / "knowledge" / "public_portfolio.json"
+    documents = json.loads(knowledge_file.read_text(encoding="utf-8"))
+    return documents[0].get("corpus_version", "") if documents else ""
 
 
 def relevance_bonus(query: str, chunk: KnowledgeChunk) -> float:
@@ -146,8 +156,26 @@ class QdrantRetriever:
         count = await self.qdrant.count(
             collection_name=self.settings.qdrant_collection, exact=False
         )
+        points, _offset = await self.qdrant.scroll(
+            collection_name=self.settings.qdrant_collection,
+            limit=1,
+            with_payload=["corpus_version"],
+            with_vectors=False,
+        )
+        indexed_version = ""
+        if points and points[0].payload:
+            indexed_version = str(points[0].payload.get("corpus_version", ""))
+        expected_version = expected_corpus_version()
         return {
-            "ready": count.count > 0,
-            "reason": None if count.count > 0 else "collection_empty",
+            "ready": count.count > 0 and indexed_version == expected_version,
+            "reason": (
+                "collection_empty"
+                if count.count == 0
+                else "corpus_version_mismatch"
+                if indexed_version != expected_version
+                else None
+            ),
             "documents": count.count,
+            "corpus_version": indexed_version,
+            "expected_corpus_version": expected_version,
         }

@@ -68,8 +68,12 @@ class PlaygroundResponse(BaseModel):
     answer: str
     corpus: PlaygroundCorpus
     execution_mode: Literal["live", "guarded", "no_evidence"]
-    grounded: bool
-    refusal_reason: Literal["prompt_injection", "out_of_scope", "no_evidence"] | None = None
+    generated_from_retrieved_documents: bool
+    citations_available: bool
+    support_status: Literal["not_evaluated", "not_applicable"]
+    refusal_reason: Literal[
+        "prompt_injection", "sensitive_request", "out_of_scope", "no_evidence"
+    ] | None = None
     evidence: list[PlaygroundEvidence] = Field(default_factory=list)
     trace: list[PlaygroundTraceStep]
     retrieval_strategy: str
@@ -99,5 +103,6 @@ class KnowledgeChunk(BaseModel):
     url: str
     content: str
     score: float = 0
+    corpus_version: str = ""
     links: list[KnowledgeLink] = Field(default_factory=list)
     suggested_questions: list[str] = Field(default_factory=list)

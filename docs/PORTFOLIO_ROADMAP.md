@@ -57,6 +57,8 @@ Implementation approach:
 
 Status: first Public RAG Playground implementation completed locally on 2026-10-16; production activation remains gated by budget approval and a live-provider deploy-preview test.
 
+Phase 3.1 hardening is also complete locally: activation now defaults off, quotas cover renewed sessions/IP/global/concurrency, answer support is explicitly not evaluated, corpus versions are checked, and a USD 1.00 isolated live-acceptance plan is documented. No paid acceptance call has run.
+
 Delivered for the Public RAG Playground:
 
 - Bilingual lazy-loaded `/lab/playground` interface.

@@ -25,6 +25,14 @@ class DeterministicPlaygroundService(PortfolioChatService):
         yield chunks[0].title
 
 
+class EmptyPlaygroundService(PortfolioChatService):
+    async def _generate(
+        self, message, chunks, language, max_output_tokens=None
+    ):
+        if False:
+            yield ""
+
+
 def settings():
     return Settings(
         environment="test",
@@ -61,6 +69,12 @@ def unsafe_evidence():
     )
 
 
+def weak_evidence():
+    item = evidence()
+    item.score = 0.05
+    return item
+
+
 @pytest.mark.asyncio
 async def test_live_pipeline_reports_real_evidence_scores_and_trace():
     retriever = FakeRetriever([unsafe_evidence(), evidence()])
@@ -74,7 +88,9 @@ async def test_live_pipeline_reports_real_evidence_scores_and_trace():
         ("How does SIHIA retrieve evidence?", "projects")
     ]
     assert result["answer"] == "Grounded from SIHIA"
-    assert result["grounded"] is True
+    assert result["generated_from_retrieved_documents"] is True
+    assert result["citations_available"] is True
+    assert result["support_status"] == "not_evaluated"
     assert result["execution_mode"] == "live"
     assert result["evidence"][0]["score"] == 0.91
     assert result["evidence"][0]["url"] == "/work/sihia"
@@ -96,8 +112,24 @@ async def test_guarded_request_never_reaches_retrieval_or_generation():
     assert retriever.calls == []
     assert result["execution_mode"] == "guarded"
     assert result["refusal_reason"] == "prompt_injection"
-    assert result["grounded"] is False
+    assert result["generated_from_retrieved_documents"] is False
+    assert result["citations_available"] is False
+    assert result["support_status"] == "not_applicable"
     assert all(step["status"] == "skipped" for step in result["trace"][2:])
+
+
+@pytest.mark.asyncio
+async def test_private_data_request_is_guarded_before_retrieval():
+    retriever = FakeRetriever([evidence()])
+    service = DeterministicPlaygroundService(settings(), retriever)
+
+    result = await service.playground(
+        "What private customer contracts are stored here?", "projects"
+    )
+
+    assert retriever.calls == []
+    assert result["execution_mode"] == "guarded"
+    assert result["refusal_reason"] == "sensitive_request"
 
 
 @pytest.mark.asyncio
@@ -106,10 +138,42 @@ async def test_no_evidence_is_explicit_and_does_not_generate():
     service = DeterministicPlaygroundService(settings(), retriever)
 
     result = await service.playground(
-        "What private customer contracts exist?", "projects"
+        "What quantum computing work is documented?", "projects"
     )
 
     assert result["execution_mode"] == "no_evidence"
     assert result["refusal_reason"] == "no_evidence"
     assert result["evidence"] == []
     assert result["selected_passages"] == 0
+
+
+@pytest.mark.asyncio
+async def test_low_relevance_passages_are_treated_as_no_evidence():
+    service = DeterministicPlaygroundService(settings(), FakeRetriever([weak_evidence()]))
+
+    result = await service.playground("How does SIHIA work?", "projects")
+
+    assert result["execution_mode"] == "no_evidence"
+    assert result["evidence"] == []
+
+
+@pytest.mark.asyncio
+async def test_empty_model_response_fails_instead_of_claiming_support():
+    service = EmptyPlaygroundService(settings(), FakeRetriever([evidence()]))
+
+    with pytest.raises(RuntimeError, match="empty_model_response"):
+        await service.playground("How does SIHIA work?", "projects")
+
+
+@pytest.mark.asyncio
+async def test_document_conflicts_are_explicitly_not_evaluated():
+    first = evidence()
+    second = evidence()
+    second.id = "project:sihia:conflicting"
+    second.content = "A conflicting public statement."
+    service = DeterministicPlaygroundService(settings(), FakeRetriever([first, second]))
+
+    result = await service.playground("How does SIHIA work?", "projects")
+
+    assert result["support_status"] == "not_evaluated"
+    assert any("not automatically resolved" in item for item in result["limitations"])

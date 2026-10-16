@@ -5,7 +5,7 @@ from types import SimpleNamespace
 import pytest
 
 from app.config import Settings
-from app.rag import QdrantRetriever
+from app.rag import QdrantRetriever, expected_corpus_version
 from app.response_metadata import build_response_metadata
 from app.schemas import KnowledgeChunk
 
@@ -96,6 +96,39 @@ def test_source_metadata_is_deduplicated_and_urls_are_deterministic():
     assert len(sources) == 1
     assert links == [{"label": "View Arcwell", "url": "/work/arcwell"}]
     assert questions == ["More about arcwell?"]
+
+
+@pytest.mark.asyncio
+async def test_readiness_requires_the_expected_indexed_corpus_version():
+    retriever = QdrantRetriever(
+        Settings(
+            environment="test",
+            openai_api_key="test",
+            qdrant_url="http://qdrant.test",
+        )
+    )
+
+    class FakeQdrant:
+        version = expected_corpus_version()
+
+        async def collection_exists(self, _name):
+            return True
+
+        async def count(self, **_kwargs):
+            return SimpleNamespace(count=73)
+
+        async def scroll(self, **_kwargs):
+            return [SimpleNamespace(payload={"corpus_version": self.version})], None
+
+    retriever.qdrant = FakeQdrant()
+    current = await retriever.readiness()
+    assert current["ready"] is True
+    assert current["corpus_version"] == expected_corpus_version()
+
+    retriever.qdrant.version = "stale-version"
+    stale = await retriever.readiness()
+    assert stale["ready"] is False
+    assert stale["reason"] == "corpus_version_mismatch"
 
 
 def test_generated_public_corpus_has_depth_valid_routes_and_no_private_markers():

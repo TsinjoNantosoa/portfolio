@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 import vm from "node:vm";
 import { fileURLToPath } from "node:url";
@@ -140,5 +141,12 @@ for (const document of documents) {
   for (const link of document.links) if (link.url.startsWith("/") && !knownRoutes.has(link.url)) throw new Error(`Unknown internal CTA route: ${link.url}`);
 }
 
+const corpusVersion = crypto
+  .createHash("sha256")
+  .update(JSON.stringify(documents))
+  .digest("hex")
+  .slice(0, 16);
+for (const document of documents) document.corpus_version = corpusVersion;
+
 fs.writeFileSync(outputFile, `${JSON.stringify(documents, null, 2)}\n`, "utf8");
-console.log(JSON.stringify({ source_modules: ["src/data/projects.ts", "src/data/experience.ts", "src/data/lab.ts"], documents: documents.length, output: path.relative(repoRoot, outputFile) }, null, 2));
+console.log(JSON.stringify({ source_modules: ["src/data/projects.ts", "src/data/experience.ts", "src/data/lab.ts"], documents: documents.length, corpus_version: corpusVersion, output: path.relative(repoRoot, outputFile) }, null, 2));

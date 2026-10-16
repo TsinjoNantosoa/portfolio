@@ -49,10 +49,14 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("RAG_TOP_K", "RETRIEVAL_LIMIT"),
     )
     retrieval_score_threshold: float = Field(default=0.20, ge=0, le=1)
-    playground_enabled: bool = True
+    playground_enabled: bool = False
     playground_max_input_chars: int = Field(default=400, ge=100, le=800)
     playground_session_rate_limit_per_hour: int = Field(default=12, ge=1, le=60)
+    playground_ip_rate_limit_per_hour: int = Field(default=24, ge=1, le=200)
+    playground_global_rate_limit_per_hour: int = Field(default=120, ge=1, le=1000)
+    playground_max_concurrent_requests: int = Field(default=2, ge=1, le=10)
     playground_max_output_tokens: int = Field(default=300, ge=100, le=600)
+    playground_instance_count: int = Field(default=1, ge=1, le=20)
 
     @field_validator("allowed_origins", mode="before")
     @classmethod
@@ -80,6 +84,15 @@ class Settings(BaseSettings):
         ):
             raise ValueError(
                 "PUBLIC_SITE_URL must be included in ALLOWED_ORIGINS in production"
+            )
+        if (
+            self.environment == "production"
+            and self.playground_enabled
+            and self.playground_instance_count != 1
+        ):
+            raise ValueError(
+                "The Playground uses process-local limits and must remain single-instance "
+                "until a shared atomic rate limiter is configured"
             )
         return self
 

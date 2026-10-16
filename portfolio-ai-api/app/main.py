@@ -17,7 +17,7 @@ from app.chat import PortfolioChatService
 from app.client_ip import get_client_ip
 from app.config import Settings, get_settings
 from app.rag import QdrantRetriever
-from app.rate_limit import SlidingWindowLimiter
+from app.rate_limit import ConcurrencyLimiter, SlidingWindowLimiter
 from app.response_metadata import build_response_metadata
 from app.schemas import ChatRequest, PlaygroundRequest, PlaygroundResponse, SessionResponse
 from app.security import create_session_token, decode_session_token
@@ -55,6 +55,9 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
     async def lifespan(app: FastAPI):
         app.state.started_at = time.monotonic()
         app.state.limiter = SlidingWindowLimiter()
+        app.state.playground_concurrency = ConcurrencyLimiter(
+            settings.playground_max_concurrent_requests
+        )
         if chat_service is not None:
             app.state.chat = chat_service
         elif settings.openai_api_key and settings.qdrant_url:
@@ -178,6 +181,7 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
             "status": "ready",
             "collection": settings.qdrant_collection,
             "documents": diagnostic.get("documents", 0),
+            "corpus_version": diagnostic.get("corpus_version", ""),
         }
 
     @app.post("/api/public/session", response_model=SessionResponse)
@@ -229,6 +233,16 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
             settings.playground_session_rate_limit_per_hour,
             3600,
         )
+        await request.app.state.limiter.check(
+            f"playground-ip-hour:{client_key(request)}",
+            settings.playground_ip_rate_limit_per_hour,
+            3600,
+        )
+        await request.app.state.limiter.check(
+            "playground-global-hour",
+            settings.playground_global_rate_limit_per_hour,
+            3600,
+        )
         service = request.app.state.chat
         if service is None or not hasattr(service, "playground"):
             raise HTTPException(
@@ -242,7 +256,8 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
             corpus=body.corpus,
         )
         try:
-            result = await service.playground(body.message, body.corpus)
+            async with request.app.state.playground_concurrency.slot():
+                result = await service.playground(body.message, body.corpus)
         except Exception as exc:  # noqa: BLE001
             logger.error(
                 "playground_failed",

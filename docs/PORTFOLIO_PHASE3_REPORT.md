@@ -1,5 +1,7 @@
 # Portfolio V2 Phase 3 Report
 
+> Phase 3.1 hardening supersedes the original activation and answer-quality boundaries in this report. See `docs/PORTFOLIO_PHASE3_1_REPORT.md`.
+
 Date: 2026-10-16  
 Branch: `main`  
 Starting commit: `f4d62c7`
@@ -9,7 +11,7 @@ Starting commit: `f4d62c7`
 - Lazy-loaded bilingual `/lab/playground` route linked from the AI Engineering Lab.
 - Explicit `projects` and `engineering_lab` public corpus selection.
 - Preset and custom questions with a 400-character ceiling and no automatic submission.
-- Real API trace for query handling, retrieval, selected context, generation, grounded answer, and citations.
+- Real API trace for query handling, retrieval, selected context, evidence-linked generation, answer, and citations.
 - Verifiable source cards containing bounded excerpts, public routes, ranks, and real retrieval scores.
 - Optional engineering panel with actual response time, strategy, selected-passage count, request ID, and limitations.
 - Guarded, no-evidence, loading, cancellation, unavailable, rate-limit, and safe-error states.

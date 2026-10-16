@@ -22,6 +22,7 @@ import { createPublicSession, queryPlayground } from "@/features/playground/api"
 import type {
   PlaygroundCorpus,
   PlaygroundHistoryItem,
+  PlaygroundResponse,
 } from "@/features/playground/types";
 import { playgroundCorpora, playgroundQuestions } from "@/data/playground";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -33,7 +34,7 @@ const ui = {
     back: "Back to AI Engineering Lab",
     eyebrow: "Interactive RAG Engineering",
     title: "Public RAG Playground",
-    description: "Inspect a real retrieval and grounded-generation request over a small, permissioned public corpus. Every displayed passage, score, duration, and pipeline state comes from the API response.",
+    description: "Inspect a real retrieval and evidence-linked generation request over a small, permissioned public corpus. Every displayed passage, score, duration, and pipeline state comes from the API response.",
     boundary: "Public demo boundary",
     boundaryText: "Read-only portfolio data. No client documents, external actions, private prompts, or visitor conversations are stored by this interface.",
     corpus: "1. Select a public corpus",
@@ -42,8 +43,9 @@ const ui = {
     placeholder: "Ask a bounded question about the selected corpus…",
     run: "Run retrieval",
     stop: "Stop request",
-    pending: "Retrieving evidence and generating a grounded answer…",
-    answer: "Grounded answer",
+    pending: "Retrieving evidence and generating from the selected documents…",
+    answer: "Evidence-linked answer",
+    notEvaluated: "Documents used · claim support not automatically evaluated",
     evidence: "Retrieved evidence",
     evidenceHint: "Scores are retrieval similarity values, not confidence estimates.",
     pipeline: "Execution trace",
@@ -54,7 +56,10 @@ const ui = {
     historyHint: "Kept only in this page’s memory and cleared when it is reloaded.",
     empty: "Run a question to inspect the answer, evidence, and actual pipeline trace.",
     unavailable: "The Playground backend is unavailable or awaiting production approval. The portfolio and existing assistant remain usable.",
+    disabled: "The Playground is intentionally disabled until its production budget and live acceptance are approved.",
     rateLimited: "The public Playground limit has been reached. Please retry later.",
+    cancelled: "Request cancelled. Your question is still available.",
+    timedOut: "The request timed out before completion. Your question is still available for retry.",
     genericError: "The request could not be completed safely. Your question remains available for retry.",
     chars: "characters",
     source: "Open public source",
@@ -74,8 +79,9 @@ const ui = {
     placeholder: "Posez une question bornée sur le corpus sélectionné…",
     run: "Lancer la recherche",
     stop: "Arrêter la requête",
-    pending: "Recherche des preuves et génération d’une réponse fondée…",
-    answer: "Réponse fondée",
+    pending: "Recherche des preuves et génération à partir des documents sélectionnés…",
+    answer: "Réponse reliée aux preuves",
+    notEvaluated: "Documents utilisés · étayage des affirmations non évalué automatiquement",
     evidence: "Preuves retrouvées",
     evidenceHint: "Les scores mesurent la similarité de recherche, pas la confiance de la réponse.",
     pipeline: "Trace d’exécution",
@@ -86,7 +92,10 @@ const ui = {
     historyHint: "Conservé uniquement en mémoire sur cette page et effacé lors de son rechargement.",
     empty: "Lancez une question pour inspecter la réponse, les preuves et la trace réelle du pipeline.",
     unavailable: "Le backend du Playground est indisponible ou attend une validation de production. Le portfolio et l’assistant existant restent utilisables.",
+    disabled: "Le Playground est volontairement désactivé jusqu’à la validation de son budget et de son acceptation réelle.",
     rateLimited: "La limite du Playground public est atteinte. Réessayez plus tard.",
+    cancelled: "Requête annulée. Votre question reste disponible.",
+    timedOut: "La requête a expiré avant la fin. Votre question reste disponible pour réessayer.",
     genericError: "La requête n’a pas pu être terminée en toute sécurité. Votre question reste disponible pour réessayer.",
     chars: "caractères",
     source: "Ouvrir la source publique",
@@ -105,14 +114,15 @@ export default function PlaygroundPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+  const inFlightRef = useRef(false);
   const selected = history.find((item) => item.id === selectedId) || history.at(-1);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     const title = language === "fr" ? "Playground RAG public — Tsinjo" : "Public RAG Playground — Tsinjo";
     const description = language === "fr"
-      ? "Démonstration RAG publique avec recherche observable, réponse fondée et citations vérifiables."
-      : "Public RAG demonstration with observable retrieval, grounded answers, and verifiable citations.";
+      ? "Démonstration RAG publique avec recherche observable, génération reliée aux preuves et citations vérifiables."
+      : "Public RAG demonstration with observable retrieval, evidence-linked generation, and verifiable citations.";
     document.title = title;
     document.querySelector('meta[name="description"]')?.setAttribute("content", description);
     document.querySelector('link[rel="canonical"]')?.setAttribute("href", "https://tsinjona.netlify.app/lab/playground");
@@ -122,38 +132,60 @@ export default function PlaygroundPage() {
   async function runQuestion(event?: FormEvent) {
     event?.preventDefault();
     const clean = question.trim().slice(0, MAX_QUESTION_LENGTH);
-    if (!clean || loading || !assistantConfig.available) return;
+    if (!clean || inFlightRef.current || !assistantConfig.available) return;
+    inFlightRef.current = true;
     const id = `playground-${Date.now()}`;
     setHistory((current) => [...current.slice(-4), { id, question: clean, corpus }]);
     setSelectedId(id);
     setLoading(true);
     const controller = new AbortController();
     abortRef.current = controller;
-    const timer = window.setTimeout(() => controller.abort(), assistantConfig.streamTimeoutMs);
+    let timedOut = false;
+    const timer = window.setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, assistantConfig.streamTimeoutMs);
     try {
-      const activeSession = session || await createPublicSession(assistantConfig.apiBaseUrl, controller.signal);
+      let activeSession = session || await createPublicSession(assistantConfig.apiBaseUrl, controller.signal);
       if (!session) setSession(activeSession);
-      const response = await queryPlayground(
-        assistantConfig.apiBaseUrl,
-        activeSession,
-        clean,
-        corpus,
-        controller.signal,
-      );
+      let response: PlaygroundResponse;
+      try {
+        response = await queryPlayground(
+          assistantConfig.apiBaseUrl,
+          activeSession,
+          clean,
+          corpus,
+          controller.signal,
+        );
+      } catch (error) {
+        if (!(error instanceof AssistantApiError) || error.status !== 401) throw error;
+        activeSession = await createPublicSession(assistantConfig.apiBaseUrl, controller.signal);
+        setSession(activeSession);
+        response = await queryPlayground(
+          assistantConfig.apiBaseUrl,
+          activeSession,
+          clean,
+          corpus,
+          controller.signal,
+        );
+      }
       setHistory((current) => current.map((item) => item.id === id ? { ...item, response } : item));
     } catch (error) {
       const stopped = error instanceof DOMException && error.name === "AbortError";
-      const message = stopped
-        ? copy.genericError
+      const message = stopped && timedOut
+        ? copy.timedOut
+        : stopped
+          ? copy.cancelled
         : error instanceof AssistantApiError && error.status === 429
           ? copy.rateLimited
           : error instanceof AssistantApiError && error.status === 503
-            ? copy.unavailable
+            ? copy.disabled
             : copy.genericError;
       setHistory((current) => current.map((item) => item.id === id ? { ...item, error: message } : item));
     } finally {
       window.clearTimeout(timer);
       abortRef.current = null;
+      inFlightRef.current = false;
       setLoading(false);
     }
   }
@@ -165,20 +197,20 @@ export default function PlaygroundPage() {
       : copy.noEvidence;
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
+    <div className="min-h-screen min-w-0 overflow-x-hidden bg-[var(--bg-primary)] text-[var(--text-primary)]">
       <Header />
       <main className="pb-16 pt-24 sm:pb-20 sm:pt-28">
         <section className="site-container border-b border-white/10 pb-10">
           <Link to="/lab" className="mb-8 inline-flex min-h-11 items-center gap-2 text-sm text-[var(--text-muted)] transition hover:text-neon">
             <ArrowLeft size={16} aria-hidden /> {copy.back}
           </Link>
-          <div className="grid gap-7 lg:grid-cols-[1.15fr_0.65fr] lg:items-end">
-            <div>
+          <div className="grid min-w-0 gap-7 lg:grid-cols-[1.15fr_0.65fr] lg:items-end">
+            <div className="min-w-0">
               <p className="eyebrow mb-3">{copy.eyebrow}</p>
-              <h1 className="max-w-4xl text-[clamp(2.4rem,6vw,5rem)] font-semibold leading-[0.95] tracking-normal">{copy.title}</h1>
+              <h1 className="max-w-4xl break-words text-4xl font-semibold leading-[0.98] tracking-normal sm:text-5xl lg:text-7xl">{copy.title}</h1>
               <p className="mt-5 max-w-3xl text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg">{copy.description}</p>
             </div>
-            <div className="border-l border-neon/40 pl-5">
+            <div className="min-w-0 border-l border-neon/40 pl-5">
               <div className="flex items-center gap-2 font-mono text-xs uppercase text-neon"><ShieldCheck size={15} aria-hidden /> {copy.boundary}</div>
               <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">{copy.boundaryText}</p>
             </div>
@@ -186,13 +218,13 @@ export default function PlaygroundPage() {
         </section>
 
         <section className="site-container py-10 sm:py-12">
-          <div className="grid gap-10 xl:grid-cols-[minmax(0,0.74fr)_minmax(0,1.26fr)]">
-            <div className="space-y-8">
+          <div className="grid min-w-0 gap-10 xl:grid-cols-[minmax(0,0.74fr)_minmax(0,1.26fr)]">
+            <div className="min-w-0 space-y-8">
               <fieldset>
                 <legend className="mb-3 text-sm font-semibold">{copy.corpus}</legend>
                 <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
                   {playgroundCorpora.map((item) => (
-                    <button key={item.id} type="button" onClick={() => setCorpus(item.id)} aria-pressed={corpus === item.id} className={`min-h-20 border p-4 text-left transition ${corpus === item.id ? "border-neon bg-neon/[0.06]" : "border-white/10 bg-[var(--surface-1)] hover:border-white/25"}`}>
+                    <button key={item.id} type="button" onClick={() => setCorpus(item.id)} aria-pressed={corpus === item.id} className={`min-h-20 min-w-0 border p-4 text-left transition ${corpus === item.id ? "border-neon bg-neon/[0.06]" : "border-white/10 bg-[var(--surface-1)] hover:border-white/25"}`}>
                       <span className="block text-sm font-semibold">{item.label[language]}</span>
                       <span className="mt-1 block text-xs leading-relaxed text-[var(--text-muted)]">{item.description[language]}</span>
                     </button>
@@ -239,7 +271,7 @@ export default function PlaygroundPage() {
               ) : selected?.response ? (
                 <article>
                   <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
-                    <div><p className="font-mono text-[11px] uppercase text-neon">{modeLabel}</p><h2 className="mt-1 text-xl font-semibold tracking-normal">{copy.answer}</h2></div>
+                    <div><p className="font-mono text-[11px] uppercase text-neon">{modeLabel}</p><h2 className="mt-1 text-xl font-semibold tracking-normal">{copy.answer}</h2>{selected.response.support_status === "not_evaluated" ? <p className="mt-1 text-xs text-[var(--text-muted)]">{copy.notEvaluated}</p> : null}</div>
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-neon/30 px-3 py-1 font-mono text-[10px] text-neon"><CheckCircle2 size={12} aria-hidden /> {selected.response.corpus}</span>
                   </header>
                   <p className="whitespace-pre-wrap py-6 text-[15px] leading-7 text-[var(--text-secondary)]">{selected.response.answer}</p>

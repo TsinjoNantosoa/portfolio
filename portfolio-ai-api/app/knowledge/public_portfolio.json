@@ -13,7 +13,8 @@
       "Which projects best demonstrate this experience?",
       "What backend technologies does Tsinjo use?",
       "What is Tsinjo's professional experience?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:ai-agents-agentic-systems:expertise",
@@ -28,7 +29,8 @@
     "suggested_questions": [
       "Which projects demonstrate this expertise?",
       "What is Tsinjo's production experience?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:production-rag-systems:expertise",
@@ -43,7 +45,8 @@
     "suggested_questions": [
       "Which projects demonstrate this expertise?",
       "What is Tsinjo's production experience?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:ai-automation-backend-engineering:expertise",
@@ -58,7 +61,8 @@
     "suggested_questions": [
       "Which projects demonstrate this expertise?",
       "What is Tsinjo's production experience?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "experience:h4h:role-overview",
@@ -74,7 +78,8 @@
       "How was tenant isolation implemented?",
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "experience:h4h:engineering-contributions",
@@ -89,7 +94,8 @@
     "suggested_questions": [
       "What technical decisions did Tsinjo make?",
       "Which technologies supported this work?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "experience:h4h:stack-and-public-evidence",
@@ -101,7 +107,8 @@
     "url": "/#experience",
     "content": "Technologies: Python; FastAPI; LangChain; RAG; AI Agents; Tool Calling; Qdrant; PostgreSQL; Redis; React; TypeScript; Docker.",
     "links": [],
-    "suggested_questions": []
+    "suggested_questions": [],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "experience:freelance-automation:role-overview",
@@ -116,7 +123,8 @@
     "suggested_questions": [
       "Which projects demonstrate this experience?",
       "What automation tools does Tsinjo use?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "experience:freelance-automation:engineering-contributions",
@@ -131,7 +139,8 @@
     "suggested_questions": [
       "What technical decisions did Tsinjo make?",
       "Which technologies supported this work?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "experience:freelance-automation:stack-and-public-evidence",
@@ -143,7 +152,8 @@
     "url": "/#experience",
     "content": "Technologies: n8n; Python; FastAPI; Webhooks; Airtable; Google Workspace.",
     "links": [],
-    "suggested_questions": []
+    "suggested_questions": [],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "experience:ets-baron:role-overview",
@@ -158,7 +168,8 @@
     "suggested_questions": [
       "Which projects demonstrate this experience?",
       "What automation tools does Tsinjo use?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "experience:ets-baron:engineering-contributions",
@@ -173,7 +184,8 @@
     "suggested_questions": [
       "What technical decisions did Tsinjo make?",
       "Which technologies supported this work?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "experience:ets-baron:stack-and-public-evidence",
@@ -185,7 +197,8 @@
     "url": "/#experience",
     "content": "Technologies: Odoo 18; Python; XML; PostgreSQL; Docker; CI/CD.",
     "links": [],
-    "suggested_questions": []
+    "suggested_questions": [],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "education:education:degrees",
@@ -200,7 +213,8 @@
     "suggested_questions": [
       "What AI certifications does Tsinjo have?",
       "What are his strongest engineering skills?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:languages:professional-languages",
@@ -212,7 +226,8 @@
     "url": "/#background",
     "content": "Malagasy: Native. French: Professional. English: Professional",
     "links": [],
-    "suggested_questions": []
+    "suggested_questions": [],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:generative-ai-agentic-systems:technical-skills",
@@ -227,7 +242,8 @@
     "suggested_questions": [
       "Which projects use these technologies?",
       "What production experience supports these skills?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:backend-engineering:technical-skills",
@@ -242,7 +258,8 @@
     "suggested_questions": [
       "Which projects use these technologies?",
       "What production experience supports these skills?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:data-vector-databases:technical-skills",
@@ -257,7 +274,8 @@
     "suggested_questions": [
       "Which projects use these technologies?",
       "What production experience supports these skills?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:frontend-engineering:technical-skills",
@@ -272,7 +290,8 @@
     "suggested_questions": [
       "Which projects use these technologies?",
       "What production experience supports these skills?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:ai-automation-integration:technical-skills",
@@ -287,7 +306,8 @@
     "suggested_questions": [
       "Which projects use these technologies?",
       "What production experience supports these skills?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:devops-infrastructure:technical-skills",
@@ -302,7 +322,8 @@
     "suggested_questions": [
       "Which projects use these technologies?",
       "What production experience supports these skills?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:data-engineering-machine-learning:technical-skills",
@@ -317,7 +338,8 @@
     "suggested_questions": [
       "Which projects use these technologies?",
       "What production experience supports these skills?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "certification:featured-certifications:credentials",
@@ -332,7 +354,8 @@
     "suggested_questions": [
       "What is Tsinjo's education?",
       "Which projects demonstrate his AI engineering skills?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "certification:additional-certifications:credentials",
@@ -344,7 +367,8 @@
     "url": "/#background",
     "content": "Data Engineer Associate by DataCamp. Python Data Associate by DataCamp. AWS Cloud Practitioner (CLF-C02) by AWS. Data Engineer Career Track by DataCamp. Data Analyst in Python by DataCamp. Data Analyst in Power BI by DataCamp. Data Engineer in Python by DataCamp. Power BI Fundamentals by DataCamp. Snowflake Data Engineer Associate by DataCamp",
     "links": [],
-    "suggested_questions": []
+    "suggested_questions": [],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:multi-tenant-rag:overview",
@@ -365,7 +389,8 @@
       "How was tenant isolation implemented?",
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:multi-tenant-rag:problem-and-solution",
@@ -386,7 +411,8 @@
       "How was tenant isolation implemented?",
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:multi-tenant-rag:architecture",
@@ -407,7 +433,8 @@
       "How was tenant isolation implemented?",
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:multi-tenant-rag:engineering-decisions",
@@ -428,7 +455,8 @@
       "How was tenant isolation implemented?",
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:multi-tenant-rag:controls-evidence-and-stack",
@@ -449,7 +477,8 @@
       "How was tenant isolation implemented?",
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:offshore-fares:overview",
@@ -474,7 +503,8 @@
       "How does Offshore Fares protect fare prices?",
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:offshore-fares:problem-and-solution",
@@ -499,7 +529,8 @@
       "How does Offshore Fares protect fare prices?",
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:offshore-fares:architecture",
@@ -524,7 +555,8 @@
       "How does Offshore Fares protect fare prices?",
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:offshore-fares:engineering-decisions",
@@ -549,7 +581,8 @@
       "How does Offshore Fares protect fare prices?",
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:offshore-fares:controls-evidence-and-stack",
@@ -574,7 +607,8 @@
       "How does Offshore Fares protect fare prices?",
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:offshore-fares:n8n-workflow-automation",
@@ -599,7 +633,8 @@
       "How does Offshore Fares protect fare prices?",
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:arcwell-agentic-crm:overview",
@@ -624,7 +659,8 @@
       "How does Human-in-the-Loop work in Arcwell?",
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:arcwell-agentic-crm:problem-and-solution",
@@ -649,7 +685,8 @@
       "How does Human-in-the-Loop work in Arcwell?",
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:arcwell-agentic-crm:architecture",
@@ -674,7 +711,8 @@
       "How does Human-in-the-Loop work in Arcwell?",
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:arcwell-agentic-crm:engineering-decisions",
@@ -699,7 +737,8 @@
       "How does Human-in-the-Loop work in Arcwell?",
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:arcwell-agentic-crm:controls-evidence-and-stack",
@@ -724,7 +763,8 @@
       "How does Human-in-the-Loop work in Arcwell?",
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:arcwell-agentic-crm:evaluation-and-testing",
@@ -749,7 +789,8 @@
       "How does Human-in-the-Loop work in Arcwell?",
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:arcwell-agentic-crm:current-limitations",
@@ -774,7 +815,8 @@
       "How does Human-in-the-Loop work in Arcwell?",
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-business-os:overview",
@@ -799,7 +841,8 @@
       "How does AI BOS control agent actions?",
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-business-os:problem-and-solution",
@@ -824,7 +867,8 @@
       "How does AI BOS control agent actions?",
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-business-os:architecture",
@@ -849,7 +893,8 @@
       "How does AI BOS control agent actions?",
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-business-os:engineering-decisions",
@@ -874,7 +919,8 @@
       "How does AI BOS control agent actions?",
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-business-os:controls-evidence-and-stack",
@@ -899,7 +945,8 @@
       "How does AI BOS control agent actions?",
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-business-os:evaluation-and-testing",
@@ -924,7 +971,8 @@
       "How does AI BOS control agent actions?",
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-business-os:current-limitations",
@@ -949,7 +997,8 @@
       "How does AI BOS control agent actions?",
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:sihia:overview",
@@ -974,7 +1023,8 @@
       "How does SIHIA's hybrid retrieval work?",
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:sihia:problem-and-solution",
@@ -999,7 +1049,8 @@
       "How does SIHIA's hybrid retrieval work?",
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:sihia:architecture",
@@ -1024,7 +1075,8 @@
       "How does SIHIA's hybrid retrieval work?",
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:sihia:engineering-decisions",
@@ -1049,7 +1101,8 @@
       "How does SIHIA's hybrid retrieval work?",
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:sihia:controls-evidence-and-stack",
@@ -1074,7 +1127,8 @@
       "How does SIHIA's hybrid retrieval work?",
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:sihia:evaluation-and-testing",
@@ -1099,7 +1153,8 @@
       "How does SIHIA's hybrid retrieval work?",
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:sihia:current-limitations",
@@ -1124,7 +1179,8 @@
       "How does SIHIA's hybrid retrieval work?",
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-sales-assistant:overview",
@@ -1145,7 +1201,8 @@
       "Why is lead scoring outside the LLM?",
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-sales-assistant:problem-and-solution",
@@ -1166,7 +1223,8 @@
       "Why is lead scoring outside the LLM?",
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-sales-assistant:architecture",
@@ -1187,7 +1245,8 @@
       "Why is lead scoring outside the LLM?",
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-sales-assistant:engineering-decisions",
@@ -1208,7 +1267,8 @@
       "Why is lead scoring outside the LLM?",
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-sales-assistant:controls-evidence-and-stack",
@@ -1229,7 +1289,8 @@
       "Why is lead scoring outside the LLM?",
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-sales-assistant:deterministic-lead-scoring",
@@ -1250,7 +1311,8 @@
       "Why is lead scoring outside the LLM?",
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:ai-sales-assistant:n8n-workflow-automation",
@@ -1271,7 +1333,8 @@
       "Why is lead scoring outside the LLM?",
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:lab-rag:ai-engineering-lab",
@@ -1300,7 +1363,8 @@
       "Which projects demonstrate RAG Engineering?",
       "How are engineering claims validated?",
       "What limitations are documented?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:lab-agentic:ai-engineering-lab",
@@ -1329,7 +1393,8 @@
       "Which projects demonstrate Agentic AI?",
       "How are engineering claims validated?",
       "What limitations are documented?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:lab-automation:ai-engineering-lab",
@@ -1358,7 +1423,8 @@
       "Which projects demonstrate AI Automation?",
       "How are engineering claims validated?",
       "What limitations are documented?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:lab-production:ai-engineering-lab",
@@ -1387,7 +1453,8 @@
       "Which projects demonstrate Production Engineering?",
       "How are engineering claims validated?",
       "What limitations are documented?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "skill:lab-assisted-development:ai-engineering-lab",
@@ -1416,7 +1483,8 @@
       "Which projects demonstrate AI-Assisted Development?",
       "How are engineering claims validated?",
       "What limitations are documented?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:worldbank:project-overview",
@@ -1436,7 +1504,8 @@
     "suggested_questions": [
       "Which flagship project uses related technologies?",
       "What are Tsinjo's strongest engineering projects?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:iot-pipeline:project-overview",
@@ -1456,7 +1525,8 @@
     "suggested_questions": [
       "Which flagship project uses related technologies?",
       "What are Tsinjo's strongest engineering projects?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:weather-etl:project-overview",
@@ -1476,7 +1546,8 @@
     "suggested_questions": [
       "Which flagship project uses related technologies?",
       "What are Tsinjo's strongest engineering projects?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "project:bank-loan:project-overview",
@@ -1496,7 +1567,8 @@
     "suggested_questions": [
       "Which flagship project uses related technologies?",
       "What are Tsinjo's strongest engineering projects?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   },
   {
     "id": "contact:contact:public-links",
@@ -1524,6 +1596,7 @@
     "suggested_questions": [
       "Which projects should I review first?",
       "What is Tsinjo's professional experience?"
-    ]
+    ],
+    "corpus_version": "9676131376337c49"
   }
 ]

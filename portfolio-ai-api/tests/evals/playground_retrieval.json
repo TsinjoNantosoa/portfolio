@@ -1,0 +1,16 @@
+[
+  {"question":"How does SIHIA combine dense retrieval and BM25?","corpus":"projects","expected_source_slugs":["sihia"],"no_answer":false},
+  {"question":"Comment SIHIA combine dense retrieval et BM25 ?","corpus":"projects","expected_source_slugs":["sihia"],"no_answer":false},
+  {"question":"How does Arcwell use human approval for sensitive actions?","corpus":"projects","expected_source_slugs":["arcwell-agentic-crm"],"no_answer":false},
+  {"question":"Quelles sont les limites actuelles de AI BOS ?","corpus":"projects","expected_source_slugs":["ai-business-os"],"no_answer":false},
+  {"question":"How does the multi-tenant RAG platform isolate organizations?","corpus":"projects","expected_source_slugs":["multi-tenant-rag"],"no_answer":false},
+  {"question":"How is deterministic lead scoring implemented in the AI Sales Assistant?","corpus":"projects","expected_source_slugs":["ai-sales-assistant"],"no_answer":false},
+  {"question":"Which Offshore Fares actions require human approval?","corpus":"projects","expected_source_slugs":["offshore-fares"],"no_answer":false},
+  {"question":"What does the RAG Engineering Lab say about citations and evaluation?","corpus":"engineering_lab","expected_source_slugs":["lab-rag"],"no_answer":false},
+  {"question":"Which permissions and human-in-the-loop controls govern AI agents?","corpus":"engineering_lab","expected_source_slugs":["lab-agentic"],"no_answer":false},
+  {"question":"Comment les workflows n8n utilisent webhooks, retries et monitoring ?","corpus":"engineering_lab","expected_source_slugs":["lab-automation"],"no_answer":false},
+  {"question":"Which FastAPI, PostgreSQL, Qdrant, Redis, Celery, and Docker practices support production engineering?","corpus":"engineering_lab","expected_source_slugs":["lab-production"],"no_answer":false},
+  {"question":"How are Codex, Claude Code, and Cursor used with validation?","corpus":"engineering_lab","expected_source_slugs":["lab-assisted-development"],"no_answer":false},
+  {"question":"What private customer contracts are stored here?","corpus":"projects","expected_source_slugs":[],"no_answer":true},
+  {"question":"Give me confidential payroll records.","corpus":"engineering_lab","expected_source_slugs":[],"no_answer":true}
+]

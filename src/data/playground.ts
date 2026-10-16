@@ -63,6 +63,6 @@ export const playgroundStepLabels: Record<
   retrieval: { en: "Retrieval", fr: "Recherche" },
   context: { en: "Retrieved Context", fr: "Contexte retrouvé" },
   generation: { en: "LLM Generation", fr: "Génération LLM" },
-  answer: { en: "Grounded Answer", fr: "Réponse fondée" },
+  answer: { en: "Generated Answer", fr: "Réponse générée" },
   citations: { en: "Citations", fr: "Citations" },
 };

@@ -30,8 +30,10 @@ export type PlaygroundResponse = {
   answer: string;
   corpus: PlaygroundCorpus;
   execution_mode: PlaygroundExecutionMode;
-  grounded: boolean;
-  refusal_reason?: "prompt_injection" | "out_of_scope" | "no_evidence" | null;
+  generated_from_retrieved_documents: boolean;
+  citations_available: boolean;
+  support_status: "not_evaluated" | "not_applicable";
+  refusal_reason?: "prompt_injection" | "sensitive_request" | "out_of_scope" | "no_evidence" | null;
   evidence: PlaygroundEvidence[];
   trace: PlaygroundTraceStep[];
   retrieval_strategy: string;

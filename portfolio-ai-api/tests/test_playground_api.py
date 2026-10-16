@@ -16,7 +16,9 @@ class FakePlaygroundChat:
             "answer": f"Grounded answer for {message}",
             "corpus": corpus,
             "execution_mode": "live",
-            "grounded": True,
+            "generated_from_retrieved_documents": True,
+            "citations_available": True,
+            "support_status": "not_evaluated",
             "refusal_reason": None,
             "evidence": [
                 {
@@ -68,7 +70,7 @@ def session(client: TestClient):
     return payload, {"Authorization": f"Bearer {payload['token']}"}
 
 
-def test_playground_returns_observable_grounded_evidence():
+def test_playground_returns_observable_evidence_without_claiming_verification():
     with TestClient(create_app(settings(), FakePlaygroundChat())) as client:
         active, headers = session(client)
         response = client.post(
@@ -84,7 +86,9 @@ def test_playground_returns_observable_grounded_evidence():
         assert response.status_code == 200
         body = response.json()
         assert body["execution_mode"] == "live"
-        assert body["grounded"] is True
+        assert body["generated_from_retrieved_documents"] is True
+        assert body["citations_available"] is True
+        assert body["support_status"] == "not_evaluated"
         assert body["evidence"][0]["url"] == "/work/sihia"
         assert body["evidence"][0]["excerpt"]
         assert body["trace"][0]["id"] == "query"
@@ -145,6 +149,60 @@ def test_playground_has_a_separate_rate_limit_and_kill_switch():
             json={"message": "SIHIA", "corpus": "projects"},
         )
         assert disabled.status_code == 503
+
+
+def test_playground_ip_quota_survives_anonymous_session_renewal():
+    config = settings(
+        playground_session_rate_limit_per_hour=10,
+        playground_ip_rate_limit_per_hour=1,
+        playground_global_rate_limit_per_hour=10,
+    )
+    with TestClient(create_app(config, FakePlaygroundChat())) as client:
+        _first, first_headers = session(client)
+        payload = {"message": "SIHIA", "corpus": "projects"}
+        assert client.post(
+            "/api/public/playground/query", headers=first_headers, json=payload
+        ).status_code == 200
+
+        _renewed, renewed_headers = session(client)
+        limited = client.post(
+            "/api/public/playground/query", headers=renewed_headers, json=payload
+        )
+        assert limited.status_code == 429
+
+
+def test_playground_global_quota_applies_across_client_ips():
+    config = settings(
+        trust_proxy_headers=True,
+        playground_ip_rate_limit_per_hour=10,
+        playground_global_rate_limit_per_hour=1,
+    )
+    with TestClient(create_app(config, FakePlaygroundChat())) as client:
+        first_session = client.post(
+            "/api/public/session", headers={"X-Forwarded-For": "203.0.113.10"}
+        ).json()
+        second_session = client.post(
+            "/api/public/session", headers={"X-Forwarded-For": "203.0.113.11"}
+        ).json()
+        payload = {"message": "SIHIA", "corpus": "projects"}
+        first = client.post(
+            "/api/public/playground/query",
+            headers={
+                "Authorization": f"Bearer {first_session['token']}",
+                "X-Forwarded-For": "203.0.113.10",
+            },
+            json=payload,
+        )
+        second = client.post(
+            "/api/public/playground/query",
+            headers={
+                "Authorization": f"Bearer {second_session['token']}",
+                "X-Forwarded-For": "203.0.113.11",
+            },
+            json=payload,
+        )
+        assert first.status_code == 200
+        assert second.status_code == 429
 
 
 def test_playground_provider_error_does_not_expose_internal_details():

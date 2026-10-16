@@ -30,7 +30,7 @@ class FakeChat:
         ], tokens()
 
     async def readiness(self):
-        return {"ready": True, "documents": 51}
+        return {"ready": True, "documents": 51, "corpus_version": "test-version"}
 
 
 class FailingChat:
@@ -68,6 +68,7 @@ def test_low_cost_openai_defaults_are_canonical():
     assert config.openai_max_output_tokens == 450
     assert config.openai_timeout_seconds == 60
     assert config.rag_top_k == 4
+    assert config.playground_enabled is False
 
 
 def test_health_and_session_claims():
@@ -80,6 +81,7 @@ def test_health_and_session_claims():
             "status": "ready",
             "collection": "portfolio_knowledge",
             "documents": 51,
+            "corpus_version": "test-version",
         }
         session = client.post("/api/public/session")
         payload = jwt.decode(
@@ -297,6 +299,14 @@ def test_production_rejects_weak_secret_and_wildcard_cors():
             "environment": "production",
             "session_secret": "production-secret-that-is-long-enough",
             "public_site_url": "https://different.test",
+        },
+        {
+            "environment": "production",
+            "session_secret": "production-secret-that-is-long-enough",
+            "allowed_origins": ["https://portfolio.test"],
+            "public_site_url": "https://portfolio.test",
+            "playground_enabled": True,
+            "playground_instance_count": 2,
         },
     ):
         try:
