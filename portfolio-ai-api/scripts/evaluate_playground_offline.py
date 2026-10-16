@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[1]))
 
-from app.chat import (  # noqa: E402
+from app.chat import (
     is_clearly_unrelated,
     is_prompt_injection,
     is_sensitive_data_request,

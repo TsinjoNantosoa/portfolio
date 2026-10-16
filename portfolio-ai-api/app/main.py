@@ -20,7 +20,12 @@ from app.errors import PlaygroundUnavailableError
 from app.rag import QdrantRetriever
 from app.rate_limit import ConcurrencyLimiter, SlidingWindowLimiter
 from app.response_metadata import build_response_metadata
-from app.schemas import ChatRequest, PlaygroundRequest, PlaygroundResponse, SessionResponse
+from app.schemas import (
+    ChatRequest,
+    PlaygroundRequest,
+    PlaygroundResponse,
+    SessionResponse,
+)
 from app.security import create_session_token, decode_session_token
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -288,7 +293,7 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
                 status_code=503,
                 detail="The RAG Playground could not complete this request.",
             ) from exc
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             logger.error(
                 "playground_failed",
                 request_id=request.state.request_id,

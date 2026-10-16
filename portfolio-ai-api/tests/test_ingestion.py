@@ -5,9 +5,11 @@ from types import SimpleNamespace
 import pytest
 
 from scripts.ingest_portfolio import (
+    FILTERABLE_PAYLOAD_FIELDS,
     KNOWLEDGE_FILE,
     MANIFEST_FILE,
     embedding_text,
+    ensure_payload_indexes,
     list_collection_point_ids,
 )
 
@@ -33,6 +35,25 @@ async def test_collection_point_ids_are_read_across_all_pages():
 
     point_ids = await list_collection_point_ids(FakeQdrant(), "portfolio_knowledge")
     assert point_ids == {"current", "stale", "last"}
+
+
+@pytest.mark.asyncio
+async def test_filterable_payload_indexes_are_created_as_keywords():
+    calls = []
+
+    class FakeQdrant:
+        async def create_payload_index(self, **kwargs):
+            calls.append(kwargs)
+
+    await ensure_payload_indexes(FakeQdrant(), "portfolio_knowledge")
+
+    assert [call["field_name"] for call in calls] == list(
+        FILTERABLE_PAYLOAD_FIELDS
+    )
+    assert all(
+        call["field_schema"].value == "keyword" and call["wait"] is True
+        for call in calls
+    )
 
 
 def test_generated_manifest_matches_document_ids_hash_and_fingerprint():

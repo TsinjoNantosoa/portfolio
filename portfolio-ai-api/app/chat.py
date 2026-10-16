@@ -364,7 +364,7 @@ class PortfolioChatService:
         retrieval_started = time.perf_counter()
         try:
             retrieved_chunks = await self.retriever.retrieve(message, corpus=corpus)
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             raise PlaygroundUnavailableError("retrieval_unavailable") from exc
         chunks = [
             chunk
@@ -428,7 +428,7 @@ class PortfolioChatService:
                     )
                 ]
             )
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             raise PlaygroundUnavailableError("generation_unavailable") from exc
         if not answer.strip():
             raise PlaygroundUnavailableError("empty_model_response")

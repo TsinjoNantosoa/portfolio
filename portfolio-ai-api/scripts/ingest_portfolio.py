@@ -24,6 +24,7 @@ MANIFEST_FILE = (
     / "public_portfolio.manifest.json"
 )
 MANIFEST_ID = "portfolio-corpus-manifest"
+FILTERABLE_PAYLOAD_FIELDS = ("corpus_version", "type", "slug")
 
 
 def embedding_text(document: dict) -> str:
@@ -47,6 +48,19 @@ async def list_collection_point_ids(
         point_ids.update(str(point.id) for point in points)
         if offset is None:
             return point_ids
+
+
+async def ensure_payload_indexes(
+    qdrant: AsyncQdrantClient,
+    collection_name: str,
+) -> None:
+    for field_name in FILTERABLE_PAYLOAD_FIELDS:
+        await qdrant.create_payload_index(
+            collection_name=collection_name,
+            field_name=field_name,
+            field_schema=models.PayloadSchemaType.KEYWORD,
+            wait=True,
+        )
 
 
 async def ingest(dry_run: bool, recreate: bool):
@@ -99,6 +113,7 @@ async def ingest(dry_run: bool, recreate: bool):
                 size=vector_size, distance=models.Distance.COSINE
             ),
         )
+    await ensure_payload_indexes(qdrant, settings.qdrant_collection)
     points = []
     for item, embedding in zip(documents, embeddings.data, strict=True):
         stable_id = str(uuid5(NAMESPACE_URL, item["id"]))
