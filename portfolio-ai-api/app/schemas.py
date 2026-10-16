@@ -22,6 +22,53 @@ class SessionResponse(BaseModel):
     session_id: str
 
 
+class OperationsMetricsResponse(BaseModel):
+    requests: int | None = None
+    successful_requests: int | None = None
+    errors: int | None = None
+    success_rate: float | None = None
+    error_rate: float | None = None
+    refusals: int | None = None
+    p50_latency_ms: float | None = None
+    p95_latency_ms: float | None = None
+    retrieval_p95_ms: float | None = None
+    generation_p95_ms: float | None = None
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+
+
+class OperationsRequestDistribution(BaseModel):
+    assistant: int = 0
+    playground: int = 0
+    test: int = 0
+    demo: int = 0
+
+
+class OperationsSummaryResponse(BaseModel):
+    status: Literal["available", "no_data", "disabled", "stale"]
+    period: Literal["24h"]
+    period_start: str
+    period_end: str
+    metrics: OperationsMetricsResponse
+    request_distribution: OperationsRequestDistribution
+    error_distribution: dict[
+        Literal[
+            "cancelled",
+            "generation",
+            "internal",
+            "rate_limit",
+            "retrieval",
+            "timeout",
+            "unavailable",
+            "validation",
+        ],
+        int,
+    ] = Field(default_factory=dict)
+    last_event_at: str | None = None
+    last_updated: str
+    measurement_note: str
+
+
 PlaygroundCorpus = Literal["projects", "engineering_lab"]
 
 
@@ -71,9 +118,10 @@ class PlaygroundResponse(BaseModel):
     generated_from_retrieved_documents: bool
     citations_available: bool
     support_status: Literal["not_evaluated", "not_applicable"]
-    refusal_reason: Literal[
-        "prompt_injection", "sensitive_request", "out_of_scope", "no_evidence"
-    ] | None = None
+    refusal_reason: (
+        Literal["prompt_injection", "sensitive_request", "out_of_scope", "no_evidence"]
+        | None
+    ) = None
     evidence: list[PlaygroundEvidence] = Field(default_factory=list)
     trace: list[PlaygroundTraceStep]
     retrieval_strategy: str

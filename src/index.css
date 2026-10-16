@@ -162,15 +162,28 @@
     margin-inline: auto;
   }
 
+  .operations-container {
+    width: min(calc(100% - 2rem), 1480px);
+    margin-inline: auto;
+  }
+
   @media (min-width: 640px) {
     .site-container {
       width: min(calc(100% - 3rem), 1280px);
+    }
+
+    .operations-container {
+      width: min(calc(100% - 3rem), 1480px);
     }
   }
 
   @media (min-width: 1024px) {
     .site-container {
       width: min(calc(100% - 3.5rem), 1320px);
+    }
+
+    .operations-container {
+      width: min(calc(100% - 4rem), 1480px);
     }
   }
 

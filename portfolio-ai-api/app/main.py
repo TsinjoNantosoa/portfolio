@@ -17,11 +17,13 @@ from app.chat import PortfolioChatService
 from app.client_ip import get_client_ip
 from app.config import Settings, get_settings
 from app.errors import PlaygroundUnavailableError
+from app.operations import OperationEvent, OperationsCollector
 from app.rag import QdrantRetriever
 from app.rate_limit import ConcurrencyLimiter, SlidingWindowLimiter
 from app.response_metadata import build_response_metadata
 from app.schemas import (
     ChatRequest,
+    OperationsSummaryResponse,
     PlaygroundRequest,
     PlaygroundResponse,
     SessionResponse,
@@ -56,7 +58,11 @@ def error_code(status_code: int) -> str:
     }.get(status_code, "REQUEST_FAILED")
 
 
-def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
+def create_app(
+    settings: Settings | None = None,
+    chat_service=None,
+    operations_collector: OperationsCollector | None = None,
+) -> FastAPI:
     settings = settings or get_settings()
 
     @asynccontextmanager
@@ -65,6 +71,13 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
         app.state.limiter = SlidingWindowLimiter()
         app.state.playground_concurrency = ConcurrencyLimiter(
             settings.playground_max_concurrent_requests
+        )
+        app.state.operations = operations_collector or OperationsCollector(
+            enabled=settings.operations_monitor_enabled,
+            retention_hours=settings.operations_retention_hours,
+            max_events=settings.operations_max_events,
+            stale_after_minutes=settings.operations_stale_after_minutes,
+            cache_seconds=settings.operations_cache_seconds,
         )
         if chat_service is not None:
             app.state.chat = chat_service
@@ -162,6 +175,20 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
     def safe_session_id(session_id: str) -> str:
         return hashlib.sha256(session_id.encode()).hexdigest()[:12]
 
+    def record_operation(event: OperationEvent) -> None:
+        try:
+            request_collector = app.state.operations
+            if not request_collector.record(event):
+                return
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("operations_record_failed", error_type=type(exc).__name__)
+
+    def trace_duration(result: dict, step_id: str) -> float | None:
+        for step in result.get("trace", []):
+            if step.get("id") == step_id and step.get("duration_ms") is not None:
+                return float(step["duration_ms"])
+        return None
+
     async def claims(authorization: str | None = Header(default=None)) -> dict:
         if not authorization or not authorization.startswith("Bearer "):
             raise HTTPException(
@@ -219,6 +246,29 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
             token=token, expires_at=expires.isoformat(), session_id=session_id
         )
 
+    @app.get(
+        "/api/public/operations/summary",
+        response_model=OperationsSummaryResponse,
+    )
+    async def operations_summary(request: Request):
+        await request.app.state.limiter.check(
+            f"operations-ip:{client_key(request)}",
+            settings.operations_rate_limit_per_minute,
+            60,
+        )
+        try:
+            return request.app.state.operations.summary()
+        except Exception as exc:
+            logger.error(
+                "operations_summary_failed",
+                request_id=request.state.request_id,
+                error_type=type(exc).__name__,
+            )
+            raise HTTPException(
+                status_code=503,
+                detail="Public operations metrics are temporarily unavailable.",
+            ) from exc
+
     @app.post("/api/public/playground/query", response_model=PlaygroundResponse)
     async def playground_query(
         body: PlaygroundRequest,
@@ -233,8 +283,7 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
             raise HTTPException(
                 status_code=413,
                 detail=(
-                    "Message exceeds "
-                    f"{settings.playground_max_input_chars} characters."
+                    f"Message exceeds {settings.playground_max_input_chars} characters."
                 ),
             )
         sid = session_claims["sid"]
@@ -274,15 +323,45 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
             message_chars=len(body.message),
             corpus=body.corpus,
         )
+        operation_started = time.perf_counter()
         try:
             async with request.app.state.playground_concurrency.slot():
                 async with asyncio.timeout(settings.playground_request_timeout_seconds):
                     result = await service.playground(body.message, body.corpus)
         except HTTPException:
+            record_operation(
+                OperationEvent(
+                    source="playground",
+                    success=False,
+                    total_latency_ms=(time.perf_counter() - operation_started) * 1000,
+                    error_category="rate_limit",
+                )
+            )
             raise
         except asyncio.CancelledError:
+            record_operation(
+                OperationEvent(
+                    source="playground",
+                    success=False,
+                    total_latency_ms=(time.perf_counter() - operation_started) * 1000,
+                    error_category="cancelled",
+                )
+            )
             raise
         except (PlaygroundUnavailableError, TimeoutError) as exc:
+            category = (
+                "timeout"
+                if isinstance(exc, TimeoutError)
+                else ("retrieval" if "retrieval" in str(exc) else "generation")
+            )
+            record_operation(
+                OperationEvent(
+                    source="playground",
+                    success=False,
+                    total_latency_ms=(time.perf_counter() - operation_started) * 1000,
+                    error_category=category,
+                )
+            )
             logger.warning(
                 "playground_unavailable",
                 request_id=request.state.request_id,
@@ -294,6 +373,14 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
                 detail="The RAG Playground could not complete this request.",
             ) from exc
         except Exception as exc:
+            record_operation(
+                OperationEvent(
+                    source="playground",
+                    success=False,
+                    total_latency_ms=(time.perf_counter() - operation_started) * 1000,
+                    error_category="internal",
+                )
+            )
             logger.error(
                 "playground_failed",
                 request_id=request.state.request_id,
@@ -304,6 +391,16 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
                 status_code=500,
                 detail="The RAG Playground encountered an unexpected error.",
             ) from exc
+        record_operation(
+            OperationEvent(
+                source="playground",
+                success=True,
+                total_latency_ms=float(result.get("response_time_ms", 0)),
+                retrieval_latency_ms=trace_duration(result, "retrieval"),
+                generation_latency_ms=trace_duration(result, "generation"),
+                refused=bool(result.get("refusal_reason")),
+            )
+        )
         return PlaygroundResponse(**result, request_id=request.state.request_id)
 
     @app.post("/api/public/chat/stream")
@@ -343,6 +440,9 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
         )
 
         async def events():
+            operation_started = time.perf_counter()
+            retrieval_ms = None
+            generation_ms = None
             yield sse(
                 {
                     "type": "status",
@@ -352,9 +452,14 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
                 }
             )
             try:
+                retrieval_started = time.perf_counter()
                 chunks, tokens = await service.stream(body.message)
+                retrieval_ms = (time.perf_counter() - retrieval_started) * 1000
+                generation_started = time.perf_counter()
                 async for token in tokens:
                     yield sse({"type": "delta", "text": token})
+                if chunks:
+                    generation_ms = (time.perf_counter() - generation_started) * 1000
                 sources, suggested_links, suggested_questions = build_response_metadata(
                     chunks
                 )
@@ -375,7 +480,45 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
                     source_count=len(sources),
                     model=settings.openai_model,
                 )
+                record_operation(
+                    OperationEvent(
+                        source="assistant",
+                        success=True,
+                        total_latency_ms=(time.perf_counter() - operation_started)
+                        * 1000,
+                        retrieval_latency_ms=retrieval_ms if chunks else None,
+                        generation_latency_ms=generation_ms,
+                        refused=not bool(chunks),
+                    )
+                )
+            except asyncio.CancelledError:
+                record_operation(
+                    OperationEvent(
+                        source="assistant",
+                        success=False,
+                        total_latency_ms=(time.perf_counter() - operation_started)
+                        * 1000,
+                        retrieval_latency_ms=retrieval_ms,
+                        generation_latency_ms=generation_ms,
+                        error_category="cancelled",
+                    )
+                )
+                raise
             except Exception as exc:  # noqa: BLE001
+                error_category = (
+                    "timeout" if isinstance(exc, TimeoutError) else "internal"
+                )
+                record_operation(
+                    OperationEvent(
+                        source="assistant",
+                        success=False,
+                        total_latency_ms=(time.perf_counter() - operation_started)
+                        * 1000,
+                        retrieval_latency_ms=retrieval_ms,
+                        generation_latency_ms=generation_ms,
+                        error_category=error_category,
+                    )
+                )
                 logger.error(
                     "chat_failed",
                     request_id=request.state.request_id,

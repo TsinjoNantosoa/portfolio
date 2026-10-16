@@ -60,6 +60,12 @@ class Settings(BaseSettings):
     playground_instance_count: int = Field(default=1, ge=1, le=20)
     playground_request_timeout_seconds: float = Field(default=70, ge=0.01, le=120)
     corpus_readiness_ttl_seconds: float = Field(default=60, ge=0, le=300)
+    operations_monitor_enabled: bool = False
+    operations_retention_hours: int = Field(default=24, ge=1, le=168)
+    operations_max_events: int = Field(default=5000, ge=100, le=50000)
+    operations_stale_after_minutes: int = Field(default=15, ge=1, le=1440)
+    operations_cache_seconds: int = Field(default=30, ge=0, le=300)
+    operations_rate_limit_per_minute: int = Field(default=30, ge=1, le=120)
 
     @field_validator("allowed_origins", mode="before")
     @classmethod
