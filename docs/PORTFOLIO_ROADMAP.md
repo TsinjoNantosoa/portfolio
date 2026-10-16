@@ -55,6 +55,26 @@ Implementation approach:
 
 ## Phase 3 — Interactive Demonstrations
 
+Status: first Public RAG Playground implementation completed locally on 2026-10-16; production activation remains gated by budget approval and a live-provider deploy-preview test.
+
+Delivered for the Public RAG Playground:
+
+- Bilingual lazy-loaded `/lab/playground` interface.
+- Two explicitly authorized public corpora.
+- Real structured pipeline traces rather than decorative stage animation.
+- Retrieved passages, scores, citations, response timing, strategy, limitations, and request IDs.
+- Input, origin, session, corpus, injection, rate, token, source-URL, and safe-error controls.
+- Deterministic frontend and backend test coverage that requires no paid provider.
+- Render kill switch set to disabled until explicit production approval.
+
+Remaining before production activation:
+
+1. Approve the provider budget and traffic ceiling.
+2. Reingest the current public corpus and run the live retrieval evaluation.
+3. Execute live, no-evidence, injection, timeout, and rate-limit scenarios in a deploy preview.
+4. Replace the process-local limiter with shared storage before horizontal scaling.
+5. Enable `PLAYGROUND_ENABLED` only after the acceptance evidence is recorded.
+
 ### 3.1 Offshore Fares Workflow Simulator
 
 First release should be deterministic and clearly labeled `Simulation`.

@@ -19,7 +19,7 @@ from app.config import Settings, get_settings
 from app.rag import QdrantRetriever
 from app.rate_limit import SlidingWindowLimiter
 from app.response_metadata import build_response_metadata
-from app.schemas import ChatRequest, SessionResponse
+from app.schemas import ChatRequest, PlaygroundRequest, PlaygroundResponse, SessionResponse
 from app.security import create_session_token, decode_session_token
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -195,6 +195,66 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
         return SessionResponse(
             token=token, expires_at=expires.isoformat(), session_id=session_id
         )
+
+    @app.post("/api/public/playground/query", response_model=PlaygroundResponse)
+    async def playground_query(
+        body: PlaygroundRequest,
+        request: Request,
+        session_claims: dict = Depends(claims),  # noqa: B008
+    ):
+        if not settings.playground_enabled:
+            raise HTTPException(
+                status_code=503, detail="The RAG Playground is temporarily unavailable."
+            )
+        if len(body.message) > settings.playground_max_input_chars:
+            raise HTTPException(
+                status_code=422,
+                detail=(
+                    "Message exceeds "
+                    f"{settings.playground_max_input_chars} characters."
+                ),
+            )
+        sid = session_claims["sid"]
+        if body.conversation_id and body.conversation_id != sid:
+            raise HTTPException(
+                status_code=403, detail="Conversation does not belong to this session."
+            )
+        await request.app.state.limiter.check(
+            f"playground-ip:{client_key(request)}",
+            settings.ip_rate_limit_per_minute,
+            60,
+        )
+        await request.app.state.limiter.check(
+            f"playground-session:{sid}",
+            settings.playground_session_rate_limit_per_hour,
+            3600,
+        )
+        service = request.app.state.chat
+        if service is None or not hasattr(service, "playground"):
+            raise HTTPException(
+                status_code=503, detail="The RAG Playground is temporarily unavailable."
+            )
+        logger.info(
+            "playground_started",
+            request_id=request.state.request_id,
+            session_id=safe_session_id(sid),
+            message_chars=len(body.message),
+            corpus=body.corpus,
+        )
+        try:
+            result = await service.playground(body.message, body.corpus)
+        except Exception as exc:  # noqa: BLE001
+            logger.error(
+                "playground_failed",
+                request_id=request.state.request_id,
+                session_id=safe_session_id(sid),
+                error_type=type(exc).__name__,
+            )
+            raise HTTPException(
+                status_code=503,
+                detail="The RAG Playground could not complete this request.",
+            ) from exc
+        return PlaygroundResponse(**result, request_id=request.state.request_id)
 
     @app.post("/api/public/chat/stream")
     async def chat(

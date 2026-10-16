@@ -56,13 +56,19 @@ async def test_retrieval_diversifies_projects_and_limits_results():
         )
     ]
 
+    applied_filters = []
+
     async def query_points(**kwargs):
         assert kwargs["limit"] == 24
+        applied_filters.append(kwargs["query_filter"])
         return SimpleNamespace(points=points)
 
     retriever.qdrant = SimpleNamespace(query_points=query_points)
     results = await retriever.retrieve("Which project uses LangGraph?")
     assert [item.slug for item in results] == ["arcwell", "arcwell", "sihia"]
+    await retriever.retrieve("How is the Lab structured?", corpus="engineering_lab")
+    assert applied_filters[0] is None
+    assert applied_filters[1] is not None
 
 
 def test_source_metadata_is_deduplicated_and_urls_are_deterministic():

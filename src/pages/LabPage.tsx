@@ -7,6 +7,7 @@ import {
   Braces,
   Database,
   ExternalLink,
+  FlaskConical,
   ServerCog,
   Workflow,
 } from "lucide-react";
@@ -85,6 +86,13 @@ const LabPage = () => {
               <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
                 {t("lab.standardDescription")}
               </p>
+              <Link
+                to="/lab/playground"
+                className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-md bg-neon px-4 text-sm font-semibold text-black transition hover:brightness-110"
+              >
+                <FlaskConical size={16} aria-hidden />
+                {language === "fr" ? "Tester le Playground RAG" : "Open the RAG Playground"}
+              </Link>
             </div>
           </div>
         </section>

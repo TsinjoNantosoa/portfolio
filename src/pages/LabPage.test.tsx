@@ -34,6 +34,7 @@ describe("AI Engineering Lab", () => {
     expect(screen.getByRole("heading", { name: "Production Engineering" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "AI-Assisted Development" })).toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: /SIHIA/i })[0]).toHaveAttribute("href", "/work/sihia");
+    expect(screen.getByRole("link", { name: "Open the RAG Playground" })).toHaveAttribute("href", "/lab/playground");
   });
 
   it("provides complete French lab copy", async () => {

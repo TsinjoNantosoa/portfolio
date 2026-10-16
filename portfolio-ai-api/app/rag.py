@@ -2,7 +2,7 @@ import re
 
 import structlog
 from openai import AsyncOpenAI
-from qdrant_client import AsyncQdrantClient
+from qdrant_client import AsyncQdrantClient, models
 
 from app.config import Settings
 from app.schemas import KnowledgeChunk
@@ -21,6 +21,28 @@ STOP_WORDS = {
     "tell",
     "tjinjo",
     "tsinjo",
+}
+
+PLAYGROUND_CORPUS_FILTERS = {
+    "projects": models.Filter(
+        must=[models.FieldCondition(key="type", match=models.MatchValue(value="project"))]
+    ),
+    "engineering_lab": models.Filter(
+        must=[
+            models.FieldCondition(
+                key="slug",
+                match=models.MatchAny(
+                    any=[
+                        "lab-rag",
+                        "lab-agentic",
+                        "lab-automation",
+                        "lab-production",
+                        "lab-assisted-development",
+                    ]
+                ),
+            )
+        ]
+    ),
 }
 
 
@@ -64,7 +86,10 @@ class QdrantRetriever:
             url=settings.qdrant_url, api_key=settings.qdrant_api_key or None
         )
 
-    async def retrieve(self, query: str) -> list[KnowledgeChunk]:
+    async def retrieve(
+        self, query: str, corpus: str | None = None
+    ) -> list[KnowledgeChunk]:
+        query_filter = PLAYGROUND_CORPUS_FILTERS.get(corpus) if corpus else None
         embedding = await self.openai.embeddings.create(
             model=self.settings.openai_embedding_model, input=query
         )
@@ -75,6 +100,7 @@ class QdrantRetriever:
             # rag_top_k chunks to the generation model.
             limit=24,
             score_threshold=self.settings.retrieval_score_threshold,
+            query_filter=query_filter,
             with_payload=True,
         )
         candidates: list[tuple[float, KnowledgeChunk]] = []
@@ -109,6 +135,7 @@ class QdrantRetriever:
             result_count=len(chunks),
             source_ids=[chunk.id for chunk in chunks],
             scores=[round(chunk.score, 4) for chunk in chunks],
+            corpus=corpus or "public_portfolio",
         )
         return chunks
 

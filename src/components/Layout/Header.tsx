@@ -87,7 +87,7 @@ const Header = () => {
         <nav className="hidden xl:block" aria-label={t("nav.primary")}>
           <ul className="flex items-center gap-0.5">
             {navItems.map((item) => {
-              const isActive = item.id === "lab" ? location.pathname === "/lab" : location.pathname === "/" && activeSection === item.id;
+              const isActive = item.id === "lab" ? location.pathname.startsWith("/lab") : location.pathname === "/" && activeSection === item.id;
               return (
                 <li key={item.href}>
                   <a

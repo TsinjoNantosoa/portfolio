@@ -9,6 +9,7 @@ import { ThemeProvider } from "./theme/ThemeProvider";
 const Index = lazy(() => import("./pages/Index"));
 const CaseStudyPage = lazy(() => import("./pages/CaseStudyPage"));
 const LabPage = lazy(() => import("./pages/LabPage"));
+const PlaygroundPage = lazy(() => import("./pages/PlaygroundPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const RouteFallback = () => (
@@ -28,6 +29,7 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/lab" element={<LabPage />} />
+                <Route path="/lab/playground" element={<PlaygroundPage />} />
                 <Route path="/work/:slug" element={<CaseStudyPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
