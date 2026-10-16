@@ -70,7 +70,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items })
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[90] bg-black/70 lg:hidden"
+            className="fixed inset-0 z-[90] bg-black/70 xl:hidden"
             onClick={() => setIsOpen(false)}
           />
           <motion.div
@@ -83,7 +83,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items })
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -280 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-y-0 left-0 z-[100] w-[min(340px,88vw)] border-r border-white/10 bg-[var(--surface-1)] pb-[env(safe-area-inset-bottom)] text-[var(--text-primary)] shadow-2xl lg:hidden"
+            className="fixed inset-y-0 left-0 z-[100] w-[min(340px,88vw)] border-r border-white/10 bg-[var(--surface-1)] pb-[env(safe-area-inset-bottom)] text-[var(--text-primary)] shadow-2xl xl:hidden"
           >
             <div className="flex h-16 items-center justify-between border-b border-white/10 px-6">
               <span className="text-lg font-semibold text-[var(--text-primary)]">

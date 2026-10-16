@@ -8,6 +8,14 @@ import ArchitectureDiagram from "@/components/project/ArchitectureDiagram";
 import { getFeaturedProjectBySlug } from "@/data/projects";
 import { useI18n } from "@/i18n/I18nProvider";
 import { localizePortfolioText } from "@/i18n/portfolioContent";
+import type { ProjectMaturity } from "@/types/portfolio";
+
+const maturityKeys: Record<ProjectMaturity, "maturity.production" | "maturity.deployedDemo" | "maturity.prototype" | "maturity.research"> = {
+  Production: "maturity.production",
+  "Deployed Demo": "maturity.deployedDemo",
+  Prototype: "maturity.prototype",
+  Research: "maturity.research",
+};
 
 const CaseStudyPage: React.FC = () => {
   const { language, t } = useI18n();
@@ -60,6 +68,16 @@ const CaseStudyPage: React.FC = () => {
   const hasMediaSlot = hasMedia || Boolean(project.imagePending);
   const mediaAlt =
     localizePortfolioText(project.imageAlt, language) || `${project.title} product screenshot`;
+  const caseNavigation = [
+    project.overview && { id: "overview", label: t("case.overview") },
+    project.architecture?.length && { id: "architecture", label: t("case.architecture") },
+    project.howItWorks?.length && { id: "workflow", label: t("case.workflow") },
+    project.security?.length && { id: "security", label: t("case.reliability") },
+    project.evaluation?.length && { id: "evaluation", label: t("case.evaluation") },
+    project.proof?.length && { id: "results", label: t("case.results") },
+    project.limitations?.length && { id: "limitations", label: t("case.limitations") },
+    { id: "stack", label: t("case.stack") },
+  ].filter((item): item is { id: string; label: string } => Boolean(item));
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-white">
@@ -92,11 +110,16 @@ const CaseStudyPage: React.FC = () => {
           {localizePortfolioText(project.technicalSummary, language)}
         </p>
 
-        {project.status ? (
-          <p className="mb-8 inline-flex max-w-full whitespace-normal rounded-2xl border border-neon/25 bg-neon/[0.06] px-3 py-1.5 font-mono text-xs leading-relaxed text-neon sm:rounded-full">
-            {localizePortfolioText(project.status, language)}
-          </p>
-        ) : null}
+        <div className="mb-8 flex flex-wrap items-center gap-2">
+          <span className="inline-flex rounded-full border border-neon/35 bg-neon/[0.08] px-3 py-1.5 font-mono text-xs text-neon">
+            {t(maturityKeys[project.maturity])}
+          </span>
+          {project.status ? (
+            <span className="inline-flex max-w-full whitespace-normal rounded-2xl border border-white/10 px-3 py-1.5 font-mono text-xs leading-relaxed text-[var(--text-muted)] sm:rounded-full">
+              {localizePortfolioText(project.status, language)}
+            </span>
+          ) : null}
+        </div>
 
         {hasMediaSlot && (
           <div className="mb-10 min-w-0 max-w-full overflow-hidden rounded-2xl border border-white/10">
@@ -131,6 +154,18 @@ const CaseStudyPage: React.FC = () => {
             )}
           </div>
         )}
+
+        <nav className="mb-10 border-y border-white/10 py-3" aria-label={t("case.navigation")}>
+          <ul className="flex flex-wrap gap-x-5 gap-y-1">
+            {caseNavigation.map((item) => (
+              <li key={item.id}>
+                <a className="inline-flex min-h-9 items-center text-xs text-[var(--text-muted)] transition hover:text-neon" href={`#${item.id}`}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         <div className="mb-10 flex flex-wrap gap-4">
           {project.demoLink && (
@@ -178,6 +213,7 @@ const CaseStudyPage: React.FC = () => {
                       src={image.src}
                       alt={localizePortfolioText(image.alt, language)}
                       loading="lazy"
+                      decoding="async"
                       width={1760}
                       height={850}
                       className="aspect-[2/1] h-auto w-full object-cover object-top transition duration-300 group-hover/media:brightness-110"
@@ -194,7 +230,7 @@ const CaseStudyPage: React.FC = () => {
 
         <div className="grid gap-8 lg:grid-cols-2">
           {project.overview && (
-            <section>
+            <section id="overview" className="scroll-mt-24">
               <h2 className="mb-3 text-xl font-semibold">{t("case.overview")}</h2>
               <p className="text-[15px] leading-relaxed text-[var(--text-secondary)]">
                 {localizePortfolioText(project.overview, language)}
@@ -218,7 +254,7 @@ const CaseStudyPage: React.FC = () => {
             </section>
           )}
           {project.architecture && project.architecture.length > 0 && (
-            <section>
+            <section id="architecture" className="scroll-mt-24">
               <h2 className="mb-3 text-xl font-semibold">{t("case.architecture")}</h2>
               <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
                 {project.architecture.map((item) => (
@@ -230,7 +266,7 @@ const CaseStudyPage: React.FC = () => {
         </div>
 
         {project.showArchitectureDiagram ? (
-          <section className="mt-10" aria-labelledby="visual-architecture-title">
+          <section className="mt-10 scroll-mt-24" aria-labelledby="visual-architecture-title">
             <h2 id="visual-architecture-title" className="mb-4 text-xl font-semibold">
               {t("case.architectureDiagram")}
             </h2>
@@ -239,8 +275,8 @@ const CaseStudyPage: React.FC = () => {
         ) : null}
 
         {project.howItWorks && project.howItWorks.length > 0 && (
-          <section className="mt-10">
-            <h2 className="mb-4 text-xl font-semibold">{t("case.how")}</h2>
+          <section id="workflow" className="mt-10 scroll-mt-24">
+            <h2 className="mb-4 text-xl font-semibold">{t("case.workflow")}</h2>
             <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {project.howItWorks.map((step, index) => (
                 <li
@@ -360,7 +396,7 @@ const CaseStudyPage: React.FC = () => {
         )}
 
         {project.security && project.security.length > 0 && (
-          <section className="mt-10">
+          <section id="security" className="mt-10 scroll-mt-24">
             <h2 className="mb-3 text-xl font-semibold">{t("case.reliability")}</h2>
             <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
               {project.security.map((item) => (
@@ -383,8 +419,22 @@ const CaseStudyPage: React.FC = () => {
           </section>
         )}
 
+        {project.evaluation && project.evaluation.length > 0 && (
+          <section id="evaluation" className="mt-10 scroll-mt-24">
+            <h2 className="mb-3 text-xl font-semibold">{t("case.evaluation")}</h2>
+            <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
+              {project.evaluation.map((item) => (
+                <li key={item} className="flex gap-2.5">
+                  <span className="text-neon" aria-hidden>✓</span>
+                  <span>{localizePortfolioText(item, language)}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {project.outcomes && project.outcomes.length > 0 && (
-          <section className="mt-10">
+          <section id="results" className="mt-10 scroll-mt-24">
             <h2 className="mb-3 text-xl font-semibold">{t("case.outcomes")}</h2>
             <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
               {project.outcomes.map((item) => (
@@ -421,13 +471,29 @@ const CaseStudyPage: React.FC = () => {
                 >
                   <p className="font-mono text-2xl font-semibold text-neon">{localizePortfolioText(item.value, language)}</p>
                   <p className="mt-1 text-sm text-[var(--text-muted)]">{localizePortfolioText(item.label, language)}</p>
+                  {item.hint ? (
+                    <p className="mt-1 font-mono text-[11px] leading-relaxed text-[var(--text-muted)]/80">
+                      {localizePortfolioText(item.hint, language)}
+                    </p>
+                  ) : null}
                 </div>
               ))}
             </div>
           </section>
         )}
 
-        <section className="mt-10">
+        {project.limitations && project.limitations.length > 0 && (
+          <section id="limitations" className="mt-10 scroll-mt-24 border-l-2 border-amber-400/60 pl-5">
+            <h2 className="mb-3 text-xl font-semibold">{t("case.limitations")}</h2>
+            <ul className="space-y-2 text-[15px] text-[var(--text-secondary)]">
+              {project.limitations.map((item) => (
+                <li key={item}>• {localizePortfolioText(item, language)}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <section id="stack" className="mt-10 scroll-mt-24">
           <h2 className="mb-4 text-xl font-semibold">{t("case.stack")}</h2>
           <div className="flex flex-wrap gap-2">
             {project.stack.map((tech) => (

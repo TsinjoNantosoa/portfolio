@@ -609,7 +609,7 @@
     "title": "Arcwell — Governed Agentic CRM",
     "section": "Overview",
     "url": "/work/arcwell-agentic-crm",
-    "content": "An AI layer that helps CRM teams automate work while keeping sensitive actions under business rules and human approval. A governed AI layer for CRM workflows where agents reason over authorized business context, propose structured actions, and require deterministic policy checks or human approval before sensitive mutations. Agentic CRM layer focused on governed tool use, policy checks, and human approval before sensitive mutations.",
+    "content": "A governed AI layer that analyzes CRM context, retrieves authorized knowledge, and proposes traceable actions without giving the model direct control over business data. Full-stack governed Agentic CRM reference implementation with tenant-scoped intelligence, typed tool proposals, deterministic authorization, atomic human approval, controlled connectors, and correlated audit trails. Arcwell is a FastAPI modular monolith with a React client and Celery workers. Its central trust boundary is explicit: models may analyze evidence and propose typed actions, while authenticated application services retain authority over mutations. The complete Docker profile runs PostgreSQL, Redis, Qdrant, migrations, deterministic demo providers, the API, workers, and the frontend without requiring external credentials.",
     "links": [
       {
         "label": "View Arcwell — Governed Agentic CRM case study",
@@ -634,7 +634,7 @@
     "title": "Arcwell — Governed Agentic CRM",
     "section": "Problem and solution",
     "url": "/work/arcwell-agentic-crm",
-    "content": "Agents propose actions instead of executing blindly; Sensitive AI actions must pass business rules before execution; Human approval before high-impact CRM changes; Audit trails for proposed and approved actions",
+    "content": "CRM teams benefit from AI summaries, call analysis, internal knowledge retrieval, and next-step recommendations. The risk begins when probabilistic model output is treated as permission to change lead status, move an opportunity, or create downstream work without deterministic access checks, tenant isolation, concurrency control, and an accountable decision trail. Arcwell treats every model-generated mutation as untrusted structured input. LangGraph assembles authorized CRM and knowledge context, the provider returns Pydantic-validated proposals, and a deterministic policy engine decides whether each proposal is denied, permitted, or held for approval. Only a trusted application service can execute an approved command through a typed CRM connector. LangGraph account intelligence over tenant-scoped CRM and role-filtered knowledge; Typed proposals evaluated by deterministic policy before any sensitive CRM mutation; Atomic Manager/Admin approval with policy re-check and stale-value conflict protection; Correlated audit, execution, AI usage, automation, and transactional outbox records",
     "links": [
       {
         "label": "View Arcwell — Governed Agentic CRM case study",
@@ -659,7 +659,7 @@
     "title": "Arcwell — Governed Agentic CRM",
     "section": "Architecture",
     "url": "/work/arcwell-agentic-crm",
-    "content": "LangGraph orchestration for multi-step agent workflows; Tenant-scoped retrieval with access filtering; Action proposal layer separated from execution; HITL approval and audit trail persistence.",
+    "content": "React 19 and TypeScript client with TanStack Query plus swappable HTTP and demo data providers; FastAPI modular monolith with async SQLAlchemy, Pydantic contracts, Alembic migrations, and RBAC dependencies; LangGraph StateGraph for account intelligence and direct governed FastAPI flows for RAG and call analysis; PostgreSQL as the source of truth, Redis for rate limits and Celery, and optional filtered Qdrant retrieval; Typed provider and connector boundaries for AI, embeddings, CRM, email, telephony, transcription, and vector search; Transactional proposal, approval, execution, audit, and outbox lifecycle with correlated request metadata. Flow: The API authenticates the actor and reconstructs organization and role claims from a signed access token; LangGraph loads organization-scoped CRM aggregates and retrieves only knowledge permitted for the actor's role; The configured deterministic or OpenAI provider returns a structured analysis and typed action proposals; Each proposal is schema-validated and checked against tool allowlists, role permissions, tenant ownership, and sensitivity rules; Sensitive proposals are persisted for a Manager or Administrator to approve or reject outside the model; Approval acquires a row lock, atomically claims execution, re-runs policy, checks for stale CRM values, and dispatches through the trusted CRM service; The outcome, before/after values, actor, evidence, correlation IDs, audit event, and outbox event are committed together.",
     "links": [
       {
         "label": "View Arcwell — Governed Agentic CRM case study",
@@ -684,7 +684,7 @@
     "title": "Arcwell — Governed Agentic CRM",
     "section": "Engineering decisions",
     "url": "/work/arcwell-agentic-crm",
-    "content": "Separate reasoning from authorization and execution; Deterministic policy checks before sensitive mutations; Human approval for high-impact CRM operations.",
+    "content": "Keep authorization outside prompts so policy remains deterministic and independently testable; Filter organization and access-level knowledge before evidence reaches the model; Separate approval from execution and use row locks plus conditional state transitions to prevent duplicate concurrent writes; Re-check policy and compare observed CRM values immediately before an approved mutation; Use a modular monolith to preserve simple transaction boundaries across approval, mutation, audit, and outbox records; Expose deterministic demo providers explicitly as simulated instead of presenting seeded integrations as live. AI proposes; the system authorizes: Natural-language model output is never accepted as permission. Arcwell parses supported responses into finite Pydantic schemas, evaluates policy in ordinary Python code, persists the decision, and permits execution only through an authenticated application service after any required human approval.",
     "links": [
       {
         "label": "View Arcwell — Governed Agentic CRM case study",
@@ -709,7 +709,57 @@
     "title": "Arcwell — Governed Agentic CRM",
     "section": "Controls, evidence and stack",
     "url": "/work/arcwell-agentic-crm",
-    "content": "Technologies: Python; FastAPI; LangGraph; Qdrant; PostgreSQL; Redis; Celery; React.",
+    "content": "Argon2id passwords, short-lived signed JWTs, rotated hashed refresh tokens, HttpOnly cookies, and revocation; RBAC for Administrator, Manager, and Sales Representative plus organization predicates and object-level checks; Tool allowlist, forbidden capabilities, typed arguments, risk classification, and tenant validation before execution; Signed Twilio/Plivo and HMAC webhooks with replay protection, event idempotency, and Redis-backed rate limits; Upload type, size, filename, tenant-path, and retrieval-access validation for PDF, DOCX, TXT, and Markdown knowledge; HTTPS-only transcription URLs with host allowlists, DNS/private-address checks, redirect blocking, and content limits. Managers and Administrators can approve or reject sensitive proposals; Sales Representatives may inspect them but cannot resolve them. Rejection executes nothing. Approval re-evaluates policy and current CRM state before the application service performs a supported command, preventing the model or an outdated proposal from bypassing business control. Technologies: React 19; TypeScript; FastAPI; LangGraph; Pydantic; SQLAlchemy; Alembic; PostgreSQL 16; Qdrant; Redis 7; Celery; OpenAI; SuiteCRM; Prometheus; Docker Compose. Public evidence: 99 Backend tests passed (Documented repository audit), 71% Measured coverage (Documented backend line coverage), 13 Frontend tests passed (Documented Vitest validation).",
+    "links": [
+      {
+        "label": "View Arcwell — Governed Agentic CRM case study",
+        "url": "/work/arcwell-agentic-crm"
+      },
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/arcwell-agentic-crm"
+      }
+    ],
+    "suggested_questions": [
+      "How does Human-in-the-Loop work in Arcwell?",
+      "Why are policy checks deterministic?",
+      "Which other project uses LangGraph?"
+    ]
+  },
+  {
+    "id": "project:arcwell-agentic-crm:evaluation-and-testing",
+    "type": "project",
+    "slug": "arcwell-agentic-crm",
+    "project_slug": "arcwell-agentic-crm",
+    "title": "Arcwell — Governed Agentic CRM",
+    "section": "Evaluation and testing",
+    "url": "/work/arcwell-agentic-crm",
+    "content": "Repository audit: 99 passing backend tests with 71% measured line coverage; Frontend lint, typecheck, 13 Vitest tests, and production build documented as passing; Policy scoring, provider security, RAG lifecycle, API contracts, and critical flows have dedicated backend tests; Docker Compose configuration was validated, but complete container startup was not rerun during the source audit",
+    "links": [
+      {
+        "label": "View Arcwell — Governed Agentic CRM case study",
+        "url": "/work/arcwell-agentic-crm"
+      },
+      {
+        "label": "View GitHub repository",
+        "url": "https://github.com/TsinjoNantosoa/arcwell-agentic-crm"
+      }
+    ],
+    "suggested_questions": [
+      "How does Human-in-the-Loop work in Arcwell?",
+      "Why are policy checks deterministic?",
+      "Which other project uses LangGraph?"
+    ]
+  },
+  {
+    "id": "project:arcwell-agentic-crm:current-limitations",
+    "type": "project",
+    "slug": "arcwell-agentic-crm",
+    "project_slug": "arcwell-agentic-crm",
+    "title": "Arcwell — Governed Agentic CRM",
+    "section": "Current limitations",
+    "url": "/work/arcwell-agentic-crm",
+    "content": "Backend mypy currently reports 83 typing errors, primarily around third-party decorators and stubs; Only account intelligence uses LangGraph; other AI endpoints use direct governed workflows; SuiteCRM, SendGrid, transcription, and external providers require real credentials and are not bundled as live services; Tenant isolation uses application predicates rather than PostgreSQL Row-Level Security; Complete Docker startup was not revalidated in the documented repository audit",
     "links": [
       {
         "label": "View Arcwell — Governed Agentic CRM case study",
@@ -734,7 +784,7 @@
     "title": "AI Business Operating System",
     "section": "Overview",
     "url": "/work/ai-business-os",
-    "content": "An AI-first business platform where agents can retrieve context, help with business tasks, and propose controlled actions. Multi-tenant AI-first SaaS platform combining business operations, knowledge retrieval, workflows, and controlled agent actions. Full-stack AI business platform combining operations, agent-driven actions, and a working product demo.",
+    "content": "An AI-first business platform connecting CRM, finance, projects, support, knowledge, analytics, and controlled agent actions. Functional full-stack MVP combining persistence-backed business operations, tenant-grounded AI assistance, controlled tool execution, and durable workflow history. AI BOS is a modular monolith that connects business data and AI actions inside the same identity, tenant, authorization, workflow, and audit boundaries. The React application exposes permission-aware operational modules while FastAPI services, tenant-filtered repositories, and PostgreSQL provide the enforcement layer.",
     "links": [
       {
         "label": "View AI Business Operating System case study",
@@ -759,7 +809,7 @@
     "title": "AI Business Operating System",
     "section": "Problem and solution",
     "url": "/work/ai-business-os",
-    "content": "Agents help with business tasks using authorized tools; Human approval before sensitive operations; Shared platform with organization-level access control; Business modules connected to knowledge retrieval and workflows",
+    "content": "Business teams often split CRM, finance, projects, support, documents, and automation across disconnected tools. Adding a separate copilot to every silo duplicates identity, permissions, context, observability, and integration logic while making AI actions difficult to govern. AI BOS consolidates operational modules on one tenant-aware platform layer. The copilot retrieves organization knowledge, selects only registered tools, and submits sensitive mutations for approval; backend permissions, repositories, audit records, and workflow rules remain the execution authority. Persistence-backed CRM, finance, projects, tasks, support, documents, and platform administration; Custom AI orchestration with an explicit tool registry and deterministic offline fallback; Tenant-grounded Hybrid RAG with database-backed sources and citations; Human approval, permission checks, audit records, and AI traces around sensitive actions",
     "links": [
       {
         "label": "View AI Business Operating System case study",
@@ -784,7 +834,32 @@
     "title": "AI Business Operating System",
     "section": "Architecture",
     "url": "/work/ai-business-os",
-    "content": "FastAPI backend with React frontend; Agent and tool orchestration with controlled execution; PostgreSQL + Redis supporting application state; Human-in-the-Loop approval for sensitive actions.",
+    "content": "React 18 and TypeScript application with protected, permission-aware routes, TanStack Query, and Zustand; FastAPI modular monolith organized into presentation, service, repository, and SQLAlchemy layers; PostgreSQL 16 with Alembic migrations, tenant-aware repository filters, and forced Row-Level Security; Custom tool-calling orchestrator with registered JSON schemas and a deterministic local planner fallback; Hybrid lexical and cosine retrieval over persisted knowledge chunks with database-backed citations; Persistent domain events and visual workflows with step inputs, outputs, status, duration, and sanitized errors. Flow: JWT or scoped API-key identity establishes an immutable organization context; Business modules read and mutate data through permission checks and tenant-filtered repositories; The copilot retrieves tenant knowledge and either calls OpenAI or uses deterministic local intent planning; The model can propose only tools exposed by the explicit registry; it never receives arbitrary database or shell access; Medium-risk mutations are persisted as pending actions and re-authorized when a human approves them; Tool results, audit records, AI traces, notifications, and workflow execution history remain inspectable.",
+    "links": [
+      {
+        "label": "View AI Business Operating System case study",
+        "url": "/work/ai-business-os"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://ai-business-os-murex.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does AI BOS control agent actions?",
+      "What is the AI BOS architecture?",
+      "Which projects demonstrate multi-tenancy?"
+    ]
+  },
+  {
+    "id": "project:ai-business-os:engineering-decisions",
+    "type": "project",
+    "slug": "ai-business-os",
+    "project_slug": "ai-business-os",
+    "title": "AI Business Operating System",
+    "section": "Engineering decisions",
+    "url": "/work/ai-business-os",
+    "content": "Use a modular monolith to keep cross-module transactions and platform policies coherent at the MVP stage; Treat the tenant header as a consistency assertion, never as a way to switch organizations; Keep authorization in backend policy code instead of prompts or model output; Persist approval requests before sensitive mutations and re-check the approver's permissions at execution time; Provide deterministic local embeddings and intent planning so core demonstrations remain usable without an AI provider. AI reasons; the platform authorizes and executes: The model may select a registered tool and prepare its parameters, but authenticated tenant context, named backend permissions, risk metadata, human approval, repository validation, and audit logging determine whether the action can run.",
     "links": [
       {
         "label": "View AI Business Operating System case study",
@@ -809,7 +884,57 @@
     "title": "AI Business Operating System",
     "section": "Controls, evidence and stack",
     "url": "/work/ai-business-os",
-    "content": "Technologies: Python; FastAPI; React; PostgreSQL; Redis; OpenAI; Docker.",
+    "content": "PBKDF2 password hashing, signed JWTs, hashed refresh sessions, rotation, reuse detection, and revocation; Named RBAC permissions, scoped API keys, tenant repository filters, and forced PostgreSQL Row-Level Security; Google and Microsoft OAuth with state, PKCE, verified profiles, and invitation-gated onboarding; Secret redaction, security headers, production CORS validation, audit records, and disabled production OpenAPI routes; Outbound workflow requests reject credentials in URLs and local, private, or reserved network targets. The copilot can read authorized business context and propose actions, but sensitive mutations such as creating a CRM lead or an assigned task are stored as pending actions. Approval triggers a fresh permission check before controlled execution; rejection stops the operation. Technologies: React 18; TypeScript; Vite; FastAPI; SQLAlchemy; Alembic; PostgreSQL 16; OpenAI; SSE; TanStack Query; React Flow; Playwright; Docker; GitHub Actions. Public evidence: 214 Backend tests passed (Documented audit · 2026-09-07), 16 Frontend tests passed (Documented audit · 2026-09-07), 26 Database migrations (PostgreSQL schema and RLS).",
+    "links": [
+      {
+        "label": "View AI Business Operating System case study",
+        "url": "/work/ai-business-os"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://ai-business-os-murex.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does AI BOS control agent actions?",
+      "What is the AI BOS architecture?",
+      "Which projects demonstrate multi-tenancy?"
+    ]
+  },
+  {
+    "id": "project:ai-business-os:evaluation-and-testing",
+    "type": "project",
+    "slug": "ai-business-os",
+    "project_slug": "ai-business-os",
+    "title": "AI Business Operating System",
+    "section": "Evaluation and testing",
+    "url": "/work/ai-business-os",
+    "content": "Documented audit on 2026-09-07: 214 backend tests passed and one PostgreSQL-only test was skipped; Frontend typecheck, 16 Vitest tests, and production build passed with zero ESLint errors; PostgreSQL migrations 001 through 026 passed and direct tenant-isolation checks rejected a cross-tenant write; Playwright reported three passing and four failing scenarios; the failures are not presented as successful validation",
+    "links": [
+      {
+        "label": "View AI Business Operating System case study",
+        "url": "/work/ai-business-os"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://ai-business-os-murex.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does AI BOS control agent actions?",
+      "What is the AI BOS architecture?",
+      "Which projects demonstrate multi-tenancy?"
+    ]
+  },
+  {
+    "id": "project:ai-business-os:current-limitations",
+    "type": "project",
+    "slug": "ai-business-os",
+    "project_slug": "ai-business-os",
+    "title": "AI Business Operating System",
+    "section": "Current limitations",
+    "url": "/work/ai-business-os",
+    "content": "Four of seven documented Playwright scenarios currently fail because of timeouts and a mobile-header expectation; The PostgreSQL RLS pytest harness needs correction even though direct policy checks succeeded; Vector scoring runs in Python over stored JSON values; Qdrant, pgvector, RRF, and cross-encoder reranking are not part of this runtime; Workflow execution is synchronous and in-process without Redis or distributed workers; The Vercel and Render configuration does not by itself prove an active production backend deployment",
     "links": [
       {
         "label": "View AI Business Operating System case study",
@@ -834,7 +959,7 @@
     "title": "SIHIA — AI-Powered HealthTech Platform",
     "section": "Overview",
     "url": "/work/sihia",
-    "content": "A healthcare operations platform combining hospital workflows, predictive analytics, and an AI assistant grounded in trusted knowledge. Full-stack healthcare operations platform combining secure hospital workflows, predictive analytics, and a grounded Hybrid RAG assistant. Healthcare operations platform with predictive analytics and a grounded Hybrid RAG assistant.",
+    "content": "A full-stack hospital operations platform for patient records, appointments, waiting rooms, analytics, attendance forecasting, and a grounded document assistant. Secure healthcare operations platform combining patient workflows, predictive analytics, and a source-grounded Hybrid RAG assistant. SIHIA is an end-to-end HealthTech product rather than a standalone chatbot. The React application and FastAPI API cover operational workflows, analytics, forecasting, document administration, and a guarded assistant backed by PostgreSQL and Qdrant. The architecture can run with SQLite for lightweight development and PostgreSQL 16 for the complete environment.",
     "links": [
       {
         "label": "View SIHIA — AI-Powered HealthTech Platform case study",
@@ -859,7 +984,7 @@
     "title": "SIHIA — AI-Powered HealthTech Platform",
     "section": "Problem and solution",
     "url": "/work/sihia",
-    "content": "Combines semantic and keyword search for more reliable evidence; Reranks evidence before the model answers; Answers include citations and can refuse when evidence is weak; Hospital workflows and predictive analytics in one platform",
+    "content": "Hospital teams need to coordinate patient records, practitioners, appointments, waiting rooms, documents, and operational forecasts without fragmenting data across disconnected tools. A generic chatbot is not sufficient in this context: answers must be traceable, medical boundaries must be enforced, and the system must fail safely when evidence is missing. SIHIA unifies day-to-day hospital operations with secure role-based workflows, 7/30-day attendance forecasts, configurable notifications, and an administrable knowledge base. Its assistant retrieves evidence from approved PDF, Markdown, and text documents, cites the sources used, streams the answer, and refuses unsupported diagnosis or low-evidence questions. Patient, practitioner, appointment, waiting-room, document, and analytics workflows; Hybrid dense + BM25 retrieval fused with RRF and reranked before generation; Citation-first answers with medical guardrails and evidence-based refusal; Responsive trilingual interface with light/dark themes and RTL support",
     "links": [
       {
         "label": "View SIHIA — AI-Powered HealthTech Platform case study",
@@ -884,7 +1009,32 @@
     "title": "SIHIA — AI-Powered HealthTech Platform",
     "section": "Architecture",
     "url": "/work/sihia",
-    "content": "Dense retrieval + BM25; Reciprocal Rank Fusion; Cross-encoder reranking; Evidence → LLM → Answer + Citations.",
+    "content": "React 19 and TypeScript frontend with TanStack data flows; FastAPI application services with SQLAlchemy and Alembic migrations; PostgreSQL for operational data, document lifecycle, and lexical chunks; Qdrant dense retrieval combined with a persisted BM25 lexical index; Reciprocal Rank Fusion followed by a lazy CPU cross-encoder reranker; Evidence-limited prompt → structured citations → streamed SSE answer. Flow: JWT authentication and RBAC authorize hospital and knowledge-base operations; Teams manage patients, practitioners, availability, appointments, waiting rooms, and documents; Approved PDF, Markdown, and text files are validated, hashed, parsed, and split at semantic boundaries; Chunks are stored in SQL for lifecycle and lexical search, then embedded into Qdrant; Dense and BM25 results are fused with RRF and reranked before the relevance threshold is applied; Sources are emitted before answer tokens; insufficient evidence triggers a controlled refusal.",
+    "links": [
+      {
+        "label": "View SIHIA — AI-Powered HealthTech Platform case study",
+        "url": "/work/sihia"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://sihia-platform.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does SIHIA's hybrid retrieval work?",
+      "Why does SIHIA use reranking?",
+      "Which projects use Qdrant?"
+    ]
+  },
+  {
+    "id": "project:sihia:engineering-decisions",
+    "type": "project",
+    "slug": "sihia",
+    "project_slug": "sihia",
+    "title": "SIHIA — AI-Powered HealthTech Platform",
+    "section": "Engineering decisions",
+    "url": "/work/sihia",
+    "content": "Separate SQL document lifecycle and searchable text from Qdrant vector storage; Use deterministic, boundary-aware chunking with preserved page and section metadata; Lazy-load the semantic reranker and provide a deterministic lexical fallback; Contextualize short follow-ups with the latest user turn without using full chat history as the retrieval query; Send structured sources before SSE answer tokens so citations remain inspectable. Degrade retrieval safely; never fall back to unsupported model memory: When Qdrant or the embedding provider is unavailable, SIHIA falls back to its persisted lexical index. If the remaining evidence does not meet the configured threshold, the assistant refuses to answer instead of relying on unverified model knowledge.",
     "links": [
       {
         "label": "View SIHIA — AI-Powered HealthTech Platform case study",
@@ -909,7 +1059,57 @@
     "title": "SIHIA — AI-Powered HealthTech Platform",
     "section": "Controls, evidence and stack",
     "url": "/work/sihia",
-    "content": "Technologies: FastAPI; React; PostgreSQL; Qdrant; BM25; FastEmbed; Docker. Public evidence: 118 Backend tests (Automated validation), 65 Frontend tests (UI coverage), 17 End-to-end scenarios (Playwright flows).",
+    "content": "JWT access control, refresh-token rotation and revocation, plus RBAC in both API and interface; Emergency, diagnosis, out-of-scope, and prompt-injection guardrails execute before retrieval and generation; Uploads use allowlisted formats and sizes, normalized filenames, SHA-256 duplicate detection, and are never executed; Operational logs expose identifiers and error types without recording document bodies or user queries; The assistant does not diagnose or prescribe; medical content requires human validation before real-world use. SIHIA positions AI as an operational and documentary assistant, not a clinical decision-maker. Emergency requests are redirected to emergency services, diagnosis and prescription requests are refused, and healthcare professionals remain responsible for validating medical content and decisions. Technologies: React 19; TypeScript; FastAPI; SQLAlchemy; Alembic; PostgreSQL; Qdrant; BM25 / RRF; FastEmbed; OpenAI; Playwright; Docker. Public evidence: 118 Backend tests (Documented validation · 2026-08-11), 65 Frontend tests (Documented validation · 2026-08-11), 17 End-to-end scenarios (Documented Playwright validation).",
+    "links": [
+      {
+        "label": "View SIHIA — AI-Powered HealthTech Platform case study",
+        "url": "/work/sihia"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://sihia-platform.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does SIHIA's hybrid retrieval work?",
+      "Why does SIHIA use reranking?",
+      "Which projects use Qdrant?"
+    ]
+  },
+  {
+    "id": "project:sihia:evaluation-and-testing",
+    "type": "project",
+    "slug": "sihia",
+    "project_slug": "sihia",
+    "title": "SIHIA — AI-Powered HealthTech Platform",
+    "section": "Evaluation and testing",
+    "url": "/work/sihia",
+    "content": "Documented local validation on 2026-08-11: 118 backend tests passed and one was skipped; The same validation reports 65 frontend tests and 17 Playwright scenarios passing; A deterministic 30-question French/English benchmark covers single-source, multi-source, follow-up, and no-answer retrieval; Optional generated-answer RAGAS evaluation requires provider credentials, network access, and paid API calls",
+    "links": [
+      {
+        "label": "View SIHIA — AI-Powered HealthTech Platform case study",
+        "url": "/work/sihia"
+      },
+      {
+        "label": "Open live demo",
+        "url": "https://sihia-platform.vercel.app/"
+      }
+    ],
+    "suggested_questions": [
+      "How does SIHIA's hybrid retrieval work?",
+      "Why does SIHIA use reranking?",
+      "Which projects use Qdrant?"
+    ]
+  },
+  {
+    "id": "project:sihia:current-limitations",
+    "type": "project",
+    "slug": "sihia",
+    "project_slug": "sihia",
+    "title": "SIHIA — AI-Powered HealthTech Platform",
+    "section": "Current limitations",
+    "url": "/work/sihia",
+    "content": "Scanned PDFs without a text layer are unsupported because OCR is not implemented; Synchronous ingestion targets demos and moderate corpora rather than large document-processing workloads; The default cross-encoder reranker is primarily optimized for English; lexical fallback remains available for French; Local Ollama generation is not implemented, and generated-answer evaluation requires an OpenAI-compatible endpoint; Medical content requires human validation; the assistant does not diagnose or prescribe",
     "links": [
       {
         "label": "View SIHIA — AI-Powered HealthTech Platform case study",
@@ -1071,6 +1271,151 @@
       "Why is lead scoring outside the LLM?",
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
+    ]
+  },
+  {
+    "id": "skill:lab-rag:ai-engineering-lab",
+    "type": "skill",
+    "slug": "lab-rag",
+    "project_slug": null,
+    "title": "RAG Engineering",
+    "section": "AI Engineering Lab",
+    "url": "/lab",
+    "content": "Evidence-first retrieval systems that preserve document lifecycle, access scope, citations, and measurable refusal behavior. Validated ingestion with deterministic chunking, metadata, duplicate detection, and re-indexing boundaries.; Dense and lexical retrieval, RRF fusion, reranking, relevance thresholds, and tenant-aware filtering where implemented.; Structured sources before generation, inspectable citations, deterministic evaluation sets, and explicit no-answer paths. Reference workflow: Validate & ingest; Chunk & annotate; Retrieve & filter; Fuse & rerank; Answer with sources. Technologies: Qdrant; BM25; RRF; FastEmbed; PostgreSQL; OpenAI.",
+    "links": [
+      {
+        "label": "View Multi-Tenant RAG case study",
+        "url": "/work/multi-tenant-rag"
+      },
+      {
+        "label": "View SIHIA case study",
+        "url": "/work/sihia"
+      },
+      {
+        "label": "View AI BOS case study",
+        "url": "/work/ai-business-os"
+      }
+    ],
+    "suggested_questions": [
+      "Which projects demonstrate RAG Engineering?",
+      "How are engineering claims validated?",
+      "What limitations are documented?"
+    ]
+  },
+  {
+    "id": "skill:lab-agentic:ai-engineering-lab",
+    "type": "skill",
+    "slug": "lab-agentic",
+    "project_slug": null,
+    "title": "Agentic AI",
+    "section": "AI Engineering Lab",
+    "url": "/lab",
+    "content": "Governed agents where models propose typed operations while application policy retains authority over permissions and execution. LangGraph state orchestration for bounded account intelligence and explicit stop conditions.; Finite tool registries, structured outputs, deterministic policy checks, and role- and tenant-scoped context.; Human approval for sensitive actions with policy re-checks, stale-data protection, audit records, and idempotent execution. Reference workflow: Authorize context; Reason over evidence; Propose typed action; Check policy; Approve & audit. Technologies: LangGraph; Pydantic; Tool Calling; RBAC; Audit Logs.",
+    "links": [
+      {
+        "label": "View Arcwell case study",
+        "url": "/work/arcwell-agentic-crm"
+      },
+      {
+        "label": "View AI BOS case study",
+        "url": "/work/ai-business-os"
+      },
+      {
+        "label": "View AI Sales Assistant case study",
+        "url": "/work/ai-sales-assistant"
+      }
+    ],
+    "suggested_questions": [
+      "Which projects demonstrate Agentic AI?",
+      "How are engineering claims validated?",
+      "What limitations are documented?"
+    ]
+  },
+  {
+    "id": "skill:lab-automation:ai-engineering-lab",
+    "type": "skill",
+    "slug": "lab-automation",
+    "project_slug": null,
+    "title": "AI Automation",
+    "section": "AI Engineering Lab",
+    "url": "/lab",
+    "content": "Business workflows that connect AI decisions to APIs and operators through controlled, observable automation. n8n orchestration for intake, classification, routing, reminders, delivery, and operator handoffs.; Signed webhooks, schema validation, deduplication, retries, outbox processing, and dead-letter handling where supported.; Business rules remain deterministic; AI assists extraction and drafting without silently owning high-impact decisions. Reference workflow: Receive webhook; Validate payload; Apply business rules; Run workflow; Monitor & recover. Technologies: n8n; Webhooks; FastAPI; Celery; Redis; PostgreSQL.",
+    "links": [
+      {
+        "label": "View Offshore Fares case study",
+        "url": "/work/offshore-fares"
+      },
+      {
+        "label": "View AI Sales Assistant case study",
+        "url": "/work/ai-sales-assistant"
+      },
+      {
+        "label": "View Arcwell case study",
+        "url": "/work/arcwell-agentic-crm"
+      }
+    ],
+    "suggested_questions": [
+      "Which projects demonstrate AI Automation?",
+      "How are engineering claims validated?",
+      "What limitations are documented?"
+    ]
+  },
+  {
+    "id": "skill:lab-production:ai-engineering-lab",
+    "type": "skill",
+    "slug": "lab-production",
+    "project_slug": null,
+    "title": "Production Engineering",
+    "section": "AI Engineering Lab",
+    "url": "/lab",
+    "content": "The infrastructure around the model: reliable APIs, persistent state, background work, observability, security boundaries, and repeatable delivery. FastAPI service boundaries with typed contracts, SQL migrations, health endpoints, and structured error handling.; PostgreSQL as system of record, Qdrant for filtered vector search, and Redis/Celery for rate limits and background processing.; Docker-based environments, CI quality gates, logs, metrics, explicit configuration, and documented degradation paths. Reference workflow: Define contracts; Persist safely; Process asynchronously; Observe behavior; Deploy repeatably. Technologies: FastAPI; PostgreSQL; Qdrant; Redis; Celery; Docker.",
+    "links": [
+      {
+        "label": "View Multi-Tenant RAG case study",
+        "url": "/work/multi-tenant-rag"
+      },
+      {
+        "label": "View SIHIA case study",
+        "url": "/work/sihia"
+      },
+      {
+        "label": "View Arcwell case study",
+        "url": "/work/arcwell-agentic-crm"
+      }
+    ],
+    "suggested_questions": [
+      "Which projects demonstrate Production Engineering?",
+      "How are engineering claims validated?",
+      "What limitations are documented?"
+    ]
+  },
+  {
+    "id": "skill:lab-assisted-development:ai-engineering-lab",
+    "type": "skill",
+    "slug": "lab-assisted-development",
+    "project_slug": null,
+    "title": "AI-Assisted Development",
+    "section": "AI Engineering Lab",
+    "url": "/lab",
+    "content": "A reviewable engineering workflow that uses AI tools to accelerate repository analysis and implementation without replacing tests, source review, or human accountability. Claude Code, Codex, and Cursor support bounded exploration, change planning, implementation, and review.; Claims are checked against repository code and documentation before they become public portfolio content.; Git diffs, static analysis, automated tests, production builds, and visual checks remain the acceptance gates. Reference workflow: Inspect evidence; Plan bounded change; Implement; Test & review; Document limits. Technologies: Claude Code; Codex; Cursor; Git; CI; Automated Tests.",
+    "links": [
+      {
+        "label": "View Arcwell case study",
+        "url": "/work/arcwell-agentic-crm"
+      },
+      {
+        "label": "View SIHIA case study",
+        "url": "/work/sihia"
+      },
+      {
+        "label": "View AI BOS case study",
+        "url": "/work/ai-business-os"
+      }
+    ],
+    "suggested_questions": [
+      "Which projects demonstrate AI-Assisted Development?",
+      "How are engineering claims validated?",
+      "What limitations are documented?"
     ]
   },
   {

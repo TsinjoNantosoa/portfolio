@@ -67,7 +67,9 @@ export interface FeaturedProject {
   };
   status?: string;
   integrations?: string[];
+  evaluation?: string[];
   outcomes?: string[];
+  limitations?: string[];
   learnings?: string[];
   showArchitectureDiagram?: boolean;
 }

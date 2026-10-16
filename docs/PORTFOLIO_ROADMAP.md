@@ -4,6 +4,16 @@ This roadmap covers work intentionally deferred after Phase 1. Items are ordered
 
 ## Phase 2 — Case Studies And AI Engineering Lab
 
+Status: implemented locally on 2026-10-16, pending user-approved commit and deployment.
+
+Delivered:
+
+- Bilingual `/lab` route with five evidence-backed engineering capabilities.
+- Project-linked workflows and explicit maturity labels.
+- Evaluation, testing, and current limitations for SIHIA, AI BOS, and Arcwell.
+- Route-level lazy loading that reduced the main JavaScript chunk from 559.78 kB to 248.52 kB.
+- Public assistant knowledge updated from the same typed project and Lab sources.
+
 ### 2.1 Case-Study Platform
 
 The current `/work/:slug` route and typed `FeaturedProject` model already support overview, problem, solution, architecture, decisions, security, integrations, outcomes, learnings, evidence, gallery, and Human-in-the-Loop content.
@@ -26,7 +36,7 @@ Acceptance criteria:
 
 ### 2.2 AI Engineering Lab
 
-Add `/lab` only when at least two complete, evidence-backed modules are ready. Do not publish an empty route.
+The `/lab` route now contains five complete, evidence-backed modules. Future additions must keep the same proof threshold.
 
 Proposed modules:
 
@@ -83,6 +93,60 @@ Preferred implementation:
 - Add a dedicated endpoint only if retrieval evidence must be returned in a richer debug format.
 - Retain current origin checks, rate limits, input bounds, secret isolation, and cost controls.
 - Keep the current assistant available as the lightweight default experience.
+
+Detailed design boundary:
+
+#### Interface
+
+- A dedicated route separate from the lightweight assistant.
+- Question input with examples, character limit, submit/cancel controls, and no automatic paid request.
+- Answer panel beside or below retrieved evidence depending on viewport width.
+- Retrieval timeline showing validation, retrieval, filtering, ranking, and answer generation without exposing private prompts or secrets.
+- Source cards with title, section, excerpt, and resolvable public link.
+
+#### Dataset
+
+- Use only public portfolio documentation generated from `src/data/projects.ts`, `src/data/lab.ts`, and approved experience data.
+- Add a small versioned synthetic fixture for hostile, incomplete, out-of-scope, and no-answer scenarios.
+- Never index contact-form submissions, visitor conversations, private client records, or repository secrets.
+
+#### Retrieval Pipeline
+
+1. Normalize and validate a bounded query.
+2. Apply origin, rate, and abuse controls.
+3. Retrieve candidate chunks from the curated public corpus.
+4. Apply route/source allowlists and relevance thresholds.
+5. Return ranked evidence with stable identifiers.
+6. Generate only from accepted evidence or return a controlled refusal.
+7. Stream the answer and sources using the existing API conventions where practical.
+
+#### Error Handling
+
+- Separate invalid input, empty evidence, timeout, provider unavailable, rate limit, and server error states.
+- Preserve the visitor's question for manual retry.
+- Provide a deterministic evidence-only fallback when generation is unavailable, if retrieval succeeded.
+
+#### Security
+
+- Keep provider keys server-side and prohibit client-supplied provider credentials.
+- Retain strict origin checks, request-size bounds, safe URL allowlists, output sanitization, and rate limiting.
+- Reject prompt-injection requests that attempt to override the public-corpus boundary.
+- Log coarse operational metadata without storing full visitor questions by default.
+
+#### Usage Limits And Cost
+
+- Start with per-IP/session rate limits and a hard server-side output-token ceiling.
+- Disable the playground cleanly when the monthly budget is reached.
+- Display when responses are unavailable because the provider or budget is disabled.
+- Do not connect or deploy a paid provider until the owner explicitly approves a budget and credentials strategy.
+
+#### Tests
+
+- Unit tests for validation, route allowlists, source serialization, refusal, and cost/rate guards.
+- Retrieval evaluations for expected source hit, no-answer accuracy, and bilingual queries.
+- API tests for streaming, cancellation, timeouts, and unavailable-provider behavior.
+- UI tests for keyboard use, mobile layout, loading, sources, retry, and error states.
+- A deterministic default suite that requires no network or paid API.
 
 ## Phase 4 — Privacy-Preserving Automation Monitor
 

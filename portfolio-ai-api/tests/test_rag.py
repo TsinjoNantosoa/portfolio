@@ -94,7 +94,7 @@ def test_source_metadata_is_deduplicated_and_urls_are_deterministic():
 
 def test_generated_public_corpus_has_depth_valid_routes_and_no_private_markers():
     documents = json.loads(KNOWLEDGE.read_text(encoding="utf-8"))
-    assert 40 <= len(documents) <= 60
+    assert 40 <= len(documents) <= 80
     assert {
         "project",
         "experience",
@@ -122,6 +122,7 @@ def test_generated_public_corpus_has_depth_valid_routes_and_no_private_markers()
         "/work/ai-business-os",
         "/work/sihia",
         "/work/ai-sales-assistant",
+        "/lab",
     }
     assert all(
         not item["url"].startswith("/") or item["url"] in allowed_routes

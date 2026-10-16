@@ -1,6 +1,66 @@
 import type { Language } from "./I18nProvider";
 
 const french: Record<string, string> = {
+  "Documented repository audit": "Audit documenté du dépôt",
+  "Documented backend line coverage": "Couverture de lignes backend documentée",
+  "Documented Vitest validation": "Validation Vitest documentée",
+  "Documented audit · 2026-09-07": "Audit documenté · 07/09/2026",
+  "Documented validation · 2026-08-11": "Validation documentée · 11/08/2026",
+  "Documented Playwright validation": "Validation Playwright documentée",
+  "Repository audit: 99 passing backend tests with 71% measured line coverage":
+    "Audit du dépôt : 99 tests backend réussis avec 71 % de couverture de lignes mesurée",
+  "Frontend lint, typecheck, 13 Vitest tests, and production build documented as passing":
+    "Lint frontend, vérification TypeScript, 13 tests Vitest et build de production documentés comme réussis",
+  "Policy scoring, provider security, RAG lifecycle, API contracts, and critical flows have dedicated backend tests":
+    "Le scoring des règles, la sécurité des fournisseurs, le cycle de vie RAG, les contrats API et les parcours critiques disposent de tests backend dédiés",
+  "Docker Compose configuration was validated, but complete container startup was not rerun during the source audit":
+    "La configuration Docker Compose a été validée, mais le démarrage complet des conteneurs n’a pas été relancé pendant l’audit des sources",
+  "Backend mypy currently reports 83 typing errors, primarily around third-party decorators and stubs":
+    "Mypy signale actuellement 83 erreurs de typage backend, principalement autour de décorateurs et stubs tiers",
+  "Only account intelligence uses LangGraph; other AI endpoints use direct governed workflows":
+    "Seule l’intelligence de compte utilise LangGraph ; les autres endpoints IA utilisent des workflows gouvernés directs",
+  "SuiteCRM, SendGrid, transcription, and external providers require real credentials and are not bundled as live services":
+    "SuiteCRM, SendGrid, la transcription et les fournisseurs externes nécessitent de vrais identifiants et ne sont pas fournis comme services actifs",
+  "Tenant isolation uses application predicates rather than PostgreSQL Row-Level Security":
+    "L’isolation par organisation utilise des prédicats applicatifs plutôt que la sécurité Row-Level de PostgreSQL",
+  "Complete Docker startup was not revalidated in the documented repository audit":
+    "Le démarrage Docker complet n’a pas été revalidé dans l’audit documenté du dépôt",
+  "Documented audit on 2026-09-07: 214 backend tests passed and one PostgreSQL-only test was skipped":
+    "Audit documenté du 07/09/2026 : 214 tests backend réussis et un test réservé à PostgreSQL ignoré",
+  "Frontend typecheck, 16 Vitest tests, and production build passed with zero ESLint errors":
+    "La vérification TypeScript, 16 tests Vitest et le build de production ont réussi sans erreur ESLint",
+  "PostgreSQL migrations 001 through 026 passed and direct tenant-isolation checks rejected a cross-tenant write":
+    "Les migrations PostgreSQL 001 à 026 ont réussi et les contrôles directs d’isolation ont rejeté une écriture inter-organisation",
+  "Playwright reported three passing and four failing scenarios; the failures are not presented as successful validation":
+    "Playwright a signalé trois scénarios réussis et quatre en échec ; ces échecs ne sont pas présentés comme une validation réussie",
+  "Four of seven documented Playwright scenarios currently fail because of timeouts and a mobile-header expectation":
+    "Quatre des sept scénarios Playwright documentés échouent actuellement à cause de délais dépassés et d’une attente sur l’en-tête mobile",
+  "The PostgreSQL RLS pytest harness needs correction even though direct policy checks succeeded":
+    "Le banc de test pytest pour la RLS PostgreSQL doit être corrigé, même si les contrôles directs des règles ont réussi",
+  "Vector scoring runs in Python over stored JSON values; Qdrant, pgvector, RRF, and cross-encoder reranking are not part of this runtime":
+    "Le scoring vectoriel s’exécute en Python sur des valeurs JSON stockées ; Qdrant, pgvector, RRF et le reranking cross-encoder ne font pas partie de ce runtime",
+  "Workflow execution is synchronous and in-process without Redis or distributed workers":
+    "L’exécution des workflows est synchrone et dans le processus, sans Redis ni workers distribués",
+  "The Vercel and Render configuration does not by itself prove an active production backend deployment":
+    "La configuration Vercel et Render ne prouve pas à elle seule qu’un backend de production est actif",
+  "Documented local validation on 2026-08-11: 118 backend tests passed and one was skipped":
+    "Validation locale documentée du 11/08/2026 : 118 tests backend réussis et un test ignoré",
+  "The same validation reports 65 frontend tests and 17 Playwright scenarios passing":
+    "La même validation rapporte 65 tests frontend et 17 scénarios Playwright réussis",
+  "A deterministic 30-question French/English benchmark covers single-source, multi-source, follow-up, and no-answer retrieval":
+    "Un benchmark déterministe de 30 questions en français et en anglais couvre la recherche mono-source, multi-source, les suivis et les cas sans réponse",
+  "Optional generated-answer RAGAS evaluation requires provider credentials, network access, and paid API calls":
+    "L’évaluation RAGAS optionnelle des réponses générées nécessite des identifiants fournisseur, un accès réseau et des appels API payants",
+  "Scanned PDFs without a text layer are unsupported because OCR is not implemented":
+    "Les PDF scannés sans couche texte ne sont pas pris en charge car l’OCR n’est pas implémenté",
+  "Synchronous ingestion targets demos and moderate corpora rather than large document-processing workloads":
+    "L’ingestion synchrone vise les démonstrations et corpus modérés plutôt que le traitement documentaire à grande échelle",
+  "The default cross-encoder reranker is primarily optimized for English; lexical fallback remains available for French":
+    "Le reranker cross-encoder par défaut est principalement optimisé pour l’anglais ; le fallback lexical reste disponible pour le français",
+  "Local Ollama generation is not implemented, and generated-answer evaluation requires an OpenAI-compatible endpoint":
+    "La génération locale avec Ollama n’est pas implémentée et l’évaluation des réponses générées nécessite un endpoint compatible OpenAI",
+  "Medical content requires human validation; the assistant does not diagnose or prescribe":
+    "Le contenu médical nécessite une validation humaine ; l’assistant ne diagnostique pas et ne prescrit pas",
   "HealthTech · Hybrid RAG": "HealthTech · RAG hybride",
   "Healthcare operations, predictive planning, and a citation-first AI assistant in one secure full-stack platform.":
     "Opérations de santé, planification prédictive et assistant IA fondé sur des citations au sein d’une plateforme full-stack sécurisée.",

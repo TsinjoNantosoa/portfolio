@@ -22,6 +22,7 @@ function loadTypeScriptModule(relativePath) {
 
 const projects = loadTypeScriptModule("src/data/projects.ts");
 const experience = loadTypeScriptModule("src/data/experience.ts");
+const lab = loadTypeScriptModule("src/data/lab.ts");
 const documents = [];
 
 const slugify = (value) => value.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -94,8 +95,36 @@ for (const project of projects.featuredProjects) {
   add({ ...common, section: "Engineering decisions", content: joinSentences(sentenceList(project.decisions || []), project.decisionHighlight && `${project.decisionHighlight.title}: ${project.decisionHighlight.body}`) });
   const proof = (project.proof || []).map((entry) => `${entry.value} ${entry.label}${entry.hint ? ` (${entry.hint})` : ""}`).join(", ");
   add({ ...common, section: "Controls, evidence and stack", content: joinSentences(sentenceList(project.security || []), project.hitl, `Technologies: ${sentenceList(project.stack)}`, proof && `Public evidence: ${proof}`) });
+  add({ ...common, section: "Evaluation and testing", content: sentenceList(project.evaluation || []) });
+  add({ ...common, section: "Current limitations", content: sentenceList(project.limitations || []) });
   if (project.scoring) add({ ...common, section: "Deterministic lead scoring", content: `${project.scoring.summary} Factors: ${sentenceList(project.scoring.factors)}. Range: ${project.scoring.range}. Classes: ${sentenceList(project.scoring.classes)}.` });
   if (project.automation) add({ ...common, section: "n8n workflow automation", content: `${project.automation.summary} Workflows: ${sentenceList(project.automation.workflows)}.` });
+}
+
+for (const capability of lab.labCapabilities) {
+  const links = capability.references.map((reference) => ({
+    label: `View ${reference.label} case study`,
+    url: `/work/${reference.slug}`,
+  }));
+  add({
+    type: "skill",
+    slug: `lab-${capability.id}`,
+    title: capability.title.en,
+    section: "AI Engineering Lab",
+    url: "/lab",
+    content: joinSentences(
+      capability.summary.en,
+      sentenceList(capability.details.map((item) => item.en)),
+      `Reference workflow: ${sentenceList(capability.workflow.map((item) => item.en))}`,
+      `Technologies: ${sentenceList(capability.technologies)}`,
+    ),
+    links,
+    suggestedQuestions: [
+      `Which projects demonstrate ${capability.title.en}?`,
+      "How are engineering claims validated?",
+      "What limitations are documented?",
+    ],
+  });
 }
 
 for (const project of projects.secondaryProjects) {
@@ -105,11 +134,11 @@ for (const project of projects.secondaryProjects) {
 
 add({ type: "contact", slug: "contact", title: "Contact and public profiles", section: "Public links", url: "/#contact", content: `Email: ${experience.EMAIL}. GitHub: ${experience.GITHUB_URL}. LinkedIn: ${experience.LINKEDIN_URL}. CV: ${experience.CV_PATH}.`, links: [{ label: "Contact Tsinjo", url: "/#contact" }, { label: "View GitHub", url: experience.GITHUB_URL }, { label: "View LinkedIn", url: experience.LINKEDIN_URL }], suggestedQuestions: ["Which projects should I review first?", "What is Tsinjo's professional experience?"] });
 
-const knownRoutes = new Set(["/#work", "/#expertise", "/#experience", "/#background", "/#contact", ...projects.featuredProjects.map((project) => project.caseStudyLink)]);
+const knownRoutes = new Set(["/lab", "/#work", "/#expertise", "/#experience", "/#background", "/#contact", ...projects.featuredProjects.map((project) => project.caseStudyLink)]);
 for (const document of documents) {
   if (document.url.startsWith("/") && !knownRoutes.has(document.url)) throw new Error(`Unknown internal source route: ${document.url}`);
   for (const link of document.links) if (link.url.startsWith("/") && !knownRoutes.has(link.url)) throw new Error(`Unknown internal CTA route: ${link.url}`);
 }
 
 fs.writeFileSync(outputFile, `${JSON.stringify(documents, null, 2)}\n`, "utf8");
-console.log(JSON.stringify({ source_modules: ["src/data/projects.ts", "src/data/experience.ts"], documents: documents.length, output: path.relative(repoRoot, outputFile) }, null, 2));
+console.log(JSON.stringify({ source_modules: ["src/data/projects.ts", "src/data/experience.ts", "src/data/lab.ts"], documents: documents.length, output: path.relative(repoRoot, outputFile) }, null, 2));

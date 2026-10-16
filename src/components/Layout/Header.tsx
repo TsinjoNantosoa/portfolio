@@ -44,7 +44,7 @@ const Header = () => {
   useEffect(() => {
     if (location.pathname !== "/") return;
 
-    const sectionIds = navItems.map((item) => item.id);
+    const sectionIds = navItems.filter((item) => item.href.startsWith("/#")).map((item) => item.id);
 
     const updateActive = () => {
       const marker = 96;
@@ -84,10 +84,10 @@ const Header = () => {
           Tsinjo<span className="text-neon">.</span>
         </Link>
 
-        <nav className="hidden lg:block" aria-label={t("nav.primary")}>
+        <nav className="hidden xl:block" aria-label={t("nav.primary")}>
           <ul className="flex items-center gap-0.5">
             {navItems.map((item) => {
-              const isActive = activeSection === item.id;
+              const isActive = item.id === "lab" ? location.pathname === "/lab" : location.pathname === "/" && activeSection === item.id;
               return (
                 <li key={item.href}>
                   <a
@@ -113,7 +113,7 @@ const Header = () => {
 
         <button
           type="button"
-          className="ml-2 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-[var(--surface-1)] lg:hidden"
+          className="ml-2 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-[var(--surface-1)] xl:hidden"
           onClick={() => setMobileMenuOpen((open) => !open)}
           aria-label={mobileMenuOpen ? t("nav.close") : t("nav.open")}
           aria-expanded={mobileMenuOpen}
