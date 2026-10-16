@@ -42,6 +42,8 @@ export interface FeaturedProject {
   imageFit?: "cover" | "contain";
   gallery?: ProjectGalleryImage[];
   demoLink?: string;
+  /** Internal route to an interactive, simulated demo of this project. */
+  labDemoLink?: string;
   githubLink?: string;
   caseStudyLink: string;
   featuredLayout?: "flagship" | "standard";

@@ -15,6 +15,8 @@
     --text-secondary: rgba(245, 247, 248, 0.8);
     --text-muted: rgba(245, 247, 248, 0.64);
     --brand-accent: #0DFFA3;
+    --warn: #FCD34D;
+    --danger: #F87171;
 
     --section-xs: 3rem;
     --section-sm: 4rem;
@@ -63,6 +65,8 @@
     --text-secondary: rgba(16, 32, 27, 0.78);
     --text-muted: rgba(16, 32, 27, 0.58);
     --brand-accent: #087F58;
+    --warn: #8A4B08;
+    --danger: #B42318;
     --background: 43 24% 94%;
     --foreground: 160 27% 9%;
     --card: 45 29% 97%;

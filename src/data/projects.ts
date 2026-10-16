@@ -165,6 +165,7 @@ export const featuredProjects: FeaturedProject[] = [
       },
     ],
     githubLink: "https://github.com/TsinjoNantosoa/offshore-fares-ai-automation",
+    labDemoLink: "/lab/automation",
     caseStudyLink: "/work/offshore-fares",
     featuredLayout: "standard",
     status: "Advanced working prototype · Production-oriented architecture",

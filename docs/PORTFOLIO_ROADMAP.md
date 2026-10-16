@@ -81,6 +81,8 @@ Remaining before production activation:
 
 ### 3.1 Offshore Fares Workflow Simulator
 
+Status: delivered locally on 2026-10-16 as the Phase 5 **Business Automation Showcase** at `/lab/automation` (branch `feature/phase5-automation-showcase`, not committed or deployed). See `docs/PORTFOLIO_PHASE5_REPORT.md` and `docs/BUSINESS_AUTOMATION_SHOWCASE_ARCHITECTURE.md`. The text below is the original plan; the delivered version uses the real Offshore Fares status machine and adds revision requests, an Engineering view and a trace.
+
 First release should be deterministic and clearly labeled `Simulation`.
 
 Flow:
@@ -220,7 +222,28 @@ Phase 4.1 validation notes:
 - Synthetic collector tests cover all four public source dimensions (`assistant`, `playground`, `test`, `demo`), retention expiry, bounded storage, privacy serialization, rate limiting, and failure isolation.
 - Full staging and production checklists, rollback, screenshots, and residual risks are recorded in `docs/PORTFOLIO_PHASE4_1_REPORT.md`.
 
-## Cross-Cutting Phase 5 Work
+## Phase 5 — Business Automation Showcase
+
+Status: implemented and validated locally on 2026-10-16; pending user-approved commit, deploy preview and deployment.
+
+Delivered:
+
+- Lazy `/lab/automation` page with two preset scenarios and a validated custom request.
+- Pure TypeScript engine reusing the Offshore Fares transition table and priority rules, tested independently of React.
+- Human approval gate with approve, reject and revision paths that change the real run state.
+- Business and Engineering views, synthetic payloads, execution trace, and an Insights section citing the reference repository.
+- Links from the AI Engineering Lab and the Offshore Fares case study. No backend, assistant, Qdrant or monitor change.
+
+Next candidates (not started):
+
+1. Isolated n8n-backed demo (see the V2 plan in the Phase 5 report). Requires explicit approval and isolated infrastructure.
+2. Split EN/FR copy of the showcase into separate dynamic imports to cut the 81 kB chunk.
+3. Refresh the assistant knowledge with this page in a separate, deliberate ingestion step.
+4. Add an automated check that the mirrored transition table matches the reference repository.
+
+## Cross-Cutting Hardening Work (formerly labelled Phase 5)
+
+This list kept its original numbering note: the name "Phase 5" now refers to the Business Automation Showcase above.
 
 1. Pre-render public routes and validate canonical/OG metadata.
 2. Split the main JavaScript bundle by route and heavy feature.

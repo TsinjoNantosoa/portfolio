@@ -11,6 +11,7 @@ const CaseStudyPage = lazy(() => import("./pages/CaseStudyPage"));
 const LabPage = lazy(() => import("./pages/LabPage"));
 const PlaygroundPage = lazy(() => import("./pages/PlaygroundPage"));
 const OperationsPage = lazy(() => import("./pages/OperationsPage"));
+const AutomationPage = lazy(() => import("./pages/AutomationPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const RouteFallback = () => (
@@ -32,6 +33,7 @@ const App = () => {
                 <Route path="/lab" element={<LabPage />} />
                 <Route path="/lab/playground" element={<PlaygroundPage />} />
                 <Route path="/lab/operations" element={<OperationsPage />} />
+                <Route path="/lab/automation" element={<AutomationPage />} />
                 <Route path="/work/:slug" element={<CaseStudyPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

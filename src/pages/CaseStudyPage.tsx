@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Workflow } from "lucide-react";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import ProjectMedia, { ProjectMediaPlaceholder } from "@/components/ui-kit/ProjectMedia";
@@ -168,6 +168,15 @@ const CaseStudyPage: React.FC = () => {
         </nav>
 
         <div className="mb-10 flex flex-wrap gap-4">
+          {project.labDemoLink && (
+            <Link
+              to={project.labDemoLink}
+              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-neon px-5 py-2.5 text-sm font-semibold text-black"
+            >
+              <Workflow size={16} />
+              {language === "fr" ? "Tester la démonstration d’automatisation" : "Try the interactive automation demo"}
+            </Link>
+          )}
           {project.demoLink && (
             <a
               href={project.demoLink}
