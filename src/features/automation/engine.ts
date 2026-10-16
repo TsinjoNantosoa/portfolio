@@ -3,6 +3,7 @@ import {
   buildRequestMessage,
   calculatePriority,
   classify,
+  daysToDeparture,
   extract,
   MAX_REVISIONS,
   normalizeInput,
@@ -180,7 +181,7 @@ const executors: Record<StepId, (run: AutomationRun) => AutomationRun> = {
 
   priority_calculated: (run) => {
     if (!run.extraction) throw new Error("ORDER_VIOLATION: extraction is required before priority scoring");
-    const priority = calculatePriority(run.extraction, run.input.daysToDeparture, run.input.vipAgency);
+    const priority = calculatePriority(run.extraction, daysToDeparture(run.input), run.input.vipAgency);
     return setStep(
       log(
         { ...run, priority },
@@ -199,7 +200,7 @@ const executors: Record<StepId, (run: AutomationRun) => AutomationRun> = {
 
   desk_assigned: (run) => {
     if (!run.extraction) throw new Error("ORDER_VIOLATION: extraction is required before routing");
-    const desk = routeToDesk(run.extraction);
+    const desk = routeToDesk(run.extraction, run.priority?.level);
     return setStep(
       move({ ...run, desk }, "ASSIGNED", { step: "desk_assigned", actor: "system", code: "desk_assigned", params: { desk } }),
       "desk_assigned",

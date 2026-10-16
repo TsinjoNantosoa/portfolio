@@ -1,3 +1,4 @@
+import { daysBetween } from "./dates";
 import type {
   Cabin,
   Classification,
@@ -56,6 +57,10 @@ export const normalizeInput = (input: ScenarioInput): ScenarioInput => ({
   returnDate: input.returnDate || undefined,
 });
 
+/** Lead time in whole days, derived so it can never disagree with the displayed dates. */
+export const daysToDeparture = (input: Pick<ScenarioInput, "requestDate" | "departureDate">): number =>
+  daysBetween(input.requestDate, input.departureDate);
+
 export const validateInput = (raw: ScenarioInput): ValidationIssue[] => {
   const input = normalizeInput(raw);
   const issues: ValidationIssue[] = [];
@@ -72,13 +77,13 @@ export const validateInput = (raw: ScenarioInput): ValidationIssue[] => {
     issues.push({ field: "passengers", code: "passengers_range" });
   }
   if (!CABINS.includes(input.cabin)) issues.push({ field: "cabin", code: "cabin_invalid" });
-  if (!isRealDate(input.departureDate)) issues.push({ field: "departureDate", code: "departure_invalid" });
-  if (
-    !Number.isInteger(input.daysToDeparture) ||
-    input.daysToDeparture < 0 ||
-    input.daysToDeparture > MAX_DAYS_TO_DEPARTURE
-  ) {
-    issues.push({ field: "daysToDeparture", code: "days_range" });
+  const requestValid = isRealDate(input.requestDate);
+  const departureValid = isRealDate(input.departureDate);
+  if (!requestValid) issues.push({ field: "requestDate", code: "request_invalid" });
+  if (!departureValid) issues.push({ field: "departureDate", code: "departure_invalid" });
+  if (requestValid && departureValid) {
+    const lead = daysToDeparture(input);
+    if (lead < 0 || lead > MAX_DAYS_TO_DEPARTURE) issues.push({ field: "departureDate", code: "days_range" });
   }
   if (input.returnDate && (!isRealDate(input.returnDate) || input.returnDate < input.departureDate)) {
     issues.push({ field: "returnDate", code: "return_before_departure" });
@@ -156,17 +161,18 @@ export const levelForScore = (score: number): PriorityLevel => {
 
 export const calculatePriority = (
   extraction: Extraction,
-  daysToDeparture: number,
+  leadDays: number,
   vipAgency: boolean,
 ): PriorityResult => {
   const breakdown: PriorityRuleHit[] = [];
   const hit = (rule: PriorityRuleHit["rule"]) => breakdown.push({ rule, points: PRIORITY_WEIGHTS[rule] });
-  if (daysToDeparture === 0) hit("TRAVEL_UNDER_24H");
-  else if (daysToDeparture <= 2) hit("TRAVEL_UNDER_72H");
+  if (leadDays === 0) hit("TRAVEL_UNDER_24H");
+  else if (leadDays <= 2) hit("TRAVEL_UNDER_72H");
   if (extraction.cabin === "FIRST") hit("FIRST");
   if (extraction.cabin === "BUSINESS") hit("BUSINESS");
+  // Mutually exclusive in lib/priority.js (`GROUP` … `else if` `MULTI_PAX_PREMIUM`).
   if (extraction.passengers >= GROUP_MIN_PASSENGERS) hit("GROUP");
-  if (extraction.passengers >= 3 && (extraction.cabin === "BUSINESS" || extraction.cabin === "FIRST")) {
+  else if (extraction.passengers >= 3 && (extraction.cabin === "BUSINESS" || extraction.cabin === "FIRST")) {
     hit("MULTI_PAX_PREMIUM");
   }
   if (vipAgency) hit("VIP_AGENCY");
@@ -178,9 +184,11 @@ export const calculatePriority = (
   return { score, level: levelForScore(score), breakdown };
 };
 
-export const routeToDesk = (extraction: Extraction): DeskCode => {
+/** First match wins, like `lib/routing.js` (new-quote subset: GROUP, PREMIUM_CABIN, CRITICAL_TO_PREMIUM, DEFAULT). */
+export const routeToDesk = (extraction: Extraction, priorityLevel?: PriorityLevel): DeskCode => {
   if (extraction.passengers >= GROUP_MIN_PASSENGERS) return "GROUP_DESK";
   if (extraction.cabin !== "ECONOMY") return "PREMIUM_DESK";
+  if (priorityLevel === "CRITICAL") return "PREMIUM_DESK";
   return "GENERAL_DESK";
 };
 

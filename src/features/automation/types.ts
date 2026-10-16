@@ -56,10 +56,13 @@ export interface ScenarioInput {
   destination: string;
   passengers: number;
   cabin: Cabin;
-  /** Display value only (ISO date, fictional). */
+  /**
+   * Simulation clock: the ISO date on which the request is received. Explicit so the engine
+   * never reads the real clock; the lead time is derived from it (see `daysToDeparture`).
+   */
+  requestDate: string;
+  /** ISO date, fictional. */
   departureDate: string;
-  /** Used by the priority rules; supplied by the caller so the engine stays deterministic. */
-  daysToDeparture: number;
   returnDate?: string;
   note?: string;
   vipAgency: boolean;
@@ -77,6 +80,7 @@ export type ValidationCode =
   | "same_place"
   | "passengers_range"
   | "cabin_invalid"
+  | "request_invalid"
   | "departure_invalid"
   | "days_range"
   | "return_before_departure"

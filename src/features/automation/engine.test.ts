@@ -18,6 +18,7 @@ import {
   buildQuote,
   calculatePriority,
   classify,
+  daysToDeparture,
   extract,
   generateFareOptions,
   rfqIdFor,
@@ -25,7 +26,8 @@ import {
   validateInput,
   verifyQuoteNumbers,
 } from "./rules";
-import { customScenario, presetScenarios } from "./scenarios";
+import { addDaysIso, daysBetween } from "./dates";
+import { createPresetScenarios, customScenario, presetScenarios, SCENARIO_REFERENCE_DATE } from "./scenarios";
 import { simulatedAutomationRunner } from "./runner";
 import { ALLOWED_TRANSITIONS, canTransition, IllegalTransitionError } from "./transitions";
 import { RFQ_STATUSES } from "./types";
@@ -38,8 +40,8 @@ const customInput = (overrides: Partial<ScenarioInput> = {}): ScenarioInput => (
   destination: "Nairobi",
   passengers: 4,
   cabin: "FIRST",
+  requestDate: "2027-05-04",
   departureDate: "2027-05-04",
-  daysToDeparture: 0,
   vipAgency: false,
   urgent: false,
   ...overrides,
@@ -74,6 +76,76 @@ describe("preset scenarios", () => {
   });
 });
 
+describe("preset dates, lead time and scoring stay consistent", () => {
+  const [business, corporate] = presetScenarios;
+
+  it("derives every date from one explicit reference date", () => {
+    expect(SCENARIO_REFERENCE_DATE).toBe("2027-03-10");
+    for (const scenario of presetScenarios) {
+      expect(scenario.input.requestDate).toBe(SCENARIO_REFERENCE_DATE);
+      expect(validateInput(scenario.input)).toEqual([]);
+      expect(scenario.input.returnDate! > scenario.input.departureDate).toBe(true);
+      expect("daysToDeparture" in scenario.input).toBe(false);
+    }
+  });
+
+  it("shows exactly the dates that the documented lead times imply", () => {
+    expect(daysToDeparture(business.input)).toBe(7);
+    expect(business.input).toMatchObject({ departureDate: "2027-03-17", returnDate: "2027-03-25" });
+    expect(daysToDeparture(corporate.input)).toBe(2);
+    expect(corporate.input).toMatchObject({ departureDate: "2027-03-12", returnDate: "2027-03-19" });
+    expect(daysBetween(business.input.requestDate, business.input.departureDate)).toBe(7);
+  });
+
+  it("keeps the documented business results: 55 HIGH and 45 NORMAL", () => {
+    const high = runUntilGate(startRun(business)).priority;
+    const normal = runUntilGate(startRun(corporate)).priority;
+    expect([high?.score, high?.level]).toEqual([55, "HIGH"]);
+    expect([normal?.score, normal?.level]).toEqual([45, "NORMAL"]);
+    expect(normal?.breakdown.map((hit) => hit.rule)).toEqual(["TRAVEL_UNDER_72H", "BUSINESS"]);
+  });
+
+  it("is reproducible and independent of the reference date (leap year, year change)", () => {
+    for (const reference of ["2028-02-25", "2027-12-28", "2030-06-01"]) {
+      const [shiftedBusiness, shiftedCorporate] = createPresetScenarios(reference);
+      expect(shiftedBusiness.input.requestDate).toBe(reference);
+      expect(daysToDeparture(shiftedBusiness.input)).toBe(7);
+      expect(daysToDeparture(shiftedCorporate.input)).toBe(2);
+      expect(runUntilGate(startRun(shiftedBusiness)).priority?.score).toBe(55);
+      expect(runUntilGate(startRun(shiftedCorporate)).priority?.score).toBe(45);
+    }
+    expect(createPresetScenarios("2028-02-25")[0].input.departureDate).toBe("2028-03-03");
+    expect(createPresetScenarios("2027-12-28")[0].input.departureDate).toBe("2028-01-04");
+  });
+
+  it("scores travel-time rules from the dates at the 24 h and 72 h boundaries", () => {
+    const rulesFor = (leadDays: number) =>
+      runUntilGate(
+        startRun(
+          customScenario(
+            customInput({
+              cabin: "ECONOMY",
+              passengers: 1,
+              requestDate: "2027-05-04",
+              departureDate: addDaysIso("2027-05-04", leadDays),
+            }),
+          ),
+        ),
+      ).priority?.breakdown.map((hit) => hit.rule);
+    expect(rulesFor(0)).toEqual(["TRAVEL_UNDER_24H"]);
+    expect(rulesFor(1)).toEqual(["TRAVEL_UNDER_72H"]);
+    expect(rulesFor(2)).toEqual(["TRAVEL_UNDER_72H"]);
+    expect(rulesFor(3)).toEqual([]);
+  });
+
+  it("adds days in UTC so daylight-saving changes cannot shift a date", () => {
+    expect(addDaysIso("2027-03-27", 3)).toBe("2027-03-30");
+    expect(addDaysIso("2027-10-29", 3)).toBe("2027-11-01");
+    expect(addDaysIso("2028-02-28", 1)).toBe("2028-02-29");
+    expect(addDaysIso("2027-12-31", 1)).toBe("2028-01-01");
+  });
+});
+
 describe("input validation", () => {
   it("accepts a well-formed custom request", () => {
     expect(validateInput(customInput())).toEqual([]);
@@ -90,8 +162,9 @@ describe("input validation", () => {
     [{ cabin: "COACH" as never }, "cabin", "cabin_invalid"],
     [{ departureDate: "2027-02-31" }, "departureDate", "departure_invalid"],
     [{ departureDate: "soon" }, "departureDate", "departure_invalid"],
-    [{ daysToDeparture: -1 }, "daysToDeparture", "days_range"],
-    [{ daysToDeparture: 400 }, "daysToDeparture", "days_range"],
+    [{ requestDate: "2027-05-05" }, "departureDate", "days_range"],
+    [{ requestDate: "2026-01-01" }, "departureDate", "days_range"],
+    [{ requestDate: "not-a-date" }, "requestDate", "request_invalid"],
     [{ returnDate: "2027-05-01" }, "returnDate", "return_before_departure"],
     [{ note: "x".repeat(141) }, "note", "note_too_long"],
   ] as const)("rejects %j", (overrides, field, code) => {
@@ -147,6 +220,21 @@ describe("deterministic business rules", () => {
     expect(calculatePriority(group, 30, false)).toMatchObject({ score: 20, level: "LOW" });
     expect(routeToDesk(extract(customInput({ cabin: "ECONOMY", passengers: 1 }), classify(customInput())))).toBe("GENERAL_DESK");
     expect(routeToDesk(urgentDeparture)).toBe("PREMIUM_DESK");
+  });
+
+  it("treats GROUP and MULTI_PAX_PREMIUM as mutually exclusive, like lib/priority.js", () => {
+    const largeBusiness = extract(customInput({ passengers: 10, cabin: "BUSINESS" }), classify(customInput()));
+    expect(calculatePriority(largeBusiness, 30, false).breakdown.map((hit) => hit.rule)).toEqual(["BUSINESS", "GROUP"]);
+    expect(calculatePriority(largeBusiness, 30, false).score).toBe(40);
+    const smallBusiness = extract(customInput({ passengers: 9, cabin: "BUSINESS" }), classify(customInput()));
+    expect(calculatePriority(smallBusiness, 30, false).breakdown.map((hit) => hit.rule)).toEqual(["BUSINESS", "MULTI_PAX_PREMIUM"]);
+  });
+
+  it("routes a CRITICAL economy request to the Premium Desk (mirrors CRITICAL_TO_PREMIUM)", () => {
+    const economy = extract(customInput({ cabin: "ECONOMY", passengers: 2 }), classify(customInput()));
+    expect(routeToDesk(economy)).toBe("GENERAL_DESK");
+    expect(routeToDesk(economy, "HIGH")).toBe("GENERAL_DESK");
+    expect(routeToDesk(economy, "CRITICAL")).toBe("PREMIUM_DESK");
   });
 
   it("caps priority at 100", () => {

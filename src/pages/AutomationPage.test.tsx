@@ -52,6 +52,57 @@ describe("Business Automation Showcase", () => {
     }
   });
 
+  it("shows preset dates that agree with the displayed lead time", async () => {
+    const user = userEvent.setup();
+    renderAt("/lab/automation");
+
+    expect(screen.getByText("Request received (simulated date)")).toBeInTheDocument();
+    expect(screen.getByText("2027-03-10")).toBeInTheDocument();
+    expect(screen.getByText("2027-03-17 · 7 days ahead")).toBeInTheDocument();
+    expect(screen.getByText("2027-03-25")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("radio", { name: /Corporate Travel/ }));
+    expect(screen.getByText("2027-03-12 · 2 days ahead")).toBeInTheDocument();
+    expect(screen.getByText("2027-03-19")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Switch to French" }));
+    expect(screen.getByText("Demande reçue (date simulée)")).toBeInTheDocument();
+    expect(screen.getByText("2027-03-12 · dans 2 jours")).toBeInTheDocument();
+  });
+
+  it("implements the radio group keyboard pattern with a single tab stop", async () => {
+    const user = userEvent.setup();
+    renderAt("/lab/automation");
+    const radios = screen.getAllByRole("radio");
+    const tabindexes = () => radios.map((radio) => radio.getAttribute("tabindex"));
+    const checked = () => radios.map((radio) => radio.getAttribute("aria-checked"));
+
+    expect(tabindexes()).toEqual(["0", "-1", "-1"]);
+    radios[0].focus();
+
+    await user.keyboard("{ArrowRight}");
+    expect(radios[1]).toHaveFocus();
+    expect(checked()).toEqual(["false", "true", "false"]);
+    expect(tabindexes()).toEqual(["-1", "0", "-1"]);
+
+    await user.keyboard("{ArrowDown}");
+    expect(radios[2]).toHaveFocus();
+    expect(screen.getByLabelText("Departure city or airport")).toBeInTheDocument();
+
+    await user.keyboard("{ArrowRight}");
+    expect(radios[0]).toHaveFocus();
+    await user.keyboard("{ArrowLeft}");
+    expect(radios[2]).toHaveFocus();
+    await user.keyboard("{Home}");
+    expect(radios[0]).toHaveFocus();
+    await user.keyboard("{End}");
+    expect(radios[2]).toHaveFocus();
+    expect(checked()).toEqual(["false", "false", "true"]);
+
+    await user.tab();
+    expect(radios).not.toContain(document.activeElement);
+  });
+
   it("is reachable from the AI Engineering Lab and from the Offshore Fares case study", () => {
     const lab = renderAt("/lab");
     expect(screen.getByRole("link", { name: "Try the Business Automation Showcase" })).toHaveAttribute("href", "/lab/automation");

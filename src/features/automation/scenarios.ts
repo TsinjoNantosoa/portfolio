@@ -1,44 +1,56 @@
+import { addDaysIso } from "./dates";
 import type { Scenario, ScenarioInput } from "./types";
 
 /** Bump when presets, rules, or fare generation change so traces stay comparable. */
-export const SCENARIO_VERSION = "2026.10-demo.1";
+export const SCENARIO_VERSION = "2026.10-demo.2";
 
 /**
- * All values are fictional. Dates are display-only; `daysToDeparture` is fixed per preset
- * so the priority score never depends on the visitor's clock.
+ * Simulation clock for the presets: the day the fictional request is received. It is a fixed,
+ * explicit date (not the visitor's clock) so scores and displayed dates are reproducible.
  */
-export const presetScenarios: Scenario[] = [
+export const SCENARIO_REFERENCE_DATE = "2027-03-10";
+
+interface PresetSpec {
+  id: Extract<Scenario["id"], "business-travel" | "corporate-travel">;
+  /** Days between the request and the outbound flight; this drives the travel-time priority rules. */
+  leadDays: number;
+  /** Days between the outbound and return flights. */
+  stayDays: number;
+  input: Pick<ScenarioInput, "origin" | "destination" | "passengers" | "cabin" | "vipAgency" | "urgent">;
+}
+
+const PRESET_SPECS: readonly PresetSpec[] = [
   {
     id: "business-travel",
-    version: SCENARIO_VERSION,
-    input: {
-      origin: "Mumbai",
-      destination: "London",
-      passengers: 3,
-      cabin: "BUSINESS",
-      departureDate: "2027-03-17",
-      returnDate: "2027-03-25",
-      daysToDeparture: 7,
-      vipAgency: true,
-      urgent: true,
-    },
+    leadDays: 7,
+    stayDays: 8,
+    input: { origin: "Mumbai", destination: "London", passengers: 3, cabin: "BUSINESS", vipAgency: true, urgent: true },
   },
   {
     id: "corporate-travel",
-    version: SCENARIO_VERSION,
-    input: {
-      origin: "Delhi",
-      destination: "New York",
-      passengers: 2,
-      cabin: "BUSINESS",
-      departureDate: "2027-03-15",
-      returnDate: "2027-03-22",
-      daysToDeparture: 2,
-      vipAgency: false,
-      urgent: false,
-    },
+    leadDays: 2,
+    stayDays: 7,
+    input: { origin: "Delhi", destination: "New York", passengers: 2, cabin: "BUSINESS", vipAgency: false, urgent: false },
   },
 ];
+
+/**
+ * Builds the preset scenarios from a reference date. Every date is derived from it, so the
+ * displayed dates and the lead time used for scoring cannot disagree. Injectable for tests.
+ */
+export const createPresetScenarios = (referenceDate: string = SCENARIO_REFERENCE_DATE): Scenario[] =>
+  PRESET_SPECS.map((spec) => ({
+    id: spec.id,
+    version: SCENARIO_VERSION,
+    input: {
+      ...spec.input,
+      requestDate: referenceDate,
+      departureDate: addDaysIso(referenceDate, spec.leadDays),
+      returnDate: addDaysIso(referenceDate, spec.leadDays + spec.stayDays),
+    },
+  }));
+
+export const presetScenarios: Scenario[] = createPresetScenarios();
 
 export const customScenario = (input: ScenarioInput): Scenario => ({
   id: "custom",

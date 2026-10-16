@@ -1,6 +1,57 @@
 # Phase 5 Report — Business Automation Showcase
 
-Status: implemented and validated locally on 2026-10-16 on branch `feature/phase5-automation-showcase`. **Not committed, not pushed, not deployed.** Audit: `docs/PORTFOLIO_PHASE5_AUDIT.md`. Design: `docs/BUSINESS_AUTOMATION_SHOWCASE_ARCHITECTURE.md`.
+## Status (checked 2026-10-16 against Git and the public site)
+
+| Stage | State | Evidence |
+|---|---|---|
+| Phase 5 merged into `main` | **Yes**, commit `176c632`; `main` equals `origin/main`; the feature branch has no diff against it | `git log`, `git diff main feature/phase5-automation-showcase` is empty |
+| Phase 5 deployed | **Yes** | `tsinjona.netlify.app/lab/automation` serves the `AutomationPage` chunk and the deployed sitemap lists the route |
+| Phase 5 verified in production | **Yes, behaviour only** | Browser matrix on the live site: 7 combinations, all pass (see below). The exact deployed commit cannot be read from Netlify; it is inferred from the chunk and from the old dates it still contains |
+| Phase 5.1 fixes | **Local only**, uncommitted, branch `feature/phase5-1-quality-fixes` | Not merged, not deployed, not verified in production |
+
+Production therefore still shows the pre-5.1 behaviour: corporate dates `2027-03-15` that disagree with the 2-day lead time, and the group/premium priority overlap described below.
+
+Audit: `docs/PORTFOLIO_PHASE5_AUDIT.md`. Design: `docs/BUSINESS_AUTOMATION_SHOWCASE_ARCHITECTURE.md`.
+
+## Phase 5.1 — final quality fixes (local, pending approval)
+
+| # | Finding | Cause | Fix |
+|---|---|---|---|
+| 1 | Presets displayed dates that disagreed with their lead time (Business implied a 10 March request, Corporate a 13 March one) | `departureDate` and `daysToDeparture` were two independent inputs | One explicit simulation clock, `requestDate` (`SCENARIO_REFERENCE_DATE` = 2027-03-10). The lead time is **derived** (`daysToDeparture()`), so it cannot disagree. Presets come from `createPresetScenarios(referenceDate)`, injectable for tests. Corporate is now 2027-03-12 → 2027-03-19; Business is unchanged (03-17 → 03-25). `SCENARIO_VERSION` is `2026.10-demo.2` |
+| 2 | **Priority divergence from the reference**: a group of 10+ in Business scored GROUP +20 **and** MULTI_PAX_PREMIUM +10 | In `lib/priority.js` the two rules are `if … else if` (exclusive); the simulator applied both | Made exclusive. No preset is affected (55 HIGH and 45 NORMAL unchanged) |
+| 3 | Routing rule `CRITICAL_TO_PREMIUM` was not mirrored | Omission | Added for fidelity. Unreachable from the simulator's inputs (an economy request caps at 65), so no visible change |
+| 4 | Radio group did not follow the ARIA pattern | Three tab stops, arrow keys did nothing | Roving tabindex; arrows and Home/End select and move focus; one tab stop |
+| 5 | Form fields had a transparent focus outline | `outline-none` left only a 1 px border change | Visible 2 px focus outline, consistent with the rest of the site |
+| 6 | The mirror could drift from the reference repository without notice | Copied data, no check | `npm run check:offshore` (below) |
+
+Not changed, by design: the metadata of `/lab/automation` is correct after rendering (title, description, canonical, `og:url`, no `noindex`, one `h1`, `lang`), and robots and sitemap allow it. **Residual risk:** the HTML delivered before JavaScript carries the home page's canonical and `og:url`, like every non-home route (`/lab`, `/lab/playground`, `/lab/operations`, `/work/*`). Crawlers that do not run JavaScript, such as most link-preview bots, see the home page metadata. Fixing it needs pre-rendering or per-route HTML, already on the roadmap, and was out of scope because it changes the build or the Netlify configuration.
+
+### Reference check (`npm run check:offshore`)
+
+Compares the simulator's mirrored data with the public reference repository (read-only HTTP GET; never at build or runtime): the status list, the full transition table, priority weights, level thresholds, the group threshold, and canary lines for logic that cannot be parsed as data (exclusive travel-time rules, exclusive cabin rules, exclusive group/premium rule, score cap, routing rule order, premium cabin list). It is skipped in normal test runs, so CI never needs the network. Optional `OFFSHORE_REF=<branch|sha>`.
+
+Verified: it passes against `main` of the reference (reviewed commit `e75a234`, 2026-10-14) and **fails** when a weight or a transition is deliberately altered (mutation check, then restored).
+
+When it fails: read the upstream change, update the mirrored data, add a test, bump `OFFSHORE_REVIEWED_COMMIT` in `reference.ts`. It cannot detect changes to logic outside the canary list; review `lib/priority.js` and `lib/routing.js` by eye when the reference changes materially.
+
+### Final verification (Phase 5.1 code)
+
+| Check | Result |
+|---|---|
+| `tsc --noEmit -p tsconfig.app.json` | pass |
+| `eslint .` | 0 errors; the same 6 pre-existing warnings, none in changed files |
+| `vitest run` | 14 files passed + 1 skipped; **100 tests passed**, 4 skipped (reference check, enabled on demand) |
+| `vite build` | pass; main chunk 249,949 B (unchanged), `AutomationPage` 81,881 B (24.0 kB gzip, +797 B) |
+| Browser matrix, local build | 7 combinations, all pass |
+| Browser matrix, **production** (pre-5.1 build) | 7 combinations, all pass |
+
+Matrix (Edge headless; real autoplay once, "skip to approval" otherwise): desktop 1440 dark/EN, desktop 1440 light/FR, tablet 820 dark/EN, mobile 390 dark/FR, mobile 390 light/EN, desktop light/EN, desktop dark/FR. Flows: Business → approve (55 HIGH), Corporate → reject (45 NORMAL), Custom → two revisions (the second disables the button) → approve. Per combination it asserts: priority text, status at the gate, outcome text in the page language, final status (`BOOKING_REQUESTED`; never `TICKETING`/`TICKETED`; `SEARCHING` after a reject), no forward action after a reject, no horizontal overflow, no console or page error, `lang` and theme applied, and **zero network requests between clicking Run and the end of the simulation**.
+
+Limits of this verification: each flow, theme, language and width was covered at least twice but not every cross-combination; production was tested on the pre-5.1 build; reduced motion was not exercised in a browser; the assistant bubble overlapping content on narrow screens is pre-existing.
+
+---
+
+The original Phase 5 report (written before the merge) follows. Where it differs from the sections above, the sections above are current.
 
 ## 1. Architecture
 
@@ -75,7 +126,7 @@ Portfolio React → secured demo backend → dedicated webhook → isolated test
 ## 14. Remaining risks
 
 - Visitors may still read the page as a live system. Mitigation: banner, per-step "Simulated" labels, comparison table. Consider a reviewer read-through.
-- The status/transition table is a copy; it can drift from the reference repository (the test checks internal consistency only, not sync with GitHub).
+- The status/transition table and priority rules are copies. Since Phase 5.1, `npm run check:offshore` compares them with the reference repository on demand; it is not part of CI and does not cover logic outside its canary list.
 - The assistant knowledge JSON does not mention this page; refreshing it needs an ingestion run and was deliberately not done.
 - Visual review of tablet and mobile-light was partial (section 11).
 - Pre-existing: the assistant launcher bubble overlaps content on narrow screens.

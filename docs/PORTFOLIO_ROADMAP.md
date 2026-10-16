@@ -224,7 +224,7 @@ Phase 4.1 validation notes:
 
 ## Phase 5 — Business Automation Showcase
 
-Status: implemented and validated locally on 2026-10-16; pending user-approved commit, deploy preview and deployment.
+Status (checked 2026-10-16): **merged into `main`** (`176c632`), **deployed** to `tsinjona.netlify.app/lab/automation`, and **behaviour verified in production** with a browser matrix. The Phase 5.1 quality fixes (consistent preset dates, priority rule exclusivity, radio-group keyboard pattern, visible form focus, reference check) are implemented locally on `feature/phase5-1-quality-fixes` and are **not committed, merged, deployed or verified in production**. See `docs/PORTFOLIO_PHASE5_REPORT.md`.
 
 Delivered:
 
@@ -236,10 +236,12 @@ Delivered:
 
 Next candidates (not started):
 
+0. Review, commit and deploy Phase 5.1 (deploy preview first), then re-run the browser matrix on production.
 1. Isolated n8n-backed demo (see the V2 plan in the Phase 5 report). Requires explicit approval and isolated infrastructure.
 2. Split EN/FR copy of the showcase into separate dynamic imports to cut the 81 kB chunk.
 3. Refresh the assistant knowledge with this page in a separate, deliberate ingestion step.
-4. Add an automated check that the mirrored transition table matches the reference repository.
+4. Done in 5.1 as `npm run check:offshore` (on demand, not part of CI): compare the mirrored rules with the reference repository. Decide whether to run it on a schedule.
+5. Per-route metadata in the HTML delivered before JavaScript (pre-rendering), so link-preview bots see `/lab/automation` metadata instead of the home page's. Shared with the other non-home routes and already listed under cross-cutting hardening.
 
 ## Cross-Cutting Hardening Work (formerly labelled Phase 5)
 

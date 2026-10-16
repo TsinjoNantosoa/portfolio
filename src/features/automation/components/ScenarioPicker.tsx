@@ -1,8 +1,8 @@
-import { useId, useMemo, useState } from "react";
+import { useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { Briefcase, Building2, PenLine, Play } from "lucide-react";
 import type { AutomationCopy } from "../copy";
-import { addDays, daysBetween, toIsoDate } from "../dates";
-import { CABINS, MAX_NOTE_LENGTH, validateInput } from "../rules";
+import { addDaysIso, toIsoDate } from "../dates";
+import { CABINS, daysToDeparture, MAX_NOTE_LENGTH, validateInput } from "../rules";
 import { customScenario, presetScenarios } from "../scenarios";
 import type { Scenario, ScenarioInput, ValidationIssue } from "../types";
 
@@ -23,25 +23,25 @@ interface FormState {
   urgent: boolean;
 }
 
-const initialForm = (): FormState => ({
+const initialForm = (today: string): FormState => ({
   origin: "Lisbon",
   destination: "Nairobi",
   passengers: "2",
   cabin: "BUSINESS",
-  departureDate: toIsoDate(addDays(new Date(), 14)),
+  departureDate: addDaysIso(today, 14),
   returnDate: "",
   note: "",
   vipAgency: false,
   urgent: false,
 });
 
-const toInput = (form: FormState): ScenarioInput => ({
+const toInput = (form: FormState, today: string): ScenarioInput => ({
   origin: form.origin,
   destination: form.destination,
   passengers: form.passengers.trim() === "" ? Number.NaN : Number(form.passengers),
   cabin: form.cabin,
+  requestDate: today,
   departureDate: form.departureDate,
-  daysToDeparture: daysBetween(toIsoDate(new Date()), form.departureDate),
   returnDate: form.returnDate || undefined,
   note: form.note || undefined,
   vipAgency: form.vipAgency,
@@ -51,16 +51,43 @@ const toInput = (form: FormState): ScenarioInput => ({
 interface Props {
   copy: AutomationCopy;
   onRun: (scenario: Scenario) => ValidationIssue[];
+  /** Request date for custom scenarios (ISO). Defaults to the visitor's local date; injectable for tests. */
+  today?: string;
 }
 
 const fieldClass =
-  "mt-1 min-h-11 w-full rounded-md border border-white/15 bg-[var(--bg-primary)] px-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-neon aria-[invalid=true]:border-red-400";
+  "mt-1 min-h-11 w-full rounded-md border border-white/15 bg-[var(--bg-primary)] px-3 text-sm text-[var(--text-primary)] transition focus:border-neon focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon aria-[invalid=true]:border-red-400";
 
-const ScenarioPicker = ({ copy, onRun }: Props) => {
+const ScenarioPicker = ({ copy, onRun, today = toIsoDate(new Date()) }: Props) => {
   const groupId = useId();
   const [selected, setSelected] = useState<ScenarioId>("business-travel");
-  const [form, setForm] = useState<FormState>(initialForm);
+  const radioRefs = useRef<Partial<Record<ScenarioId, HTMLButtonElement | null>>>({});
+  const [form, setForm] = useState<FormState>(() => initialForm(today));
   const [issues, setIssues] = useState<ValidationIssue[]>([]);
+
+  const choose = (id: ScenarioId) => {
+    setSelected(id);
+    setIssues([]);
+  };
+
+  // WAI-ARIA radio group: arrows move and select, Home/End jump, only the checked radio is a tab stop.
+  const onRadioKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const last = order.length - 1;
+    const target =
+      event.key === "ArrowRight" || event.key === "ArrowDown"
+        ? (index + 1) % order.length
+        : event.key === "ArrowLeft" || event.key === "ArrowUp"
+          ? (index + last) % order.length
+          : event.key === "Home"
+            ? 0
+            : event.key === "End"
+              ? last
+              : null;
+    if (target === null) return;
+    event.preventDefault();
+    choose(order[target]);
+    radioRefs.current[order[target]]?.focus();
+  };
 
   const preset = useMemo(() => presetScenarios.find((scenario) => scenario.id === selected), [selected]);
   const issueFor = (field: keyof ScenarioInput) => issues.find((issue) => issue.field === field);
@@ -74,7 +101,7 @@ const ScenarioPicker = ({ copy, onRun }: Props) => {
       setIssues(onRun(preset));
       return;
     }
-    const input = toInput(form);
+    const input = toInput(form, today);
     const found = validateInput(input);
     setIssues(found);
     if (found.length === 0) setIssues(onRun(customScenario(input)));
@@ -98,19 +125,21 @@ const ScenarioPicker = ({ copy, onRun }: Props) => {
       </h2>
 
       <div role="radiogroup" aria-label={copy.scenarioGroup} className="mt-4 grid gap-3 md:grid-cols-3">
-        {order.map((id) => {
+        {order.map((id, index) => {
           const Icon = icons[id];
           const active = selected === id;
           return (
             <button
               key={id}
+              ref={(node) => {
+                radioRefs.current[id] = node;
+              }}
               type="button"
               role="radio"
               aria-checked={active}
-              onClick={() => {
-                setSelected(id);
-                setIssues([]);
-              }}
+              tabIndex={active ? 0 : -1}
+              onClick={() => choose(id)}
+              onKeyDown={(event) => onRadioKeyDown(event, index)}
               className={`min-h-11 rounded-lg border p-4 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-neon ${
                 active ? "border-neon bg-neon/[0.06]" : "border-white/10 hover:border-neon/50"
               }`}
@@ -133,7 +162,8 @@ const ScenarioPicker = ({ copy, onRun }: Props) => {
             [copy.route, `${preset.input.origin} → ${preset.input.destination}`],
             [copy.travelers, String(preset.input.passengers)],
             [copy.cabin, copy.cabins[preset.input.cabin]],
-            [copy.departure, `${preset.input.departureDate} · ${copy.inDays(preset.input.daysToDeparture)}`],
+            [copy.requestReceived, preset.input.requestDate],
+            [copy.departure, `${preset.input.departureDate} · ${copy.inDays(daysToDeparture(preset.input))}`],
             [copy.returnDate, preset.input.returnDate ?? "—"],
             [copy.agency, preset.input.vipAgency ? copy.vip : copy.standard],
             [copy.urgent, preset.input.urgent ? "✓" : "—"],
@@ -206,10 +236,10 @@ const ScenarioPicker = ({ copy, onRun }: Props) => {
               className={fieldClass}
               value={form.departureDate}
               onChange={(event) => update("departureDate", event.target.value)}
-              aria-invalid={Boolean(issueFor("departureDate") || issueFor("daysToDeparture"))}
-              aria-describedby={describe("departureDate") ?? describe("daysToDeparture")}
+              aria-invalid={Boolean(issueFor("departureDate"))}
+              aria-describedby={describe("departureDate")}
             />
-            {message("departureDate") ?? message("daysToDeparture")}
+            {message("departureDate")}
           </label>
           <label className="block text-sm">
             {copy.customForm.returnDate}

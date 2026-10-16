@@ -13,3 +13,10 @@ export const addDays = (date: Date, days: number): Date => {
 /** Whole days from `fromIso` to `toIso`; NaN when either value is not a date. */
 export const daysBetween = (fromIso: string, toIso: string): number =>
   Math.round((Date.parse(`${toIso}T00:00:00Z`) - Date.parse(`${fromIso}T00:00:00Z`)) / 86_400_000);
+
+/** ISO date `days` after `iso`, computed in UTC so daylight-saving changes cannot shift it. */
+export const addDaysIso = (iso: string, days: number): string => {
+  const date = new Date(`${iso}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+};
