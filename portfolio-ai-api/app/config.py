@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     )
     public_site_url: str = "https://tsinjona.netlify.app"
     trust_proxy_headers: bool = False
+    trusted_proxy_provider: Literal["none", "render"] = "none"
     session_ttl_minutes: int = Field(default=30, ge=5, le=60)
     ip_rate_limit_per_minute: int = Field(default=15, ge=1, le=100)
     session_rate_limit_per_hour: int = Field(default=60, ge=1, le=500)
@@ -57,6 +58,8 @@ class Settings(BaseSettings):
     playground_max_concurrent_requests: int = Field(default=2, ge=1, le=10)
     playground_max_output_tokens: int = Field(default=300, ge=100, le=600)
     playground_instance_count: int = Field(default=1, ge=1, le=20)
+    playground_request_timeout_seconds: float = Field(default=70, ge=0.01, le=120)
+    corpus_readiness_ttl_seconds: float = Field(default=60, ge=0, le=300)
 
     @field_validator("allowed_origins", mode="before")
     @classmethod
@@ -84,6 +87,14 @@ class Settings(BaseSettings):
         ):
             raise ValueError(
                 "PUBLIC_SITE_URL must be included in ALLOWED_ORIGINS in production"
+            )
+        if (
+            self.environment == "production"
+            and self.trust_proxy_headers
+            and self.trusted_proxy_provider != "render"
+        ):
+            raise ValueError(
+                "Production proxy trust requires TRUSTED_PROXY_PROVIDER=render"
             )
         if (
             self.environment == "production"

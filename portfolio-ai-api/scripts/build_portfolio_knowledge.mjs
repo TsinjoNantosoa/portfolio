@@ -8,6 +8,7 @@ import ts from "typescript";
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, "..", "..");
 const outputFile = path.join(scriptDir, "..", "app", "knowledge", "public_portfolio.json");
+const manifestFile = path.join(scriptDir, "..", "app", "knowledge", "public_portfolio.manifest.json");
 
 function loadTypeScriptModule(relativePath) {
   const filename = path.join(repoRoot, relativePath);
@@ -141,12 +142,34 @@ for (const document of documents) {
   for (const link of document.links) if (link.url.startsWith("/") && !knownRoutes.has(link.url)) throw new Error(`Unknown internal CTA route: ${link.url}`);
 }
 
-const corpusVersion = crypto
+for (const document of documents) {
+  document.document_hash = crypto.createHash("sha256").update(JSON.stringify(document)).digest("hex");
+}
+const sortedDocuments = [...documents].sort((left, right) => left.id.localeCompare(right.id));
+const documentFingerprint = crypto
   .createHash("sha256")
-  .update(JSON.stringify(documents))
-  .digest("hex")
-  .slice(0, 16);
+  .update(sortedDocuments.map((document) => `${document.id}:${document.document_hash}`).join("\n"))
+  .digest("hex");
+const documentIdsHash = crypto
+  .createHash("sha256")
+  .update(sortedDocuments.map((document) => document.id).join("\n"))
+  .digest("hex");
+const corpusVersion = documentFingerprint.slice(0, 16);
 for (const document of documents) document.corpus_version = corpusVersion;
 
+const labSlugs = new Set(["lab-rag", "lab-agentic", "lab-automation", "lab-production", "lab-assisted-development"]);
+const manifest = {
+  schema_version: 1,
+  corpus_version: corpusVersion,
+  document_count: documents.length,
+  document_ids_sha256: documentIdsHash,
+  document_fingerprint_sha256: documentFingerprint,
+  corpus_counts: {
+    projects: documents.filter((document) => document.type === "project").length,
+    engineering_lab: documents.filter((document) => labSlugs.has(document.slug)).length,
+  },
+};
+
 fs.writeFileSync(outputFile, `${JSON.stringify(documents, null, 2)}\n`, "utf8");
-console.log(JSON.stringify({ source_modules: ["src/data/projects.ts", "src/data/experience.ts", "src/data/lab.ts"], documents: documents.length, corpus_version: corpusVersion, output: path.relative(repoRoot, outputFile) }, null, 2));
+fs.writeFileSync(manifestFile, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+console.log(JSON.stringify({ source_modules: ["src/data/projects.ts", "src/data/experience.ts", "src/data/lab.ts"], documents: documents.length, corpus_version: corpusVersion, output: path.relative(repoRoot, outputFile), manifest: path.relative(repoRoot, manifestFile) }, null, 2));

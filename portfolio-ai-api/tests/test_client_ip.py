@@ -6,10 +6,16 @@ from app.client_ip import get_client_ip
 def make_request(
     forwarded_for: str | None = None,
     direct_ip: str = "127.0.0.1",
+    cloudflare_ip: str | None = None,
+    trusted_markers: bool = False,
 ) -> Request:
     headers = []
     if forwarded_for is not None:
         headers.append((b"x-forwarded-for", forwarded_for.encode()))
+    if cloudflare_ip is not None:
+        headers.append((b"cf-connecting-ip", cloudflare_ip.encode()))
+    if trusted_markers:
+        headers.extend([(b"cf-ray", b"test-ray"), (b"rndr-id", b"test-render-id")])
     return Request(
         {
             "type": "http",
@@ -25,26 +31,54 @@ def test_direct_request_uses_socket_address():
     assert get_client_ip(make_request(), trust_proxy_headers=False) == "127.0.0.1"
 
 
-def test_single_forwarded_ip_uses_render_client_address():
-    request = make_request("203.0.113.42", direct_ip="10.0.0.2")
-    assert get_client_ip(request, trust_proxy_headers=True) == "203.0.113.42"
+def test_verified_render_headers_use_cloudflare_client_ipv4():
+    request = make_request(
+        "198.51.100.9",
+        direct_ip="10.0.0.2",
+        cloudflare_ip="203.0.113.42",
+        trusted_markers=True,
+    )
+    assert get_client_ip(request, True, "render") == "203.0.113.42"
 
 
-def test_multiple_forwarded_addresses_use_first_address():
-    request = make_request("203.0.113.42, 10.0.0.3, 10.0.0.4")
-    assert get_client_ip(request, trust_proxy_headers=True) == "203.0.113.42"
+def test_verified_render_headers_support_ipv6_and_ignore_xff_chain():
+    request = make_request(
+        "198.51.100.7, 10.0.0.3, 10.0.0.4",
+        cloudflare_ip="2001:db8::7",
+        trusted_markers=True,
+    )
+    assert get_client_ip(request, True, "render") == "2001:db8::7"
 
 
 def test_empty_forwarding_header_falls_back_to_socket_address():
-    request = make_request("  ", direct_ip="10.0.0.2")
-    assert get_client_ip(request, trust_proxy_headers=True) == "10.0.0.2"
+    request = make_request("  ", direct_ip="10.0.0.2", trusted_markers=True)
+    assert get_client_ip(request, True, "render") == "10.0.0.2"
 
 
 def test_malformed_forwarding_header_falls_back_to_socket_address():
-    request = make_request("not-an-ip, 203.0.113.42", direct_ip="10.0.0.2")
-    assert get_client_ip(request, trust_proxy_headers=True) == "10.0.0.2"
+    request = make_request(
+        direct_ip="10.0.0.2", cloudflare_ip="not-an-ip", trusted_markers=True
+    )
+    assert get_client_ip(request, True, "render") == "10.0.0.2"
 
 
 def test_forwarded_header_is_ignored_when_proxy_trust_is_disabled():
     request = make_request("203.0.113.42", direct_ip="127.0.0.1")
     assert get_client_ip(request, trust_proxy_headers=False) == "127.0.0.1"
+
+
+def test_spoofed_headers_from_unconfigured_or_unverified_proxy_are_ignored():
+    spoofed = make_request(
+        "203.0.113.42", direct_ip="10.0.0.2", cloudflare_ip="203.0.113.43"
+    )
+    assert get_client_ip(spoofed, True, "none") == "10.0.0.2"
+    assert get_client_ip(spoofed, True, "render") == "10.0.0.2"
+
+
+def test_multiple_cloudflare_addresses_are_rejected():
+    request = make_request(
+        direct_ip="10.0.0.2",
+        cloudflare_ip="203.0.113.42, 203.0.113.43",
+        trusted_markers=True,
+    )
+    assert get_client_ip(request, True, "render") == "10.0.0.2"

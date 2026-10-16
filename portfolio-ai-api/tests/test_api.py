@@ -262,29 +262,66 @@ def test_production_cors_allows_only_canonical_netlify_origin():
 
 
 def test_rate_limit_uses_resolved_render_client_ip():
-    config = settings(ip_rate_limit_per_minute=1, trust_proxy_headers=True)
+    config = settings(
+        ip_rate_limit_per_minute=1,
+        trust_proxy_headers=True,
+        trusted_proxy_provider="render",
+    )
     with TestClient(create_app(config, FakeChat())) as client:
+        def render_headers(address):
+            return {
+                "X-Forwarded-For": "198.51.100.99, 10.0.0.2",
+                "CF-Connecting-IP": address,
+                "CF-Ray": "test-ray",
+                "Rndr-Id": f"request-{address}",
+            }
+
         assert (
             client.post(
                 "/api/public/session",
-                headers={"X-Forwarded-For": "203.0.113.10, 10.0.0.2"},
+                headers=render_headers("203.0.113.10"),
             ).status_code
             == 200
         )
         assert (
             client.post(
                 "/api/public/session",
-                headers={"X-Forwarded-For": "203.0.113.10, 10.0.0.99"},
+                headers=render_headers("203.0.113.10"),
             ).status_code
             == 429
         )
         assert (
             client.post(
                 "/api/public/session",
-                headers={"X-Forwarded-For": "203.0.113.11, 10.0.0.2"},
+                headers=render_headers("203.0.113.11"),
             ).status_code
             == 200
         )
+
+
+def test_unverified_proxy_headers_cannot_rotate_the_rate_limit_key():
+    config = settings(
+        ip_rate_limit_per_minute=1,
+        trust_proxy_headers=True,
+        trusted_proxy_provider="render",
+    )
+    with TestClient(create_app(config, FakeChat())) as client:
+        first = client.post(
+            "/api/public/session",
+            headers={
+                "X-Forwarded-For": "203.0.113.10",
+                "CF-Connecting-IP": "203.0.113.10",
+            },
+        )
+        spoofed = client.post(
+            "/api/public/session",
+            headers={
+                "X-Forwarded-For": "203.0.113.11",
+                "CF-Connecting-IP": "203.0.113.11",
+            },
+        )
+        assert first.status_code == 200
+        assert spoofed.status_code == 429
 
 
 def test_production_rejects_weak_secret_and_wildcard_cors():
@@ -307,6 +344,14 @@ def test_production_rejects_weak_secret_and_wildcard_cors():
             "public_site_url": "https://portfolio.test",
             "playground_enabled": True,
             "playground_instance_count": 2,
+        },
+        {
+            "environment": "production",
+            "session_secret": "production-secret-that-is-long-enough",
+            "allowed_origins": ["https://portfolio.test"],
+            "public_site_url": "https://portfolio.test",
+            "trust_proxy_headers": True,
+            "trusted_proxy_provider": "none",
         },
     ):
         try:

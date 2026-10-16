@@ -98,7 +98,7 @@ describe("Public RAG Playground", () => {
     localStorage.setItem("tsinjo:language", "fr");
     vi.spyOn(globalThis, "fetch")
       .mockResolvedValueOnce(new Response(JSON.stringify(session), { status: 200 }))
-      .mockResolvedValueOnce(new Response(JSON.stringify({ error: { code: "ASSISTANT_UNAVAILABLE", message: "Unavailable" } }), { status: 503 }));
+      .mockResolvedValueOnce(new Response(JSON.stringify({ error: { code: "PLAYGROUND_DISABLED", message: "Unavailable" } }), { status: 503 }));
     renderPage();
 
     expect(screen.getByRole("heading", { level: 1, name: "Playground RAG public" })).toBeInTheDocument();
@@ -143,5 +143,59 @@ describe("Public RAG Playground", () => {
 
     expect(await screen.findByRole("alert")).toHaveTextContent("Request cancelled");
     expect(input).toHaveValue("How does Arcwell work?");
+  });
+
+  it("distinguishes a temporary service outage and preserves the question", async () => {
+    vi.spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(new Response(JSON.stringify(session), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ error: { code: "ASSISTANT_UNAVAILABLE" } }), { status: 503 }));
+    renderPage();
+
+    const input = screen.getByLabelText("3. Ask the corpus");
+    await userEvent.type(input, "How does AI BOS work?");
+    await userEvent.click(screen.getByRole("button", { name: "Run retrieval" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("temporarily unavailable");
+    expect(input).toHaveValue("How does AI BOS work?");
+  });
+
+  it("renders an evidence-insufficient response without presenting confidence", async () => {
+    const noEvidence = {
+      ...response,
+      answer: "I could not find enough public evidence.",
+      execution_mode: "no_evidence",
+      generated_from_retrieved_documents: false,
+      citations_available: false,
+      support_status: "not_applicable",
+      refusal_reason: "no_evidence",
+      evidence: [],
+      selected_passages: 0,
+    };
+    vi.spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(new Response(JSON.stringify(session), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify(noEvidence), { status: 200 }));
+    renderPage();
+
+    await userEvent.type(screen.getByLabelText("3. Ask the corpus"), "Unknown premise");
+    await userEvent.click(screen.getByRole("button", { name: "Run retrieval" }));
+
+    expect(await screen.findByText(noEvidence.answer)).toBeInTheDocument();
+    expect(screen.getAllByText("No supporting evidence")).toHaveLength(2);
+    expect(screen.getByText(/not confidence estimates/i)).toBeInTheDocument();
+    expect(screen.queryByText("0.910")).not.toBeInTheDocument();
+  });
+
+  it("handles an empty network response safely and preserves the question", async () => {
+    vi.spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(new Response(JSON.stringify(session), { status: 200 }))
+      .mockResolvedValueOnce(new Response(null, { status: 200 }));
+    renderPage();
+
+    const input = screen.getByLabelText("3. Ask the corpus");
+    await userEvent.type(input, "Keep this question");
+    await userEvent.click(screen.getByRole("button", { name: "Run retrieval" }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("could not be completed safely");
+    expect(input).toHaveValue("Keep this question");
   });
 });

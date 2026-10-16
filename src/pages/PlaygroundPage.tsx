@@ -57,6 +57,7 @@ const ui = {
     empty: "Run a question to inspect the answer, evidence, and actual pipeline trace.",
     unavailable: "The Playground backend is unavailable or awaiting production approval. The portfolio and existing assistant remain usable.",
     disabled: "The Playground is intentionally disabled until its production budget and live acceptance are approved.",
+    serviceUnavailable: "The Playground service is temporarily unavailable. Your question remains available for retry.",
     rateLimited: "The public Playground limit has been reached. Please retry later.",
     cancelled: "Request cancelled. Your question is still available.",
     timedOut: "The request timed out before completion. Your question is still available for retry.",
@@ -93,6 +94,7 @@ const ui = {
     empty: "Lancez une question pour inspecter la réponse, les preuves et la trace réelle du pipeline.",
     unavailable: "Le backend du Playground est indisponible ou attend une validation de production. Le portfolio et l’assistant existant restent utilisables.",
     disabled: "Le Playground est volontairement désactivé jusqu’à la validation de son budget et de son acceptation réelle.",
+    serviceUnavailable: "Le service du Playground est temporairement indisponible. Votre question reste disponible pour réessayer.",
     rateLimited: "La limite du Playground public est atteinte. Réessayez plus tard.",
     cancelled: "Requête annulée. Votre question reste disponible.",
     timedOut: "La requête a expiré avant la fin. Votre question reste disponible pour réessayer.",
@@ -178,8 +180,10 @@ export default function PlaygroundPage() {
           ? copy.cancelled
         : error instanceof AssistantApiError && error.status === 429
           ? copy.rateLimited
-          : error instanceof AssistantApiError && error.status === 503
+          : error instanceof AssistantApiError && error.code === "PLAYGROUND_DISABLED"
             ? copy.disabled
+            : error instanceof AssistantApiError && error.status === 503
+              ? copy.serviceUnavailable
             : copy.genericError;
       setHistory((current) => current.map((item) => item.id === id ? { ...item, error: message } : item));
     } finally {

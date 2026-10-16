@@ -17,6 +17,13 @@ QDRANT_TIMEOUT_SECONDS = 60
 KNOWLEDGE_FILE = (
     Path(__file__).parents[1] / "app" / "knowledge" / "public_portfolio.json"
 )
+MANIFEST_FILE = (
+    Path(__file__).parents[1]
+    / "app"
+    / "knowledge"
+    / "public_portfolio.manifest.json"
+)
+MANIFEST_ID = "portfolio-corpus-manifest"
 
 
 def embedding_text(document: dict) -> str:
@@ -45,6 +52,9 @@ async def list_collection_point_ids(
 async def ingest(dry_run: bool, recreate: bool):
     settings = get_settings()
     documents = json.loads(KNOWLEDGE_FILE.read_text(encoding="utf-8"))
+    manifest = json.loads(MANIFEST_FILE.read_text(encoding="utf-8"))
+    if manifest["document_count"] != len(documents):
+        raise SystemExit("Corpus manifest count does not match the generated documents")
     if dry_run:
         print(
             json.dumps(
@@ -53,6 +63,8 @@ async def ingest(dry_run: bool, recreate: bool):
                     "documents_loaded": len(documents),
                     "chunks_generated": len(documents),
                     "embedding_model": settings.openai_embedding_model,
+                    "corpus_version": manifest["corpus_version"],
+                    "manifest": str(MANIFEST_FILE),
                     "source": str(KNOWLEDGE_FILE),
                 },
                 indent=2,
@@ -100,6 +112,8 @@ async def ingest(dry_run: bool, recreate: bool):
             wait=True,
         )
     current_ids = {str(point.id) for point in points}
+    manifest_point_id = str(uuid5(NAMESPACE_URL, MANIFEST_ID))
+    current_ids.add(manifest_point_id)
     stored_ids = await list_collection_point_ids(qdrant, settings.qdrant_collection)
     stale_ids: list[int | str | UUID] = sorted(stored_ids - current_ids)
     if stale_ids:
@@ -108,6 +122,21 @@ async def ingest(dry_run: bool, recreate: bool):
             points_selector=models.PointIdsList(points=stale_ids),
             wait=True,
         )
+    await qdrant.upsert(
+        collection_name=settings.qdrant_collection,
+        points=[
+            models.PointStruct(
+                id=manifest_point_id,
+                vector=embeddings.data[0].embedding,
+                payload={
+                    "id": MANIFEST_ID,
+                    "type": "corpus_manifest",
+                    **manifest,
+                },
+            )
+        ],
+        wait=True,
+    )
     print(
         json.dumps(
             {
@@ -115,6 +144,8 @@ async def ingest(dry_run: bool, recreate: bool):
                 "documents_loaded": len(documents),
                 "chunks_upserted": len(points),
                 "stale_chunks_deleted": len(stale_ids),
+                "corpus_version": manifest["corpus_version"],
+                "manifest_published": True,
                 "embedding_model": settings.openai_embedding_model,
             },
             indent=2,

@@ -5,6 +5,14 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parents[1]))
+
+from app.chat import (  # noqa: E402
+    is_clearly_unrelated,
+    is_prompt_injection,
+    is_sensitive_data_request,
+)
+
 ROOT = Path(__file__).parents[1]
 KNOWLEDGE_FILE = ROOT / "app" / "knowledge" / "public_portfolio.json"
 EVAL_FILE = ROOT / "tests" / "evals" / "playground_retrieval.json"
@@ -81,8 +89,22 @@ def evaluate(documents: list[dict], cases: list[dict]) -> dict:
     reciprocal_rank = 0.0
     no_answer_hits = 0
     no_answer_total = 0
+    citation_matches = 0
+    false_positives = 0
+    category_totals = Counter()
+    category_hits = Counter()
     for case in cases:
-        candidates = rank(
+        category = case.get("category", "simple")
+        category_totals[category] += 1
+        guarded = any(
+            guard(case["question"])
+            for guard in (
+                is_prompt_injection,
+                is_sensitive_data_request,
+                is_clearly_unrelated,
+            )
+        )
+        candidates = [] if guarded else rank(
             case["question"], corpus_documents(documents, case["corpus"])
         )
         retrieved = [item["slug"] for _score, item in candidates]
@@ -91,6 +113,7 @@ def evaluate(documents: list[dict], cases: list[dict]) -> dict:
             no_answer_total += 1
             matched = not candidates
             no_answer_hits += int(matched)
+            false_positives += int(not matched)
             rank_value = None
         else:
             positions = [
@@ -103,6 +126,8 @@ def evaluate(documents: list[dict], cases: list[dict]) -> dict:
             hits += int(matched)
             if rank_value:
                 reciprocal_rank += 1 / rank_value
+            citation_matches += int(expected.issubset(set(retrieved)))
+        category_hits[category] += int(matched)
         results.append(
             {
                 "question": case["question"],
@@ -111,6 +136,8 @@ def evaluate(documents: list[dict], cases: list[dict]) -> dict:
                 "expected": sorted(expected),
                 "retrieved": retrieved,
                 "expected_rank": rank_value,
+                "category": category,
+                "guarded": guarded,
             }
         )
     answer_cases = len(cases) - no_answer_total
@@ -125,6 +152,19 @@ def evaluate(documents: list[dict], cases: list[dict]) -> dict:
         "no_answer_accuracy": round(no_answer_hits / no_answer_total, 4)
         if no_answer_total
         else 0,
+        "appropriate_refusal_rate": round(no_answer_hits / no_answer_total, 4)
+        if no_answer_total
+        else 0,
+        "false_positive_rate": round(false_positives / no_answer_total, 4)
+        if no_answer_total
+        else 0,
+        "citation_source_match": round(citation_matches / answer_cases, 4)
+        if answer_cases
+        else 0,
+        "category_accuracy": {
+            category: round(category_hits[category] / total, 4)
+            for category, total in sorted(category_totals.items())
+        },
         "results": results,
     }
 

@@ -16,6 +16,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from app.chat import PortfolioChatService
 from app.client_ip import get_client_ip
 from app.config import Settings, get_settings
+from app.errors import PlaygroundUnavailableError
 from app.rag import QdrantRetriever
 from app.rate_limit import ConcurrencyLimiter, SlidingWindowLimiter
 from app.response_metadata import build_response_metadata
@@ -39,9 +40,11 @@ def sse(payload: dict) -> str:
 
 def error_code(status_code: int) -> str:
     return {
+        400: "INVALID_REQUEST",
         401: "SESSION_INVALID",
         403: "FORBIDDEN",
         404: "NOT_FOUND",
+        413: "PAYLOAD_TOO_LARGE",
         422: "INVALID_REQUEST",
         429: "RATE_LIMITED",
         503: "ASSISTANT_UNAVAILABLE",
@@ -109,11 +112,18 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
 
     @app.exception_handler(HTTPException)
     async def http_error(request: Request, exc: HTTPException):
+        code = error_code(exc.status_code)
+        if (
+            exc.status_code == 503
+            and request.url.path == "/api/public/playground/query"
+            and not settings.playground_enabled
+        ):
+            code = "PLAYGROUND_DISABLED"
         return JSONResponse(
             status_code=exc.status_code,
             content={
                 "error": {
-                    "code": error_code(exc.status_code),
+                    "code": code,
                     "message": str(exc.detail),
                     "request_id": request.state.request_id,
                 }
@@ -135,7 +145,11 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
         )
 
     def client_key(request: Request) -> str:
-        address = get_client_ip(request, settings.trust_proxy_headers)
+        address = get_client_ip(
+            request,
+            settings.trust_proxy_headers,
+            settings.trusted_proxy_provider,
+        )
         return hmac.new(
             settings.session_secret.encode(), address.encode(), hashlib.sha256
         ).hexdigest()[:24]
@@ -212,7 +226,7 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
             )
         if len(body.message) > settings.playground_max_input_chars:
             raise HTTPException(
-                status_code=422,
+                status_code=413,
                 detail=(
                     "Message exceeds "
                     f"{settings.playground_max_input_chars} characters."
@@ -257,7 +271,23 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
         )
         try:
             async with request.app.state.playground_concurrency.slot():
-                result = await service.playground(body.message, body.corpus)
+                async with asyncio.timeout(settings.playground_request_timeout_seconds):
+                    result = await service.playground(body.message, body.corpus)
+        except HTTPException:
+            raise
+        except asyncio.CancelledError:
+            raise
+        except (PlaygroundUnavailableError, TimeoutError) as exc:
+            logger.warning(
+                "playground_unavailable",
+                request_id=request.state.request_id,
+                session_id=safe_session_id(sid),
+                error_type=type(exc).__name__,
+            )
+            raise HTTPException(
+                status_code=503,
+                detail="The RAG Playground could not complete this request.",
+            ) from exc
         except Exception as exc:  # noqa: BLE001
             logger.error(
                 "playground_failed",
@@ -266,8 +296,8 @@ def create_app(settings: Settings | None = None, chat_service=None) -> FastAPI:
                 error_type=type(exc).__name__,
             )
             raise HTTPException(
-                status_code=503,
-                detail="The RAG Playground could not complete this request.",
+                status_code=500,
+                detail="The RAG Playground encountered an unexpected error.",
             ) from exc
         return PlaygroundResponse(**result, request_id=request.state.request_id)
 

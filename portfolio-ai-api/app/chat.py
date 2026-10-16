@@ -5,6 +5,7 @@ from collections.abc import AsyncIterator
 from openai import AsyncOpenAI
 
 from app.config import Settings
+from app.errors import PlaygroundUnavailableError
 from app.schemas import KnowledgeChunk
 
 INJECTION_PATTERNS = re.compile(
@@ -361,9 +362,13 @@ class PortfolioChatService:
             }
 
         retrieval_started = time.perf_counter()
+        try:
+            retrieved_chunks = await self.retriever.retrieve(message, corpus=corpus)
+        except Exception as exc:  # noqa: BLE001
+            raise PlaygroundUnavailableError("retrieval_unavailable") from exc
         chunks = [
             chunk
-            for chunk in await self.retriever.retrieve(message, corpus=corpus)
+            for chunk in retrieved_chunks
             if is_allowed_public_source(chunk)
             and chunk.score >= self.settings.retrieval_score_threshold
         ]
@@ -411,19 +416,22 @@ class PortfolioChatService:
             }
         )
         generation_started = time.perf_counter()
-        answer = "".join(
-            [
-                token
-                async for token in self._generate(
-                    message,
-                    chunks,
-                    language,
-                    self.settings.playground_max_output_tokens,
-                )
-            ]
-        )
+        try:
+            answer = "".join(
+                [
+                    token
+                    async for token in self._generate(
+                        message,
+                        chunks,
+                        language,
+                        self.settings.playground_max_output_tokens,
+                    )
+                ]
+            )
+        except Exception as exc:  # noqa: BLE001
+            raise PlaygroundUnavailableError("generation_unavailable") from exc
         if not answer.strip():
-            raise RuntimeError("empty_model_response")
+            raise PlaygroundUnavailableError("empty_model_response")
         generation_ms = round((time.perf_counter() - generation_started) * 1000, 2)
         trace.extend(
             [

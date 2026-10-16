@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "corpus_version": "db6814523c5b98ec",
+  "document_count": 73,
+  "document_ids_sha256": "fb1b7bcb429c1588e9e3cc9404412c8ffcf8e390aa1fde3dbf58ebd404aa6ad2",
+  "document_fingerprint_sha256": "db6814523c5b98ece7cb3a32548082669552bb170ccb6698d6cfb97a562623d5",
+  "corpus_counts": {
+    "projects": 43,
+    "engineering_lab": 5
+  }
+}

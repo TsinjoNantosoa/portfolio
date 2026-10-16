@@ -1,6 +1,12 @@
+import asyncio
+from contextlib import suppress
+
+import httpx
+import pytest
 from fastapi.testclient import TestClient
 
 from app.config import Settings
+from app.errors import PlaygroundUnavailableError
 from app.main import create_app
 
 
@@ -49,6 +55,11 @@ class FakePlaygroundChat:
 class FailingPlaygroundChat(FakePlaygroundChat):
     async def playground(self, _message: str, _corpus: str):
         raise RuntimeError("provider-secret-details")
+
+
+class UnavailablePlaygroundChat(FakePlaygroundChat):
+    async def playground(self, _message: str, _corpus: str):
+        raise PlaygroundUnavailableError("provider-secret-details")
 
 
 def settings(**overrides):
@@ -111,7 +122,8 @@ def test_playground_rejects_unknown_corpus_long_input_and_wrong_session():
             headers=headers,
             json={"message": "x" * 401, "corpus": "projects"},
         )
-        assert too_long.status_code == 422
+        assert too_long.status_code == 413
+        assert too_long.json()["error"]["code"] == "PAYLOAD_TOO_LARGE"
 
         wrong_session = client.post(
             "/api/public/playground/query",
@@ -149,6 +161,7 @@ def test_playground_has_a_separate_rate_limit_and_kill_switch():
             json={"message": "SIHIA", "corpus": "projects"},
         )
         assert disabled.status_code == 503
+        assert disabled.json()["error"]["code"] == "PLAYGROUND_DISABLED"
 
 
 def test_playground_ip_quota_survives_anonymous_session_renewal():
@@ -206,7 +219,7 @@ def test_playground_global_quota_applies_across_client_ips():
 
 
 def test_playground_provider_error_does_not_expose_internal_details():
-    with TestClient(create_app(settings(), FailingPlaygroundChat())) as client:
+    with TestClient(create_app(settings(), UnavailablePlaygroundChat())) as client:
         _active, headers = session(client)
         response = client.post(
             "/api/public/playground/query",
@@ -215,3 +228,99 @@ def test_playground_provider_error_does_not_expose_internal_details():
         )
         assert response.status_code == 503
         assert "provider-secret-details" not in response.text
+
+
+def test_playground_unexpected_error_is_safe_http_500():
+    with TestClient(create_app(settings(), FailingPlaygroundChat())) as client:
+        _active, headers = session(client)
+        response = client.post(
+            "/api/public/playground/query",
+            headers=headers,
+            json={"message": "SIHIA", "corpus": "projects"},
+        )
+        assert response.status_code == 500
+        assert "provider-secret-details" not in response.text
+
+
+def test_playground_ip_quota_returns_429_with_retry_after():
+    config = settings(
+        playground_session_rate_limit_per_hour=10,
+        playground_ip_rate_limit_per_hour=1,
+        playground_global_rate_limit_per_hour=10,
+    )
+    with TestClient(create_app(config, FakePlaygroundChat())) as client:
+        _active, headers = session(client)
+        payload = {"message": "SIHIA", "corpus": "projects"}
+        assert client.post("/api/public/playground/query", headers=headers, json=payload).status_code == 200
+        limited = client.post("/api/public/playground/query", headers=headers, json=payload)
+        assert limited.status_code == 429
+        assert int(limited.headers["retry-after"]) >= 1
+
+
+@pytest.mark.asyncio
+async def test_public_endpoint_releases_concurrency_after_cancellation():
+    class BlockingChat(FakePlaygroundChat):
+        def __init__(self):
+            self.started = asyncio.Event()
+            self.block = True
+
+        async def playground(self, message: str, corpus: str):
+            self.started.set()
+            if self.block:
+                await asyncio.Event().wait()
+            return await super().playground(message, corpus)
+
+    service = BlockingChat()
+    app = create_app(
+        settings(playground_max_concurrent_requests=1),
+        service,
+    )
+    async with app.router.lifespan_context(app):
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+            active = (await client.post("/api/public/session")).json()
+            headers = {"Authorization": f"Bearer {active['token']}"}
+            payload = {"message": "SIHIA", "corpus": "projects"}
+            first = asyncio.create_task(
+                client.post("/api/public/playground/query", headers=headers, json=payload)
+            )
+            await service.started.wait()
+            concurrent = await client.post(
+                "/api/public/playground/query", headers=headers, json=payload
+            )
+            assert concurrent.status_code == 429
+            assert concurrent.headers["retry-after"] == "2"
+
+            first.cancel()
+            with suppress(asyncio.CancelledError):
+                await first
+            service.block = False
+            recovered = await client.post(
+                "/api/public/playground/query", headers=headers, json=payload
+            )
+            assert recovered.status_code == 200
+
+
+def test_playground_timeout_is_safe_http_503_and_releases_slot():
+    class SlowThenHealthyChat(FakePlaygroundChat):
+        slow = True
+
+        async def playground(self, message: str, corpus: str):
+            if self.slow:
+                self.slow = False
+                await asyncio.sleep(1)
+            return await super().playground(message, corpus)
+
+    with TestClient(
+        create_app(
+            settings(
+                playground_request_timeout_seconds=0.02,
+                playground_max_concurrent_requests=1,
+            ),
+            SlowThenHealthyChat(),
+        )
+    ) as client:
+        _active, headers = session(client)
+        payload = {"message": "SIHIA", "corpus": "projects"}
+        assert client.post("/api/public/playground/query", headers=headers, json=payload).status_code == 503
+        assert client.post("/api/public/playground/query", headers=headers, json=payload).status_code == 200

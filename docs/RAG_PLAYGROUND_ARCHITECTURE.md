@@ -64,7 +64,11 @@ Scores are raw Qdrant similarity scores rounded for display. They rank retrieved
 
 The in-memory rate limiter is process-local. Before horizontal scaling, the same keys and windows must move to an atomic shared store such as Redis. Provider budget enforcement is currently an operator-controlled kill switch and conservative global quota rather than a billing API integration.
 
-Every generated knowledge payload carries a deterministic corpus version. Readiness succeeds only when the version sampled from Qdrant matches the version expected by the API package, preventing a same-size but stale index from being accepted.
+Every generated knowledge payload carries a deterministic document hash and corpus version. The build also emits `public_portfolio.manifest.json` with the expected document count, identifier hash, content fingerprint, and per-corpus counts. Qdrant stores this manifest as a dedicated point published after document upserts and stale-point deletion.
+
+Readiness scans identifiers and integrity metadata, compares the indexed manifest with the packaged manifest, and rejects missing, extra, stale, partially indexed, or tampered documents. The complete result is cached for a bounded period; Playground retrieval requires a ready result and always filters candidates by the packaged corpus version. This avoids a full collection scan on every request while preventing the Playground from silently using a known-incomplete index.
+
+On Render, generic `X-Forwarded-For` input is not used as a rate-limit identity. Proxy trust must be explicitly configured as `render`, and the resolver accepts a single valid `CF-Connecting-IP` only when Render/Cloudflare request markers are present. Local and unknown-proxy environments fall back to the direct socket address. Full client addresses are never emitted by application logs.
 
 ## Failure Modes
 
@@ -72,7 +76,9 @@ Every generated knowledge payload carries a deterministic corpus version. Readin
 - Invalid/expired session: HTTP 401 or 403.
 - Rate limit: HTTP 429 with `Retry-After`.
 - Disabled or unconfigured service: HTTP 503.
-- Provider or retrieval failure: safe HTTP 503 without internal details.
+- Known provider/retrieval outage or timeout: safe HTTP 503 without internal details.
+- Unexpected Playground defect: safe HTTP 500 without internal details.
+- Disabled Playground: HTTP 503 with `PLAYGROUND_DISABLED`, distinct from a temporary outage.
 - No accepted evidence: successful controlled `no_evidence` result; generation is skipped.
 - Prompt injection or obvious unrelated request: successful controlled `guarded` result; retrieval and generation are skipped.
 

@@ -14,7 +14,8 @@
       "What backend technologies does Tsinjo use?",
       "What is Tsinjo's professional experience?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "72b3c66243bbe12ce51036231cd7717037fa5189c5fb05d822783b2e89e01eaf",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:ai-agents-agentic-systems:expertise",
@@ -30,7 +31,8 @@
       "Which projects demonstrate this expertise?",
       "What is Tsinjo's production experience?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "4f11a0c135b52ffc408886bdb2751d1ae82fbfa6eaefd8a4781c962147f22b65",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:production-rag-systems:expertise",
@@ -46,7 +48,8 @@
       "Which projects demonstrate this expertise?",
       "What is Tsinjo's production experience?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "5b926ba3b493544bc54d32af34257f61aa56758d0a951beadea864fcbcd4b6cd",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:ai-automation-backend-engineering:expertise",
@@ -62,7 +65,8 @@
       "Which projects demonstrate this expertise?",
       "What is Tsinjo's production experience?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "0dcb5c6b7293b1149b94954de01e7fbec513664aae1de8c6e0ddf59544f6ab2a",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "experience:h4h:role-overview",
@@ -79,7 +83,8 @@
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "0ed633bc6dc84a53374b0da6357a636d1af622179e6834b43d75c5156bfde6b8",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "experience:h4h:engineering-contributions",
@@ -95,7 +100,8 @@
       "What technical decisions did Tsinjo make?",
       "Which technologies supported this work?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "a64e464fb81cc2e34bd3d71367bbb6acf158bf0b48aa11b15dcd77d89e9f29cc",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "experience:h4h:stack-and-public-evidence",
@@ -108,7 +114,8 @@
     "content": "Technologies: Python; FastAPI; LangChain; RAG; AI Agents; Tool Calling; Qdrant; PostgreSQL; Redis; React; TypeScript; Docker.",
     "links": [],
     "suggested_questions": [],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "d093cf093773acf12bec8ae4c7f1da5618e3e0af327a28f452624d00e4566a86",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "experience:freelance-automation:role-overview",
@@ -124,7 +131,8 @@
       "Which projects demonstrate this experience?",
       "What automation tools does Tsinjo use?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "0e37fb913ce810eaee879d7f1bbb018f7da676ed2d208270cf599c848a9cd749",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "experience:freelance-automation:engineering-contributions",
@@ -140,7 +148,8 @@
       "What technical decisions did Tsinjo make?",
       "Which technologies supported this work?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "2575001284391637cdb014e8f8512153528b908bda01c1fc7d3310f401351c0c",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "experience:freelance-automation:stack-and-public-evidence",
@@ -153,7 +162,8 @@
     "content": "Technologies: n8n; Python; FastAPI; Webhooks; Airtable; Google Workspace.",
     "links": [],
     "suggested_questions": [],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "1194d4777374fdb6870a4c99e5b09aa0d4f2616ff1501da66230ab968cbc8e51",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "experience:ets-baron:role-overview",
@@ -169,7 +179,8 @@
       "Which projects demonstrate this experience?",
       "What automation tools does Tsinjo use?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "92543996e9d62e62b0c01d555964f5998fa2efd9144077cd2138215b1b035ab2",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "experience:ets-baron:engineering-contributions",
@@ -185,7 +196,8 @@
       "What technical decisions did Tsinjo make?",
       "Which technologies supported this work?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "2980dd589920070d53acd76438365f2cdf6e42cf03329e8a1ac85e50aaf47f18",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "experience:ets-baron:stack-and-public-evidence",
@@ -198,7 +210,8 @@
     "content": "Technologies: Odoo 18; Python; XML; PostgreSQL; Docker; CI/CD.",
     "links": [],
     "suggested_questions": [],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "cb6f98fa1ae30e495acd8173fe1c9011180f2f395e70b1354ea31deb9ecf1a38",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "education:education:degrees",
@@ -214,7 +227,8 @@
       "What AI certifications does Tsinjo have?",
       "What are his strongest engineering skills?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "4a4fa298c508c25649425b8d3244519917413d53f33bfeeb1a4d7a6eb933428c",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:languages:professional-languages",
@@ -227,7 +241,8 @@
     "content": "Malagasy: Native. French: Professional. English: Professional",
     "links": [],
     "suggested_questions": [],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "175e893ca96250d7aa4bc98c5f4cf4a5733247fb8f092f73bc42094c6ae56821",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:generative-ai-agentic-systems:technical-skills",
@@ -243,7 +258,8 @@
       "Which projects use these technologies?",
       "What production experience supports these skills?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "2b22675afad4c931f565b55f55017da631d54ee29adc0b5906457e5a6339252a",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:backend-engineering:technical-skills",
@@ -259,7 +275,8 @@
       "Which projects use these technologies?",
       "What production experience supports these skills?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "237d4b73667c56e4824e41046b3ae747820c083551fe832e8f19402cbe17a232",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:data-vector-databases:technical-skills",
@@ -275,7 +292,8 @@
       "Which projects use these technologies?",
       "What production experience supports these skills?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "0dc478de5eec32ada30102ebfab64e570a56c3f4dbbc2fd267558371b5e2ea4e",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:frontend-engineering:technical-skills",
@@ -291,7 +309,8 @@
       "Which projects use these technologies?",
       "What production experience supports these skills?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "8f9fa5ba9a586603d3250127a73eb9701dd79e2d059896750b2ece8799ea1445",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:ai-automation-integration:technical-skills",
@@ -307,7 +326,8 @@
       "Which projects use these technologies?",
       "What production experience supports these skills?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "6be8a74095af8f3ae9d9fdedbe0cca8ff448a5393dfc7dbaf4b69962a98d9aca",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:devops-infrastructure:technical-skills",
@@ -323,7 +343,8 @@
       "Which projects use these technologies?",
       "What production experience supports these skills?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "f3ef33df965184ea972949a5b2a135689b63a9757c16b83944819b30ed5de1cd",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:data-engineering-machine-learning:technical-skills",
@@ -339,7 +360,8 @@
       "Which projects use these technologies?",
       "What production experience supports these skills?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "7aba05f79285d9b8c899dc19e1fe6f7b855c3cf4523e5729745d3cd10f7074e5",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "certification:featured-certifications:credentials",
@@ -355,7 +377,8 @@
       "What is Tsinjo's education?",
       "Which projects demonstrate his AI engineering skills?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "6ff9250b8ac89c9a9cad3a3fc4da6bb1932303220f22a367b10c7726438e33a1",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "certification:additional-certifications:credentials",
@@ -368,7 +391,8 @@
     "content": "Data Engineer Associate by DataCamp. Python Data Associate by DataCamp. AWS Cloud Practitioner (CLF-C02) by AWS. Data Engineer Career Track by DataCamp. Data Analyst in Python by DataCamp. Data Analyst in Power BI by DataCamp. Data Engineer in Python by DataCamp. Power BI Fundamentals by DataCamp. Snowflake Data Engineer Associate by DataCamp",
     "links": [],
     "suggested_questions": [],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "951fc79f4afd419804c96de9593958048bb783fda3a7f95cf95f86ece9ecf018",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:multi-tenant-rag:overview",
@@ -390,7 +414,8 @@
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "c256438f2b324016bde4bc223d4335da5be3eb74a888274a5a2d8715a0734d5c",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:multi-tenant-rag:problem-and-solution",
@@ -412,7 +437,8 @@
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "b4d9e93de2bb85bbe63aad0c2a9cd4df15e2e6bb7f779535390ad2f9771f5a89",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:multi-tenant-rag:architecture",
@@ -434,7 +460,8 @@
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "ea9fb30ed44b989b5d2906b5bf9f227254428b9b752747b92e33477bc631721d",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:multi-tenant-rag:engineering-decisions",
@@ -456,7 +483,8 @@
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "a11e2c3e15e17da25ff0e304fd61a856cbbaf041536997f29e776533692fbf84",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:multi-tenant-rag:controls-evidence-and-stack",
@@ -478,7 +506,8 @@
       "What stack powered the RAG platform?",
       "How did Tsinjo validate RAG quality?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "1448f74a22c0b76771a0cb7e9dfbb2210ea9138c750494250de4c6ee6320521b",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:offshore-fares:overview",
@@ -504,7 +533,8 @@
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "b313aeed76646af6b8f1fff0ff1c67843308464d8aaf3c96a2176ce16b62bebe",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:offshore-fares:problem-and-solution",
@@ -530,7 +560,8 @@
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "70600a7a8481de40c0d804b31f2e3a650136063dd3f74bbf00ea098e7aa7bb4a",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:offshore-fares:architecture",
@@ -556,7 +587,8 @@
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "477f5f8eefe5dafb299488e632fac3ad0b2e36d1c446e9a20fa87601a56b5930",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:offshore-fares:engineering-decisions",
@@ -582,7 +614,8 @@
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "a6da03d83df9181444ea87011d871d886fff8a47fbca09f1f226d4c4a46fd2e3",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:offshore-fares:controls-evidence-and-stack",
@@ -608,7 +641,8 @@
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "3e64597c6de1460aeb608d003379c224f377db47897c17093ede7c92b441f20a",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:offshore-fares:n8n-workflow-automation",
@@ -634,7 +668,8 @@
       "What do the 18 n8n workflows orchestrate?",
       "How does Human-in-the-Loop work in Offshore Fares?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "80b556110f7d011885f5977bbc27600904e4407661a3b9ad70dfb2b70670874c",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:arcwell-agentic-crm:overview",
@@ -660,7 +695,8 @@
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "0b5d7f6fe84640bde7fe4f42be3b2c7cb6d63af7a96b8198a90aa029df6d23c4",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:arcwell-agentic-crm:problem-and-solution",
@@ -686,7 +722,8 @@
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "70e5f3e7021b2922918b1bd1e9f6c47d9209e1e2bd2d99c7c1a9e6ba661da58e",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:arcwell-agentic-crm:architecture",
@@ -712,7 +749,8 @@
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "f813af55f2090b3024845e09e7d41186b83caf8e4fcad07f04dfee84e900b7b7",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:arcwell-agentic-crm:engineering-decisions",
@@ -738,7 +776,8 @@
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "fbcdacfc28baf34175e6684b57fe749cd1c932319a915faa10e9fe1cb70eeeb9",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:arcwell-agentic-crm:controls-evidence-and-stack",
@@ -764,7 +803,8 @@
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "61bf2bf6a6a0edc9005acc9c1e939a5def36d18473a02568cfe8fb6ec7e2baa8",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:arcwell-agentic-crm:evaluation-and-testing",
@@ -790,7 +830,8 @@
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "11f9acb371d9bc9a9e0287d1a9394f82a39fe37db7b35044145bb6f7cb2dc8e4",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:arcwell-agentic-crm:current-limitations",
@@ -816,7 +857,8 @@
       "Why are policy checks deterministic?",
       "Which other project uses LangGraph?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "ca78dc9b6af8ed8b66cd020fe98ae08f93436e55e73c890593ac881e43cc7bfd",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-business-os:overview",
@@ -842,7 +884,8 @@
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "3a8da02fa63e385f87ed4a383a42b20d93563242a3a5c43beaa5cd6d5f827b80",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-business-os:problem-and-solution",
@@ -868,7 +911,8 @@
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "3d4f8d16c8845414ea3592498515714c21c3c8a3fc96220f705f72bc83590365",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-business-os:architecture",
@@ -894,7 +938,8 @@
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "e232ad7d3d57fb1ffa0b6ff1373e1f0af866e68e0e6b781723ad511306552f3c",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-business-os:engineering-decisions",
@@ -920,7 +965,8 @@
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "133a43b9ffb6b4c310f6fad475aeeddb541fe009f295ac0095aee1af698c7cad",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-business-os:controls-evidence-and-stack",
@@ -946,7 +992,8 @@
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "0e20e370e40ef1541c5138a7beb9c1e0da6bde1c82878e779afe3fc9d6f641d4",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-business-os:evaluation-and-testing",
@@ -972,7 +1019,8 @@
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "623d45e6a81844d5accdc1cade64b5e004bff35e043bac7fe57b123220c365af",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-business-os:current-limitations",
@@ -998,7 +1046,8 @@
       "What is the AI BOS architecture?",
       "Which projects demonstrate multi-tenancy?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "495bc472c35fbe74762b209a79e49551a7e0fb7f898637b867096515bc4c0000",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:sihia:overview",
@@ -1024,7 +1073,8 @@
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "689ecfc7c107bdde9c058c7b60216e2d31239123a2b5efc2cfdc623048af2452",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:sihia:problem-and-solution",
@@ -1050,7 +1100,8 @@
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "1ef6d5011944e3bcce5d4e7537e59c452394bf1f9efac1bf18112b6347ed9a18",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:sihia:architecture",
@@ -1076,7 +1127,8 @@
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "b81a9f6b25749d99eb4b7e0f015c1b538fe1638a9131261a0297e7af756fac48",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:sihia:engineering-decisions",
@@ -1102,7 +1154,8 @@
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "027e6e81c39a5ecc28e42009ba62b92d8c7b813036ca89513bb55f4d2944b5e3",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:sihia:controls-evidence-and-stack",
@@ -1128,7 +1181,8 @@
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "52fdd9f29886a1717047fa66e46098accb9b98e9334314dc5549e72067cdca25",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:sihia:evaluation-and-testing",
@@ -1154,7 +1208,8 @@
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "c3f826074e5be57274a8ef242a3a4ceeca3c0daee52a8bbba39aa5b6ccc4b26e",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:sihia:current-limitations",
@@ -1180,7 +1235,8 @@
       "Why does SIHIA use reranking?",
       "Which projects use Qdrant?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "4e608853660edfbd1fd79eb37c44931e9ab454db915ce0d8d0073ff93159121b",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-sales-assistant:overview",
@@ -1202,7 +1258,8 @@
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "bbc85412bf2de1ae146f5c691895453af8fc9159626cd59b564d701442984a48",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-sales-assistant:problem-and-solution",
@@ -1224,7 +1281,8 @@
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "5f51b34c66f6ec7b40b7fbbd78571444de58b91eabddc10258fc18ef5296deae",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-sales-assistant:architecture",
@@ -1246,7 +1304,8 @@
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "f589a8e8e9ba0fed932eccd86d1142afc21bd7c0b812acd51be72ef607322601",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-sales-assistant:engineering-decisions",
@@ -1268,7 +1327,8 @@
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "78069b98d0897852b6abbc89bcc7204b25594a7285b98eee5a1c313af9b9542e",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-sales-assistant:controls-evidence-and-stack",
@@ -1290,7 +1350,8 @@
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "113d69c672943cf235bafa86ca1db2814c20e267a62512edb7de3aadb7611cb4",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-sales-assistant:deterministic-lead-scoring",
@@ -1312,7 +1373,8 @@
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "a6d8e04bc257a280d0c6502a0800416c0aca3a7ba4939b5b3ee1f0d4a092584d",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:ai-sales-assistant:n8n-workflow-automation",
@@ -1334,7 +1396,8 @@
       "Which n8n workflows does AI Sales use?",
       "How does Human-in-the-Loop protect sales actions?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "af00ab9faf82d51d76aea81705c0e8688a62d5ff8217f4559d02a8dbe185a072",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:lab-rag:ai-engineering-lab",
@@ -1364,7 +1427,8 @@
       "How are engineering claims validated?",
       "What limitations are documented?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "2e84306574c5bbc143e7b6313b59d5e9a6cdab1afd47975c3b94cf6b8dd01fc6",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:lab-agentic:ai-engineering-lab",
@@ -1394,7 +1458,8 @@
       "How are engineering claims validated?",
       "What limitations are documented?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "8bc4482ec5aacf605f1aeaa7cb5f2f55a69f0b7cd796ab52353ccf95c8b20c5e",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:lab-automation:ai-engineering-lab",
@@ -1424,7 +1489,8 @@
       "How are engineering claims validated?",
       "What limitations are documented?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "1b430ffc527da49789ee7b980b5781ce9df1bb286c75f9b444c5e83773e6e224",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:lab-production:ai-engineering-lab",
@@ -1454,7 +1520,8 @@
       "How are engineering claims validated?",
       "What limitations are documented?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "a9fcec4585f9f4607431ca324ade9b40355872edaf85c3e1cf3670c6227664ed",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "skill:lab-assisted-development:ai-engineering-lab",
@@ -1484,7 +1551,8 @@
       "How are engineering claims validated?",
       "What limitations are documented?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "f90189d9756a40443f6da0c5adc0f0447c522fc732f23c4711d52bebdaaef812",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:worldbank:project-overview",
@@ -1505,7 +1573,8 @@
       "Which flagship project uses related technologies?",
       "What are Tsinjo's strongest engineering projects?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "cd90c9607eccbd121f444ecf91176f6e1fc143e3609237f638729c74fba4db19",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:iot-pipeline:project-overview",
@@ -1526,7 +1595,8 @@
       "Which flagship project uses related technologies?",
       "What are Tsinjo's strongest engineering projects?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "c3ef603ceea70d3286f4fcdd568f29b8894d69b21b443465b9d339271409da39",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:weather-etl:project-overview",
@@ -1547,7 +1617,8 @@
       "Which flagship project uses related technologies?",
       "What are Tsinjo's strongest engineering projects?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "e064841b4a9012dcbbd19c1c9771ac1941e8751efe8922c6148a5a47da0d840b",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "project:bank-loan:project-overview",
@@ -1568,7 +1639,8 @@
       "Which flagship project uses related technologies?",
       "What are Tsinjo's strongest engineering projects?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "929e066d2f076cc46b01166318903d3cc21bd52544281bfbd1529b9c440db591",
+    "corpus_version": "db6814523c5b98ec"
   },
   {
     "id": "contact:contact:public-links",
@@ -1597,6 +1669,7 @@
       "Which projects should I review first?",
       "What is Tsinjo's professional experience?"
     ],
-    "corpus_version": "9676131376337c49"
+    "document_hash": "3b63ffaa2f4de28c4319333fa81a71282548d31cebeb1d37fd5d4a49b1dca4df",
+    "corpus_version": "db6814523c5b98ec"
   }
 ]

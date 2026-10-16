@@ -14,8 +14,8 @@ def test_offline_playground_eval_is_reproducible_and_corpus_scoped():
     cases = json.loads(Path(EVAL_FILE).read_text(encoding="utf-8"))
     result = evaluate(documents, cases)
 
-    assert result["documents"] == 73
-    assert result["evaluated"] >= 12
+    assert result["documents"] == len(documents)
+    assert result["evaluated"] >= 20
     assert all(
         item["type"] == "project"
         for item in corpus_documents(documents, "projects")
@@ -30,3 +30,15 @@ def test_offline_playground_eval_is_reproducible_and_corpus_scoped():
         "lab-assisted-development",
     }
     assert result["recall_at_4"] >= 0.75
+    assert 0 <= result["false_positive_rate"] <= 1
+    assert 0 <= result["citation_source_match"] <= 1
+    assert {
+        "ambiguous",
+        "false_premise",
+        "multi_passage",
+        "no_answer",
+        "out_of_scope",
+        "prompt_injection",
+        "simple",
+        "wrong_corpus",
+    }.issubset(result["category_accuracy"])

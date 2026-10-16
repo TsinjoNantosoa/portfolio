@@ -1,8 +1,15 @@
+import hashlib
+import json
 from types import SimpleNamespace
 
 import pytest
 
-from scripts.ingest_portfolio import embedding_text, list_collection_point_ids
+from scripts.ingest_portfolio import (
+    KNOWLEDGE_FILE,
+    MANIFEST_FILE,
+    embedding_text,
+    list_collection_point_ids,
+)
 
 
 def test_embedding_text_includes_title_section_and_content():
@@ -26,3 +33,22 @@ async def test_collection_point_ids_are_read_across_all_pages():
 
     point_ids = await list_collection_point_ids(FakeQdrant(), "portfolio_knowledge")
     assert point_ids == {"current", "stale", "last"}
+
+
+def test_generated_manifest_matches_document_ids_hash_and_fingerprint():
+    documents = json.loads(KNOWLEDGE_FILE.read_text(encoding="utf-8"))
+    manifest = json.loads(MANIFEST_FILE.read_text(encoding="utf-8"))
+    ordered = sorted(documents, key=lambda item: item["id"])
+    ids_hash = hashlib.sha256(
+        "\n".join(item["id"] for item in ordered).encode()
+    ).hexdigest()
+    fingerprint = hashlib.sha256(
+        "\n".join(
+            f"{item['id']}:{item['document_hash']}" for item in ordered
+        ).encode()
+    ).hexdigest()
+
+    assert manifest["document_count"] == len(documents)
+    assert manifest["document_ids_sha256"] == ids_hash
+    assert manifest["document_fingerprint_sha256"] == fingerprint
+    assert manifest["corpus_version"] == fingerprint[:16]

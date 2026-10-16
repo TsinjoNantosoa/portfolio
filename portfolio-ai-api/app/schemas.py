@@ -26,7 +26,7 @@ PlaygroundCorpus = Literal["projects", "engineering_lab"]
 
 
 class PlaygroundRequest(BaseModel):
-    message: str = Field(min_length=1, max_length=400)
+    message: str = Field(min_length=1, max_length=800)
     corpus: PlaygroundCorpus
     conversation_id: str | None = Field(default=None, max_length=100)
 
