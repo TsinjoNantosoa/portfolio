@@ -69,6 +69,7 @@ def test_low_cost_openai_defaults_are_canonical():
     assert config.openai_timeout_seconds == 60
     assert config.rag_top_k == 4
     assert config.playground_enabled is False
+    assert config.operations_monitor_enabled is False
 
 
 def test_health_and_session_claims():

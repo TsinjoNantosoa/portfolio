@@ -172,24 +172,27 @@ Detailed design boundary:
 - UI tests for keyboard use, mobile layout, loading, sources, retry, and error states.
 - A deterministic default suite that requires no network or paid API.
 
-## Phase 4 — Privacy-Preserving Automation Monitor
+## Phase 4 — Live AI Operations Monitor
 
-This phase remains disabled until a real operational need and real data source exist.
+Status: implemented locally on 2026-10-16; Phase 4.1 UI validation and hardening completed locally, feature flag disabled, and staging/production activation pending explicit approval.
 
-Minimum architecture:
+Delivered architecture:
 
 ```text
-Portfolio demo -> authenticated ingestion endpoint -> existing backend or n8n
-               -> aggregate execution records -> read-only public summary
+Assistant / Playground -> bounded private technical event
+                       -> in-process 24-hour aggregation
+                       -> rate-limited public summary
+                       -> lazy-loaded bilingual dashboard
 ```
 
-Allowed public metrics:
+Delivered public metrics:
 
-- Aggregate demonstration executions.
-- Most recent successful execution time.
-- Coarse service status.
-- Aggregated duration distribution.
-- Aggregate failures and retries.
+- Accepted operation, processing-success, failure, and controlled-refusal counts.
+- Separate assistant, Playground, test, and demonstration distribution.
+- Total P50/P95, retrieval P95, and generation P95 latency.
+- Bounded error-category distribution.
+- Token totals only when reliable provider usage is actually available.
+- Explicit disabled, no-data, stale, and available states.
 
 Privacy and integrity rules:
 
@@ -199,6 +202,23 @@ Privacy and integrity rules:
 - Never show seeded or simulated numbers as live.
 - Label delayed, unavailable, and simulated data explicitly.
 - Prefer existing PostgreSQL/Render/n8n infrastructure over a new analytics vendor.
+
+Current implementation deliberately uses a bounded process-local collector because the API is single-instance and PostgreSQL is not part of this service. It stores no prompt, response, IP, session, JWT, request ID, exception detail, or visitor identity. Metrics reset on restart and are not uptime or billing data.
+
+Before activation:
+
+1. Complete the isolated staging checklist in `docs/AI_OPERATIONS_MONITOR_ARCHITECTURE.md`.
+2. Inspect the public summary for forbidden or high-cardinality fields.
+3. Validate monitor failure cannot break chatbot or Playground responses.
+4. Approve the process-local retention limitation.
+5. Explicitly authorize `OPERATIONS_MONITOR_ENABLED=true`; do not change other production flags.
+
+Phase 4.1 validation notes:
+
+- The dashboard uses an Operations-specific wide container on desktop while preserving compact tablet/mobile gutters.
+- `available`, `no_data`, `stale`, `disabled`, and request `error` states have distinct copy and visual treatment.
+- Synthetic collector tests cover all four public source dimensions (`assistant`, `playground`, `test`, `demo`), retention expiry, bounded storage, privacy serialization, rate limiting, and failure isolation.
+- Full staging and production checklists, rollback, screenshots, and residual risks are recorded in `docs/PORTFOLIO_PHASE4_1_REPORT.md`.
 
 ## Cross-Cutting Phase 5 Work
 

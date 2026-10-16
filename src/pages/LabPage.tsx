@@ -8,6 +8,7 @@ import {
   Database,
   ExternalLink,
   FlaskConical,
+  Activity,
   ServerCog,
   Workflow,
 } from "lucide-react";
@@ -92,6 +93,13 @@ const LabPage = () => {
               >
                 <FlaskConical size={16} aria-hidden />
                 {language === "fr" ? "Tester le Playground RAG" : "Open the RAG Playground"}
+              </Link>
+              <Link
+                to="/lab/operations"
+                className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-md border border-white/15 px-4 text-sm font-semibold text-[var(--text-primary)] transition hover:border-neon/60 hover:text-neon"
+              >
+                <Activity size={16} aria-hidden />
+                {language === "fr" ? "Voir les opérations IA" : "View AI Operations"}
               </Link>
             </div>
           </div>
