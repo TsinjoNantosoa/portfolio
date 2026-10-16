@@ -43,6 +43,12 @@ services:
         value: https://tsinjona.netlify.app
       - key: TRUST_PROXY_HEADERS
         value: "true"
+      - key: TRUSTED_PROXY_PROVIDER
+        value: render
+      - key: PLAYGROUND_REQUEST_TIMEOUT_SECONDS
+        value: "70"
+      - key: CORPUS_READINESS_TTL_SECONDS
+        value: "60"
       - key: PUBLIC_SITE_URL
         value: https://tsinjona.netlify.app
       - key: OPENAI_API_KEY

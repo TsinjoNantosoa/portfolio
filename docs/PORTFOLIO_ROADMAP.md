@@ -59,6 +59,8 @@ Status: first Public RAG Playground implementation completed locally on 2026-10-
 
 Phase 3.1 hardening is also complete locally: activation now defaults off, quotas cover renewed sessions/IP/global/concurrency, answer support is explicitly not evaluated, corpus versions are checked, and a USD 1.00 isolated live-acceptance plan is documented. No paid acceptance call has run.
 
+Phase 3.2 final hardening is implemented locally and awaiting staging validation. It preserves HTTP 429 responses and `Retry-After`, distinguishes known 503 outages from unexpected 500 errors, validates the complete manifested Qdrant corpus, uses an explicit Render proxy trust mode, and expands the offline retrieval/refusal evaluation. No cloud resource, paid request, deployment, commit, or push was initiated as part of this phase.
+
 Delivered for the Public RAG Playground:
 
 - Bilingual lazy-loaded `/lab/playground` interface.
