@@ -155,6 +155,15 @@ describe("static HTML generation", () => {
     expect(noscript).not.toContain('href="/"><');
   });
 
+  it("renders the 404 page as noindex with no JSON-LD and no sitemap entry", () => {
+    const html = renderRouteHtml(TEMPLATE, getNotFoundSeo("en"), routes);
+    expect(html).toContain('<meta name="robots" content="noindex, follow" />');
+    expect(html).toContain('<link rel="canonical" href="https://tsinjona.netlify.app/" />');
+    expect(html).not.toContain("application/ld+json");
+    expect(buildSitemapXml(routes)).not.toContain("404");
+    expect(buildRedirects(routes)).not.toMatch(/^\/\*/m);
+  });
+
   it("fails the build when the template no longer has a tag it replaces", () => {
     expect(() => renderRouteHtml(TEMPLATE.replace(/<title>.*<\/title>/, ""), getStaticSeo("/lab"), routes)).toThrow(/title/);
     expect(() => renderRouteHtml(TEMPLATE.replace(/<link rel="canonical"[^>]*>/, ""), getStaticSeo("/lab"), routes)).toThrow(/canonical/);

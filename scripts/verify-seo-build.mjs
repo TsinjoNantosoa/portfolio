@@ -117,6 +117,19 @@ for (const line of redirects) {
   const [from, to, status] = line.split(/\s+/);
   check(status === "200" && exists(to.replace(/^\//, "")), `_redirects: ${from} -> ${to} (${status}) does not resolve to a file`);
 }
+
+// Unknown URLs must get a real 404: a 404.html that is noindex, and no catch-all that answers 200.
+check(exists("404.html"), "dist/404.html is missing, so unknown URLs have no 404 page");
+if (exists("404.html")) {
+  const notFound = read("404.html");
+  check(/<meta name="robots" content="noindex, follow"/.test(notFound), "404.html is not noindex");
+  check(!/<script type="application\/ld\+json"/.test(notFound), "404.html carries JSON-LD");
+  check(/<script type="module"[^>]*src="\/assets\//.test(notFound), "404.html does not load the app");
+  check(!urls.includes(`${SITE}/404`) && !urls.includes(`${SITE}/404.html`), "sitemap lists the 404 page");
+}
+const netlifyToml = fs.readFileSync(path.join(root, "netlify.toml"), "utf8");
+check(!/from\s*=\s*"\/\*"/.test(netlifyToml), "netlify.toml has a /* catch-all, which turns unknown URLs into 200 soft 404s");
+check(!redirects.some((line) => line.startsWith("/*")), "_redirects has a /* catch-all");
 const robotsTxt = read("robots.txt");
 check(robotsTxt.includes(`Sitemap: ${SITE}/sitemap.xml`), "robots.txt does not point to the sitemap");
 check(!/Disallow:\s*\/\s*$/m.test(robotsTxt), "robots.txt disallows the whole site");

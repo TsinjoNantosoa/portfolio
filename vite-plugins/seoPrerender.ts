@@ -9,9 +9,11 @@ import {
   listPublicRoutes,
   pageModuleFor,
   renderPreloadTags,
+  NOT_FOUND_FILE,
   renderRouteHtml,
   routeFile,
 } from "../src/seo/prerender";
+import { getNotFoundSeo } from "../src/seo/routes";
 
 const isChunk = (item: OutputBundle[string]): item is OutputChunk => item.type === "chunk";
 
@@ -60,6 +62,10 @@ export function seoPrerender(): Plugin {
         fs.mkdirSync(path.dirname(target), { recursive: true });
         fs.writeFileSync(target, html);
       }
+      // Netlify answers every unknown path with this file and a real 404 status. The client app boots
+      // from it and renders the not-found page, so the browser experience is the same as before.
+      const notFoundHead = renderPreloadTags({ fontFiles, moduleFiles: modulesForPage(bundle, "src/pages/NotFound.tsx") });
+      fs.writeFileSync(path.join(outDir, NOT_FOUND_FILE), renderRouteHtml(template, getNotFoundSeo("en"), routes, notFoundHead));
       fs.writeFileSync(path.join(outDir, "sitemap.xml"), buildSitemapXml(routes));
       fs.writeFileSync(path.join(outDir, "_redirects"), buildRedirects(routes));
     },

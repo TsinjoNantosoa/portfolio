@@ -26,7 +26,8 @@ const meta = (attribute: "name" | "property", key: string, content: string) =>
 
 /** Head tags for a route, in the same set that `applySeo` writes in the browser. */
 export const renderHeadTags = (record: SeoRecord): string => {
-  const url = absoluteUrl(record.path);
+  // Same as applySeo: the not-found page points at the home page (it has no URL of its own).
+  const url = absoluteUrl(record.kind === "not-found" ? "/" : record.path);
   const isDefaultImage = record.image === `${SITE_URL}${DEFAULT_OG_IMAGE.path}`;
   const lines = [
     `<title>${escapeHtml(record.title)}</title>`,
@@ -153,6 +154,9 @@ export const buildRedirects = (routes: readonly SeoRecord[]): string =>
       .flatMap((route) => [`${route.path}  /${routeFile(route.path)}  200`, `${route.path}/  /${routeFile(route.path)}  200`]),
     "",
   ].join("\n");
+
+/** File Netlify serves, with status 404, for any path no file or rewrite answers. */
+export const NOT_FOUND_FILE = "404.html";
 
 /** Page component that renders each route (every case-study path shares one page). */
 export const pageModuleFor = (path: string): string => {

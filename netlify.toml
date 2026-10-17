@@ -5,10 +5,10 @@
 [build.environment]
   NODE_VERSION = "20"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# No SPA catch-all. Every public route is a prerendered file (see the generated dist/_redirects), and
+# Netlify serves dist/404.html with a real 404 status for any other path. The client app boots from
+# that file and renders its not-found page. Do not re-add `/* /index.html 200`: it makes every
+# unknown URL answer 200 (soft 404) with the home page's metadata.
 
 [[headers]]
   for = "/*"
