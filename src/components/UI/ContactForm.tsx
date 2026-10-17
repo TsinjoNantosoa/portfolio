@@ -205,7 +205,7 @@ const ContactForm: React.FC = () => {
           onChange={(e) => setProjectType(e.target.value)}
           aria-invalid={Boolean(errors.projectType)}
           aria-describedby={errors.projectType ? "projectType-error" : undefined}
-          className={fieldClass}
+          className={`${fieldClass} themed-select`}
         >
           <option value="">{t("form.select")}</option>
           {PROJECT_TYPES.map((type) => (

@@ -442,3 +442,70 @@ html[data-theme="light"] .bg-neon,
 html[data-theme="light"] .btn-neon {
   color: #fff !important;
 }
+
+/*
+ * Project-type dropdown. Where the browser supports customizable selects (Chromium 135+), the open list uses
+ * the site's surfaces and accent instead of the system blue; elsewhere the native list is used unchanged.
+ * The control stays a real <select>: keyboard, mobile pickers, form submission and screen readers are unaffected.
+ */
+@supports (appearance: base-select) {
+  select.themed-select,
+  select.themed-select::picker(select) {
+    appearance: base-select;
+  }
+
+  select.themed-select::picker-icon {
+    color: var(--text-muted);
+    transition: rotate 0.2s;
+  }
+
+  select.themed-select:open::picker-icon {
+    rotate: 180deg;
+  }
+
+  select.themed-select::picker(select) {
+    margin-block: 4px;
+    padding: 4px;
+    border: 1px solid var(--border-medium);
+    border-radius: 0.5rem;
+    background: var(--surface-1);
+    color: var(--text-primary);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  }
+
+  select.themed-select option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  select.themed-select option:hover,
+  select.themed-select option:focus-visible {
+    background: color-mix(in srgb, var(--brand-accent) 14%, var(--surface-1));
+    outline: none;
+  }
+
+  select.themed-select option:checked {
+    background: color-mix(in srgb, var(--brand-accent) 10%, var(--surface-1));
+    color: var(--brand-accent);
+    font-weight: 600;
+  }
+
+  /* The empty placeholder entry reads as a hint, not as a chosen value. */
+  select.themed-select option[value=""],
+  select.themed-select option[value=""]:checked {
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  select.themed-select option::checkmark {
+    color: var(--brand-accent);
+  }
+}
