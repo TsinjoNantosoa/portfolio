@@ -243,18 +243,26 @@ Next candidates (not started):
 4. Done in 5.1 as `npm run check:offshore` (on demand, not part of CI): compare the mirrored rules with the reference repository. Decide whether to run it on a schedule.
 5. Per-route metadata in the HTML delivered before JavaScript (pre-rendering), so link-preview bots see `/lab/automation` metadata instead of the home page's. Shared with the other non-home routes and already listed under cross-cutting hardening.
 
+## Phase 6 — SEO, Discoverability & Quality
+
+Status (2026-10-17): main implementation committed on `feature/phase6-seo-quality` (`5da3afa`, pushed to the remote branch); a few accessibility fixes and these docs are still uncommitted; **not merged, deployed or verified on Netlify**. See `docs/PORTFOLIO_PHASE6_REPORT.md`.
+
+Delivered: one SEO source of truth and a build-time static prerender of the 11 public routes (route-specific head, JSON-LD, `noscript` links, generated sitemap, preload hints), a fix for the language bug that overwrote page metadata, self-hosted fonts, a responsive WebP portrait, light-theme contrast (axe: 226 → 0 violations on 44 states), accessible-name and landmark fixes, reduced-motion support for all animations, direct links to the live demos from the home page, and `npm run verify:seo`.
+
+Before merging: run the deploy-preview checks in section 7 of the report. Then, with approval: replace the SPA catch-all with explicit routes plus a real 404 (removes soft 404s) and drop the unused Google Fonts origins from the CSP.
+
 ## Cross-Cutting Hardening Work (formerly labelled Phase 5)
 
 This list kept its original numbering note: the name "Phase 5" now refers to the Business Automation Showcase above.
 
-1. Pre-render public routes and validate canonical/OG metadata.
+1. ~~Pre-render public routes and validate canonical/OG metadata.~~ Done in Phase 6 (build-time prerender, `npm run verify:seo`); Netlify behaviour still to be confirmed on a deploy preview.
 2. Split the main JavaScript bundle by route and heavy feature.
-3. Generate responsive WebP/AVIF variants for the largest PNG captures.
+3. Generate responsive WebP/AVIF variants for the largest PNG captures. Phase 6 did the portrait only; the certificate and project screenshots (about 6.7 MB in `public/`) are still PNG.
 4. Add automated keyboard and accessibility checks for navigation, filters, forms, case studies, and assistant dialogs.
-5. Add a link checker for CV, GitHub, demos, certificates, and case-study media.
+5. Add a link checker for CV, GitHub, demos, certificates, and case-study media. Checked once in Phase 6 (all valid); not automated.
 6. Run Lighthouse on mobile and desktop after pre-rendering and code splitting; treat 90+ as a target, not a claim.
 7. Validate the Netlify form in a deploy preview after every form or CSP change.
-8. Keep the sitemap generated from the structured project source to prevent route drift.
+8. ~~Keep the sitemap generated from the structured project source to prevent route drift.~~ Done in Phase 6.
 
 ## Information Still To Validate
 

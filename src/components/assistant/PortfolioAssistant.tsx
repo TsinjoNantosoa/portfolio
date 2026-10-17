@@ -195,6 +195,6 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
     {!session && assistantConfig.available && !sending && (status === "error" || status === "unavailable" || status === "rate_limited") ? <button type="button" className="tsinjo-ai__retry" onClick={() => void retryConnection()}><RotateCcw size={14} /> {t("assistant.retryConnection")}</button> : null}
     {retryQuestion && !sending && messages.at(-1)?.failed ? <button type="button" className="tsinjo-ai__retry" onClick={() => void ask(retryQuestion, true)}><RotateCcw size={14} /> {t("assistant.retryAnswer")}</button> : null}
     <Composer value={input} maxLength={assistantConfig.maxMessageLength} sending={sending} disabled={!assistantConfig.available} inputRef={inputRef} onChange={setInput} onSend={() => void ask(input)} onStop={() => abortRef.current?.abort()} />
-    <footer>{t("assistant.privacy")} · <a href="/privacy.html">{t("assistant.privacyLink")}</a></footer>
+    <div className="tsinjo-ai__footer">{t("assistant.privacy")} · <a href="/privacy.html">{t("assistant.privacyLink")}</a></div>
   </div>;
 }
