@@ -420,6 +420,8 @@
   text-align: center;
 }
 
+.tsinjo-ai .tsinjo-ai__human { margin: 6px 0 0; font-size: 11px; }
+
 .tsinjo-ai footer a,
 .tsinjo-ai .tsinjo-ai__footer a { color: var(--assistant-accent); text-decoration: underline; text-underline-offset: 2px; }
 

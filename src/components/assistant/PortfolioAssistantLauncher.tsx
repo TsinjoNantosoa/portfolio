@@ -1,6 +1,8 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { LoaderCircle, X } from "lucide-react";
 import TsinjoAiMark from "@/components/brand/TsinjoAiMark";
+import WhatsAppIcon from "@/components/brand/WhatsAppIcon";
+import { useWhatsAppUrl } from "@/hooks/use-whatsapp";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const PortfolioAssistant = lazy(() => import("./PortfolioAssistant"));
@@ -26,12 +28,43 @@ const rememberInviteSeen = () => {
   }
 };
 
+/**
+ * True while the element with this id is on screen. Used to hide the floating WhatsApp button where an inline
+ * one exists. The element can appear late (lazy page) or disappear (route change), so the lookup follows the DOM.
+ */
+function useSectionInView(id: string) {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined" || typeof MutationObserver === "undefined") return undefined;
+    let target: HTMLElement | null = null;
+    const intersection = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.15 });
+    const sync = () => {
+      const element = document.getElementById(id);
+      if (element === target) return;
+      if (target) intersection.unobserve(target);
+      target = element;
+      if (target) intersection.observe(target);
+      else setInView(false);
+    };
+    sync();
+    const mutations = new MutationObserver(sync);
+    mutations.observe(document.body, { childList: true, subtree: true });
+    return () => {
+      mutations.disconnect();
+      intersection.disconnect();
+    };
+  }, [id]);
+  return inView;
+}
+
 export default function PortfolioAssistantLauncher() {
   const [open, setOpen] = useState(false);
   const [inviteVisible, setInviteVisible] = useState(false);
   const launcherRef = useRef<HTMLButtonElement>(null);
   const inviteRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
+  const whatsappUrl = useWhatsAppUrl();
+  const contactInView = useSectionInView("contact");
 
   const hideInvite = useCallback(() => {
     // Keep keyboard focus on the launcher if it was inside the invitation that is going away.
@@ -62,7 +95,21 @@ export default function PortfolioAssistantLauncher() {
   return (
     <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-[60] pb-0 sm:bottom-6 sm:right-6 lg:z-[70]">
       {!open && (
-        <div className="relative">
+        <div className="relative flex flex-col items-end gap-3">
+          {whatsappUrl && !contactInView && (
+            <aside aria-label={t("whatsapp.region")}>
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t("whatsapp.floatingLabel")}
+                title={t("whatsapp.contactLink")}
+                className="whatsapp-fab grid h-12 w-12 place-items-center rounded-full border border-[var(--border-medium)] bg-[var(--surface-1)] shadow-[0_8px_24px_rgba(0,0,0,.28)] transition hover:scale-105 hover:border-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:h-[52px] sm:w-[52px]"
+              >
+                <WhatsAppIcon className="h-6 w-6" />
+              </a>
+            </aside>
+          )}
           {inviteVisible && (
             <div
               ref={inviteRef}

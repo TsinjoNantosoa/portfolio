@@ -374,6 +374,10 @@
   animation: assistant-callout-in 420ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
+.whatsapp-fab { color: #25d366; }
+
+html[data-theme="light"] .whatsapp-fab { color: #0b7a4b; }
+
 .assistant-launcher__avatar {
   animation: assistant-avatar-in 420ms cubic-bezier(.2, .8, .2, 1) both, assistant-avatar-glow 4s ease-in-out 500ms infinite;
 }

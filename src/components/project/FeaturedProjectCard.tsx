@@ -41,7 +41,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
     <div className={`flex h-full flex-col ${isWide ? "p-5 sm:p-7" : "p-5 sm:p-6"}`}>
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <span
-          className="font-mono text-[13px] font-semibold leading-none text-white/35"
+          className="font-mono text-[13px] font-semibold leading-none text-[var(--text-muted)]"
         >
           {project.number}
         </span>
