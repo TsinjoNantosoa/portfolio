@@ -1,13 +1,14 @@
 import React from "react";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
+import { footerLinks } from "@/data/navigation";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const Footer = () => {
   const { t } = useI18n();
   return (
     <footer className="border-t border-white/10 bg-[var(--bg-primary)] py-8">
-      <div className="site-container flex flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
+      <div className="site-container flex flex-col items-center justify-between gap-5 text-center lg:flex-row lg:text-left">
         <div>
           <p className="text-sm font-medium text-[var(--text-primary)]">
             Sandaniaina Tsinjo Nantosoa
@@ -16,6 +17,20 @@ const Footer = () => {
             {t("hero.eyebrow")}
           </p>
         </div>
+        <nav aria-label={t("nav.footer")}>
+          <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+            {footerLinks.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="inline-flex min-h-9 items-center text-sm text-[var(--text-muted)] transition-colors hover:text-neon"
+                >
+                  {t(link.key)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <div className="flex items-center gap-2.5">
           <a
             href={GITHUB_URL}

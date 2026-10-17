@@ -1,13 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { FlaskConical, X } from "lucide-react";
 import PreferencesControls from "./PreferencesControls";
 import { useI18n } from "@/i18n/I18nProvider";
 
 interface NavItem {
   label: string;
   href: string;
+  active?: boolean;
+  icon?: "lab";
 }
 
 interface MobileMenuProps {
@@ -15,9 +17,11 @@ interface MobileMenuProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   items: NavItem[];
+  /** True while the Contact section is current: the call-to-action stands for it. */
+  talkActive?: boolean;
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items }) => {
+const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items, talkActive = false }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const { t } = useI18n();
@@ -106,8 +110,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items })
                     <a
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className="flex min-h-11 items-center rounded-lg px-3 text-base text-[var(--text-secondary)] transition hover:bg-white/5 hover:text-neon"
+                      aria-current={item.active ? "true" : undefined}
+                      className={`flex min-h-11 items-center gap-2 rounded-lg px-3 text-base transition hover:bg-white/5 hover:text-neon ${
+                        item.active ? "bg-white/5 text-neon" : "text-[var(--text-secondary)]"
+                      }`}
                     >
+                      {item.icon === "lab" && <FlaskConical className="h-4 w-4 shrink-0 text-neon/80" aria-hidden />}
                       {item.label}
                     </a>
                   </li>
@@ -119,7 +127,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items })
               <a
                 href="/#contact"
                 onClick={() => setIsOpen(false)}
-                className="mt-8 flex min-h-11 w-full items-center justify-center rounded-full bg-neon text-sm font-semibold text-black"
+                aria-current={talkActive ? "true" : undefined}
+                className={`mt-8 flex min-h-11 w-full items-center justify-center rounded-full bg-neon text-sm font-semibold text-black ${
+                  talkActive ? "ring-2 ring-neon/50 ring-offset-2 ring-offset-[var(--surface-1)]" : ""
+                }`}
               >
                 {t("nav.talk")}
               </a>

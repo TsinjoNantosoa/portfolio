@@ -1,15 +1,15 @@
 import { useEffect, useId, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { FlaskConical, Menu, X } from "lucide-react";
 import MobileMenu from "./MobileMenu";
 import PreferencesControls from "./PreferencesControls";
-import { navItems } from "@/data/navigation";
+import { currentHomeSection, homeSectionIds, menuIdForSection, navItems, type HomeSectionId } from "@/data/navigation";
 import { useI18n, type TranslationKey } from "@/i18n/I18nProvider";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("work");
+  const [activeSection, setActiveSection] = useState<HomeSectionId>("home");
   const location = useLocation();
   const menuId = useId();
   const { t } = useI18n();
@@ -44,22 +44,19 @@ const Header = () => {
   useEffect(() => {
     if (location.pathname !== "/") return;
 
-    const sectionIds = navItems.filter((item) => item.href.startsWith("/#")).map((item) => item.id);
-
     const updateActive = () => {
-      const marker = 96;
-      let current = sectionIds[0];
-
-      for (const id of sectionIds) {
+      const tops: Partial<Record<HomeSectionId, number>> = {};
+      for (const id of homeSectionIds) {
         const el = document.getElementById(id);
-        if (!el) continue;
-        const top = el.getBoundingClientRect().top;
-        if (top - marker <= 0) {
-          current = id;
-        }
+        if (el) tops[id] = el.getBoundingClientRect().top;
       }
-
-      setActiveSection(current);
+      setActiveSection(
+        currentHomeSection(tops, {
+          height: window.innerHeight,
+          scrollY: window.scrollY,
+          documentHeight: document.documentElement.scrollHeight,
+        }),
+      );
     };
 
     updateActive();
@@ -70,6 +67,11 @@ const Header = () => {
       window.removeEventListener("resize", updateActive);
     };
   }, [location.pathname]);
+
+  const onHome = location.pathname === "/";
+  const isMenuItemActive = (id: string) =>
+    id === "lab" ? location.pathname.startsWith("/lab") : onHome && menuIdForSection(activeSection) === id;
+  const talkActive = onHome && activeSection === "contact";
 
   return (
     <header
@@ -87,14 +89,15 @@ const Header = () => {
         <nav className="hidden xl:block" aria-label={t("nav.primary")}>
           <ul className="flex items-center gap-0.5">
             {navItems.map((item) => {
-              const isActive = item.id === "lab" ? location.pathname.startsWith("/lab") : location.pathname === "/" && activeSection === item.id;
+              const isActive = isMenuItemActive(item.id);
               return (
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    className={`menu-item ${isActive ? "active" : ""}`}
+                    className={`menu-item inline-flex items-center gap-1.5 ${isActive ? "active" : ""}`}
                     aria-current={isActive ? "true" : undefined}
                   >
+                    {item.id === "lab" && <FlaskConical className="h-3.5 w-3.5 shrink-0 text-neon/80" aria-hidden />}
                     {t(navKey(item.id))}
                   </a>
                 </li>
@@ -104,7 +107,11 @@ const Header = () => {
               <PreferencesControls />
             </li>
             <li className="ml-2">
-              <a href="/#contact" className="btn-neon">
+              <a
+                href="/#contact"
+                className={`btn-neon ${talkActive ? "ring-2 ring-neon/50 ring-offset-2 ring-offset-[var(--bg-primary)]" : ""}`}
+                aria-current={talkActive ? "true" : undefined}
+              >
                 {t("nav.talk")}
               </a>
             </li>
@@ -131,7 +138,13 @@ const Header = () => {
         id={menuId}
         isOpen={mobileMenuOpen}
         setIsOpen={setMobileMenuOpen}
-        items={navItems.map(({ id, href }) => ({ label: t(navKey(id)), href }))}
+        items={navItems.map(({ id, href }) => ({
+          label: t(navKey(id)),
+          href,
+          active: isMenuItemActive(id),
+          icon: id === "lab" ? ("lab" as const) : undefined,
+        }))}
+        talkActive={talkActive}
       />
     </header>
   );
