@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
+import { useWhatsAppUrl } from "@/hooks/use-whatsapp";
 import AssistantHeader from "./AssistantHeader";
 import Composer from "./Composer";
 import MessageBubble from "./MessageBubble";
@@ -17,6 +18,7 @@ import "./portfolio-assistant.css";
 
 export default function PortfolioAssistant({ onClose }: { onClose: () => void }) {
   const { language, t } = useI18n();
+  const whatsappUrl = useWhatsAppUrl();
   const statusLabels: Record<AssistantStatus, string> = {
     connecting: t("assistant.connecting"),
     idle: t("assistant.idle"),
@@ -195,6 +197,13 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
     {!session && assistantConfig.available && !sending && (status === "error" || status === "unavailable" || status === "rate_limited") ? <button type="button" className="tsinjo-ai__retry" onClick={() => void retryConnection()}><RotateCcw size={14} /> {t("assistant.retryConnection")}</button> : null}
     {retryQuestion && !sending && messages.at(-1)?.failed ? <button type="button" className="tsinjo-ai__retry" onClick={() => void ask(retryQuestion, true)}><RotateCcw size={14} /> {t("assistant.retryAnswer")}</button> : null}
     <Composer value={input} maxLength={assistantConfig.maxMessageLength} sending={sending} disabled={!assistantConfig.available} inputRef={inputRef} onChange={setInput} onSend={() => void ask(input)} onStop={() => abortRef.current?.abort()} />
-    <div className="tsinjo-ai__footer">{t("assistant.privacy")} · <a href="/privacy.html">{t("assistant.privacyLink")}</a></div>
+    <div className="tsinjo-ai__footer">
+      {t("assistant.privacy")} · <a href="/privacy.html">{t("assistant.privacyLink")}</a>
+      {whatsappUrl && (
+        <p className="tsinjo-ai__human">
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">{t("whatsapp.assistantLink")}</a>
+        </p>
+      )}
+    </div>
   </div>;
 }

@@ -43,6 +43,7 @@ npm run dev
 ```env
 VITE_CONTACT_API_URL=
 VITE_PORTFOLIO_AI_API_URL=http://localhost:8000
+VITE_WHATSAPP_NUMBER=
 ```
 
 The portfolio runs on `http://localhost:8080`. If `VITE_CONTACT_API_URL` is empty, the contact form uses Netlify Forms. Never put OpenAI, Qdrant, JWT or long-lived API secrets in a `VITE_*` variable.
@@ -89,6 +90,18 @@ VITE_PORTFOLIO_AI_API_URL=https://<render-service>.onrender.com
 ```
 
 Netlify must be redeployed after changing a `VITE_*` value. A production build with no API URL disables the assistant gracefully and never falls back to localhost.
+
+### WhatsApp contact (optional)
+
+WhatsApp links use the official click-to-chat format (`https://wa.me/<number>?text=<message>`), with a pre-filled message in the site language that the visitor edits and sends themselves. There is no SDK, no WhatsApp Business API, no webhook and no tracking. The number is never in the code: it comes from one build-time variable.
+
+1. In Netlify, open **Site configuration → Environment variables → Add a variable**.
+2. Key `VITE_WHATSAPP_NUMBER`; value: your number in international format, **digits only**: country code then number, with no `+`, spaces, dashes or leading zero (8 to 15 digits).
+3. Scope: at least **Builds**. Save.
+4. **Deploys → Trigger deploy → Deploy site** (a `VITE_*` value is read at build time, so changing it requires a new build).
+5. Check the live site: a WhatsApp button above the Tsinjo AI button, a WhatsApp line in the Contact section and a link in the assistant footer.
+
+If the variable is missing or invalid, every WhatsApp link is hidden and the site behaves as before (an invalid value logs a warning in the browser console that does not contain the number). The number is public once deployed, since it is part of the page's links. The floating button hides while the chat is open and while the Contact section is on screen (which has its own link). To turn WhatsApp off, delete the variable and redeploy.
 
 ### Backend — Render
 

@@ -2,11 +2,14 @@ import React from "react";
 import { Github, Linkedin, Mail, MapPin } from "lucide-react";
 import ContactForm from "@/components/UI/ContactForm";
 import SectionHeader from "@/components/ui-kit/SectionHeader";
+import WhatsAppIcon from "@/components/brand/WhatsAppIcon";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
+import { useWhatsAppUrl } from "@/hooks/use-whatsapp";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const Contact: React.FC = () => {
   const { t } = useI18n();
+  const whatsappUrl = useWhatsAppUrl();
   return (
     <section
       id="contact"
@@ -35,6 +38,23 @@ const Contact: React.FC = () => {
                   </a>
                 </div>
               </div>
+              {whatsappUrl && (
+                <div className="flex items-start gap-3">
+                  <WhatsAppIcon className="mt-0.5 h-4 w-4 shrink-0 text-neon" />
+                  <div>
+                    <p className="text-xs text-white/60">WhatsApp</p>
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={t("whatsapp.contactLabel")}
+                      className="text-[15px] text-[var(--text-primary)] hover:text-neon"
+                    >
+                      {t("whatsapp.contactLink")}
+                    </a>
+                  </div>
+                </div>
+              )}
               <div className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neon" aria-hidden />
                 <div>
