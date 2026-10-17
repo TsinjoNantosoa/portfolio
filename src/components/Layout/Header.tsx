@@ -87,7 +87,7 @@ const Header = () => {
         </Link>
 
         <nav className="hidden xl:block" aria-label={t("nav.primary")}>
-          <ul className="flex items-center gap-0.5">
+          <ul className="flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = isMenuItemActive(item.id);
               return (
@@ -103,10 +103,10 @@ const Header = () => {
                 </li>
               );
             })}
-            <li className="ml-2">
+            <li className="ml-3">
               <PreferencesControls />
             </li>
-            <li className="ml-2">
+            <li className="ml-3">
               <a
                 href="/#contact"
                 className={`btn-neon ${talkActive ? "ring-2 ring-neon/50 ring-offset-2 ring-offset-[var(--bg-primary)]" : ""}`}
