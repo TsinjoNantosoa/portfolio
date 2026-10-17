@@ -1,14 +1,14 @@
 # Phase 6 Report — SEO, Discoverability & Quality
 
-Status (2026-10-17, checked against Git): branch `feature/phase6-seo-quality`, created from `main` at `af1cf49` (Phase 5.1, published).
+Status (2026-10-17, final check against Git): branch `feature/phase6-seo-quality`, created from `main` at `af1cf49` (Phase 5.1, published and live).
 
 | Part | State |
 |---|---|
-| Main implementation (47 files) | **Committed by the owner** as `5da3afa` and present on the `upstream/feature/phase6-seo-quality` remote branch. **Not merged into `main`, not deployed, not verified on Netlify.** |
-| Later fixes: assistant landmarks and privacy-link underline (`AssistantHeader`, `PortfolioAssistant`, its CSS), pending showcase steps (`WorkflowVisualizer`) | **Uncommitted** in the working tree |
-| This report and the roadmap update | **Uncommitted** |
+| Implementation | **Committed** by the owner: `5da3afa` (main implementation, 47 files) and `5cdfd95` (accessibility fixes, report, roadmap). Both are on `origin/feature/phase6-seo-quality`. Working tree clean. |
+| Merged into `main` | **No** (`main` and `origin/main` are at `af1cf49`) |
+| Deployed / verified on Netlify | **No.** Production still serves the pre-Phase-6 build: its raw HTML for `/lab/automation` still carries the home page's canonical. To be checked on a deploy preview (section 7). |
 
-The validation below was run on the working tree, so it includes the uncommitted fixes. The commit `5da3afa` on its own does not contain them: the axe results for the assistant dialog and the showcase approval step only hold once they are committed too. Nothing under `portfolio-ai-api/`, no Render variable, no Qdrant collection, no `netlify.toml`, and no Operations Monitor API contract was changed. The RAG Playground page changed only by replacing its own metadata lines with the shared `useSeo` call (scroll and abort behaviour untouched).
+All validation below was run on the committed tree (clean working tree), on 2026-10-17.
 
 ## 1. Audit: what was confirmed (and what was not)
 
@@ -92,7 +92,11 @@ How to read these numbers honestly:
 | `eslint .` | 0 errors, the same 6 pre-existing warnings (none in changed files) |
 | `vitest run` | 17 files passed, 1 skipped; **126 tests passed**, 4 skipped (Offshore reference check, on demand) |
 | `vite build` + `npm run verify:seo` | pass; 11 routes, 20 rewrites |
-| Browser (Edge): home, case study and showcase flows, light/dark, FR/EN, mobile menu, assistant dialog | pass; served HTML for deep links carries the route's own canonical, `og:url` and JSON-LD |
+| Metadata of all 11 routes, checked three ways (served HTML, rendered DOM, DOM after switching to French): canonical, `og:url`, `og:title` equal to the title, description 80–160 characters, indexable, image served, one `h1`, JSON-LD present, no page error | pass, 11/11 |
+| axe-core, 44 states (11 routes × EN/FR × dark/light) and 8 interactive states (showcase gate, result and trace, mobile menu, assistant dialog × both themes) | 0 violations |
+| Showcase browser matrix (Business → approve, Corporate → reject, Custom → two revisions → approve; 7 combinations of width, theme and language; zero network requests during the simulation) | pass on the local build **and on production** |
+| Smoke test: RAG Playground renders; Operations Monitor renders and handles an unreachable API without crashing; chatbot opens as a modal dialog with composer and privacy link, closes with Escape and returns focus; home has CV, contact, six case-study links and four demo links; an unknown URL and an unknown case-study slug show the 404 page with `noindex` | pass |
+| Protected areas versus `af1cf49` (`portfolio-ai-api`, `netlify.toml`, `render.yaml`, Operations and Playground API code, assistant API/config/session files) | no diff. The assistant components changed in 5 files, markup and CSS only (landmark tags, link underline, accessible name) |
 | Backend, Qdrant, Render variables, `netlify.toml`, Operations Monitor API | untouched |
 
 ## 5. Recruiter path (Phase D)
@@ -130,4 +134,4 @@ Each non-home route should show its **own** title and canonical. If one shows th
 - **Home mobile performance** is 77, not 90+. The remaining cost is JavaScript, discussed in section 3.
 - Reduced motion was verified by measurement on the home sections, not on every component.
 - CSP still permits Google Fonts; tightening it is a one-line `netlify.toml` change that needs your approval.
-- Suggested order: commit the remaining fixes and docs on this branch, open a deploy preview, run section 7, then merge. Nothing in this phase has been merged or deployed.
+- Suggested order: push the branch, open a deploy preview, run section 7, then merge. Nothing in this phase has been merged or deployed.

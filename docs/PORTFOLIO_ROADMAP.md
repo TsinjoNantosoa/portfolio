@@ -81,7 +81,7 @@ Remaining before production activation:
 
 ### 3.1 Offshore Fares Workflow Simulator
 
-Status: delivered locally on 2026-10-16 as the Phase 5 **Business Automation Showcase** at `/lab/automation` (branch `feature/phase5-automation-showcase`, not committed or deployed). See `docs/PORTFOLIO_PHASE5_REPORT.md` and `docs/BUSINESS_AUTOMATION_SHOWCASE_ARCHITECTURE.md`. The text below is the original plan; the delivered version uses the real Offshore Fares status machine and adds revision requests, an Engineering view and a trace.
+Status: delivered as the Phase 5 **Business Automation Showcase** at `/lab/automation`, merged into `main` and live (see Phase 5 below). See `docs/PORTFOLIO_PHASE5_REPORT.md` and `docs/BUSINESS_AUTOMATION_SHOWCASE_ARCHITECTURE.md`. The text below is the original plan; the delivered version uses the real Offshore Fares status machine and adds revision requests, an Engineering view and a trace.
 
 First release should be deterministic and clearly labeled `Simulation`.
 
@@ -224,7 +224,7 @@ Phase 4.1 validation notes:
 
 ## Phase 5 — Business Automation Showcase
 
-Status (checked 2026-10-16): **merged into `main`** (`176c632`), **deployed** to `tsinjona.netlify.app/lab/automation`, and **behaviour verified in production** with a browser matrix. The Phase 5.1 quality fixes (consistent preset dates, priority rule exclusivity, radio-group keyboard pattern, visible form focus, reference check) are implemented locally on `feature/phase5-1-quality-fixes` and are **not committed, merged, deployed or verified in production**. See `docs/PORTFOLIO_PHASE5_REPORT.md`.
+Status (checked 2026-10-17): Phase 5 (`176c632`) and the Phase 5.1 quality fixes (`af1cf49`: consistent preset dates, priority rule exclusivity, radio-group keyboard pattern, visible form focus, `npm run check:offshore`) are **merged into `main`, deployed, and verified in production**: the live page shows the 5.1 dates (Corporate 2027-03-12, request date 2027-03-10), the radio group uses a roving tabindex, and the 7-combination browser matrix passes on `tsinjona.netlify.app`. See `docs/PORTFOLIO_PHASE5_REPORT.md`.
 
 Delivered:
 
@@ -236,16 +236,16 @@ Delivered:
 
 Next candidates (not started):
 
-0. Review, commit and deploy Phase 5.1 (deploy preview first), then re-run the browser matrix on production.
+0. ~~Review, commit and deploy Phase 5.1.~~ Done and verified in production (2026-10-17).
 1. Isolated n8n-backed demo (see the V2 plan in the Phase 5 report). Requires explicit approval and isolated infrastructure.
 2. Split EN/FR copy of the showcase into separate dynamic imports to cut the 81 kB chunk.
 3. Refresh the assistant knowledge with this page in a separate, deliberate ingestion step.
 4. Done in 5.1 as `npm run check:offshore` (on demand, not part of CI): compare the mirrored rules with the reference repository. Decide whether to run it on a schedule.
-5. Per-route metadata in the HTML delivered before JavaScript (pre-rendering), so link-preview bots see `/lab/automation` metadata instead of the home page's. Shared with the other non-home routes and already listed under cross-cutting hardening.
+5. ~~Per-route metadata in the HTML delivered before JavaScript.~~ Done in Phase 6 (committed on `feature/phase6-seo-quality`, not yet merged or deployed).
 
 ## Phase 6 — SEO, Discoverability & Quality
 
-Status (2026-10-17): main implementation committed on `feature/phase6-seo-quality` (`5da3afa`, pushed to the remote branch); a few accessibility fixes and these docs are still uncommitted; **not merged, deployed or verified on Netlify**. See `docs/PORTFOLIO_PHASE6_REPORT.md`.
+Status (2026-10-17): implementation, accessibility fixes, report and roadmap are committed on `feature/phase6-seo-quality` (`5da3afa`, `5cdfd95`) and pushed to the remote branch; validated locally on the clean committed tree; **not merged into `main`, not deployed, not verified on Netlify**. See `docs/PORTFOLIO_PHASE6_REPORT.md`.
 
 Delivered: one SEO source of truth and a build-time static prerender of the 11 public routes (route-specific head, JSON-LD, `noscript` links, generated sitemap, preload hints), a fix for the language bug that overwrote page metadata, self-hosted fonts, a responsive WebP portrait, light-theme contrast (axe: 226 → 0 violations on 44 states), accessible-name and landmark fixes, reduced-motion support for all animations, direct links to the live demos from the home page, and `npm run verify:seo`.
 
