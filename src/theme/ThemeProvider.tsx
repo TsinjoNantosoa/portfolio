@@ -27,7 +27,8 @@ const STORAGE_KEY = "tsinjo:theme";
 function getStoredTheme(): ThemePreference {
   if (typeof window === "undefined") return "dark";
   const stored = window.localStorage.getItem(STORAGE_KEY);
-  return stored === "light" || stored === "system" ? stored : "dark";
+  // No saved choice yet: follow the visitor's system setting. A manual choice is saved and kept.
+  return stored === "light" || stored === "dark" ? stored : "system";
 }
 
 function systemTheme(): ResolvedTheme {
