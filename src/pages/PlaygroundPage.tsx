@@ -1,5 +1,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { getStaticSeo } from "@/seo/routes";
+import { useSeo } from "@/seo/useSeo";
 import {
   ArrowLeft,
   ArrowUp,
@@ -121,15 +123,10 @@ export default function PlaygroundPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const title = language === "fr" ? "Playground RAG public — Tsinjo" : "Public RAG Playground — Tsinjo";
-    const description = language === "fr"
-      ? "Démonstration RAG publique avec recherche observable, génération reliée aux preuves et citations vérifiables."
-      : "Public RAG demonstration with observable retrieval, evidence-linked generation, and verifiable citations.";
-    document.title = title;
-    document.querySelector('meta[name="description"]')?.setAttribute("content", description);
-    document.querySelector('link[rel="canonical"]')?.setAttribute("href", "https://tsinjona.netlify.app/lab/playground");
     return () => abortRef.current?.abort();
   }, [language]);
+
+  useSeo(getStaticSeo("/lab/playground", language));
 
   async function runQuestion(event?: FormEvent) {
     event?.preventDefault();

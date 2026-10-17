@@ -43,7 +43,7 @@ const Footer = () => {
             <Mail size={16} />
           </a>
         </div>
-        <p className="text-sm text-white/40">
+        <p className="text-sm text-white/60">
           © {new Date().getFullYear()} Sandaniaina Tsinjo Nantosoa
         </p>
       </div>

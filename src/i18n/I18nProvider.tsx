@@ -72,6 +72,12 @@ const messages = {
     "work.caseStudy": "View Case Study",
     "work.demo": "Live Demo",
     "work.code": "View Code",
+    "work.interactiveDemo": "Interactive demo",
+    "work.liveDemosLabel": "Try the live demos",
+    "work.demoPlayground": "RAG Playground",
+    "work.demoAutomation": "Automation Showcase",
+    "work.demoOperations": "AI Operations Monitor",
+    "work.demoLab": "All AI Lab modules",
     "work.filterLabel": "Filter projects by category",
     "work.filterAll": "All Projects",
     "work.filterRag": "RAG & GenAI",
@@ -265,6 +271,12 @@ const messages = {
     "work.caseStudy": "Voir l’étude de cas",
     "work.demo": "Démo",
     "work.code": "Voir le code",
+    "work.interactiveDemo": "Démo interactive",
+    "work.liveDemosLabel": "Tester les démonstrations",
+    "work.demoPlayground": "Playground RAG",
+    "work.demoAutomation": "Showcase d’automatisation",
+    "work.demoOperations": "Moniteur d’opérations IA",
+    "work.demoLab": "Tous les modules du Lab IA",
     "work.filterLabel": "Filtrer les projets par catégorie",
     "work.filterAll": "Tous les projets",
     "work.filterRag": "RAG et GenAI",
@@ -423,16 +435,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, language);
     document.documentElement.lang = language;
-    const isFrench = language === "fr";
-    document.title = isFrench
-      ? "Sandaniaina Tsinjo Nantosoa — Ingénieur IA | RAG, agents IA et Tool Calling"
-      : "Sandaniaina Tsinjo Nantosoa — AI Engineer | RAG, AI Agents & Tool Calling";
-    const description = isFrench
-      ? "Ingénieur IA spécialisé en IA générative, plateformes RAG multi-tenant, agents IA avec Tool Calling, backend FastAPI et déploiement de solutions fiables."
-      : "AI Engineer specializing in generative AI, multi-tenant RAG platforms, Tool Calling agents, FastAPI backends, and reliable production delivery.";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", description);
-    document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
-    document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", description);
   }, [language]);
 
   const value = useMemo<I18nContextValue>(

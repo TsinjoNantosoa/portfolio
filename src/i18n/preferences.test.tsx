@@ -27,7 +27,7 @@ describe("portfolio preferences", () => {
       </ThemeProvider>,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "Switch to French" }));
+    await userEvent.click(screen.getByRole("button", { name: /Switch to French/ }));
     expect(localStorage.getItem("tsinjo:language")).toBe("fr");
     expect(document.documentElement.lang).toBe("fr");
 

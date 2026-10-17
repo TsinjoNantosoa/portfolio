@@ -19,6 +19,8 @@ import Header from "@/components/Layout/Header";
 import { getOperationsSummary } from "@/features/operations/api";
 import type { OperationsMetrics, OperationsSummary } from "@/features/operations/types";
 import { useI18n } from "@/i18n/I18nProvider";
+import { getStaticSeo } from "@/seo/routes";
+import { useSeo } from "@/seo/useSeo";
 
 const sourceIcons = { assistant: Bot, playground: FlaskConical, test: ShieldCheck, demo: Workflow };
 
@@ -154,12 +156,7 @@ const OperationsPage = () => {
     void load();
   }, [load]);
 
-  useEffect(() => {
-    const title = `${copy.title} — Tsinjo`;
-    document.title = title;
-    document.querySelector('meta[name="description"]')?.setAttribute("content", copy.description);
-    document.querySelector('link[rel="canonical"]')?.setAttribute("href", "https://tsinjona.netlify.app/lab/operations");
-  }, [copy]);
+  useSeo(getStaticSeo("/lab/operations", language));
 
   const metrics: Array<{ key: keyof OperationsMetrics; label: string; icon: typeof Activity; suffix?: string }> = useMemo(() => [
     { key: "requests", label: copy.requests, icon: Activity },

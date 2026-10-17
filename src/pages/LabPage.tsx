@@ -16,6 +16,8 @@ import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import { labCapabilities } from "@/data/lab";
 import { useI18n } from "@/i18n/I18nProvider";
+import { getStaticSeo } from "@/seo/routes";
+import { useSeo } from "@/seo/useSeo";
 import type { ProjectMaturity } from "@/types/portfolio";
 
 const capabilityIcons = {
@@ -45,20 +47,9 @@ const LabPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const title = language === "fr" ? "AI Engineering Lab — Tsinjo" : "AI Engineering Lab — Tsinjo";
-    const description =
-      language === "fr"
-        ? "Méthodes, architectures et preuves issues de projets réels en RAG, agents IA, automatisation et ingénierie de production."
-        : "Methods, architectures, and evidence from real RAG, AI agent, automation, and production engineering projects.";
-    document.title = title;
-    document.querySelector('meta[name="description"]')?.setAttribute("content", description);
-    document.querySelector('meta[property="og:title"]')?.setAttribute("content", title);
-    document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
-    document.querySelector('meta[property="og:url"]')?.setAttribute("content", "https://tsinjona.netlify.app/lab");
-    document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", title);
-    document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", description);
-    document.querySelector('link[rel="canonical"]')?.setAttribute("href", "https://tsinjona.netlify.app/lab");
-  }, [language]);
+  }, []);
+
+  useSeo(getStaticSeo("/lab", language));
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">

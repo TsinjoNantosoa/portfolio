@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Github, Play } from "lucide-react";
 import type { FeaturedProject } from "@/types/portfolio";
 import ProjectMedia, { ProjectMediaPlaceholder } from "@/components/ui-kit/ProjectMedia";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -116,6 +116,15 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
           {t("work.caseStudy")}
           <ArrowUpRight size={15} className="transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
         </Link>
+        {project.labDemoLink && (
+          <Link
+            to={project.labDemoLink}
+            className="inline-flex min-h-10 items-center gap-1.5 text-sm text-[var(--text-muted)] transition hover:text-white"
+          >
+            <Play size={14} aria-hidden />
+            {t("work.interactiveDemo")}
+          </Link>
+        )}
         {project.demoLink && (
           <a
             href={project.demoLink}

@@ -26,7 +26,7 @@ const Contact: React.FC = () => {
               <div className="flex items-start gap-3">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-neon" aria-hidden />
                 <div>
-                  <p className="text-xs text-white/45">Email</p>
+                  <p className="text-xs text-white/60">Email</p>
                   <a
                     href={`mailto:${EMAIL}`}
                     className="text-[15px] text-[var(--text-primary)] hover:text-neon"
@@ -38,7 +38,7 @@ const Contact: React.FC = () => {
               <div className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neon" aria-hidden />
                 <div>
-                  <p className="text-xs text-white/45">{t("contact.location")}</p>
+                  <p className="text-xs text-white/60">{t("contact.location")}</p>
                   <p className="text-[15px] text-[var(--text-primary)]">
                     {t("contact.locationValue")}
                   </p>

@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { MotionConfig } from "framer-motion";
 import { Toaster as Sonner } from "./components/UI/sonner";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -26,20 +27,23 @@ const App = () => {
       <I18nProvider>
         <TooltipProvider>
           <Sonner />
-          <BrowserRouter>
-            <Suspense fallback={<RouteFallback />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/lab" element={<LabPage />} />
-                <Route path="/lab/playground" element={<PlaygroundPage />} />
-                <Route path="/lab/operations" element={<OperationsPage />} />
-                <Route path="/lab/automation" element={<AutomationPage />} />
-                <Route path="/work/:slug" element={<CaseStudyPage />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-            <PortfolioAssistantLauncher />
-          </BrowserRouter>
+          {/* Honour the visitor's reduced-motion setting for every framer-motion animation on the site. */}
+          <MotionConfig reducedMotion="user">
+            <BrowserRouter>
+              <Suspense fallback={<RouteFallback />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/lab" element={<LabPage />} />
+                  <Route path="/lab/playground" element={<PlaygroundPage />} />
+                  <Route path="/lab/operations" element={<OperationsPage />} />
+                  <Route path="/lab/automation" element={<AutomationPage />} />
+                  <Route path="/work/:slug" element={<CaseStudyPage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+              <PortfolioAssistantLauncher />
+            </BrowserRouter>
+          </MotionConfig>
         </TooltipProvider>
       </I18nProvider>
     </ThemeProvider>

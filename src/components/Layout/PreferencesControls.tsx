@@ -8,6 +8,8 @@ export default function PreferencesControls({ compact = false }: { compact?: boo
   const nextLanguage = language === "en" ? "fr" : "en";
   const nextTheme = resolvedTheme === "dark" ? "light" : "dark";
   const languageLabel = nextLanguage === "fr" ? t("language.switchFrench") : t("language.switchEnglish");
+  // The button shows the current language code, so the accessible name starts with it (WCAG 2.5.3).
+  const languageName = `${language.toUpperCase()} — ${languageLabel}`;
   const themeLabel = nextTheme === "light" ? t("theme.switchLight") : t("theme.switchDark");
 
   return (
@@ -16,7 +18,7 @@ export default function PreferencesControls({ compact = false }: { compact?: boo
         type="button"
         className="preference-button language-toggle"
         onClick={() => setLanguage(nextLanguage)}
-        aria-label={languageLabel}
+        aria-label={languageName}
         title={languageLabel}
       >
         <Languages size={15} aria-hidden />

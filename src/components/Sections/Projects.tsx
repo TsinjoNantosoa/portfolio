@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { SlidersHorizontal } from "lucide-react";
 import FeaturedProjectCard from "../project/FeaturedProjectCard";
 import SecondaryProjectCard from "../project/SecondaryProjectCard";
@@ -50,6 +51,27 @@ const Projects: React.FC = () => {
           description={t("work.description")}
           className="mb-8 md:mb-10"
         />
+
+        <nav
+          aria-label={t("work.liveDemosLabel")}
+          className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 md:mb-8"
+        >
+          <span className="font-mono text-xs uppercase text-[var(--text-muted)]">{t("work.liveDemosLabel")}</span>
+          {[
+            { to: "/lab/playground", label: t("work.demoPlayground") },
+            { to: "/lab/automation", label: t("work.demoAutomation") },
+            { to: "/lab/operations", label: t("work.demoOperations") },
+            { to: "/lab", label: t("work.demoLab") },
+          ].map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className="inline-flex min-h-10 items-center rounded-full border border-white/15 px-3.5 text-sm text-[var(--text-secondary)] transition hover:border-neon/60 hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon/70"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
 
         <div className="mb-8 border-y border-white/10 py-4 md:mb-10">
           <div className="flex items-start gap-3">

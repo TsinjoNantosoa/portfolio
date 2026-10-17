@@ -40,7 +40,7 @@ describe("AI Engineering Lab", () => {
 
   it("provides complete French lab copy", async () => {
     renderLab();
-    await userEvent.click(screen.getByRole("button", { name: "Switch to French" }));
+    await userEvent.click(screen.getByRole("button", { name: /Switch to French/ }));
 
     expect(screen.getByRole("heading", { name: "Ingénierie RAG" })).toBeInTheDocument();
     expect(screen.getAllByText("Pratiques d’ingénierie implémentées", { selector: "h3" })).toHaveLength(5);

@@ -65,7 +65,7 @@ describe("Business Automation Showcase", () => {
     expect(screen.getByText("2027-03-12 · 2 days ahead")).toBeInTheDocument();
     expect(screen.getByText("2027-03-19")).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Switch to French" }));
+    await user.click(screen.getByRole("button", { name: /Switch to French/ }));
     expect(screen.getByText("Demande reçue (date simulée)")).toBeInTheDocument();
     expect(screen.getByText("2027-03-12 · dans 2 jours")).toBeInTheDocument();
   });
@@ -235,7 +235,7 @@ describe("Business Automation Showcase", () => {
   it("provides complete French copy and a translated demo-data warning", async () => {
     const user = userEvent.setup();
     renderAt("/lab/automation");
-    await user.click(screen.getByRole("button", { name: "Switch to French" }));
+    await user.click(screen.getByRole("button", { name: /Switch to French/ }));
 
     expect(screen.getByText("De la demande client à l’automatisation métier contrôlée")).toBeInTheDocument();
     expect(
