@@ -16,7 +16,19 @@
     "strict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* The build plugin imports shared SEO data from src/ */
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"] }
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    "vite.config.ts",
+    "vite-plugins",
+    "src/seo/site.ts",
+    "src/seo/routes.ts",
+    "src/seo/prerender.ts",
+    "src/data/projects.ts",
+    "src/types/portfolio.ts"
+  ]
 }

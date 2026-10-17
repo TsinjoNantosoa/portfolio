@@ -143,7 +143,10 @@ npm run knowledge:build
 npm run lint
 npm run test:run
 npm run build
+npm run verify:seo          # reads dist/: per-route tags, JSON-LD, sitemap, internal links, rewrites
 npx tsc --noEmit -p tsconfig.app.json
+npx tsc --noEmit -p tsconfig.node.json
+npm run check:offshore      # on demand, network: compares the Automation Showcase rules with the reference repo
 Set-Location portfolio-ai-api
 python -m pytest
 ruff check app scripts tests
@@ -152,7 +155,12 @@ bandit -q -r app scripts
 python scripts/ingest_portfolio.py --dry-run
 ```
 
+## SEO and build output
+
+`npm run build` also runs a prerender step (`vite-plugins/seoPrerender.ts`, logic in `src/seo/`). From one list of public routes it writes a static HTML file per route (`lab.html`, `lab/playground.html`, `work/<slug>.html`, …) with route-specific title, description, canonical, Open Graph, JSON-LD and a no-JavaScript summary, plus `sitemap.xml` and a safety-net `_redirects`. The React app is unchanged and keeps the same tags in sync through `applySeo` / `useSeo`. To add a public page: add its path to `STATIC_PUBLIC_PATHS` in `src/seo/routes.ts` (or add the project to `src/data/projects.ts`), give it a `useSeo(...)` call, then run `npm run build && npm run verify:seo`. Fonts (Inter, JetBrains Mono, latin subset) are self-hosted in `src/assets/fonts/`.
+
 ## Current limitations
+
 
 - Rate limiting is instance-local and intended for one Render instance.
 - Some Render plans sleep when idle; the frontend allows 60 seconds for session creation and exposes a connection retry.

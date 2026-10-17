@@ -76,7 +76,7 @@ describe("AI Operations Monitor", () => {
       last_event_at: null,
     });
     renderPage();
-    await userEvent.click(screen.getByRole("button", { name: "Switch to French" }));
+    await userEvent.click(screen.getByRole("button", { name: /Switch to French/ }));
 
     expect(await screen.findByText("Le monitoring public des opérations est désactivé par configuration. Aucun événement n’est collecté.")).toBeInTheDocument();
     expect(screen.getByRole("status")).toHaveClass("border-white/25");

@@ -20,7 +20,7 @@ export default function PortfolioAssistantLauncher() {
           onClick={() => setOpen(true)}
           className="assistant-launcher group relative block h-[68px] w-[68px] text-sm font-semibold text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:h-[145px] sm:w-[350px]"
           aria-haspopup="dialog"
-          aria-label={t("assistant.ask")}
+          aria-label={`${t("assistant.prompt")} ${t("assistant.ask")}`}
         >
           <span className="assistant-launcher__copy absolute left-0 top-0 hidden min-h-20 w-[316px] items-center rounded-xl border border-[var(--border-medium)] bg-[var(--surface-1)]/95 px-5 pr-[4.75rem] text-left text-[15px] leading-snug shadow-[0_16px_50px_rgba(0,0,0,.35)] backdrop-blur transition group-hover:border-accent/60 group-hover:text-accent sm:flex">
             {t("assistant.prompt")}

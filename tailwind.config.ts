@@ -74,8 +74,8 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			fontFamily: {
-				mono: ['JetBrains Mono', 'monospace'],
-				sans: ['Inter', 'sans-serif'],
+				mono: ['JetBrains Mono', 'JetBrains Mono Fallback', 'monospace'],
+				sans: ['Inter', 'Inter Fallback', 'sans-serif'],
 			},
 			keyframes: {
 				'accordion-down': {

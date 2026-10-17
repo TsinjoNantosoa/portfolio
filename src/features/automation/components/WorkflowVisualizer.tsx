@@ -79,7 +79,7 @@ const WorkflowVisualizer = ({ copy, language, run, view, activeStep }: Props) =>
               data-state={state}
               aria-current={state === "active" || state === "waiting" ? "step" : undefined}
               className={`rounded-md border px-3 py-3 transition-colors ${
-                state === "waiting" ? "border-amber-300/50 bg-amber-300/[0.05]" : state === "pending" ? "border-transparent opacity-60" : "border-white/10"
+                state === "waiting" ? "border-amber-300/50 bg-amber-300/[0.05]" : state === "pending" ? "border-transparent" : "border-white/10"
               }`}
             >
               <div className="flex items-start gap-3">
@@ -91,7 +91,7 @@ const WorkflowVisualizer = ({ copy, language, run, view, activeStep }: Props) =>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                     <span className="font-mono text-[11px] text-[var(--text-muted)]">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="text-sm font-medium">{label}</span>
+                    <span className={`text-sm font-medium ${state === "pending" ? "text-[var(--text-muted)]" : ""}`}>{label}</span>
                     {isAi && state !== "pending" ? (
                       <span className="rounded-full border border-amber-400/40 px-2 py-0.5 font-mono text-[10px] text-[var(--warn)]">
                         {step.id === "ai_classified" ? copy.simulatedAi : copy.simulatedAiExtract}

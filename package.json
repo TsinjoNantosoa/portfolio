@@ -9,6 +9,7 @@
     "build:dev": "vite build --mode development",
     "knowledge:build": "node portfolio-ai-api/scripts/build_portfolio_knowledge.mjs",
     "check:offshore": "node scripts/check-offshore-sync.mjs",
+    "verify:seo": "node scripts/verify-seo-build.mjs",
     "lint": "eslint .",
     "test": "vitest",
     "test:run": "vitest run",

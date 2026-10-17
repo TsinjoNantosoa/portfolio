@@ -7,8 +7,8 @@ import AutomationDemo from "@/features/automation/components/AutomationDemo";
 import EngineeringInsights, { OFFSHORE_REPO_URL } from "@/features/automation/components/EngineeringInsights";
 import { automationCopy } from "@/features/automation/copy";
 import { useI18n } from "@/i18n/I18nProvider";
-
-const PAGE_URL = "https://tsinjona.netlify.app/lab/automation";
+import { getStaticSeo } from "@/seo/routes";
+import { useSeo } from "@/seo/useSeo";
 
 const AutomationPage = () => {
   const { language } = useI18n();
@@ -18,21 +18,7 @@ const AutomationPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    const title = `${copy.title} — Tsinjo`;
-    const description =
-      language === "fr"
-        ? "Démonstration interactive et simulée d’un workflow d’automatisation métier avec validation humaine, inspirée du projet Offshore Fares (n8n, PostgreSQL, IA contrôlée)."
-        : "Interactive, simulated walk-through of a business automation workflow with human approval, based on the Offshore Fares project (n8n, PostgreSQL, controlled AI).";
-    document.title = title;
-    document.querySelector('meta[name="description"]')?.setAttribute("content", description);
-    document.querySelector('meta[property="og:title"]')?.setAttribute("content", title);
-    document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
-    document.querySelector('meta[property="og:url"]')?.setAttribute("content", PAGE_URL);
-    document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", title);
-    document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", description);
-    document.querySelector('link[rel="canonical"]')?.setAttribute("href", PAGE_URL);
-  }, [copy.title, language]);
+  useSeo(getStaticSeo("/lab/automation", language));
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">

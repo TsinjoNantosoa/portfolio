@@ -8,6 +8,8 @@ import ArchitectureDiagram from "@/components/project/ArchitectureDiagram";
 import { getFeaturedProjectBySlug } from "@/data/projects";
 import { useI18n } from "@/i18n/I18nProvider";
 import { localizePortfolioText } from "@/i18n/portfolioContent";
+import { getNotFoundSeo, getProjectSeo } from "@/seo/routes";
+import { useSeo } from "@/seo/useSeo";
 import type { ProjectMaturity } from "@/types/portfolio";
 
 const maturityKeys: Record<ProjectMaturity, "maturity.production" | "maturity.deployedDemo" | "maturity.prototype" | "maturity.research"> = {
@@ -23,31 +25,7 @@ const CaseStudyPage: React.FC = () => {
   const project = slug ? getFeaturedProjectBySlug(slug) : undefined;
   const [mediaFailed, setMediaFailed] = useState(false);
 
-  useEffect(() => {
-    if (!project) return;
-    const suffix = language === "fr" ? "Étude de cas IA" : "AI Engineering Case Study";
-    const title = `${project.title} — ${suffix}`;
-    const description = localizePortfolioText(project.plainSummary, language) || project.description;
-    document.title = title;
-    document.querySelector('meta[name="description"]')?.setAttribute("content", description);
-    document.querySelector('meta[property="og:title"]')?.setAttribute("content", title);
-    document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
-    document.querySelector('meta[property="og:url"]')?.setAttribute(
-      "content",
-      `https://tsinjona.netlify.app${project.caseStudyLink}`,
-    );
-    if (project.imageUrl) {
-      const socialImage = `https://tsinjona.netlify.app${project.imageUrl}`;
-      document.querySelector('meta[property="og:image"]')?.setAttribute("content", socialImage);
-      document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", socialImage);
-    }
-    document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", title);
-    document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", description);
-    document.querySelector('link[rel="canonical"]')?.setAttribute(
-      "href",
-      `https://tsinjona.netlify.app${project.caseStudyLink}`,
-    );
-  }, [language, project]);
+  useSeo(project ? getProjectSeo(project, language, localizePortfolioText) : getNotFoundSeo(language));
 
   if (!project) {
     return (

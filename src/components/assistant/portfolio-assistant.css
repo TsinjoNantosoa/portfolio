@@ -410,7 +410,8 @@
   text-align: right;
 }
 
-.tsinjo-ai footer {
+.tsinjo-ai footer,
+.tsinjo-ai .tsinjo-ai__footer {
   border-top: 1px solid var(--assistant-line);
   background: var(--assistant-card);
   padding: 8px 15px max(11px, env(safe-area-inset-bottom));
@@ -419,7 +420,8 @@
   text-align: center;
 }
 
-.tsinjo-ai footer a { color: var(--assistant-accent); }
+.tsinjo-ai footer a,
+.tsinjo-ai .tsinjo-ai__footer a { color: var(--assistant-accent); text-decoration: underline; text-underline-offset: 2px; }
 
 .tsinjo-ai button:focus-visible,
 .tsinjo-ai a:focus-visible {

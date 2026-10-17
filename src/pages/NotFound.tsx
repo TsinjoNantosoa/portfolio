@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import { useI18n } from "@/i18n/I18nProvider";
+import { getNotFoundSeo } from "@/seo/routes";
+import { useSeo } from "@/seo/useSeo";
 
 const NotFound = () => {
-  const { t } = useI18n();
+  const { language, t } = useI18n();
+  useSeo(getNotFoundSeo(language));
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-white">
       <Header />

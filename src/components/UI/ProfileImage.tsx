@@ -6,7 +6,9 @@ import {
   type Transition,
 } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
-import imgTsinjo from "./tsinjo.jpg";
+// WebP derived from the original portrait (720x680): 360w for 1x desktop, 720w for 2x phones.
+import imgTsinjo360 from "./tsinjo-360.webp";
+import imgTsinjo720 from "./tsinjo-720.webp";
 import "./profile-image.css";
 
 const RING_RADIUS = 48;
@@ -232,7 +234,9 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
           >
             <div className="overflow-hidden rounded-full border border-neon/20 transition-colors duration-500 group-hover:border-neon/35">
               <img
-                src={imgTsinjo}
+                src={imgTsinjo720}
+                srcSet={`${imgTsinjo360} 360w, ${imgTsinjo720} 720w`}
+                sizes="(max-width: 1023px) 310px, 330px"
                 alt="Sandaniaina Tsinjo Nantosoa"
                 width={480}
                 height={480}

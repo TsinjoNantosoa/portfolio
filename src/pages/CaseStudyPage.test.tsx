@@ -33,7 +33,7 @@ describe("Case Studies V2", () => {
     expect(screen.getAllByText("Documented validation · 2026-08-11")).toHaveLength(2);
     expect(screen.getByRole("navigation", { name: "Case study sections" })).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: "Switch to French" }));
+    await userEvent.click(screen.getByRole("button", { name: /Switch to French/ }));
 
     expect(screen.getByRole("heading", { name: "Évaluation et tests" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Limites actuelles" })).toBeInTheDocument();

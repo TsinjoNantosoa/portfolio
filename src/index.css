@@ -63,8 +63,8 @@
     --border-medium: rgba(15, 31, 27, 0.15);
     --text-primary: #10201B;
     --text-secondary: rgba(16, 32, 27, 0.78);
-    --text-muted: rgba(16, 32, 27, 0.58);
-    --brand-accent: #087F58;
+    --text-muted: rgba(16, 32, 27, 0.72);
+    --brand-accent: #06704B;
     --warn: #8A4B08;
     --danger: #B42318;
     --background: 43 24% 94%;
@@ -427,6 +427,19 @@ html[data-theme="light"] [class*="bg-white/"] {
   color: var(--brand-accent) !important;
 }
 
+/* Opacity and hover variants of the bright green are unreadable on the cream light theme (1.2:1). */
+html[data-theme="light"] [class*="text-neon/"],
+html[data-theme="light"] [class*="hover:text-neon"]:hover,
+html[data-theme="light"] .group:hover [class*="group-hover:text-neon"] {
+  color: var(--brand-accent) !important;
+}
+
 .bg-neon {
   background-color: var(--brand-accent) !important;
+}
+
+/* The light accent is dark enough for white text (6.1:1); the dark theme keeps black on bright green. */
+html[data-theme="light"] .bg-neon,
+html[data-theme="light"] .btn-neon {
+  color: #fff !important;
 }
