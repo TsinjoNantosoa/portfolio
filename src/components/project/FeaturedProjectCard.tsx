@@ -90,7 +90,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
       </ul>
 
       {!options?.hideProof && project.proof && project.proof.length > 0 && (
-        <div className="mb-5 grid grid-cols-3 gap-2 border-y border-white/10 py-3.5">
+        <div className="mb-5 grid grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] gap-x-2 gap-y-3 border-y border-white/10 py-3.5">
           {project.proof.map((item) => (
             <div key={item.label}>
               <p className="font-mono text-lg font-semibold text-neon">{localizePortfolioText(item.value, language)}</p>
@@ -174,7 +174,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
               </p>
             </div>
             {project.proof && (
-              <div className="grid grid-cols-3 gap-3 border-t border-white/10 pt-4">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-3 border-t border-white/10 pt-4">
                 {project.proof.map((item) => (
                   <div key={item.label}>
                     <p className="font-mono text-xl font-semibold text-neon">{localizePortfolioText(item.value, language)}</p>
@@ -186,13 +186,13 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
           </div>
         </div>
       ) : hasMediaSlot ? (
-        <div className={isSpotlight ? "flex h-full flex-col" : isWide ? "grid h-full lg:grid-cols-[0.95fr_1.05fr]" : "flex h-full flex-col"}>
-          <div className={isWide ? "min-h-0" : undefined}>
+        <div className={isSpotlight ? "flex h-full flex-col" : isWide ? "grid h-full grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]" : "flex h-full flex-col"}>
+          <div className={isWide ? "min-h-0 min-w-0" : undefined}>
             {hasMedia && project.imageUrl ? (
               <ProjectMedia
                 src={project.imageUrl}
                 alt={project.imageAlt || `${project.title} screenshot`}
-                aspectClassName={isSpotlight ? "aspect-[2/1]" : isWide ? "aspect-[16/10] h-full min-h-[300px] lg:aspect-auto" : "aspect-[16/10]"}
+                aspectClassName={isSpotlight ? "aspect-[2/1]" : isWide ? "aspect-[16/10] w-full lg:aspect-auto lg:h-full lg:min-h-[300px]" : "aspect-[16/10]"}
                 objectPosition={isWide ? "object-right" : "object-top"}
                 objectFit={project.imageFit}
                 onError={() => setMediaFailed(true)}
@@ -202,11 +202,11 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
                 title={project.title}
                 subtitle={localizePortfolioText(project.subtitle || project.label, language) || project.label}
                 alt={project.imageAlt || `${project.title} project media placeholder`}
-                aspectClassName={isWide ? "aspect-[16/10] h-full min-h-[300px] lg:aspect-auto" : "aspect-[16/10]"}
+                aspectClassName={isWide ? "aspect-[16/10] w-full lg:aspect-auto lg:h-full lg:min-h-[300px]" : "aspect-[16/10]"}
               />
             )}
           </div>
-          <div className={isSpotlight ? "flex flex-1 border-t border-white/[0.08]" : isWide ? "border-white/[0.08] lg:border-l" : "flex flex-1"}>
+          <div className={isSpotlight ? "flex flex-1 border-t border-white/[0.08]" : isWide ? "min-w-0 border-white/[0.08] lg:border-l" : "flex min-w-0 flex-1"}>
             {renderBody()}
           </div>
         </div>
