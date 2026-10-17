@@ -78,27 +78,29 @@ const LabPage = () => {
               <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
                 {t("lab.standardDescription")}
               </p>
-              <Link
-                to="/lab/playground"
-                className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-md bg-neon px-4 text-sm font-semibold text-black transition hover:brightness-110"
-              >
-                <FlaskConical size={16} aria-hidden />
-                {language === "fr" ? "Tester le Playground RAG" : "Open the RAG Playground"}
-              </Link>
-              <Link
-                to="/lab/operations"
-                className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-md border border-white/15 px-4 text-sm font-semibold text-[var(--text-primary)] transition hover:border-neon/60 hover:text-neon"
-              >
-                <Activity size={16} aria-hidden />
-                {language === "fr" ? "Voir les opérations IA" : "View AI Operations"}
-              </Link>
-              <Link
-                to="/lab/automation"
-                className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-md border border-white/15 px-4 text-sm font-semibold text-[var(--text-primary)] transition hover:border-neon/60 hover:text-neon"
-              >
-                <Workflow size={16} aria-hidden />
-                {language === "fr" ? "Tester le Business Automation Showcase" : "Try the Business Automation Showcase"}
-              </Link>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link
+                  to="/lab/playground"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-md bg-neon px-4 text-sm font-semibold text-black transition hover:brightness-110"
+                >
+                  <FlaskConical size={16} aria-hidden />
+                  {language === "fr" ? "Tester le Playground RAG" : "Open the RAG Playground"}
+                </Link>
+                <Link
+                  to="/lab/operations"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-md border border-white/15 px-4 text-sm font-semibold text-[var(--text-primary)] transition hover:border-neon/60 hover:text-neon"
+                >
+                  <Activity size={16} aria-hidden />
+                  {language === "fr" ? "Voir les opérations IA" : "View AI Operations"}
+                </Link>
+                <Link
+                  to="/lab/automation"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-md border border-white/15 px-4 text-sm font-semibold text-[var(--text-primary)] transition hover:border-neon/60 hover:text-neon"
+                >
+                  <Workflow size={16} aria-hidden />
+                  {language === "fr" ? "Tester le Business Automation Showcase" : "Try the Business Automation Showcase"}
+                </Link>
+              </div>
             </div>
           </div>
         </section>

@@ -61,7 +61,7 @@ const Hero: React.FC = () => {
 
             <motion.h1
               {...fade(0.08, 0.52)}
-              className="mb-4 max-w-[720px] break-words text-balance font-sans text-[2.15rem] font-semibold leading-[1.06] tracking-normal text-[var(--text-primary)] sm:text-5xl lg:text-[4.6rem]"
+              className="mb-4 max-w-[760px] break-words text-balance font-sans text-[2.15rem] font-semibold leading-[1.08] tracking-normal text-[var(--text-primary)] sm:text-5xl lg:text-[4rem]"
             >
               {t("hero.title")}
             </motion.h1>

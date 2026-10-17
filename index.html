@@ -5,6 +5,18 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#070A0D" />
+    <script>
+      // Apply the saved or system theme before first paint, so a light-theme visitor never sees a dark flash.
+      // Keep in sync with src/theme/ThemeProvider.tsx.
+      (function () {
+        try {
+          var saved = localStorage.getItem("tsinjo:theme");
+          var theme = saved === "light" || saved === "dark" ? saved : matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch (e) {}
+      })();
+    </script>
     <title>Sandaniaina Tsinjo Nantosoa — AI Engineer | RAG, AI Agents & Tool Calling</title>
     <meta
       name="description"

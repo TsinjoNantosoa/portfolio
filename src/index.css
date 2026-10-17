@@ -371,7 +371,7 @@
 
 .assistant-launcher__copy {
   transform-origin: right bottom;
-  animation: assistant-callout-in 420ms cubic-bezier(.2, .8, .2, 1) both, assistant-callout-float 5s ease-in-out 500ms infinite;
+  animation: assistant-callout-in 420ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
 .assistant-launcher__avatar {
@@ -381,11 +381,6 @@
 @keyframes assistant-callout-in {
   from { opacity: 0; transform: translateY(8px) scale(.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes assistant-callout-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
 }
 
 @keyframes assistant-avatar-in {
