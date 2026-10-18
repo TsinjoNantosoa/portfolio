@@ -1,3 +1,5 @@
+import type { Language } from "@/i18n/I18nProvider";
+
 export type AssistantStatus = "connecting" | "idle" | "thinking" | "streaming" | "complete" | "error" | "rate_limited" | "unavailable";
 
 export type AssistantSource = { title: string; url: string; section?: string };
@@ -12,6 +14,8 @@ export type ChatMessage = {
   suggestedLinks?: SuggestedLink[];
   suggestedQuestions?: string[];
   failed?: boolean;
+  /** Language of the visitor's question; the answer and its labels are shown in it. */
+  language?: Language;
 };
 
 export type StreamEvent =

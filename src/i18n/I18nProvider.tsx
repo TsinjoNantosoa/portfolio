@@ -437,6 +437,9 @@ const messages = {
 
 export type TranslationKey = keyof typeof messages.en;
 
+/** Text for a given language, regardless of the current site language. */
+export const translate = (key: TranslationKey, language: Language): string => messages[language][key];
+
 type I18nContextValue = {
   language: Language;
   setLanguage: (language: Language) => void;

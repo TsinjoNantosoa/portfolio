@@ -1,13 +1,15 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
 import { useWhatsAppUrl } from "@/hooks/use-whatsapp";
+import { translate } from "@/i18n/I18nProvider";
 import AssistantHeader from "./AssistantHeader";
 import Composer from "./Composer";
 import MessageBubble from "./MessageBubble";
 import QuickQuestions from "./QuickQuestions";
 import TypingIndicator from "./TypingIndicator";
 import { AssistantApiError, createPublicSession, streamChat } from "./assistant-api";
-import { messageForAssistantApi } from "./assistant-language";
+import { detectMessageLanguage, messageForAssistantApi } from "./assistant-language";
+import { localizeAssistantMetadata } from "./assistant-localization";
 import { enrichAssistantMetadata } from "./contextual-suggestions";
 import { assistantConfig, INITIAL_QUESTIONS } from "./assistant-config";
 import { clearMessages, clearSession, getSession, readMessages, saveMessages, saveSession } from "./assistant-session";
@@ -113,6 +115,8 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
     if (!clean || sending || !assistantConfig.available) return;
     setLastQuestion(clean); setInput(""); setSending(true); setStatus("connecting");
     const timestamp = Date.now(); const answerId = `a-${timestamp}`;
+    // Answer in the language the visitor wrote in; the site language only decides ambiguous messages.
+    const turnLanguage = detectMessageLanguage(clean, language);
     setMessages((current) => {
       const replacesFailedPair = retryFailedAnswer
         && current.at(-1)?.role === "assistant"
@@ -120,7 +124,7 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
         && current.at(-2)?.role === "user"
         && current.at(-2)?.text === clean;
       const base = replacesFailedPair ? current.slice(0, -2) : current;
-      return [...base, { id: `u-${timestamp}`, role: "user", text: clean }, { id: answerId, role: "assistant", text: "" }];
+      return [...base, { id: `u-${timestamp}`, role: "user", text: clean, language: turnLanguage }, { id: answerId, role: "assistant", text: "", language: turnLanguage }];
     });
     const controller = new AbortController(); abortRef.current = controller;
     let timedOut = false;
@@ -131,11 +135,14 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
       if (event.type === "delta") { setStatus("streaming"); setMessages((current) => current.map((item) => item.id === answerId ? { ...item, text: item.text + event.text } : item)); }
       if (event.type === "done") {
         setStatus("complete");
-        const enriched = enrichAssistantMetadata(
-          event.sources || [],
-          event.suggested_links || [],
-          event.suggested_questions || [],
-          language,
+        const enriched = localizeAssistantMetadata(
+          enrichAssistantMetadata(
+            event.sources || [],
+            event.suggested_links || [],
+            event.suggested_questions || [],
+            turnLanguage,
+          ),
+          turnLanguage,
         );
         setMessages((current) =>
           current.map((item) =>
@@ -157,7 +164,7 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
       let active = await acquireSession(false, controller.signal);
       const apiMessage = messageForAssistantApi(
         clean,
-        language,
+        turnLanguage,
         assistantConfig.maxMessageLength,
       );
       try {
@@ -171,7 +178,7 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
     } catch (error) {
       const stopped = error instanceof DOMException && error.name === "AbortError" && !timedOut;
       const rateLimited = error instanceof AssistantApiError && error.status === 429;
-      const message = timedOut ? (language === "fr" ? "La réponse a expiré. Réessayez." : "The response timed out. Please retry.") : stopped ? (language === "fr" ? "Réponse arrêtée." : "Response stopped.") : rateLimited ? statusLabels.rate_limited : t("assistant.unavailable");
+      const message = timedOut ? (turnLanguage === "fr" ? "La réponse a expiré. Réessayez." : "The response timed out. Please retry.") : stopped ? (turnLanguage === "fr" ? "Réponse arrêtée." : "Response stopped.") : rateLimited ? translate("assistant.rateLimited", turnLanguage) : translate("assistant.unavailable", turnLanguage);
       setStatus(rateLimited ? "rate_limited" : stopped ? "idle" : "error");
       setMessages((current) => current.map((item) => item.id === answerId ? { ...item, text: item.text || message, failed: !stopped } : item));
     } finally { window.clearTimeout(timeout); setSending(false); abortRef.current = null; }

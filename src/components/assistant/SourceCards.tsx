@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { ArrowUpRight } from "lucide-react";
 import type { AssistantSource, SuggestedLink } from "./assistant-types";
-import { useI18n } from "@/i18n/I18nProvider";
+import { translate, useI18n, type Language } from "@/i18n/I18nProvider";
 
 export const isSafeAssistantUrl = (url: string) =>
   (url.startsWith("/") && !url.startsWith("//")) || /^https:\/\//i.test(url);
@@ -32,11 +32,14 @@ function SafeLink({
 export default function SourceCards({
   sources = [],
   links = [],
+  language,
 }: {
   sources?: AssistantSource[];
   links?: SuggestedLink[];
+  language?: Language;
 }) {
-  const { t } = useI18n();
+  const { language: siteLanguage } = useI18n();
+  const t = (key: Parameters<typeof translate>[0]) => translate(key, language ?? siteLanguage);
   return (
     <>
       {sources.length ? (

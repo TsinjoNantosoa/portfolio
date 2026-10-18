@@ -4,10 +4,12 @@ import ReactMarkdown from "react-markdown";
 import type { ChatMessage } from "./assistant-types";
 import SuggestedActions from "./SuggestedActions";
 import { isSafeAssistantUrl } from "./SourceCards";
-import { useI18n } from "@/i18n/I18nProvider";
+import { translate, useI18n } from "@/i18n/I18nProvider";
 
 export default function MessageBubble({ message, onQuestion }: { message: ChatMessage; onQuestion: (question: string) => void }) {
-  const { t } = useI18n();
+  const { language: siteLanguage } = useI18n();
+  const language = message.language ?? siteLanguage;
+  const t = (key: Parameters<typeof translate>[0]) => translate(key, language);
   const [copied, setCopied] = useState(false);
   const [feedback, setFeedback] = useState<"up" | "down" | null>(null);
   const allowedUrls = useMemo(
@@ -46,6 +48,7 @@ export default function MessageBubble({ message, onQuestion }: { message: ChatMe
       links={message.suggestedLinks}
       questions={message.suggestedQuestions}
       onQuestion={onQuestion}
+      language={language}
     />
     {message.role === "assistant" && message.text && !message.failed ? (
       <div className="tsinjo-ai__message-tools">
