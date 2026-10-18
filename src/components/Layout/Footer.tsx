@@ -7,7 +7,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 const Footer = () => {
   const { t } = useI18n();
   return (
-    <footer className="border-t border-white/10 bg-[var(--bg-primary)] py-8">
+    <footer className="border-t border-white/10 bg-[var(--bg-primary)] pb-28 pt-8 lg:pb-24">
       <div className="site-container flex flex-col items-center justify-between gap-5 text-center lg:flex-row lg:text-left">
         <div>
           <p className="text-sm font-medium text-[var(--text-primary)]">
