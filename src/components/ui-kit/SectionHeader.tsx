@@ -1,4 +1,5 @@
 import React from "react";
+import Reveal from "@/motion/Reveal";
 
 interface SectionHeaderProps {
   eyebrow: string;
@@ -14,7 +15,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   className = "",
 }) => {
   return (
-    <div className={`mb-8 max-w-[720px] md:mb-9 ${className}`}>
+    <Reveal className={`mb-8 max-w-[720px] md:mb-9 ${className}`}>
       <p className="eyebrow mb-2.5">
         {eyebrow}
       </p>
@@ -26,7 +27,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
           {description}
         </p>
       )}
-    </div>
+    </Reveal>
   );
 };
 

@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
 import { FlaskConical, X } from "lucide-react";
 import PreferencesControls from "./PreferencesControls";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -25,6 +24,23 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items, t
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const { t } = useI18n();
+
+  // The panel slides in and out with CSS transitions. It is mounted as soon as the menu opens and stays mounted
+  // for the length of the closing transition, so it never unmounts and remounts in between. With reduced motion
+  // there is no transition and it unmounts at once.
+  const [entered, setEntered] = useState(false);
+  const [mounted, setMounted] = useState(isOpen);
+  if (isOpen && !mounted) setMounted(true);
+  useEffect(() => {
+    if (isOpen) {
+      const frame = requestAnimationFrame(() => requestAnimationFrame(() => setEntered(true)));
+      return () => cancelAnimationFrame(frame);
+    }
+    setEntered(false);
+    const reduced = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const timer = window.setTimeout(() => setMounted(false), reduced ? 0 : 300);
+    return () => window.clearTimeout(timer);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -64,82 +80,73 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ id, isOpen, setIsOpen, items, t
     };
   }, [isOpen, setIsOpen]);
 
-  const menu = (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          <motion.button
+  const menu = mounted ? (
+    <>
+      <button
+        type="button"
+        aria-label={t("nav.close")}
+        tabIndex={isOpen ? 0 : -1}
+        className={`mobile-menu__overlay fixed inset-0 z-[90] bg-black/70 xl:hidden ${entered ? "is-open" : ""}`}
+        onClick={() => setIsOpen(false)}
+      />
+      <div
+        ref={panelRef}
+        id={id}
+        role="dialog"
+        aria-modal="true"
+        aria-label={t("nav.mobile")}
+        aria-hidden={isOpen ? undefined : true}
+        className={`mobile-menu__panel fixed inset-y-0 left-0 z-[100] w-[min(340px,88vw)] border-r border-white/10 bg-[var(--surface-1)] pb-[env(safe-area-inset-bottom)] text-[var(--text-primary)] shadow-2xl xl:hidden ${entered ? "is-open" : ""}`}
+      >
+        <div className="flex h-16 items-center justify-between border-b border-white/10 px-6">
+          <span className="text-lg font-semibold text-[var(--text-primary)]">
+            Tsinjo<span className="text-neon">.</span>
+          </span>
+          <button
+            ref={closeButtonRef}
             type="button"
-            aria-label={t("nav.close")}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[90] bg-black/70 xl:hidden"
             onClick={() => setIsOpen(false)}
-          />
-          <motion.div
-            ref={panelRef}
-            id={id}
-            role="dialog"
-            aria-modal="true"
-            aria-label={t("nav.mobile")}
-            initial={{ opacity: 0, x: -280 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -280 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-y-0 left-0 z-[100] w-[min(340px,88vw)] border-r border-white/10 bg-[var(--surface-1)] pb-[env(safe-area-inset-bottom)] text-[var(--text-primary)] shadow-2xl xl:hidden"
+            aria-label={t("nav.close")}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-neon transition hover:border-neon/50"
           >
-            <div className="flex h-16 items-center justify-between border-b border-white/10 px-6">
-              <span className="text-lg font-semibold text-[var(--text-primary)]">
-                Tsinjo<span className="text-neon">.</span>
-              </span>
-              <button
-                ref={closeButtonRef}
-                type="button"
-                onClick={() => setIsOpen(false)}
-                aria-label={t("nav.close")}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-neon transition hover:border-neon/50"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <nav className="p-6 pt-8" aria-label={t("nav.mobile")}>
-              <ul className="flex flex-col gap-2">
-                {items.map((item) => (
-                  <li key={item.href}>
-                    <a
-                      href={item.href}
-                      onClick={() => setIsOpen(false)}
-                      aria-current={item.active ? "true" : undefined}
-                      className={`flex min-h-11 items-center gap-2 rounded-lg px-3 text-base transition hover:bg-white/5 hover:text-neon ${
-                        item.active ? "bg-white/5 text-neon" : "text-[var(--text-secondary)]"
-                      }`}
-                    >
-                      {item.icon === "lab" && <FlaskConical className="h-4 w-4 shrink-0 text-neon/80" aria-hidden />}
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-7 border-t border-white/10 pt-5">
-                <PreferencesControls compact />
-              </div>
-              <a
-                href="/#contact"
-                onClick={() => setIsOpen(false)}
-                aria-current={talkActive ? "true" : undefined}
-                className={`mt-8 flex min-h-11 w-full items-center justify-center rounded-full bg-neon text-sm font-semibold text-black ${
-                  talkActive ? "ring-2 ring-neon/50 ring-offset-2 ring-offset-[var(--surface-1)]" : ""
-                }`}
-              >
-                {t("nav.talk")}
-              </a>
-            </nav>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
-  );
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        <nav className="p-6 pt-8" aria-label={t("nav.mobile")}>
+          <ul className="flex flex-col gap-2">
+            {items.map((item) => (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  aria-current={item.active ? "true" : undefined}
+                  className={`flex min-h-11 items-center gap-2 rounded-lg px-3 text-base transition hover:bg-white/5 hover:text-neon ${
+                    item.active ? "bg-white/5 text-neon" : "text-[var(--text-secondary)]"
+                  }`}
+                >
+                  {item.icon === "lab" && <FlaskConical className="h-4 w-4 shrink-0 text-neon/80" aria-hidden />}
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-7 border-t border-white/10 pt-5">
+            <PreferencesControls compact />
+          </div>
+          <a
+            href="/#contact"
+            onClick={() => setIsOpen(false)}
+            aria-current={talkActive ? "true" : undefined}
+            className={`mt-8 flex min-h-11 w-full items-center justify-center rounded-full bg-neon text-sm font-semibold text-black ${
+              talkActive ? "ring-2 ring-neon/50 ring-offset-2 ring-offset-[var(--surface-1)]" : ""
+            }`}
+          >
+            {t("nav.talk")}
+          </a>
+        </nav>
+      </div>
+    </>
+  ) : null;
 
   return createPortal(menu, document.body);
 };

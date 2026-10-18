@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -51,10 +52,25 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => media.removeEventListener("change", update);
   }, []);
 
+  const appliedTheme = useRef<ResolvedTheme | null>(null);
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, theme);
-    document.documentElement.dataset.theme = resolvedTheme;
-    document.documentElement.style.colorScheme = resolvedTheme;
+    const root = document.documentElement;
+    // Soften the colour swap when the visitor changes the theme (not on the first paint, not with reduced motion).
+    const changed = appliedTheme.current !== null && appliedTheme.current !== resolvedTheme;
+    const reduced = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let timer = 0;
+    if (changed && !reduced) {
+      root.classList.add("theme-switching");
+      timer = window.setTimeout(() => root.classList.remove("theme-switching"), 400);
+    }
+    appliedTheme.current = resolvedTheme;
+    root.dataset.theme = resolvedTheme;
+    root.style.colorScheme = resolvedTheme;
+    return () => {
+      window.clearTimeout(timer);
+      root.classList.remove("theme-switching");
+    };
   }, [theme, resolvedTheme]);
 
   const value = useMemo(

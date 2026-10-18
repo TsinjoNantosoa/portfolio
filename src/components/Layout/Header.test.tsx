@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -73,5 +73,26 @@ describe("header navigation", () => {
     expect(within(mobile).queryByRole("link", { name: "Education" })).not.toBeInTheDocument();
     expect(within(mobile).getByRole("link", { name: "AI Lab" })).toHaveAttribute("href", "/lab");
     expect(within(mobile).getByRole("link", { name: "Let's Talk" })).toHaveAttribute("href", "/#contact");
+  });
+});
+
+describe("mobile menu transition", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    Object.defineProperty(window, "matchMedia", {
+      configurable: true,
+      value: () => ({ matches: false, addEventListener: () => undefined, removeEventListener: () => undefined, addListener: () => undefined, removeListener: () => undefined }),
+    });
+  });
+
+  it("stays mounted for the closing transition, hidden from assistive technology, then unmounts", async () => {
+    renderHeader();
+    await userEvent.click(screen.getByRole("button", { name: "Open menu" }));
+    const panel = await screen.findByRole("dialog", { name: "Mobile navigation" });
+    await waitFor(() => expect(panel).toHaveClass("is-open"));
+    await userEvent.click(within(panel).getByRole("button", { name: "Close menu" }));
+    await waitFor(() => expect(panel).toHaveAttribute("aria-hidden", "true"));
+    expect(panel).not.toHaveClass("is-open");
+    await waitFor(() => expect(screen.queryByRole("dialog", { name: "Mobile navigation", hidden: true })).not.toBeInTheDocument(), { timeout: 1500 });
   });
 });

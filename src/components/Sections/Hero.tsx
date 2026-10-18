@@ -1,9 +1,9 @@
 import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
 import { Download, Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 import ProfileImage from "../UI/ProfileImage";
 import { CV_PATH, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
 import { useI18n } from "@/i18n/I18nProvider";
+import Reveal from "@/motion/Reveal";
 
 const socials = [
   { href: GITHUB_URL, label: "GitHub", icon: Github },
@@ -11,21 +11,11 @@ const socials = [
   { href: `mailto:${EMAIL}`, label: "Email", icon: Mail },
 ];
 
-const HERO_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-const portraitEntranceDelay = 0.24;
-
 const Hero: React.FC = () => {
   const { t } = useI18n();
-  const reduceMotion = useReducedMotion();
-  const fromHidden = reduceMotion ? false : { opacity: 0, y: 14 };
-  const toVisible = { opacity: 1, y: 0 };
-  const fade = (delay: number, duration = 0.48) => ({
-    initial: fromHidden,
-    animate: toVisible,
-    transition: reduceMotion
-      ? { duration: 0.01 }
-      : { duration, delay, ease: HERO_EASE },
-  });
+  // Secondary elements rise in one after the other (CSS, see src/motion/motion.css). The eyebrow, the headline
+  // and the description are not animated: they are what the visitor reads first and what the browser measures.
+  const enter = (index: number) => ({ style: { "--enter-index": index } as React.CSSProperties });
   const metrics = [
     { value: "Multi-tenant", label: t("metrics.assistants"), hint: t("metrics.assistantsHint") },
     { value: "RAG + Agent", label: t("metrics.checks"), hint: t("metrics.checksHint") },
@@ -52,58 +42,55 @@ const Hero: React.FC = () => {
       <div className="site-container">
         <div className="layout-grid items-center py-8 sm:py-10 lg:py-12">
           <div className="col-span-12 lg:col-span-7">
-            <motion.p
-              {...fade(0, 0.42)}
+            <p
               className="mb-3 max-w-full break-words font-mono text-[10px] uppercase leading-relaxed tracking-[0.18em] text-neon sm:text-xs sm:tracking-[0.2em]"
             >
               {t("hero.eyebrow")}
-            </motion.p>
+            </p>
 
-            <motion.h1
-              {...fade(0.08, 0.52)}
+            <h1
               className="mb-4 max-w-[760px] break-words text-balance font-sans text-[2.15rem] font-semibold leading-[1.08] tracking-normal text-[var(--text-primary)] sm:text-5xl lg:text-[4rem]"
             >
               {t("hero.title")}
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              {...fade(0.14, 0.46)}
-              className="mb-4 font-mono text-sm text-[var(--text-muted)] sm:text-[15px]"
+            <p
+              style={enter(1).style}
+              className={`motion-enter mb-4 font-mono text-sm text-[var(--text-muted)] sm:text-[15px]`}
             >
               Sandaniaina Tsinjo Nantosoa
-            </motion.p>
+            </p>
 
-            <motion.p
-              {...fade(0.2, 0.46)}
+            <p
               className="mb-2 w-full max-w-[min(100%,340px)] break-words text-[16.5px] leading-relaxed text-[var(--text-secondary)] sm:max-w-[650px] sm:text-[17.5px]"
             >
               {t("hero.description")}
-            </motion.p>
+            </p>
 
-            <motion.p
-              {...fade(0.26, 0.44)}
-              className="mb-6 text-sm text-[var(--text-muted)]"
+            <p
+              style={enter(2).style}
+              className={`motion-enter mb-6 text-sm text-[var(--text-muted)]`}
             >
               {t("hero.location")}
-            </motion.p>
+            </p>
 
-            <motion.div
-              {...fade(0.32, 0.46)}
-              className="mb-5 flex flex-wrap items-center gap-3"
+            <div
+              style={enter(3).style}
+              className={`motion-enter mb-5 flex flex-wrap items-center gap-3`}
             >
               <a
                 href="#projects"
                 className="btn-neon gap-2 px-6"
               >
                 {t("hero.work")}
-                <ArrowDown size={16} />
+                <ArrowDown size={16} className="icon-nudge-down" aria-hidden />
               </a>
               <a
                 href={CV_PATH}
                 download
                 className="btn-outline gap-2 px-6"
               >
-                <Download size={15} />
+                <Download size={15} className="icon-nudge-down" aria-hidden />
                 {t("hero.cv")}
               </a>
               <a
@@ -112,11 +99,11 @@ const Hero: React.FC = () => {
               >
                 {t("hero.contact")}
               </a>
-            </motion.div>
+            </div>
 
-            <motion.div
-              {...fade(0.38, 0.44)}
-              className="flex items-center gap-2.5"
+            <div
+              style={enter(4).style}
+              className={`motion-enter flex items-center gap-2.5`}
             >
               {socials.map(({ href, label, icon: Icon }) => (
                 <a
@@ -131,14 +118,11 @@ const Hero: React.FC = () => {
                   <Icon size={17} />
                 </a>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           <div className="col-span-12 mx-auto w-full max-w-[260px] sm:max-w-[320px] lg:col-span-5 lg:mx-0 lg:max-w-[340px] lg:justify-self-end">
-            <ProfileImage
-              className="aspect-square w-full"
-              entranceDelay={portraitEntranceDelay}
-            />
+            <ProfileImage className="aspect-square w-full" />
           </div>
         </div>
 
@@ -160,7 +144,7 @@ const Hero: React.FC = () => {
         </div>
 
         <div id="about" className="section-tight scroll-mt-24 border-b border-white/10">
-          <div className="layout-grid items-start gap-y-6">
+          <Reveal className="layout-grid items-start gap-y-6">
             <div className="col-span-12 lg:col-span-8">
               <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-neon">
                 {t("hero.about")}
@@ -192,7 +176,7 @@ const Hero: React.FC = () => {
                 </div>
               ))}
             </aside>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

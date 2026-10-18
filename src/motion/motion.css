@@ -1,0 +1,221 @@
+/*
+ * Motion system.
+ *
+ * Everything that moves on the site draws its timing from these tokens, and only animates `transform` and
+ * `opacity` (plus colours on state changes). Content is visible by default: the hidden starting state of a
+ * scroll reveal is applied by script, and never under `prefers-reduced-motion`.
+ */
+:root {
+  --motion-fast: 180ms;
+  --motion-normal: 300ms;
+  --motion-reveal: 520ms;
+  --motion-distance-small: 10px;
+  --motion-distance-medium: 18px;
+  --motion-stagger: 70ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Scroll reveal (see src/motion/Reveal.tsx) ---------- */
+
+[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translate3d(0, var(--motion-distance-medium), 0);
+}
+
+[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--motion-reveal) var(--motion-ease),
+    transform var(--motion-reveal) var(--motion-ease);
+  transition-delay: calc(var(--reveal-index, 0) * var(--motion-stagger));
+}
+
+/* Keyboard users who tab into a block that has not been revealed yet must see it. */
+[data-reveal="hidden"]:focus-within {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Hero entrance: secondary elements only (the headline and the description paint at once) ---------- */
+
+@keyframes motion-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--motion-distance-small), 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.motion-enter {
+  animation: motion-rise var(--motion-reveal) var(--motion-ease) both;
+  animation-delay: calc(120ms + var(--enter-index, 0) * var(--motion-stagger));
+}
+
+/* ---------- Cards, buttons ---------- */
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-neon:hover,
+  .btn-outline:hover,
+  .cta-motion:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-neon:hover .icon-nudge-down,
+  .btn-outline:hover .icon-nudge-down {
+    transform: translateY(3px);
+  }
+
+  .btn-neon:hover .icon-nudge-right,
+  .btn-outline:hover .icon-nudge-right,
+  .cta-motion:hover .icon-nudge-right {
+    transform: translateX(3px);
+  }
+}
+
+.icon-nudge-down,
+.icon-nudge-right {
+  transition: transform var(--motion-fast) var(--motion-ease);
+}
+
+.cta-motion {
+  transition:
+    transform var(--motion-fast) var(--motion-ease),
+    background-color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease);
+}
+
+/* ---------- Mobile menu: panel slides in, overlay fades ---------- */
+
+.mobile-menu__overlay {
+  opacity: 0;
+  transition: opacity var(--motion-normal) var(--motion-ease);
+}
+
+.mobile-menu__panel {
+  transform: translate3d(-100%, 0, 0);
+  transition: transform var(--motion-normal) var(--motion-ease);
+}
+
+.mobile-menu__overlay.is-open {
+  opacity: 1;
+}
+
+.mobile-menu__panel.is-open {
+  transform: none;
+}
+
+/* ---------- Theme change: soften the colour swap, only while the visitor toggles the theme ---------- */
+
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition:
+    background-color var(--motion-normal) ease,
+    border-color var(--motion-normal) ease,
+    color var(--motion-normal) ease,
+    fill var(--motion-normal) ease,
+    stroke var(--motion-normal) ease !important;
+}
+
+/* ---------- AI Engineering Lab: reference workflow (conceptual, not a live run) ---------- */
+
+.lab-flow__step {
+  position: relative;
+}
+
+@media (min-width: 640px) {
+  .lab-flow__step::before,
+  .lab-flow__step::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0.75rem;
+    height: 2px;
+    border-radius: 1px;
+  }
+
+  .lab-flow__step::before {
+    background: var(--border-medium);
+  }
+
+  .lab-flow__step::after {
+    background: var(--brand-accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  .lab-flow[data-flow="on"] .lab-flow__step::after {
+    transform: scaleX(1);
+    transition: transform var(--motion-reveal) var(--motion-ease);
+    transition-delay: calc(var(--i, 0) * 150ms);
+  }
+}
+
+.lab-flow__step > span {
+  transition: color var(--motion-normal) var(--motion-ease);
+}
+
+.lab-flow[data-flow="on"] .lab-flow__step > span {
+  animation: lab-step-glow 900ms var(--motion-ease) both;
+  animation-delay: calc(var(--i, 0) * 150ms);
+}
+
+@keyframes lab-step-glow {
+  0% {
+    color: var(--text-primary);
+  }
+  35% {
+    color: var(--brand-accent);
+  }
+  100% {
+    color: var(--text-primary);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lab-flow__step:hover > span {
+    color: var(--brand-accent);
+  }
+}
+
+/* ---------- Reduced motion: nothing moves, everything stays visible, state changes stay instant ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .motion-enter,
+  .lab-flow[data-flow="on"] .lab-flow__step > span {
+    animation: none;
+  }
+
+  .lab-flow__step::after {
+    transform: scaleX(1);
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

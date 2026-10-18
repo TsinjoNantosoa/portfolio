@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import Reveal from "@/motion/Reveal";
 import { Network, Database, Workflow } from "lucide-react";
 import SectionHeader from "@/components/ui-kit/SectionHeader";
 import { expertisePillars } from "@/data/experience";
@@ -33,12 +33,10 @@ const Services: React.FC = () => {
             {expertisePillars.map((pillar, index) => {
               const Icon = icons[index] || Network;
               return (
-                <motion.article
+                <Reveal
+                  as="article"
                   key={pillar.number}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: index * 0.04 }}
+                  index={index}
                   className="surface-card h-full p-5"
                 >
                   <div className="mb-3 flex items-center justify-between">
@@ -54,7 +52,7 @@ const Services: React.FC = () => {
                   <p className="font-mono text-xs leading-relaxed text-[var(--text-muted)]">
                     {pillar.technicalDetail}
                   </p>
-                </motion.article>
+                </Reveal>
               );
             })}
           </div>

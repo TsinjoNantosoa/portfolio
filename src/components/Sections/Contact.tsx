@@ -1,6 +1,7 @@
 import React from "react";
 import { Github, Linkedin, Mail, MapPin } from "lucide-react";
 import ContactForm from "@/components/UI/ContactForm";
+import Reveal from "@/motion/Reveal";
 import SectionHeader from "@/components/ui-kit/SectionHeader";
 import WhatsAppIcon from "@/components/brand/WhatsAppIcon";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/experience";
@@ -17,7 +18,7 @@ const Contact: React.FC = () => {
     >
       <div className="site-container">
         <div className="layout-grid items-start">
-          <div className="col-span-12 lg:col-span-5">
+          <Reveal className="col-span-12 lg:col-span-5">
             <SectionHeader
               eyebrow={t("nav.contact")}
               title={t("contact.title")}
@@ -92,11 +93,11 @@ const Contact: React.FC = () => {
                 </a>
               </div>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="surface-card col-span-12 p-5 sm:p-6 lg:col-span-7">
+          <Reveal index={1} className="surface-card col-span-12 p-5 sm:p-6 lg:col-span-7">
             <ContactForm />
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

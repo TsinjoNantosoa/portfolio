@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { SlidersHorizontal } from "lucide-react";
 import FeaturedProjectCard from "../project/FeaturedProjectCard";
+import Reveal from "@/motion/Reveal";
 import SecondaryProjectCard from "../project/SecondaryProjectCard";
 import SectionHeader from "@/components/ui-kit/SectionHeader";
 import { featuredProjects, secondaryProjects } from "@/data/projects";
@@ -118,13 +119,9 @@ const Projects: React.FC = () => {
                     : "editorial";
 
             return (
-              <FeaturedProjectCard
-                key={project.id}
-                project={project}
-                index={index}
-                density={density}
-                className={isWide ? "lg:col-span-2" : ""}
-              />
+              <Reveal key={project.id} index={index % 2} className={isWide ? "h-full lg:col-span-2" : "h-full"}>
+                <FeaturedProjectCard project={project} density={density} />
+              </Reveal>
             );
           })}
         </div>
@@ -141,8 +138,10 @@ const Projects: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {visibleSecondaryProjects.map((project) => (
-                <SecondaryProjectCard key={project.id} project={project} />
+              {visibleSecondaryProjects.map((project, index) => (
+                <Reveal key={project.id} index={index % 4} className="h-full">
+                  <SecondaryProjectCard project={project} />
+                </Reveal>
               ))}
             </div>
           </div>
