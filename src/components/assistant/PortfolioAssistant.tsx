@@ -7,7 +7,8 @@ import Composer from "./Composer";
 import MessageBubble from "./MessageBubble";
 import QuickQuestions from "./QuickQuestions";
 import TypingIndicator from "./TypingIndicator";
-import { AssistantApiError, createPublicSession, streamChat } from "./assistant-api";
+import { AssistantApiError, streamChat } from "./assistant-api";
+import { createSessionWithRetry } from "./assistant-warmup";
 import { detectMessageLanguage, messageForAssistantApi } from "./assistant-language";
 import { localizeAssistantMetadata } from "./assistant-localization";
 import { enrichAssistantMetadata } from "./contextual-suggestions";
@@ -21,8 +22,9 @@ import "./portfolio-assistant.css";
 export default function PortfolioAssistant({ onClose }: { onClose: () => void }) {
   const { language, t } = useI18n();
   const whatsappUrl = useWhatsAppUrl();
+  const [slowConnect, setSlowConnect] = useState(false);
   const statusLabels: Record<AssistantStatus, string> = {
-    connecting: t("assistant.connecting"),
+    connecting: slowConnect ? t("assistant.waking") : t("assistant.connecting"),
     idle: t("assistant.idle"),
     thinking: t("assistant.searching"),
     streaming: t("assistant.writing"),
@@ -53,10 +55,17 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
     const timer = window.setTimeout(() => controller.abort(), assistantConfig.sessionTimeoutMs);
     const cached = getSession();
     if (cached) { setSession(cached); setStatus("idle"); }
-    else createPublicSession(assistantConfig.apiBaseUrl, controller.signal).then((value) => { saveSession(value); setSession(value); setStatus("idle"); }).catch((error) => setStatus(error instanceof AssistantApiError && error.status === 429 ? "rate_limited" : "error"));
+    else createSessionWithRetry(assistantConfig.apiBaseUrl, controller.signal).then((value) => { saveSession(value); setSession(value); setStatus("idle"); }).catch((error) => setStatus(error instanceof AssistantApiError && error.status === 429 ? "rate_limited" : "error"));
     inputRef.current?.focus();
     return () => { window.clearTimeout(timer); controller.abort(); };
   }, []);
+
+  // A sleeping host can need up to a minute: after a few seconds, explain the wait instead of looking stuck.
+  useEffect(() => {
+    if (status !== "connecting") { setSlowConnect(false); return undefined; }
+    const timer = window.setTimeout(() => setSlowConnect(true), 4000);
+    return () => window.clearTimeout(timer);
+  }, [status]);
 
   useEffect(() => { saveMessages(messages); listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" }); }, [messages]);
 
@@ -77,7 +86,7 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
 
   async function acquireSession(force = false, signal?: AbortSignal): Promise<SessionResponse> {
     if (!force) { const active = session || getSession(); if (active) return active; }
-    const fresh = await createPublicSession(assistantConfig.apiBaseUrl, signal);
+    const fresh = await createSessionWithRetry(assistantConfig.apiBaseUrl, signal);
     saveSession(fresh); setSession(fresh); return fresh;
   }
 
@@ -91,7 +100,7 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
     );
     try {
       clearSession();
-      const fresh = await createPublicSession(
+      const fresh = await createSessionWithRetry(
         assistantConfig.apiBaseUrl,
         controller.signal,
       );

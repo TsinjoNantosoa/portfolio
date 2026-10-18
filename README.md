@@ -91,6 +91,16 @@ VITE_PORTFOLIO_AI_API_URL=https://<render-service>.onrender.com
 
 Netlify must be redeployed after changing a `VITE_*` value. A production build with no API URL disables the assistant gracefully and never falls back to localhost.
 
+### Keeping the assistant responsive (Render cold starts)
+
+An idle Render service goes to sleep and needs up to a minute to wake up. Three things limit the impact:
+
+1. **In the site (already in the code):** shortly after a page loads, the site sends one plain `GET /health` to the assistant service, at most once per browser session (no message, no identifier), so it is usually awake by the time the chat is opened. If the service is still starting, the session request is retried up to four times and the chat says "Waking up the service… this can take up to a minute." instead of showing an error.
+2. **Keep-alive ping (to set up once, outside the code):** create a free monitor in UptimeRobot (or any cron service) that requests `https://<render-service>.onrender.com/health` every 5 minutes. This keeps the service awake for visitors who arrive after a quiet period. It is independent from the site and needs no code change.
+3. **Optional:** a paid Render instance type removes the sleeping behaviour altogether.
+
+Neither the pre-warm nor the retry changes what is sent when a visitor actually asks a question.
+
 ### WhatsApp contact (optional)
 
 WhatsApp links use the official click-to-chat format (`https://wa.me/<number>?text=<message>`), with a pre-filled message in the site language that the visitor edits and sends themselves. There is no SDK, no WhatsApp Business API, no webhook and no tracking. The number is never in the code: it comes from one build-time variable.

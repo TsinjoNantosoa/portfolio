@@ -8,7 +8,8 @@ const api = resolveApiConfiguration(import.meta.env.VITE_PORTFOLIO_AI_API_URL, i
 export const assistantConfig = {
   ...api,
   maxMessageLength: 800,
-  sessionTimeoutMs: 60_000,
+  // Must cover the session retries while a sleeping service starts (see sessionRetryBudgetMs).
+  sessionTimeoutMs: 90_000,
   streamTimeoutMs: 90_000,
 } as const;
 

@@ -12,7 +12,7 @@
 <body><main class="wrap">
   <a href="/">← Back to portfolio</a>
   <h1>Portfolio Assistant Privacy</h1>
-  <p class="muted">Last updated: September 8, 2026</p>
+  <p class="muted">Last updated: October 18, 2026</p>
   <div class="card">
     <p><strong>Tsinjo AI</strong> is a public, read-only assistant that answers questions about Sandaniaina Tsinjo Nantosoa’s professional portfolio.</p>
     <h2>Data processed</h2>
@@ -21,6 +21,9 @@
     <p>Messages are used to retrieve relevant public portfolio passages and generate an answer. The backend uses Qdrant for vector retrieval and OpenAI for embeddings and response generation. Those providers process data under their respective terms and privacy policies.</p>
     <h2>Browser storage</h2>
     <p>The widget stores its short-lived access token and up to 20 recent messages in <code>sessionStorage</code>. This data is scoped to the current browser tab and is cleared when the tab session ends. The widget does not use <code>localStorage</code>.</p>
+    <h2>Service wake-up</h2>
+    <p>To shorten the waiting time when the service has been idle, the page may send the assistant service a plain health check shortly after it loads. This request contains no message and no identifier, and, like any web request, it reaches the hosting provider. It is skipped when your browser signals Do Not Track or Global Privacy Control.</p>
+
     <h2>Server retention</h2>
     <p>The application does not create user accounts or a server-side conversation history. OpenAI generation requests are sent with response storage disabled. Operational logs use request IDs and shortened hashes for sessions and network rate-limit keys. They record message length, result status, latency, retrieval count, model name, and error type; they do not intentionally contain message text, access tokens, API keys, IP addresses, or retrieved content. Hosting providers may retain infrastructure logs under their own policies.</p>
     <h2>Your choices</h2>

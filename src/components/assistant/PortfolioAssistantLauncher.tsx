@@ -4,6 +4,8 @@ import TsinjoAiMark from "@/components/brand/TsinjoAiMark";
 import WhatsAppIcon from "@/components/brand/WhatsAppIcon";
 import { useWhatsAppUrl } from "@/hooks/use-whatsapp";
 import { useI18n } from "@/i18n/I18nProvider";
+import { assistantConfig } from "./assistant-config";
+import { warmAssistantService } from "./assistant-warmup";
 
 const PortfolioAssistant = lazy(() => import("./PortfolioAssistant"));
 
@@ -82,6 +84,13 @@ export default function PortfolioAssistantLauncher() {
     if (inviteRef.current?.contains(document.activeElement)) launcherRef.current?.focus();
     setInviteVisible(false);
     rememberInviteSeen();
+  }, []);
+
+  // Wake a sleeping assistant service before the visitor opens the chat (once per session, no data sent).
+  useEffect(() => {
+    if (!assistantConfig.available) return undefined;
+    const timer = window.setTimeout(() => warmAssistantService(assistantConfig.apiBaseUrl), INVITE_DELAY_MS);
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
