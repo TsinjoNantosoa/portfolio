@@ -1,253 +1,123 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  motion,
-  useReducedMotion,
-  useSpring,
-  type Transition,
-} from "framer-motion";
-import { useIsMobile } from "@/hooks/use-mobile";
+import React, { useEffect, useRef } from "react";
 // WebP derived from the original portrait (720x680): 360w for 1x desktop, 720w for 2x phones.
 import imgTsinjo360 from "./tsinjo-360.webp";
 import imgTsinjo720 from "./tsinjo-720.webp";
 import "./profile-image.css";
 
-const RING_RADIUS = 48;
-const RING_C = 2 * Math.PI * RING_RADIUS;
-const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
 type ProfileImageProps = {
   className?: string;
-  /** Sync with Hero copy choreography (seconds). */
-  entranceDelay?: number;
 };
 
-const TECH_NODES = [
-  { x: 50, y: 4, linkX: 62, linkY: 14 },
-  { x: 88, y: 58, linkX: 76, linkY: 52 },
-  { x: 14, y: 72, linkX: 28, linkY: 62 },
+/**
+ * Knowledge-graph motif around the portrait: a few nodes on and just outside the frame, joined by thin links.
+ * Coordinates are in the same 0-100 space as the photo; the SVG extends 8% past the frame on every side.
+ * Purely decorative: aria-hidden, drawn once by CSS, with a slow pulse only on large screens with a mouse.
+ */
+const NODES = [
+  { x: 50, y: -5 },
+  { x: 100, y: 22 },
+  { x: 104, y: 72 },
+  { x: 64, y: 106 },
+  { x: 8, y: 92 },
+  { x: -6, y: 40 },
 ];
 
-const ProfileImage: React.FC<ProfileImageProps> = ({
-  className = "",
-  entranceDelay = 0.22,
-}) => {
-  const reduceMotion = useReducedMotion();
-  const isMobile = useIsMobile();
-  const [finePointerDesktop, setFinePointerDesktop] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const pointer = useRef({ x: 0, y: 0 });
-  const springX = useSpring(0, { stiffness: 120, damping: 22, mass: 0.6 });
-  const springY = useSpring(0, { stiffness: 120, damping: 22, mass: 0.6 });
+// Links join neighbouring nodes (the outer chain) and each node to the edge of the photo.
+const LINKS = [
+  { x1: 50, y1: -5, x2: 100, y2: 22 },
+  { x1: 100, y1: 22, x2: 104, y2: 72 },
+  { x1: 104, y1: 72, x2: 64, y2: 106 },
+  { x1: 64, y1: 106, x2: 8, y2: 92 },
+  { x1: 8, y1: 92, x2: -6, y2: 40 },
+  { x1: -6, y1: 40, x2: 50, y2: -5 },
+  { x1: 50, y1: -5, x2: 50, y2: 1 },
+  { x1: 100, y1: 22, x2: 93, y2: 25 },
+  { x1: 104, y1: 72, x2: 97, y2: 70 },
+  { x1: 64, y1: 106, x2: 62, y2: 98 },
+  { x1: 8, y1: 92, x2: 14, y2: 86 },
+  { x1: -6, y1: 40, x2: 2, y2: 41 },
+];
 
+const ProfileImage: React.FC<ProfileImageProps> = ({ className = "" }) => {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // A very light parallax for mouse users on large screens: the portrait group follows the pointer by a few pixels.
+  // It only writes two CSS variables (no React state), and is never attached for touch or reduced motion.
   useEffect(() => {
-    const media = window.matchMedia("(min-width: 1024px) and (pointer: fine)");
-    const update = () => setFinePointerDesktop(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
+    const root = rootRef.current;
+    if (!root || typeof window.matchMedia !== "function") return undefined;
+    const media = window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+    if (!media.matches) return undefined;
+    let frame = 0;
+    const onMove = (event: PointerEvent) => {
+      const rect = root.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        root.style.setProperty("--px", x.toFixed(3));
+        root.style.setProperty("--py", y.toFixed(3));
+      });
+    };
+    const onLeave = () => {
+      cancelAnimationFrame(frame);
+      root.style.setProperty("--px", "0");
+      root.style.setProperty("--py", "0");
+    };
+    root.addEventListener("pointermove", onMove);
+    root.addEventListener("pointerleave", onLeave);
+    return () => {
+      cancelAnimationFrame(frame);
+      root.removeEventListener("pointermove", onMove);
+      root.removeEventListener("pointerleave", onLeave);
+    };
   }, []);
 
-  const parallaxEnabled =
-    finePointerDesktop && !isMobile && !reduceMotion;
-
-  const onPointerMove = useCallback(
-    (event: React.PointerEvent<HTMLDivElement>) => {
-      if (!parallaxEnabled || !containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const nx = (event.clientX - rect.left) / rect.width - 0.5;
-      const ny = (event.clientY - rect.top) / rect.height - 0.5;
-      pointer.current = { x: nx, y: ny };
-      springX.set(nx * 5);
-      springY.set(ny * 5);
-    },
-    [parallaxEnabled, springX, springY],
-  );
-
-  const resetParallax = useCallback(() => {
-    springX.set(0);
-    springY.set(0);
-  }, [springX, springY]);
-
-  const entrance = useMemo(
-    () =>
-      reduceMotion
-        ? { opacity: 1, scale: 1, filter: "blur(0px)" }
-        : { opacity: 0, scale: 0.9, filter: "blur(3px)" },
-    [reduceMotion],
-  );
-
-  const entranceTransition: Transition = reduceMotion
-    ? { duration: 0.35 }
-    : {
-        duration: isMobile ? 0.65 : 0.85,
-        delay: entranceDelay,
-        ease: EASE_OUT,
-      };
-
-  const enableIdleFloat = finePointerDesktop && !reduceMotion;
-
-  const floatTransition: Transition = {
-    duration: 6,
-    repeat: Infinity,
-    repeatType: "mirror",
-    ease: "easeInOut",
-  };
-
   return (
-    <div
-      ref={containerRef}
-      className={`profile-portrait relative ${className}`}
-      onPointerMove={onPointerMove}
-      onPointerLeave={resetParallax}
-    >
-      <motion.div
-        style={parallaxEnabled ? { x: springX, y: springY } : undefined}
-        className="relative mx-auto aspect-square w-full max-w-md"
-      >
-        <motion.div
-          className="profile-portrait__float relative h-full w-full"
-          animate={enableIdleFloat ? { y: [0, -3, 0] } : undefined}
-          transition={enableIdleFloat ? floatTransition : undefined}
-        >
-          <motion.div
-            className="pointer-events-none absolute inset-[12%] rounded-full bg-[var(--brand-accent)] opacity-0 blur-3xl"
-            aria-hidden
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: reduceMotion ? 0.12 : 0.22, scale: 1 }}
-            transition={{
-              duration: reduceMotion ? 0.3 : 1,
-              delay: reduceMotion ? 0 : entranceDelay + 0.05,
-              ease: EASE_OUT,
-            }}
-          />
+    <div ref={rootRef} className={`profile-portrait relative ${className}`}>
+      <div className="profile-portrait__shift relative mx-auto aspect-square w-full max-w-md">
+        <div className="profile-portrait__glow pointer-events-none absolute inset-[12%] rounded-full bg-[var(--brand-accent)] blur-3xl" aria-hidden />
 
-          <svg
-            viewBox="0 0 100 100"
-            className="profile-portrait__ring-svg absolute inset-0 h-full w-full"
-            aria-hidden
-          >
-            <defs>
-              <linearGradient id="portrait-ring-highlight" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="transparent" />
-                <stop offset="45%" stopColor="var(--brand-accent)" stopOpacity="0.85" />
-                <stop offset="55%" stopColor="var(--brand-accent)" stopOpacity="0.85" />
-                <stop offset="100%" stopColor="transparent" />
-              </linearGradient>
-            </defs>
-            <motion.circle
-              cx="50"
-              cy="50"
-              r={RING_RADIUS}
-              fill="none"
-              stroke="var(--brand-accent)"
-              strokeWidth="1.1"
-              strokeOpacity="0.35"
-              strokeLinecap="round"
-              transform="rotate(-90 50 50)"
-              initial={
-                reduceMotion
-                  ? { pathLength: 1, opacity: 0.35 }
-                  : { pathLength: 0, opacity: 0 }
-              }
-              animate={{ pathLength: 1, opacity: 0.55 }}
-              transition={{
-                pathLength: {
-                  duration: reduceMotion ? 0.2 : 1.05,
-                  delay: reduceMotion ? 0 : entranceDelay + 0.12,
-                  ease: EASE_OUT,
-                },
-                opacity: {
-                  duration: 0.4,
-                  delay: reduceMotion ? 0 : entranceDelay + 0.1,
-                },
-              }}
+        <svg viewBox="-8 -8 116 116" className="profile-portrait__network" aria-hidden focusable="false">
+          <circle className="profile-portrait__ring" cx="50" cy="50" r="52" pathLength="1" />
+          <circle className="profile-portrait__sweep" cx="50" cy="50" r="52" pathLength="1" />
+          {LINKS.map((link, index) => (
+            <line
+              key={index}
+              className="profile-portrait__link"
+              pathLength="1"
+              style={{ "--n": index } as React.CSSProperties}
+              {...link}
             />
-            {!reduceMotion && (
-              <motion.g
-                className="profile-portrait__ring-highlight"
-                style={{ transformOrigin: "50px 50px" }}
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 200, opacity: [0, 0.9, 0] }}
-                transition={{
-                  duration: 1.15,
-                  delay: entranceDelay + 0.35,
-                  ease: EASE_OUT,
-                }}
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  r={RING_RADIUS}
-                  fill="none"
-                  stroke="url(#portrait-ring-highlight)"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeDasharray={`14 ${RING_C - 14}`}
-                  transform="rotate(-90 50 50)"
-                />
-              </motion.g>
-            )}
-            {!reduceMotion &&
-              TECH_NODES.map((node, index) => (
-                <g key={index} className="profile-portrait__nodes">
-                  <motion.line
-                    x1={node.linkX}
-                    y1={node.linkY}
-                    x2={node.x}
-                    y2={node.y}
-                    stroke="var(--brand-accent)"
-                    strokeWidth="0.6"
-                    strokeOpacity="0.35"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: [0, 0.45, 0.12] }}
-                    transition={{
-                      duration: 0.9,
-                      delay: entranceDelay + 0.25 + index * 0.08,
-                      ease: EASE_OUT,
-                    }}
-                  />
-                  <motion.circle
-                    cx={node.x}
-                    cy={node.y}
-                    r="1.4"
-                    fill="var(--brand-accent)"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: [0, 0.7, 0.18], scale: 1 }}
-                    transition={{
-                      duration: 0.75,
-                      delay: entranceDelay + 0.3 + index * 0.08,
-                      ease: EASE_OUT,
-                    }}
-                  />
-                </g>
-              ))}
-          </svg>
+          ))}
+          {NODES.map((node, index) => (
+            <circle
+              key={index}
+              className="profile-portrait__node"
+              cx={node.x}
+              cy={node.y}
+              r="1.6"
+              style={{ "--n": index } as React.CSSProperties}
+            />
+          ))}
+        </svg>
 
-          <motion.div
-            className="profile-portrait__frame relative mx-auto aspect-square w-full overflow-hidden rounded-full border border-white/15 bg-[var(--surface-2)] p-1 shadow-[0_10px_40px_rgba(0,0,0,0.35)]"
-            initial={entrance}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            transition={entranceTransition}
-            whileHover={
-              reduceMotion ? undefined : { scale: isMobile ? 1 : 1.025 }
-            }
-          >
-            <div className="overflow-hidden rounded-full border border-neon/20 transition-colors duration-500 group-hover:border-neon/35">
-              <img
-                src={imgTsinjo720}
-                srcSet={`${imgTsinjo360} 360w, ${imgTsinjo720} 720w`}
-                sizes="(max-width: 1023px) 310px, 330px"
-                alt="Sandaniaina Tsinjo Nantosoa"
-                width={480}
-                height={480}
-                decoding="async"
-                fetchPriority="high"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+        <div className="profile-portrait__frame relative mx-auto aspect-square w-full overflow-hidden rounded-full border border-white/15 bg-[var(--surface-2)] p-1 shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
+          <div className="overflow-hidden rounded-full border border-neon/20">
+            <img
+              src={imgTsinjo720}
+              srcSet={`${imgTsinjo360} 360w, ${imgTsinjo720} 720w`}
+              sizes="(max-width: 1023px) 310px, 330px"
+              alt="Sandaniaina Tsinjo Nantosoa"
+              width={480}
+              height={480}
+              decoding="async"
+              fetchPriority="high"
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

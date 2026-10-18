@@ -71,3 +71,45 @@ describe("ThemeProvider", () => {
     expect(document.documentElement.dataset.theme).toBe("dark");
   });
 });
+
+describe("ThemeProvider change transition", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    document.documentElement.classList.remove("theme-switching");
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  const stubMatchMedia = (reduceMotion: boolean) =>
+    vi.stubGlobal(
+      "matchMedia",
+      vi.fn().mockImplementation((query: string) => ({
+        matches: query.includes("prefers-color-scheme: light") || (reduceMotion && query.includes("prefers-reduced-motion")),
+        media: query,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      })),
+    );
+
+  it("does not animate the first paint, softens a manual change, then cleans up", () => {
+    stubMatchMedia(false);
+    renderProbe();
+    expect(document.documentElement.classList.contains("theme-switching")).toBe(false);
+    act(() => screen.getByRole("button", { name: "choose dark" }).click());
+    expect(document.documentElement.classList.contains("theme-switching")).toBe(true);
+    act(() => {
+      vi.advanceTimersByTime(450);
+    });
+    expect(document.documentElement.classList.contains("theme-switching")).toBe(false);
+  });
+
+  it("skips the transition when the visitor prefers reduced motion", () => {
+    stubMatchMedia(true);
+    renderProbe();
+    act(() => screen.getByRole("button", { name: "choose dark" }).click());
+    expect(document.documentElement.classList.contains("theme-switching")).toBe(false);
+  });
+});

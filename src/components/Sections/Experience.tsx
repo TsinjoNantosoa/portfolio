@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import Reveal from "@/motion/Reveal";
 import SectionHeader from "@/components/ui-kit/SectionHeader";
 import { experienceItems } from "@/data/experience";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -22,12 +22,10 @@ const Experience: React.FC = () => {
 
           <div className="col-span-12 space-y-0 lg:col-span-9 lg:border-l lg:border-white/10 lg:pl-7">
             {experienceItems.map((item, index) => (
-              <motion.article
+              <Reveal
+                as="article"
                 key={item.id}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: index * 0.04 }}
+                index={index}
                 className="layout-grid relative border-t border-white/10 py-7 first:border-t-0 first:pt-0 last:pb-0"
               >
                 <div className="col-span-12 sm:col-span-3 lg:col-span-2">
@@ -82,7 +80,7 @@ const Experience: React.FC = () => {
                     </div>
                   )}
                 </div>
-              </motion.article>
+              </Reveal>
             ))}
           </div>
         </div>

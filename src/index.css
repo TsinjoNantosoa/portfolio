@@ -242,16 +242,35 @@
     @apply text-neon;
   }
 
+  /* The underline is always there and scales in: it grows on hover and settles when the entry is current. */
+  .menu-item::after {
+    @apply absolute bottom-0 left-3 right-3 h-px content-[''];
+    background: var(--brand-accent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--motion-normal) var(--motion-ease);
+  }
+
   .menu-item.active::after {
-    @apply absolute bottom-0 left-3 right-3 h-px bg-neon content-[''];
+    transform: scaleX(1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .menu-item:not(.active):hover::after {
+      transform: scaleX(0.5);
+    }
   }
 
   .btn-neon {
-    @apply relative inline-flex min-h-11 items-center justify-center overflow-hidden rounded-full bg-neon px-5 py-2 text-sm font-semibold text-black transition-all duration-300 hover:bg-neon/90 hover:shadow-[0_0_18px_rgba(13,255,163,0.35)];
+    @apply relative inline-flex min-h-11 items-center justify-center overflow-hidden rounded-full bg-neon px-5 py-2 text-sm font-semibold text-black transition-all hover:bg-neon/90 hover:shadow-[0_0_18px_rgba(13,255,163,0.35)];
+    transition-duration: var(--motion-normal);
+    transition-timing-function: var(--motion-ease);
   }
 
   .btn-outline {
     @apply inline-flex min-h-11 items-center justify-center rounded-full px-5 py-2 text-sm font-medium transition hover:text-neon;
+    transition-duration: var(--motion-normal);
+    transition-timing-function: var(--motion-ease);
     border: 1px solid var(--border-medium);
     color: var(--text-primary);
   }
@@ -262,7 +281,22 @@
   }
 
   .surface-card-hover {
-    @apply hover:-translate-y-0.5 hover:border-neon/25;
+    transition:
+      transform var(--motion-fast) var(--motion-ease),
+      border-color var(--motion-fast) var(--motion-ease),
+      box-shadow var(--motion-normal) var(--motion-ease);
+  }
+
+  /* Lift only where there is a real pointer; keyboard focus gets the same accent border. */
+  @media (hover: hover) and (pointer: fine) {
+    .surface-card-hover:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--brand-accent) 30%, transparent);
+    }
+  }
+
+  .surface-card-hover:focus-within {
+    border-color: color-mix(in srgb, var(--brand-accent) 40%, transparent);
   }
 
   html[data-theme="light"] .surface-card-hover:hover {

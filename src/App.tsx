@@ -1,5 +1,4 @@
 import { lazy, Suspense } from "react";
-import { MotionConfig } from "framer-motion";
 import { Toaster as Sonner } from "./components/UI/sonner";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -27,8 +26,6 @@ const App = () => {
       <I18nProvider>
         <TooltipProvider>
           <Sonner />
-          {/* Honour the visitor's reduced-motion setting for every framer-motion animation on the site. */}
-          <MotionConfig reducedMotion="user">
             <BrowserRouter>
               <Suspense fallback={<RouteFallback />}>
                 <Routes>
@@ -43,7 +40,6 @@ const App = () => {
               </Suspense>
               <PortfolioAssistantLauncher />
             </BrowserRouter>
-          </MotionConfig>
         </TooltipProvider>
       </I18nProvider>
     </ThemeProvider>

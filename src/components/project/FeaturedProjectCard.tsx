@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink, Github, Play } from "lucide-react";
 import type { FeaturedProject } from "@/types/portfolio";
 import ProjectMedia, { ProjectMediaPlaceholder } from "@/components/ui-kit/ProjectMedia";
@@ -16,14 +15,12 @@ const maturityKey = {
 
 interface FeaturedProjectCardProps {
   project: FeaturedProject;
-  index?: number;
   className?: string;
   density?: "flagship" | "spotlight" | "media" | "editorial";
 }
 
 const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
   project,
-  index = 0,
   className = "",
   density = "media",
 }) => {
@@ -152,11 +149,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
   );
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-30px" }}
-      transition={{ duration: 0.4, delay: index * 0.03 }}
+    <article
       className={`surface-card surface-card-hover group h-full ${className}`}
     >
       {splitWide ? (
@@ -213,7 +206,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
       ) : (
         renderBody()
       )}
-    </motion.article>
+    </article>
   );
 };
 

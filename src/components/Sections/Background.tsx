@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ExternalLink } from "lucide-react";
+import Reveal from "@/motion/Reveal";
 import SectionHeader from "@/components/ui-kit/SectionHeader";
 import {
   allCertifications,
@@ -27,7 +28,7 @@ const Background: React.FC = () => {
         />
 
         <div className="layout-grid">
-          <div className="surface-card col-span-12 p-5 sm:p-6">
+          <Reveal className="surface-card col-span-12 p-5 sm:p-6">
             <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.18em] text-neon">
               {t("background.stack")}
             </h3>
@@ -50,9 +51,9 @@ const Background: React.FC = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
 
-          <div id="education" className="surface-card col-span-12 scroll-mt-24 p-5 sm:p-6">
+          <Reveal id="education" index={1} className="surface-card col-span-12 scroll-mt-24 p-5 sm:p-6">
             <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.18em] text-neon">
               {t("background.education")}
             </h3>
@@ -96,7 +97,7 @@ const Background: React.FC = () => {
                 ))}
               </ul>
             </div>
-          </div>
+          </Reveal>
 
           <div className="col-span-12 mt-2 border-theme border-t pt-8">
             <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.18em] text-neon">

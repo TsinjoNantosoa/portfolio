@@ -2,5 +2,6 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './assets/fonts/fonts.css'
 import './index.css'
+import './motion/motion.css'
 
 createRoot(document.getElementById("root")!).render(<App />);

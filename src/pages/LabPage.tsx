@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, type CSSProperties } from "react";
+import Reveal from "@/motion/Reveal";
+import { useInViewOnce } from "@/motion/useReveal";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft,
@@ -33,6 +35,21 @@ const maturityKeys: Record<ProjectMaturity, "maturity.production" | "maturity.de
   "Deployed Demo": "maturity.deployedDemo",
   Prototype: "maturity.prototype",
   Research: "maturity.research",
+};
+
+/** Reference workflow of a capability. When it first scrolls into view the steps light up in order, once. It illustrates the order of the stages; it is not a live run. */
+const WorkflowSteps = ({ steps }: { steps: string[] }) => {
+  const [ref, seen] = useInViewOnce<HTMLOListElement>();
+  return (
+    <ol ref={ref} data-flow={seen ? "on" : "off"} className="lab-flow grid gap-2 sm:grid-cols-5">
+      {steps.map((step, index) => (
+        <li key={step} className="lab-flow__step flex min-w-0 items-center gap-2 sm:block" style={{ "--i": index } as CSSProperties}>
+          <span className="text-sm font-medium text-[var(--text-primary)]">{step}</span>
+          {index < steps.length - 1 ? <ArrowRight className="h-4 w-4 shrink-0 text-neon sm:mt-2" aria-hidden /> : null}
+        </li>
+      ))}
+    </ol>
+  );
 };
 
 const LabPage = () => {
@@ -81,21 +98,21 @@ const LabPage = () => {
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link
                   to="/lab/playground"
-                  className="inline-flex min-h-11 items-center gap-2 rounded-md bg-neon px-4 text-sm font-semibold text-black transition hover:brightness-110"
+                  className="cta-motion inline-flex min-h-11 items-center gap-2 rounded-md bg-neon px-4 text-sm font-semibold text-black transition hover:brightness-110"
                 >
                   <FlaskConical size={16} aria-hidden />
                   {language === "fr" ? "Tester le Playground RAG" : "Open the RAG Playground"}
                 </Link>
                 <Link
                   to="/lab/operations"
-                  className="inline-flex min-h-11 items-center gap-2 rounded-md border border-white/15 px-4 text-sm font-semibold text-[var(--text-primary)] transition hover:border-neon/60 hover:text-neon"
+                  className="cta-motion inline-flex min-h-11 items-center gap-2 rounded-md border border-white/15 px-4 text-sm font-semibold text-[var(--text-primary)] transition hover:border-neon/60 hover:text-neon"
                 >
                   <Activity size={16} aria-hidden />
                   {language === "fr" ? "Voir les opérations IA" : "View AI Operations"}
                 </Link>
                 <Link
                   to="/lab/automation"
-                  className="inline-flex min-h-11 items-center gap-2 rounded-md border border-white/15 px-4 text-sm font-semibold text-[var(--text-primary)] transition hover:border-neon/60 hover:text-neon"
+                  className="cta-motion inline-flex min-h-11 items-center gap-2 rounded-md border border-white/15 px-4 text-sm font-semibold text-[var(--text-primary)] transition hover:border-neon/60 hover:text-neon"
                 >
                   <Workflow size={16} aria-hidden />
                   {language === "fr" ? "Tester le Business Automation Showcase" : "Try the Business Automation Showcase"}
@@ -113,7 +130,8 @@ const LabPage = () => {
             {labCapabilities.map((capability) => {
               const Icon = capabilityIcons[capability.id];
               return (
-                <article
+                <Reveal
+                  as="article"
                   key={capability.id}
                   id={capability.id}
                   className="scroll-mt-24 overflow-hidden rounded-lg border border-white/10 bg-[var(--surface-1)]"
@@ -162,16 +180,7 @@ const LabPage = () => {
                         <h3 className="mb-4 font-mono text-xs uppercase text-[var(--text-muted)]">
                           {t("lab.workflow")}
                         </h3>
-                        <ol className="grid gap-2 sm:grid-cols-5">
-                          {capability.workflow.map((step, index) => (
-                            <li key={step.en} className="flex min-w-0 items-center gap-2 sm:block">
-                              <span className="text-sm font-medium text-[var(--text-primary)]">{copy(step)}</span>
-                              {index < capability.workflow.length - 1 ? (
-                                <ArrowRight className="h-4 w-4 shrink-0 text-neon sm:mt-2" aria-hidden />
-                              ) : null}
-                            </li>
-                          ))}
-                        </ol>
+                        <WorkflowSteps steps={capability.workflow.map((step) => copy(step))} />
                       </div>
 
                       <div className="mt-5 flex flex-wrap items-center gap-2">
@@ -191,7 +200,7 @@ const LabPage = () => {
                       </div>
                     </div>
                   </div>
-                </article>
+                </Reveal>
               );
             })}
           </div>
