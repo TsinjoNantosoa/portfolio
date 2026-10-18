@@ -48,6 +48,19 @@ describe("PortfolioAssistantLauncher", () => {
       expect(screen.getByRole("button", { name: "Ask Tsinjo AI" })).toBeInTheDocument();
     });
 
+    it("shows a calm attention cue on the avatar until the assistant has been opened once", async () => {
+      const { container, unmount } = render(<PortfolioAssistantLauncher />);
+      expect(container.querySelector(".assistant-launcher__badge")).toHaveTextContent("1");
+      expect(container.querySelector(".assistant-launcher__pulse")).toBeInTheDocument();
+      expect(container.querySelector(".assistant-launcher__badge")).toHaveAttribute("aria-hidden", "true");
+      await act(async () => { screen.getByRole("button", { name: "Ask Tsinjo AI" }).click(); });
+      expect(await screen.findByRole("dialog")).toBeInTheDocument();
+      unmount();
+      const again = render(<PortfolioAssistantLauncher />);
+      expect(again.container.querySelector(".assistant-launcher__badge")).not.toBeInTheDocument();
+      expect(again.container.querySelector(".assistant-launcher__pulse")).not.toBeInTheDocument();
+    });
+
     it("opens the assistant from the invitation text", async () => {
       render(<PortfolioAssistantLauncher />);
       act(() => { vi.advanceTimersByTime(2600); });

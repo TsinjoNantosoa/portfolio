@@ -9,6 +9,8 @@ const PortfolioAssistant = lazy(() => import("./PortfolioAssistant"));
 
 /** The invitation shows once per browser session, a moment after load, then gets out of the way. */
 const INVITE_SEEN_KEY = "tsinjo:assistant-invite-seen";
+/** The pulse and the "1" badge on the avatar stay until the visitor opens the assistant once in this session. */
+const OPENED_KEY = "tsinjo:assistant-opened";
 const INVITE_DELAY_MS = 2500;
 const INVITE_VISIBLE_MS = 9000;
 
@@ -57,9 +59,18 @@ function useSectionInView(id: string) {
   return inView;
 }
 
+const assistantAlreadyOpened = () => {
+  try {
+    return window.sessionStorage.getItem(OPENED_KEY) === "1";
+  } catch {
+    return false;
+  }
+};
+
 export default function PortfolioAssistantLauncher() {
   const [open, setOpen] = useState(false);
   const [inviteVisible, setInviteVisible] = useState(false);
+  const [unread, setUnread] = useState(() => !assistantAlreadyOpened());
   const launcherRef = useRef<HTMLButtonElement>(null);
   const inviteRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
@@ -88,6 +99,12 @@ export default function PortfolioAssistantLauncher() {
   const openAssistant = () => {
     setInviteVisible(false);
     rememberInviteSeen();
+    setUnread(false);
+    try {
+      window.sessionStorage.setItem(OPENED_KEY, "1");
+    } catch {
+      /* storage unavailable: the badge simply shows again next time */
+    }
     setOpen(true);
   };
   const close = () => { setOpen(false); window.setTimeout(() => launcherRef.current?.focus(), 0); };
@@ -133,18 +150,26 @@ export default function PortfolioAssistantLauncher() {
               <span className="pointer-events-none absolute -bottom-1.5 right-7 h-3 w-3 rotate-45 border-b border-r border-[var(--border-medium)] bg-[var(--surface-1)]" aria-hidden />
             </div>
           )}
-          <button
-            ref={launcherRef}
-            type="button"
-            onClick={openAssistant}
-            className="assistant-launcher group grid h-[68px] w-[68px] place-items-center rounded-full text-sm font-semibold text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:h-[80px] sm:w-[80px]"
-            aria-haspopup="dialog"
-            aria-label={t("assistant.ask")}
-          >
-            <span className="assistant-launcher__avatar grid h-full w-full place-items-center rounded-full border border-accent/55 bg-[#07110d] shadow-[0_10px_35px_rgba(13,255,163,.24)] transition group-hover:scale-105 group-hover:border-accent">
-              <TsinjoAiMark className="h-[52px] w-[52px] sm:h-[61px] sm:w-[61px]" />
-            </span>
-          </button>
+          <div className="relative">
+            {unread && <span className="assistant-launcher__pulse" aria-hidden />}
+            <button
+              ref={launcherRef}
+              type="button"
+              onClick={openAssistant}
+              className="assistant-launcher group grid h-[68px] w-[68px] place-items-center rounded-full text-sm font-semibold text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:h-[80px] sm:w-[80px]"
+              aria-haspopup="dialog"
+              aria-label={t("assistant.ask")}
+            >
+              <span className="assistant-launcher__avatar grid h-full w-full place-items-center rounded-full border border-accent/55 bg-[#07110d] shadow-[0_10px_35px_rgba(13,255,163,.24)] transition group-hover:scale-105 group-hover:border-accent">
+                <TsinjoAiMark className="h-[52px] w-[52px] sm:h-[61px] sm:w-[61px]" />
+              </span>
+            </button>
+            {unread && (
+              <span className="assistant-launcher__badge" aria-hidden>
+                1
+              </span>
+            )}
+          </div>
         </div>
       )}
       {open && (

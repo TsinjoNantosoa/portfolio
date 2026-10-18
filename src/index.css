@@ -374,6 +374,50 @@
   animation: assistant-callout-in 420ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
+/* Calm attention cue on the avatar until the assistant has been opened once: two soft rings and a "1" badge. */
+.assistant-launcher__pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+.assistant-launcher__pulse::before,
+.assistant-launcher__pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid var(--brand-accent);
+  opacity: 0;
+  animation: assistant-pulse 2.8s ease-out infinite;
+}
+
+.assistant-launcher__pulse::after {
+  animation-delay: 1.4s;
+}
+
+.assistant-launcher__badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  display: grid;
+  min-width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 2px solid var(--bg-primary);
+  border-radius: 9999px;
+  background: #d92d20;
+  color: #fff;
+  font: 700 11px/1 ui-sans-serif, system-ui, sans-serif;
+  pointer-events: none;
+}
+
+@keyframes assistant-pulse {
+  0% { transform: scale(1); opacity: 0.55; }
+  70%, 100% { transform: scale(1.55); opacity: 0; }
+}
+
 .whatsapp-fab { color: #25d366; }
 
 html[data-theme="light"] .whatsapp-fab { color: #0b7a4b; }
@@ -399,8 +443,14 @@ html[data-theme="light"] .whatsapp-fab { color: #0b7a4b; }
 
 @media (prefers-reduced-motion: reduce) {
   .assistant-launcher__copy,
-  .assistant-launcher__avatar {
+  .assistant-launcher__avatar,
+  .assistant-launcher__pulse::before,
+  .assistant-launcher__pulse::after {
     animation: none;
+  }
+
+  .assistant-launcher__pulse {
+    display: none;
   }
 }
 
