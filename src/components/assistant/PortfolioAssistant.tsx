@@ -15,7 +15,7 @@ import { enrichAssistantMetadata } from "./contextual-suggestions";
 import { assistantConfig, INITIAL_QUESTIONS } from "./assistant-config";
 import { clearMessages, clearSession, getSession, readMessages, saveMessages, saveSession } from "./assistant-session";
 import type { AssistantStatus, ChatMessage, SessionResponse, StreamEvent } from "./assistant-types";
-import TsinjoAiMark from "@/components/brand/TsinjoAiMark";
+import AnimatedAIOrb from "./AnimatedAIOrb";
 import { useI18n } from "@/i18n/I18nProvider";
 import "./portfolio-assistant.css";
 
@@ -201,7 +201,7 @@ export default function PortfolioAssistant({ onClose }: { onClose: () => void })
       {messages.length === 0 && <section className="tsinjo-ai__welcome">
         <h3 className="sr-only">{t("assistant.ask")}</h3>
         <div className="tsinjo-ai__welcome-row">
-          <div className="tsinjo-ai__orb"><TsinjoAiMark className="h-8 w-8" /></div>
+          <div className="tsinjo-ai__orb"><AnimatedAIOrb /></div>
           <div className="tsinjo-ai__welcome-bubble"><p>{t("assistant.greeting")}</p></div>
         </div>
         <p className="tsinjo-ai__choose">{t("assistant.choose")}</p>

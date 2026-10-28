@@ -119,19 +119,6 @@
     0 8px 24px color-mix(in srgb, var(--assistant-accent) 20%, transparent);
 }
 
-.tsinjo-ai__mark::after {
-  position: absolute;
-  right: 3px;
-  bottom: 3px;
-  width: 7px;
-  height: 7px;
-  border: 2px solid var(--assistant-header);
-  border-radius: 50%;
-  background: var(--assistant-accent);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--assistant-accent) 65%, transparent);
-  content: "";
-}
-
 .tsinjo-ai__icon {
   display: grid;
   width: 38px;

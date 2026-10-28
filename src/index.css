@@ -456,8 +456,9 @@
 
 html[data-theme="light"] .whatsapp-fab { color: #0b7a4b; }
 
+/* The orb inside carries the glow and the breathing; the avatar only fades in. */
 .assistant-launcher__avatar {
-  animation: assistant-avatar-in 420ms cubic-bezier(.2, .8, .2, 1) both, assistant-avatar-glow 4s ease-in-out 500ms infinite;
+  animation: assistant-avatar-in 420ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
 @keyframes assistant-callout-in {
@@ -468,11 +469,6 @@ html[data-theme="light"] .whatsapp-fab { color: #0b7a4b; }
 @keyframes assistant-avatar-in {
   from { opacity: 0; transform: translateY(8px) scale(.9); }
   to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes assistant-avatar-glow {
-  0%, 100% { box-shadow: 0 10px 35px rgba(13, 255, 163, .2); }
-  50% { box-shadow: 0 12px 42px rgba(13, 255, 163, .32); }
 }
 
 @media (prefers-reduced-motion: reduce) {

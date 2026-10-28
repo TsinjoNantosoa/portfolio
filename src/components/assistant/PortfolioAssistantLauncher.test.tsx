@@ -16,6 +16,16 @@ describe("PortfolioAssistantLauncher", () => {
     await waitFor(() => expect(screen.getByRole("button", { name: /Ask Tsinjo AI/ })).toHaveFocus());
   });
 
+  it("shows the orb at rest inside the button, without changing the button name", () => {
+    const { container } = render(<PortfolioAssistantLauncher />);
+    const launcher = screen.getByRole("button", { name: "Ask Tsinjo AI" });
+    const orb = launcher.querySelector(".ai-orb");
+    expect(orb).toHaveAttribute("data-state", "idle");
+    expect(orb).toHaveAttribute("aria-hidden", "true");
+    expect(container.querySelectorAll(".assistant-launcher")).toHaveLength(1);
+    expect(launcher).toHaveAttribute("aria-haspopup", "dialog");
+  });
+
   describe("invitation", () => {
     beforeEach(() => {
       window.sessionStorage.clear();
