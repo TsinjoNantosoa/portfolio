@@ -1,0 +1,264 @@
+/*
+ * Animated AI orb. Emerald and cyan with a touch of indigo, matching the portfolio accent.
+ * It always sits on a dark surface (launcher avatar, chat header), so it needs no light-theme variant.
+ * Only transform and opacity are animated (colours change on state, not per frame).
+ */
+
+.ai-orb {
+  --orb-core: #7df0ff;
+  --orb-mid: #10e39a;
+  --orb-edge: #4f46e5;
+  --orb-halo: 0.55;
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  border-radius: 9999px;
+}
+
+.ai-orb--small {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.ai-orb--medium {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+@media (min-width: 640px) {
+  .ai-orb--medium {
+    width: 4.1rem;
+    height: 4.1rem;
+  }
+}
+
+.ai-orb--fill {
+  width: 100%;
+  height: 100%;
+}
+
+.ai-orb--enter {
+  animation: orb-enter 650ms var(--motion-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+}
+
+/* The halo stays inside the box (no overflow), the sphere is 80% of it. */
+.ai-orb__halo {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--orb-mid) 60%, transparent) 28%, color-mix(in srgb, var(--orb-core) 18%, transparent) 52%, transparent 70%);
+  opacity: var(--orb-halo);
+  animation: orb-halo-breathe 6s ease-in-out infinite;
+}
+
+/* A brighter halo on hover and keyboard focus of the launcher button. */
+.ai-orb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--orb-core) 50%, transparent) 20%, transparent 68%);
+  opacity: 0;
+  transition: opacity 250ms var(--motion-ease, ease);
+  pointer-events: none;
+}
+
+.ai-orb__layer {
+  position: absolute;
+  inset: 10%;
+  width: 80%;
+  height: 80%;
+  max-width: none;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ai-orb__stop--core { stop-color: var(--orb-core); }
+.ai-orb__stop--mid { stop-color: var(--orb-mid); }
+.ai-orb__stop--edge { stop-color: var(--orb-edge); }
+
+.ai-orb__stop {
+  transition: stop-color 400ms ease;
+}
+
+.ai-orb__sphere {
+  animation: orb-breathe 6s ease-in-out infinite;
+}
+
+.ai-orb__rings {
+  animation: orb-spin 48s linear infinite;
+}
+
+.ai-orb__rings ellipse {
+  fill: none;
+  stroke: #ffffff;
+  stroke-opacity: 0.32;
+  stroke-width: 1.2;
+  stroke-dasharray: 46 16;
+  stroke-linecap: round;
+}
+
+.ai-orb__orbit {
+  opacity: 0;
+  animation: orb-spin 3.6s linear infinite;
+  animation-play-state: paused;
+  transition: opacity 300ms ease;
+}
+
+.ai-orb__orbit-path {
+  fill: none;
+  stroke: var(--orb-core);
+  stroke-opacity: 0.35;
+  stroke-width: 0.8;
+  stroke-dasharray: 2 5;
+}
+
+.ai-orb__particle {
+  fill: var(--orb-core);
+}
+
+.ai-orb__flag {
+  opacity: 0;
+  transform: scale(0.4);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 250ms ease,
+    transform 250ms var(--motion-ease, ease);
+}
+
+/* ---------- States ---------- */
+
+.ai-orb[data-state="processing"] {
+  --orb-halo: 0.75;
+}
+
+.ai-orb[data-state="processing"] .ai-orb__halo {
+  animation: orb-halo-pulse 1.5s ease-in-out infinite;
+}
+
+.ai-orb[data-state="processing"] .ai-orb__sphere {
+  animation: orb-pulse 1.5s ease-in-out infinite;
+}
+
+.ai-orb[data-state="processing"] .ai-orb__orbit {
+  opacity: 0.95;
+  animation-play-state: running;
+}
+
+.ai-orb[data-state="streaming"] .ai-orb__halo {
+  animation: orb-halo-breathe 2.4s ease-in-out infinite;
+}
+
+.ai-orb[data-state="streaming"] .ai-orb__sphere {
+  animation: orb-sway 2.4s ease-in-out infinite;
+}
+
+.ai-orb[data-state="streaming"] .ai-orb__orbit {
+  opacity: 0.5;
+  animation-play-state: running;
+}
+
+/* One brief brightening, then the resting breathing carries on (no timer needed). */
+.ai-orb[data-state="success"] .ai-orb__halo {
+  animation:
+    orb-halo-flash 1200ms ease-out 1,
+    orb-halo-breathe 6s ease-in-out 1200ms infinite;
+}
+
+.ai-orb[data-state="success"] .ai-orb__sphere {
+  animation:
+    orb-settle 1200ms var(--motion-ease, ease-out) 1,
+    orb-breathe 6s ease-in-out 1200ms infinite;
+}
+
+/* Warm tint, still, plus a flag so the state is not carried by colour alone. */
+.ai-orb[data-state="error"] {
+  --orb-core: #fde68a;
+  --orb-mid: #fb923c;
+  --orb-edge: #9a3412;
+  --orb-halo: 0.5;
+}
+
+.ai-orb[data-state="error"] .ai-orb__halo,
+.ai-orb[data-state="error"] .ai-orb__sphere {
+  animation: none;
+}
+
+.ai-orb[data-state="error"] .ai-orb__flag {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Launcher: the whole button reacts to a mouse or to keyboard focus. */
+@media (hover: hover) and (pointer: fine) {
+  .assistant-launcher:hover .ai-orb::after {
+    opacity: 0.7;
+  }
+}
+
+.assistant-launcher:focus-visible .ai-orb::after {
+  opacity: 0.7;
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes orb-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.035); }
+}
+
+@keyframes orb-pulse {
+  0%, 100% { transform: scale(0.97); }
+  50% { transform: scale(1.07); }
+}
+
+@keyframes orb-sway {
+  0%, 100% { transform: scale(0.99); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes orb-settle {
+  0% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes orb-halo-breathe {
+  0%, 100% { opacity: calc(var(--orb-halo) * 0.8); }
+  50% { opacity: var(--orb-halo); }
+}
+
+@keyframes orb-halo-pulse {
+  0%, 100% { opacity: calc(var(--orb-halo) * 0.65); transform: scale(0.94); }
+  50% { opacity: var(--orb-halo); transform: scale(1.06); }
+}
+
+@keyframes orb-halo-flash {
+  0% { opacity: 1; transform: scale(1.08); }
+  100% { opacity: calc(var(--orb-halo) * 0.8); transform: scale(1); }
+}
+
+@keyframes orb-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orb-enter {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ---------- Reduced motion: a still orb that keeps the states apart ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-orb,
+  .ai-orb *,
+  .ai-orb::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .ai-orb[data-state="processing"] .ai-orb__orbit,
+  .ai-orb[data-state="streaming"] .ai-orb__orbit {
+    opacity: 0.8;
+  }
+}

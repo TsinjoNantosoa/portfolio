@@ -1,9 +1,9 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
-import { LoaderCircle, X } from "lucide-react";
-import TsinjoAiMark from "@/components/brand/TsinjoAiMark";
+import { X } from "lucide-react";
 import WhatsAppIcon from "@/components/brand/WhatsAppIcon";
 import { useWhatsAppUrl } from "@/hooks/use-whatsapp";
 import { useI18n } from "@/i18n/I18nProvider";
+import AnimatedAIOrb from "./AnimatedAIOrb";
 import { assistantConfig } from "./assistant-config";
 import { warmAssistantService } from "./assistant-warmup";
 
@@ -170,7 +170,7 @@ export default function PortfolioAssistantLauncher() {
               aria-label={t("assistant.ask")}
             >
               <span className="assistant-launcher__avatar grid h-full w-full place-items-center rounded-full border border-accent/55 bg-[#07110d] shadow-[0_10px_35px_rgba(13,255,163,.24)] transition group-hover:scale-105 group-hover:border-accent">
-                <TsinjoAiMark className="h-[52px] w-[52px] sm:h-[61px] sm:w-[61px]" />
+                <AnimatedAIOrb size="medium" />
               </span>
             </button>
             {unread && (
@@ -185,7 +185,7 @@ export default function PortfolioAssistantLauncher() {
         <Suspense
           fallback={
             <div className="grid h-24 w-64 place-items-center rounded-2xl border border-white/10 bg-[var(--surface-1)] text-sm text-muted-foreground shadow-2xl">
-              <span className="flex items-center gap-2"><LoaderCircle className="animate-spin" size={16} /> {t("assistant.loading")}</span>
+              <span className="flex items-center gap-3"><AnimatedAIOrb size="small" state="processing" entrance /> {t("assistant.loading")}</span>
             </div>
           }
         >

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import PortfolioAssistant from "./PortfolioAssistant";
@@ -126,5 +126,70 @@ describe("PortfolioAssistant", () => {
     await userEvent.click(screen.getByRole("button", { name: "Professional Experience" }));
     expect(await screen.findByText("Tsinjo AI is temporarily unavailable. Please try again.")).toBeInTheDocument();
     expect(screen.queryByText(/provider-secret-details/)).not.toBeInTheDocument();
+  });
+});
+
+describe("PortfolioAssistant orb", () => {
+  beforeEach(() => { sessionStorage.clear(); mockedCreateSession.mockResolvedValue(session); mockedStreamChat.mockReset(); });
+
+  const orbState = () => document.querySelector(".tsinjo-ai__header .ai-orb")?.getAttribute("data-state");
+
+  it("follows processing, streaming and success, and changes only on a transition, not on every token", async () => {
+    let finish: () => void = () => undefined;
+    let sendDelta: (text: string) => void = () => undefined;
+    mockedStreamChat.mockImplementation((_url, _session, _message, onEvent) => new Promise<void>((resolve) => {
+      onEvent({ type: "status", status: "thinking" });
+      sendDelta = (text) => onEvent({ type: "delta", text });
+      finish = () => { onEvent({ type: "done", sources: [], suggested_links: [], suggested_questions: [] }); resolve(); };
+    }));
+    render(<PortfolioAssistant onClose={() => undefined} />);
+    await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("Public portfolio knowledge"));
+    expect(orbState()).toBe("idle");
+    const changes: string[] = [];
+    const orb = document.querySelector(".tsinjo-ai__header .ai-orb") as Element;
+    const observer = new MutationObserver((records) => records.forEach(() => changes.push(orb.getAttribute("data-state") || "")));
+    observer.observe(orb, { attributes: true });
+    await userEvent.click(screen.getByRole("button", { name: "AI Agents" }));
+    await waitFor(() => expect(orbState()).toBe("processing"));
+    await act(async () => { sendDelta("Hello "); });
+    await waitFor(() => expect(orbState()).toBe("streaming"));
+    await act(async () => { for (let index = 0; index < 25; index += 1) sendDelta("word "); });
+    expect(orbState()).toBe("streaming");
+    await act(async () => { finish(); });
+    await waitFor(() => expect(orbState()).toBe("success"));
+    await Promise.resolve();
+    observer.disconnect();
+    expect(changes).toEqual(["processing", "streaming", "success"]);
+  });
+
+  it("shows the error state when the stream fails, never success", async () => {
+    mockedStreamChat.mockRejectedValue(new Error("network"));
+    render(<PortfolioAssistant onClose={() => undefined} />);
+    await waitFor(() => expect(mockedCreateSession).toHaveBeenCalled());
+    await userEvent.type(screen.getByLabelText("Message Tsinjo AI"), "Tell me about RAG");
+    await userEvent.click(screen.getByRole("button", { name: "Send message" }));
+    await waitFor(() => expect(orbState()).toBe("error"));
+    expect(screen.getByRole("status")).toHaveTextContent("Connection interrupted");
+  });
+
+  it("shows an error orb when the assistant cannot connect, then recovers on retry", async () => {
+    mockedCreateSession.mockRejectedValueOnce(new Error("down")).mockResolvedValueOnce(session);
+    render(<PortfolioAssistant onClose={() => undefined} />);
+    await screen.findByRole("button", { name: "Retry connection" });
+    expect(orbState()).toBe("error");
+    await userEvent.click(screen.getByRole("button", { name: "Retry connection" }));
+    await waitFor(() => expect(orbState()).toBe("idle"));
+  });
+
+  it("keeps the conversation and its answer when the orb changes state", async () => {
+    mockedStreamChat.mockImplementation(async (_url, _session, _message, onEvent) => {
+      onEvent({ type: "delta", text: "Kept answer" });
+      onEvent({ type: "done", sources: [], suggested_links: [], suggested_questions: [] });
+    });
+    render(<PortfolioAssistant onClose={() => undefined} />);
+    await waitFor(() => expect(mockedCreateSession).toHaveBeenCalled());
+    await userEvent.click(screen.getByRole("button", { name: "AI Agents" }));
+    expect(await screen.findByText("Kept answer")).toBeInTheDocument();
+    expect(orbState()).toBe("success");
   });
 });
