@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import Projects from "./Projects";
 import { I18nProvider } from "@/i18n/I18nProvider";
+import { featuredProjects, secondaryProjects } from "@/data/projects";
 
 describe("Projects filters", () => {
   beforeEach(() => {
@@ -11,6 +12,7 @@ describe("Projects filters", () => {
   });
 
   it("filters both featured and secondary projects and can restore the complete catalog", async () => {
+    const projectCount = featuredProjects.length + secondaryProjects.length;
     render(
       <MemoryRouter>
         <I18nProvider>
@@ -19,7 +21,7 @@ describe("Projects filters", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByText("10 projects shown")).toBeInTheDocument();
+    expect(screen.getByText(`${projectCount} projects shown`)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "AI Business Operating System" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "IoT Kafka Spark Pipeline" })).toBeInTheDocument();
 
@@ -32,7 +34,7 @@ describe("Projects filters", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "All Projects" }));
 
-    expect(screen.getByText("10 projects shown")).toBeInTheDocument();
+    expect(screen.getByText(`${projectCount} projects shown`)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "AI Business Operating System" })).toBeInTheDocument();
   });
 });

@@ -5,6 +5,7 @@ import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import ProjectMedia, { ProjectMediaPlaceholder } from "@/components/ui-kit/ProjectMedia";
 import ArchitectureDiagram from "@/components/project/ArchitectureDiagram";
+import RetailCaseStudyEvidence from "@/components/project/RetailCaseStudyEvidence";
 import ImageLightbox, { type LightboxImage } from "@/components/project/ImageLightbox";
 import { getFeaturedProjectBySlug } from "@/data/projects";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -64,6 +65,9 @@ const CaseStudyPage: React.FC = () => {
   const caseNavigation = [
     project.overview && { id: "overview", label: t("case.overview") },
     project.architecture?.length && { id: "architecture", label: t("case.architecture") },
+    project.retailEvidence && { id: "retail-architecture", label: t("case.architectureDiagram") },
+    project.retailEvidence && { id: "retail-agents", label: language === "fr" ? "Agents" : "Agents" },
+    project.retailEvidence && { id: "retail-kpi", label: "KPI" },
     project.howItWorks?.length && { id: "workflow", label: t("case.workflow") },
     project.security?.length && { id: "security", label: t("case.reliability") },
     project.evaluation?.length && { id: "evaluation", label: t("case.evaluation") },
@@ -271,6 +275,10 @@ const CaseStudyPage: React.FC = () => {
             </h2>
             <ArchitectureDiagram />
           </section>
+        ) : null}
+
+        {project.retailEvidence ? (
+          <RetailCaseStudyEvidence evidence={project.retailEvidence} language={language} />
         ) : null}
 
         {project.howItWorks && project.howItWorks.length > 0 && (

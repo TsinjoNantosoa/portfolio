@@ -34,6 +34,7 @@ Interpret maturity labels literally: the multi-tenant RAG platform is production
 - [AI Business Operating System](https://tsinjona.netlify.app/work/ai-business-os): Deployed demo of a multi-tenant business platform connecting CRM, finance, projects, support, knowledge, analytics, governed AI tools, hybrid RAG, PostgreSQL row-level security, and human approval.
 - [SIHIA — AI-Powered HealthTech Platform](https://tsinjona.netlify.app/work/sihia): Deployed healthcare demo combining hospital operations, predictive planning, and citation-first hybrid RAG with Qdrant, BM25, RRF, FastEmbed, FastAPI, React, PostgreSQL, JWT, and role-based access control.
 - [AI Sales Assistant](https://tsinjona.netlify.app/work/ai-sales-assistant): Prototype for lead qualification and follow-up automation using LangGraph orchestration, deterministic scoring, FastAPI, PostgreSQL, n8n, React, and human control for sensitive decisions.
+- [Retail AI Multi-Agent Quality Assistant](https://tsinjona.netlify.app/work/retail-ai-multi-agent): Functional proof of concept over synthetic data, combining two n8n-orchestrated LLM agents, deterministic retail KPI analysis, Qdrant RAG, PostgreSQL state and memory, Telegram text and voice interaction, human approval, and auditable actions.
 
 ## Engineering Evidence
 
@@ -41,6 +42,7 @@ Interpret maturity labels literally: the multi-tenant RAG platform is production
 - [Agent governance and test evidence](https://tsinjona.netlify.app/work/arcwell-agentic-crm): Documents typed action proposals, deterministic authorization, stale-data protection, auditability, repository test results, measured coverage, and unresolved typing and infrastructure limitations.
 - [Multi-tenant security evidence](https://tsinjona.netlify.app/work/ai-business-os): Documents forced PostgreSQL row-level security, tool authorization, human approval, audit results, passing and failing test scenarios, and deployment limitations.
 - [Automation architecture evidence](https://tsinjona.netlify.app/work/offshore-fares): Documents schema-constrained AI extraction, deterministic state transitions, idempotency, approval gates, audit trails, error handling, and mocked fare boundaries.
+- [Retail quality orchestration evidence](https://tsinjona.netlify.app/work/retail-ai-multi-agent): Documents the boundary between two LLM agents and deterministic tools, verified KPI thresholds, synthetic RAG procedures, post-generation validation, human approval, audit workflows, and the POC's unverified limitations.
 
 ## Public Contact
 

@@ -36,6 +36,7 @@ export const labCapabilities: LabCapability[] = [
       { slug: "multi-tenant-rag", label: "Multi-Tenant RAG" },
       { slug: "sihia", label: "SIHIA" },
       { slug: "ai-business-os", label: "AI BOS" },
+      { slug: "retail-ai-multi-agent", label: "Retail AI Quality Assistant" },
     ],
   },
   {
@@ -73,6 +74,7 @@ export const labCapabilities: LabCapability[] = [
       { slug: "arcwell-agentic-crm", label: "Arcwell" },
       { slug: "ai-business-os", label: "AI BOS" },
       { slug: "ai-sales-assistant", label: "AI Sales Assistant" },
+      { slug: "retail-ai-multi-agent", label: "Retail AI Quality Assistant" },
     ],
   },
   {
@@ -110,6 +112,7 @@ export const labCapabilities: LabCapability[] = [
       { slug: "offshore-fares", label: "Offshore Fares" },
       { slug: "ai-sales-assistant", label: "AI Sales Assistant" },
       { slug: "arcwell-agentic-crm", label: "Arcwell" },
+      { slug: "retail-ai-multi-agent", label: "Retail AI Quality Assistant" },
     ],
   },
   {
