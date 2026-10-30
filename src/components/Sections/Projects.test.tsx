@@ -37,4 +37,28 @@ describe("Projects filters", () => {
     expect(screen.getByText(`${projectCount} projects shown`)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "AI Business Operating System" })).toBeInTheDocument();
   });
+
+  it("keeps the Retail AI project wide in the complete grid and filtered views", async () => {
+    render(
+      <MemoryRouter>
+        <I18nProvider>
+          <Projects />
+        </I18nProvider>
+      </MemoryRouter>,
+    );
+
+    const retailCard = screen
+      .getByRole("heading", { name: "Retail AI Multi-Agent Quality Assistant" })
+      .closest("article");
+    expect(retailCard).toHaveAttribute("data-card-layout", "wide");
+    expect(retailCard).toHaveTextContent("Functional POC · Agentic AI · Retail Quality Automation");
+    expect(retailCard).toHaveTextContent("Approval + audit");
+
+    await userEvent.click(screen.getByRole("button", { name: "AI Agents" }));
+
+    const filteredRetailCard = screen
+      .getByRole("heading", { name: "Retail AI Multi-Agent Quality Assistant" })
+      .closest("article");
+    expect(filteredRetailCard).toHaveAttribute("data-card-layout", "wide");
+  });
 });

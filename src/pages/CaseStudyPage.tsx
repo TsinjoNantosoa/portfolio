@@ -57,17 +57,24 @@ const CaseStudyPage: React.FC = () => {
     lightboxImages.push({
       src: image.src,
       alt: localizePortfolioText(image.alt, language),
-      caption: localizePortfolioText(image.title, language),
+      caption: [
+        localizePortfolioText(image.title, language),
+        localizePortfolioText(image.description, language),
+      ].filter(Boolean).join(" — "),
     });
   }
   const lightboxIndexOf = (src: string) => lightboxImages.findIndex((item) => item.src === src);
   const enlargeLabel = (title: string) => `${t("lightbox.enlarge")}: ${title}`;
+  const galleryLabel = project.retailEvidence
+    ? language === "fr" ? "Galerie de preuves" : "Evidence gallery"
+    : t("case.gallery");
   const caseNavigation = [
     project.overview && { id: "overview", label: t("case.overview") },
     project.architecture?.length && { id: "architecture", label: t("case.architecture") },
     project.retailEvidence && { id: "retail-architecture", label: t("case.architectureDiagram") },
     project.retailEvidence && { id: "retail-agents", label: language === "fr" ? "Agents" : "Agents" },
     project.retailEvidence && { id: "retail-kpi", label: "KPI" },
+    project.gallery?.length && { id: "evidence-gallery", label: galleryLabel },
     project.howItWorks?.length && { id: "workflow", label: t("case.workflow") },
     project.security?.length && { id: "security", label: t("case.reliability") },
     project.evaluation?.length && { id: "evaluation", label: t("case.evaluation") },
@@ -75,6 +82,50 @@ const CaseStudyPage: React.FC = () => {
     project.limitations?.length && { id: "limitations", label: t("case.limitations") },
     { id: "stack", label: t("case.stack") },
   ].filter((item): item is { id: string; label: string } => Boolean(item));
+
+  const gallerySection = project.gallery && project.gallery.length > 0 ? (
+    <section id="evidence-gallery" className="scroll-mt-24" aria-labelledby="project-gallery-title">
+      <h2 id="project-gallery-title" className="mb-4 text-[1.35rem] font-semibold sm:text-2xl">
+        {galleryLabel}
+      </h2>
+      <div className="grid gap-4 lg:grid-cols-2">
+        {project.gallery.map((image, index) => (
+          <figure
+            key={image.src}
+            className={`overflow-hidden rounded-xl border border-white/10 bg-[var(--surface-1)] ${index === 0 ? "lg:col-span-2" : ""}`}
+          >
+            <button
+              type="button"
+              onClick={() => setLightboxIndex(lightboxIndexOf(image.src))}
+              className="group/media block w-full cursor-zoom-in overflow-hidden bg-[#0b1019] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
+              aria-haspopup="dialog"
+              aria-label={enlargeLabel(localizePortfolioText(image.title, language))}
+            >
+              <img
+                src={image.src}
+                alt={localizePortfolioText(image.alt, language)}
+                loading="lazy"
+                decoding="async"
+                width={1550}
+                height={620}
+                className={`aspect-[2/1] h-auto w-full ${image.fit === "contain" ? "object-contain" : "object-cover object-top"} transition duration-300 group-hover/media:brightness-110`}
+              />
+            </button>
+            <figcaption className="border-t border-white/10 px-4 py-3">
+              <p className="text-sm font-semibold text-[var(--text-primary)]">
+                {localizePortfolioText(image.title, language)}
+              </p>
+              {image.description ? (
+                <p className="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">
+                  {localizePortfolioText(image.description, language)}
+                </p>
+              ) : null}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  ) : null;
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-white">
@@ -194,42 +245,7 @@ const CaseStudyPage: React.FC = () => {
           )}
         </div>
 
-        {project.gallery && project.gallery.length > 0 ? (
-          <section className="mb-10" aria-labelledby="project-gallery-title">
-            <h2 id="project-gallery-title" className="mb-4 text-[1.35rem] font-semibold sm:text-2xl">
-              {t("case.gallery")}
-            </h2>
-            <div className="grid gap-4 lg:grid-cols-2">
-              {project.gallery.map((image, index) => (
-                <figure
-                  key={image.src}
-                  className={`overflow-hidden rounded-xl border border-white/10 bg-[var(--surface-1)] ${index === 0 ? "lg:col-span-2" : ""}`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setLightboxIndex(lightboxIndexOf(image.src))}
-                    className="group/media block w-full cursor-zoom-in overflow-hidden bg-[#0b1019] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
-                    aria-haspopup="dialog"
-                    aria-label={enlargeLabel(localizePortfolioText(image.title, language))}
-                  >
-                    <img
-                      src={image.src}
-                      alt={localizePortfolioText(image.alt, language)}
-                      loading="lazy"
-                      decoding="async"
-                      width={1760}
-                      height={850}
-                      className="aspect-[2/1] h-auto w-full object-cover object-top transition duration-300 group-hover/media:brightness-110"
-                    />
-                  </button>
-                  <figcaption className="border-t border-white/10 px-4 py-3 text-sm text-[var(--text-secondary)]">
-                    {localizePortfolioText(image.title, language)}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </section>
-        ) : null}
+        {!project.retailEvidence && gallerySection ? <div className="mb-10">{gallerySection}</div> : null}
 
         <div className="grid gap-8 lg:grid-cols-2">
           {project.overview && (
@@ -278,7 +294,7 @@ const CaseStudyPage: React.FC = () => {
         ) : null}
 
         {project.retailEvidence ? (
-          <RetailCaseStudyEvidence evidence={project.retailEvidence} language={language} />
+          <RetailCaseStudyEvidence evidence={project.retailEvidence} language={language} evidenceGallery={gallerySection} />
         ) : null}
 
         {project.howItWorks && project.howItWorks.length > 0 && (

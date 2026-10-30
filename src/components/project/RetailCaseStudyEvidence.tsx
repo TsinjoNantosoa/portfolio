@@ -1,11 +1,12 @@
 import React from "react";
-import { Bot, CheckCircle2, Database, FileSearch, Gauge, Mic2, ShieldCheck, UserCheck, Workflow } from "lucide-react";
+import { ArrowRight, Bot, CheckCircle2, Database, FileSearch, Gauge, Mic2, ShieldCheck, UserCheck, Workflow } from "lucide-react";
 import type { Language } from "@/i18n/I18nProvider";
 import type { LocalizedPortfolioText, RetailCaseStudyEvidence as RetailEvidence } from "@/types/portfolio";
 
 interface Props {
   evidence: RetailEvidence;
   language: Language;
+  evidenceGallery?: React.ReactNode;
 }
 
 const pick = (text: LocalizedPortfolioText, language: Language) => text[language];
@@ -41,7 +42,8 @@ const copy = {
     fr: "Un refus enregistre la décision sans exécuter l’action opérationnelle sensible.",
   },
   voice: { en: "Voice interaction path", fr: "Parcours d’interaction vocale" },
-  scenarios: { en: "Documented demonstration scenarios", fr: "Scénarios de démonstration documentés" },
+  scenarios: { en: "Demonstration walkthrough", fr: "Parcours de démonstration" },
+  scenarioEvidence: { en: "Documented synthetic scenarios", fr: "Scénarios fictifs documentés" },
   inventory: { en: "Workflow inventory", fr: "Inventaire des workflows" },
   inventoryIntro: {
     en: "The archive contains 16 workflows: 15 active workflows and one inactive, manually triggered demo-corpus ingestion workflow. This is not a claim of 16 autonomous agents.",
@@ -89,7 +91,16 @@ const SectionTitle: React.FC<{ icon: React.ElementType; children: React.ReactNod
   </h2>
 );
 
-const RetailCaseStudyEvidence: React.FC<Props> = ({ evidence, language }) => (
+const walkthroughStages = [
+  { en: "Quality signal", fr: "Signal qualité" },
+  { en: "Deterministic KPI", fr: "KPI déterministe" },
+  { en: "RAG procedure", fr: "Procédure RAG" },
+  { en: "AI investigation", fr: "Investigation IA" },
+  { en: "Human approval", fr: "Validation humaine" },
+  { en: "Action + audit", fr: "Action + audit" },
+] as const;
+
+const RetailCaseStudyEvidence: React.FC<Props> = ({ evidence, language, evidenceGallery }) => (
   <div className="mt-10 space-y-12">
     <aside className="border-l-2 border-neon bg-neon/[0.045] px-5 py-4 text-sm leading-relaxed text-[var(--text-secondary)]" role="note">
       <strong className="text-[var(--text-primary)]">POC · </strong>{pick(evidence.notice, language)}
@@ -156,8 +167,22 @@ const RetailCaseStudyEvidence: React.FC<Props> = ({ evidence, language }) => (
 
     <section aria-labelledby="retail-scenarios-title">
       <SectionTitle icon={Workflow}><span id="retail-scenarios-title">{copy.scenarios[language]}</span></SectionTitle>
+      <ol className="mb-7 grid gap-2 sm:grid-cols-2 lg:grid-cols-6">
+        {walkthroughStages.map((stage, index) => (
+          <li key={stage.en} className="relative min-h-20 border-t-2 border-neon/60 bg-[var(--surface-1)] px-3 py-4">
+            <span className="font-mono text-[11px] text-neon">{String(index + 1).padStart(2, "0")}</span>
+            <p className="mt-2 text-sm font-semibold text-[var(--text-primary)]">{stage[language]}</p>
+            {index < walkthroughStages.length - 1 ? (
+              <ArrowRight className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 text-neon/70 lg:block" size={18} aria-hidden />
+            ) : null}
+          </li>
+        ))}
+      </ol>
+      <h3 className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-neon">{copy.scenarioEvidence[language]}</h3>
       <ol className="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2">{evidence.scenarios.map((scenario, index) => <li key={scenario.en} className="flex min-h-20 gap-3 bg-[var(--surface-1)] p-4 text-sm leading-relaxed text-[var(--text-secondary)]"><span className="font-mono text-neon">{String(index + 1).padStart(2, "0")}</span>{pick(scenario, language)}</li>)}</ol>
     </section>
+
+    {evidenceGallery}
 
     <section aria-labelledby="retail-inventory-title">
       <SectionTitle icon={Database}><span id="retail-inventory-title">{copy.inventory[language]}</span></SectionTitle>
