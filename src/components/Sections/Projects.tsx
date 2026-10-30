@@ -108,12 +108,15 @@ const Projects: React.FC = () => {
 
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
           {visibleFeaturedProjects.map((project, index) => {
-            const isWide = project.id === "multi-tenant-rag" || project.id === "offshore-fares";
+            const layout = project.featuredLayout ?? "standard";
+            const isWide = layout === "flagship" || layout === "spotlight" || layout === "wide";
             const density =
-              project.id === "multi-tenant-rag"
+              layout === "flagship"
                 ? "flagship"
-                : project.id === "offshore-fares"
+                : layout === "spotlight"
                   ? "spotlight"
+                  : layout === "wide"
+                    ? "wide"
                   : project.imageUrl
                     ? "media"
                     : "editorial";

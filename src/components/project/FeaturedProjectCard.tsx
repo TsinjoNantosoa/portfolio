@@ -16,7 +16,7 @@ const maturityKey = {
 interface FeaturedProjectCardProps {
   project: FeaturedProject;
   className?: string;
-  density?: "flagship" | "spotlight" | "media" | "editorial";
+  density?: "flagship" | "spotlight" | "wide" | "media" | "editorial";
 }
 
 const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
@@ -29,10 +29,13 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
   const hasMedia = Boolean(project.imageUrl) && !mediaFailed;
   const isFlagship = density === "flagship";
   const isSpotlight = density === "spotlight";
-  const isWide = isFlagship || density === "spotlight";
+  const isWide = isFlagship || isSpotlight || density === "wide";
   const hasMediaSlot = hasMedia || Boolean(project.imagePending);
   const highlightLimit = 3;
   const splitWide = isWide && !hasMediaSlot;
+  const wideMediaAspect = project.imageFit === "contain"
+    ? "aspect-[2/1] w-full"
+    : "aspect-[16/10] w-full lg:aspect-auto lg:h-full lg:min-h-[300px]";
 
   const renderBody = (options?: { hideProof?: boolean }) => (
     <div className={`flex h-full flex-col ${isWide ? "p-5 sm:p-7" : "p-5 sm:p-6"}`}>
@@ -66,6 +69,12 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
       >
         {project.title}
       </h3>
+
+      {density === "wide" && project.status ? (
+        <p className="mb-3 font-mono text-[11px] uppercase leading-relaxed tracking-[0.12em] text-neon/90">
+          {localizePortfolioText(project.status, language)}
+        </p>
+      ) : null}
 
       <p className="mb-2 line-clamp-3 text-[15.5px] leading-[1.6] text-[var(--text-secondary)]">
         {localizePortfolioText(project.plainSummary, language)}
@@ -150,6 +159,7 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
 
   return (
     <article
+      data-card-layout={isWide ? "wide" : "standard"}
       className={`surface-card surface-card-hover group h-full ${className}`}
     >
       {splitWide ? (
@@ -180,13 +190,13 @@ const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
         </div>
       ) : hasMediaSlot ? (
         <div className={isSpotlight ? "flex h-full flex-col" : isWide ? "grid h-full grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]" : "flex h-full flex-col"}>
-          <div className={isWide ? "min-h-0 min-w-0" : undefined}>
+          <div className={isWide ? `min-h-0 min-w-0 ${project.imageFit === "contain" ? "lg:self-center" : ""}` : undefined}>
             {hasMedia && project.imageUrl ? (
               <ProjectMedia
                 src={project.imageUrl}
                 alt={project.imageAlt || `${project.title} screenshot`}
-                aspectClassName={isSpotlight ? "aspect-[2/1]" : isWide ? "aspect-[16/10] w-full lg:aspect-auto lg:h-full lg:min-h-[300px]" : "aspect-[16/10]"}
-                objectPosition={isWide ? "object-right" : "object-top"}
+                aspectClassName={isSpotlight ? "aspect-[2/1]" : isWide ? wideMediaAspect : "aspect-[16/10]"}
+                objectPosition={project.imageFit === "contain" ? "object-center" : isWide ? "object-right" : "object-top"}
                 objectFit={project.imageFit}
                 onError={() => setMediaFailed(true)}
               />

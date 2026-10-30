@@ -167,7 +167,7 @@ export const featuredProjects: FeaturedProject[] = [
     githubLink: "https://github.com/TsinjoNantosoa/offshore-fares-ai-automation",
     labDemoLink: "/lab/automation",
     caseStudyLink: "/work/offshore-fares",
-    featuredLayout: "standard",
+    featuredLayout: "spotlight",
     status: "Advanced working prototype · Production-oriented architecture",
     overview:
       "Offshore Fares is an AI-assisted operations platform for premium airfare requests. It turns fragmented inbound conversations into a traceable RFQ lifecycle while keeping fare entry, quote approval, ticketing decisions, and sensitive after-sales actions under human control.",
@@ -741,7 +741,7 @@ export const featuredProjects: FeaturedProject[] = [
     categories: ["AI Agents", "Automation / n8n", "RAG & GenAI"],
     maturity: "Prototype",
     plainSummary:
-      "A functional proof of concept that combines two LLM agents, deterministic retail KPI rules, knowledge retrieval, human approval, and auditable actions over synthetic data.",
+      "A governed multi-agent retail quality investigation combining deterministic KPI analysis, RAG procedural knowledge, AI-assisted investigation, voice interaction, human-approved actions, and auditability over synthetic data.",
     technicalSummary:
       "n8n · OpenAI · Qdrant · Neon PostgreSQL · Google Sheets · Telegram text and voice · Human-in-the-loop",
     description:
@@ -759,15 +759,52 @@ export const featuredProjects: FeaturedProject[] = [
     proof: [
       { value: "2", label: "LLM agents", hint: "Supervisor and Quality Investigation" },
       { value: "16", label: "n8n workflows", hint: "15 active; one manual demo ingestion workflow inactive" },
-      { value: "90/100", label: "Synthetic risk score", hint: "P001 demonstration data; not a production result" },
+      { value: "HITL", label: "Approval + audit", hint: "Authorized APPROVE / REJECT paths before sensitive actions" },
     ],
-    stack: ["n8n", "OpenAI", "Qdrant", "Neon PostgreSQL", "Google Sheets", "Telegram", "Gmail", "RAG", "Human-in-the-loop"],
-    imageUrl: "/portfolio-uploads/retail-ai-quality-architecture.svg",
-    imageAlt: "Sanitized architecture diagram of the Retail AI Multi-Agent Quality Assistant",
+    stack: ["n8n", "OpenAI", "Qdrant", "PostgreSQL", "Telegram", "RAG", "Human-in-the-loop"],
+    imageUrl: "/portfolio-uploads/retail-ai-kpi-analysis.png",
+    imageAlt: "Sanitized Retail AI KPI analysis and deterministic n8n workflow demonstration",
     imageFit: "contain",
+    gallery: [
+      {
+        src: "/portfolio-uploads/retail-ai-kpi-analysis.png",
+        alt: "Sanitized Telegram retail quality alert beside the deterministic KPI Engine workflow in n8n",
+        title: "Deterministic KPI analysis",
+        description: "Shows the synthetic P001 alert and the bounded workflow that calculates return-rate, category-delta, and risk signals outside the LLM.",
+        fit: "contain",
+      },
+      {
+        src: "/portfolio-uploads/retail-ai-rag-retrieval.png",
+        alt: "Retail procedure answer beside the n8n Qdrant retrieval workflow",
+        title: "Procedure retrieval through RAG",
+        description: "Documents query validation, OpenAI embedding, Qdrant retrieval, and a bounded procedure contract returned to the investigation flow.",
+        fit: "contain",
+      },
+      {
+        src: "/portfolio-uploads/retail-ai-quality-investigation.png",
+        alt: "Synthetic quality investigation response beside the specialized investigation agent workflow",
+        title: "Evidence-linked quality investigation",
+        description: "Shows the specialized agent separating observed facts, hypotheses, confidence, and checks before deterministic contract validation.",
+        fit: "contain",
+      },
+      {
+        src: "/portfolio-uploads/retail-ai-approved-incident-audit.png",
+        alt: "Sanitized approved incident and case history beside the idempotent incident workflow",
+        title: "Human-approved incident and audit trail",
+        description: "Demonstrates the post-approval path: incident creation, notification, audit recording, and retained case history with identifiers irreversibly masked.",
+        fit: "contain",
+      },
+      {
+        src: "/portfolio-uploads/retail-ai-voice-orchestration.png",
+        alt: "Telegram voice messages beside the shared Retail AI orchestration workflow",
+        title: "Shared text and voice orchestration",
+        description: "Documents speech-to-text, the governed business tools shared with text requests, and text-to-speech delivery back to Telegram.",
+        fit: "contain",
+      },
+    ],
     caseStudyLink: "/work/retail-ai-multi-agent",
-    featuredLayout: "standard",
-    status: "Functional POC · Synthetic demonstration data · No public live demo",
+    featuredLayout: "wide",
+    status: "Functional POC · Agentic AI · Retail Quality Automation",
     overview:
       "This functional POC explores how retail quality signals can be investigated through a governed agentic workflow. Telegram provides text and voice interaction; a Supervisor selects bounded tools; deterministic workflows calculate KPIs and manage state; a specialized agent formulates evidence-linked hypotheses; and a human remains responsible for approving or rejecting sensitive actions.",
     architecture: [

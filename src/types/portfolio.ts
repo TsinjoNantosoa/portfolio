@@ -8,6 +8,8 @@ export interface ProjectGalleryImage {
   src: string;
   alt: string;
   title: string;
+  description?: string;
+  fit?: "cover" | "contain";
 }
 
 export interface LocalizedPortfolioText {
@@ -72,7 +74,7 @@ export interface FeaturedProject {
   labDemoLink?: string;
   githubLink?: string;
   caseStudyLink: string;
-  featuredLayout?: "flagship" | "standard";
+  featuredLayout?: "flagship" | "spotlight" | "wide" | "standard";
   architecture?: string[];
   decisions?: string[];
   security?: string[];
