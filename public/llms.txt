@@ -1,0 +1,57 @@
+# Sandaniaina Tsinjo Nantosoa — AI Engineering Portfolio
+
+> Professional portfolio of Sandaniaina Tsinjo Nantosoa, an AI Engineer focused on production RAG systems, governed AI agents, business automation, and reliable full-stack delivery.
+
+This English index maps agents to public, evidence-backed portfolio resources. The portfolio documents professional work, project architecture, engineering decisions, tests, limitations, and public demonstrations. It supports English and French; the published profile lists Malagasy as native and French and English as professional working languages.
+
+Interpret maturity labels literally: the multi-tenant RAG platform is production work with a separate pilot agent extension; SIHIA and AI BOS are deployed demos; Offshore Fares, Arcwell, AI Sales Assistant, and the secondary projects are prototypes or reference implementations. Interactive Lab pages are demonstrations and engineering evidence, not live client systems.
+
+## Professional Profile
+
+- [Portfolio overview](https://tsinjona.netlify.app/): Professional introduction, selected work, expertise, education, credentials, and public contact details.
+- [Professional experience](https://tsinjona.netlify.app/#experience): AI engineering at Humans4Help Madagascar, project-based AI automation consulting, and Odoo 18 CRM and business automation work.
+- [Skills and education](https://tsinjona.netlify.app/#skills): Verified AI engineering, backend, frontend, data, automation, infrastructure, language, and academic background.
+- [Public CV](https://tsinjona.netlify.app/CV/CV_AIEngineer_AgentProduct_Sandaniaina_Tsinjo.pdf): Downloadable professional résumé published by the portfolio owner.
+
+## AI Engineering Expertise
+
+- [AI Engineering Lab](https://tsinjona.netlify.app/lab): Evidence-backed methods for RAG engineering, governed agentic AI, n8n automation, production engineering, and AI-assisted development.
+- [Public RAG Playground](https://tsinjona.netlify.app/lab/playground): Public demonstration of observable retrieval, evidence-linked generation, citations, and controlled refusal behavior.
+- [AI Operations Monitor](https://tsinjona.netlify.app/lab/operations): Privacy-preserving operational signals for the portfolio assistant and RAG Playground, with explicit disabled, no-data, stale, error, and available states.
+- [Business Automation Showcase](https://tsinjona.netlify.app/lab/automation): Deterministic Offshore Fares workflow simulation with business rules, execution traces, and human approval; it performs no live commercial action.
+
+## Professional Experience
+
+- [AI Engineer — Humans4Help Madagascar](https://tsinjona.netlify.app/#experience): 2025 to September 2026 work on a multi-tenant RAG platform, hybrid retrieval, custom assistants, controlled tool calling, CRM integrations, testing, and deployment.
+- [AI Automation Consultant](https://tsinjona.netlify.app/#experience): Project-based work connecting APIs, CRM tools, n8n workflows, FastAPI services, retries, idempotency, and human approval.
+- [CRM and Business Automation — ETS Baron](https://tsinjona.netlify.app/#experience): Odoo 18 customization for CRM, quotes, orders, planning, delivery, invoicing, and Docker-based delivery.
+
+## Selected Engineering Projects
+
+- [Enterprise RAG and AI Commercial Agent Platform](https://tsinjona.netlify.app/work/multi-tenant-rag): Production multi-tenant RAG platform with tenant-isolated knowledge, hybrid retrieval, citations, FastAPI, Qdrant, PostgreSQL, Redis, React, and a separately evaluated tool-calling agent pilot.
+- [Offshore Fares](https://tsinjona.netlify.app/work/offshore-fares): Advanced prototype using 18 modular n8n workflows to turn email and WhatsApp travel requests into governed RFQs, human-approved quotes, booking handoffs, and auditable after-sales workflows.
+- [Arcwell — Governed Agentic CRM](https://tsinjona.netlify.app/work/arcwell-agentic-crm): Production-oriented reference implementation using LangGraph, typed proposals, deterministic policy checks, tenant-scoped context, atomic human approval, audit trails, FastAPI, PostgreSQL, Qdrant, Redis, and Celery.
+- [AI Business Operating System](https://tsinjona.netlify.app/work/ai-business-os): Deployed demo of a multi-tenant business platform connecting CRM, finance, projects, support, knowledge, analytics, governed AI tools, hybrid RAG, PostgreSQL row-level security, and human approval.
+- [SIHIA — AI-Powered HealthTech Platform](https://tsinjona.netlify.app/work/sihia): Deployed healthcare demo combining hospital operations, predictive planning, and citation-first hybrid RAG with Qdrant, BM25, RRF, FastEmbed, FastAPI, React, PostgreSQL, JWT, and role-based access control.
+- [AI Sales Assistant](https://tsinjona.netlify.app/work/ai-sales-assistant): Prototype for lead qualification and follow-up automation using LangGraph orchestration, deterministic scoring, FastAPI, PostgreSQL, n8n, React, and human control for sensitive decisions.
+
+## Engineering Evidence
+
+- [RAG architecture and evaluation evidence](https://tsinjona.netlify.app/work/sihia): Documents dense and lexical retrieval, RRF fusion, reranking, citations, explicit no-answer behavior, a deterministic bilingual benchmark, and current limitations.
+- [Agent governance and test evidence](https://tsinjona.netlify.app/work/arcwell-agentic-crm): Documents typed action proposals, deterministic authorization, stale-data protection, auditability, repository test results, measured coverage, and unresolved typing and infrastructure limitations.
+- [Multi-tenant security evidence](https://tsinjona.netlify.app/work/ai-business-os): Documents forced PostgreSQL row-level security, tool authorization, human approval, audit results, passing and failing test scenarios, and deployment limitations.
+- [Automation architecture evidence](https://tsinjona.netlify.app/work/offshore-fares): Documents schema-constrained AI extraction, deterministic state transitions, idempotency, approval gates, audit trails, error handling, and mocked fare boundaries.
+
+## Public Contact
+
+- [Contact form](https://tsinjona.netlify.app/#contact): Public portfolio form for professional project and collaboration enquiries.
+- [Email](mailto:tsinjonantosoa@gmail.com): Public professional email address.
+- [GitHub](https://github.com/TsinjoNantosoa): Public source repositories and engineering work.
+- [LinkedIn](https://www.linkedin.com/in/sandaniaina-tsinjo-nantosoa-b6209a330/): Public professional profile.
+
+## Optional
+
+- [World Bank AI Chatbot](https://github.com/TsinjoNantosoa/worldbank-ai-chatbot): RAG prototype using Python, FAISS, and FastAPI over public World Bank data.
+- [IoT Kafka Spark Pipeline](https://github.com/TsinjoNantosoa/iot-kafka-spark-redshift-pipeline): Data engineering prototype using Kafka, Spark, AWS, and Python.
+- [Weather ETL with Airflow](https://github.com/TsinjoNantosoa/weather_etl): Data pipeline prototype for weather extraction and transformation using Airflow and Python.
+- [Bank Loan Analytics Dashboard](https://github.com/TsinjoNantosoa/bank-loan-analytics-dashboard): Analytics prototype using Power BI and SQL.
