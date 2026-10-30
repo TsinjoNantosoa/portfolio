@@ -10,6 +10,32 @@ export interface ProjectGalleryImage {
   title: string;
 }
 
+export interface LocalizedPortfolioText {
+  en: string;
+  fr: string;
+}
+
+export interface RetailAgentEvidence {
+  name: string;
+  role: LocalizedPortfolioText;
+  boundary: LocalizedPortfolioText;
+}
+
+export interface RetailCaseStudyEvidence {
+  notice: LocalizedPortfolioText;
+  agents: RetailAgentEvidence[];
+  deterministicTools: string[];
+  kpiMetrics: Array<{ label: LocalizedPortfolioText; value: string }>;
+  kpiRules: LocalizedPortfolioText[];
+  ragSteps: LocalizedPortfolioText[];
+  ragSources: string[];
+  investigationContract: string[];
+  voiceSteps: string[];
+  scenarios: LocalizedPortfolioText[];
+  workflowGroups: Array<{ label: LocalizedPortfolioText; items: string[] }>;
+  futureImprovements: LocalizedPortfolioText[];
+}
+
 export type ProjectCategory =
   | "RAG & GenAI"
   | "AI Agents"
@@ -74,6 +100,7 @@ export interface FeaturedProject {
   limitations?: string[];
   learnings?: string[];
   showArchitectureDiagram?: boolean;
+  retailEvidence?: RetailCaseStudyEvidence;
 }
 
 export interface SecondaryProject {
